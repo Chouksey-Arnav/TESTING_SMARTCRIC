@@ -6,21 +6,23 @@
   <meta name="theme-color" content="#10b981"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="description" content="SmartCrick AI — Cricket training platform with drills, mental training, AI coaching, workouts and more."/>
+  <meta name="description" content="SmartCrick AI — Cricket training with AI coaching, drills, mental training and workouts."/>
   <title>SmartCrick AI</title>
   <link rel="stylesheet" href="styles.css"/>
-  <!-- Tailwind CDN with dark mode class strategy -->
+  <!-- Tailwind Play CDN (dark class mode) -->
   <script>window.tailwind={darkMode:'class'}</script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- React 18 UMD (externalized from bundle) -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <!-- canvas-confetti for XP celebrations -->
+  <!-- canvas-confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
-<body class="antialiased">
+<body class="antialiased dark">
   <div id="root"></div>
-  <!-- app.js: fully self-contained bundle (all data, icons, pages, db, router) -->
+  <!--
+    app.js: fully self-contained IIFE bundle
+    - React 18 bundled directly (no window.React needed)
+    - All 47 pages, 242 mental routines, 104 workouts, 60 drills
+    - localStorage db, hash router, all components
+  -->
   <script src="app.js"></script>
 </body>
 </html>
