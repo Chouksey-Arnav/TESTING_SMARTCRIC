@@ -2,27 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <meta name="theme-color" content="#10b981"/>
+  <meta name="description" content="SmartCrick — AI-powered cricket training platform. 150 drills, mental training, fitness builder, skill paths and structured challenges."/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="description" content="SmartCrick AI — Cricket training with AI coaching, drills, mental training and workouts."/>
-  <title>SmartCrick AI</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <!-- Tailwind Play CDN (dark class mode) -->
-  <script>window.tailwind={darkMode:'class'}</script>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="SmartCrick"/>
+  <title>SmartCrick — Train Like a Pro</title>
+  <link rel="stylesheet" href="/styles.css"/>
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- canvas-confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            emerald: { 400:'#34d399', 500:'#10b981', 600:'#059669' }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="antialiased dark">
+<body>
   <div id="root"></div>
-  <!--
-    app.js: fully self-contained IIFE bundle
-    - React 18 bundled directly (no window.React needed)
-    - All 47 pages, 242 mental routines, 104 workouts, 60 drills
-    - localStorage db, hash router, all components
-  -->
-  <script src="app.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>
