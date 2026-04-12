@@ -1,38 +1,86 @@
-/* SmartCrick — styles.css */
+/* ============================================================
+   SmartCrick — styles.css
+   Custom styles not covered by Tailwind CDN.
+   Tailwind utility classes are handled by the Play CDN.
+   ============================================================ */
 
-/* ── Reset & Base ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+/* ── Reset & base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
-  background: #f8fafc;
+  min-height: 100%;
+  /* Default light background — Tailwind dark: classes handle dark mode */
+  background-color: #f8fafc;
+  color: #0f172a;
 }
-body.dark { background: #020617; }
-
-/* ── CSS Variables ── */
-:root {
-  --color-background-primary: #ffffff;
-  --color-background-secondary: #f8fafc;
-  --color-border-tertiary: #e2e8f0;
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
+body.dark {
+  background-color: #020617;
+  color: #f1f5f9;
 }
-.dark {
-  --color-background-primary: #0f172a;
-  --color-background-secondary: #1e293b;
-  --color-border-tertiary: #334155;
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #94a3b8;
+#root {
+  min-height: 100dvh;
 }
 
-/* ── Scrollbar hiding ── */
-.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
-.scrollbar-hide::-webkit-scrollbar { display: none; }
+/* ── Scrollbar utilities ───────────────────────────────────── */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+/* Thin green scrollbar (sidebar) */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.6) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.6);
+  border-radius: 4px;
+}
 
-/* ── Sidebar animations ── */
+/* ── XP Flash ─────────────────────────────────────────────── */
+.xp-flash {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  padding: 0.75rem 1.75rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 16px 48px rgba(16, 185, 129, 0.45);
+  white-space: nowrap;
+  animation: xpPop 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes xpPop {
+  0%   { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+  20%  { transform: translate(-50%, -60%) scale(1.15); opacity: 1; }
+  55%  { transform: translate(-50%, -65%) scale(1); opacity: 1; }
+  85%  { transform: translate(-50%, -72%) scale(0.95); opacity: 0.85; }
+  100% { transform: translate(-50%, -82%) scale(0.8); opacity: 0; }
+}
+
+/* ── Sidebar slide animations ─────────────────────────────── */
 .sidebar-panel {
   animation: slideInLeft 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -40,136 +88,135 @@ body.dark { background: #020617; }
   animation: slideOutLeft 0.2s cubic-bezier(0.4, 0, 1, 1) both;
 }
 @keyframes slideInLeft {
-  from { transform: translateX(-100%); opacity: 0.7; }
-  to   { transform: translateX(0);    opacity: 1; }
+  from { transform: translateX(-100%); opacity: 0.6; }
+  to   { transform: translateX(0);     opacity: 1; }
 }
 @keyframes slideOutLeft {
-  from { transform: translateX(0);    opacity: 1; }
-  to   { transform: translateX(-100%);opacity: 0; }
+  from { transform: translateX(0);      opacity: 1; }
+  to   { transform: translateX(-100%);  opacity: 0; }
 }
 
-/* ── XP Flash ── */
-.xp-flash {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.5);
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-  font-size: 2rem;
-  font-weight: 900;
-  padding: 1rem 2rem;
-  border-radius: 1.5rem;
-  z-index: 9999;
-  pointer-events: none;
-  animation: xpPop 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  box-shadow: 0 20px 60px rgba(16,185,129,0.5);
-  white-space: nowrap;
-}
-@keyframes xpPop {
-  0%   { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
-  20%  { transform: translate(-50%, -60%) scale(1.1); opacity: 1; }
-  50%  { transform: translate(-50%, -65%) scale(1);   opacity: 1; }
-  80%  { transform: translate(-50%, -70%) scale(0.95);opacity: 0.9; }
-  100% { transform: translate(-50%, -80%) scale(0.8); opacity: 0; }
-}
-
-/* ── Premium badge ── */
-.premium-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.125rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #1c1917;
-  letter-spacing: 0.025em;
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-
-/* ── Loading spinner ── */
+/* ── Loading spinner ───────────────────────────────────────── */
 .spinner {
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border: 3px solid #e2e8f0;
   border-top-color: #10b981;
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  animation: spin 0.65s linear infinite;
 }
-.dark .spinner { border-color: #334155; border-top-color: #10b981; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── Bounce-in animation ── */
-@keyframes bounce-in {
-  0%   { transform: scale(0.3); opacity: 0; }
-  50%  { transform: scale(1.05); }
-  70%  { transform: scale(0.9); }
-  100% { transform: scale(1); opacity: 1; }
+.dark .spinner {
+  border-color: #334155;
+  border-top-color: #10b981;
 }
-.animate-bounce-in { animation: bounce-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-/* ── Safe area padding ── */
-.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 1.5rem); }
-
-/* ── Thin sidebar scrollbar ── */
-.sidebar-panel > div > div:first-of-type {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(16,185,129,0.6) transparent;
-}
-.sidebar-panel > div > div:first-of-type::-webkit-scrollbar { width: 4px; }
-.sidebar-panel > div > div:first-of-type::-webkit-scrollbar-track { background: transparent; }
-.sidebar-panel > div > div:first-of-type::-webkit-scrollbar-thumb {
-  background: rgba(16,185,129,0.6);
-  border-radius: 4px;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-/* ── Bottom nav ── */
+/* ── Premium badge ─────────────────────────────────────────── */
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #1c1917;
+  flex-shrink: 0;
+  line-height: 1.6;
+}
+
+/* ── Bottom navigation ─────────────────────────────────────── */
 .bottom-nav {
   position: fixed;
-  bottom: 0; left: 0; right: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 40;
   padding-bottom: env(safe-area-inset-bottom, 0px);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(226,232,240,0.6);
-  background: rgba(255,255,255,0.92);
+  border-top: 1px solid rgba(226, 232, 240, 0.7);
+  background: rgba(255, 255, 255, 0.94);
 }
 .dark .bottom-nav {
-  background: rgba(15,23,42,0.95);
-  border-top-color: rgba(51,65,85,0.6);
+  background: rgba(15, 23, 42, 0.97);
+  border-top-color: rgba(51, 65, 85, 0.7);
 }
 
-/* ── Breathing exercise animations ── */
+/* ── Page content safe-area bottom padding ─────────────────── */
+.page-pb {
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* ── Bounce-in (workout complete screen) ───────────────────── */
+@keyframes bounceIn {
+  0%   { transform: scale(0.3); opacity: 0; }
+  50%  { transform: scale(1.08); opacity: 1; }
+  70%  { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+.animate-bounce-in {
+  animation: bounceIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Breathing exercise (soft pulse on lung oval) ──────────── */
 @keyframes breathPulse {
-  0%, 100% { transform: scale(1); }
-  50%       { transform: scale(1.05); }
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.7; }
 }
-.breath-circle { animation: breathPulse 4s ease-in-out infinite; }
-
-/* ── Card hover states ── */
-@media (hover: hover) {
-  .hover\:scale-\[1\.01\]:hover { transform: scale(1.01); }
-  .hover\:scale-\[1\.02\]:hover { transform: scale(1.02); }
+.breath-pulse {
+  animation: breathPulse 2s ease-in-out infinite;
 }
 
-/* ── Progress rings ── */
-.progress-ring {
+/* ── Line clamp utilities ──────────────────────────────────── */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* ── Touch momentum scroll ─────────────────────────────────── */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Safe area header padding ──────────────────────────────── */
+.safe-top {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+
+/* ── Progress ring rotation fix ────────────────────────────── */
+.ring-rotate {
   transform: rotate(-90deg);
   transform-origin: center;
 }
 
-/* ── Text clamp ── */
-.line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
-.line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+/* ── Input dark mode colour scheme ─────────────────────────── */
+.dark input,
+.dark textarea,
+.dark select {
+  color-scheme: dark;
+}
 
-/* ── Smooth scrolling containers ── */
-.smooth-scroll { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+/* ── Prevent overscroll on iOS ─────────────────────────────── */
+html, body {
+  overscroll-behavior-y: none;
+  overflow-x: hidden;
+}
 
-/* ── Tailwind overrides for dark mode ── */
-.dark input, .dark textarea { color-scheme: dark; }
-
-/* ── SVG diagram variables for visualizer ── */
-svg { --color-background-primary: #ffffff; --color-background-secondary: #f8fafc; --color-border-tertiary: #e2e8f0; }
-.dark svg { --color-background-primary: #0f172a; --color-background-secondary: #1e293b; --color-border-tertiary: #334155; }
+/* ── Tailwind dark-mode on html.dark for legacy compatibility ── */
+html.dark body {
+  background-color: #020617;
+}
