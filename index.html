@@ -1,35 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#10b981" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="SmartCrick" />
-  <meta name="description" content="SmartCrick — AI-powered cricket training. 150 drills, structured challenges, mental training, fitness builder." />
+  <meta name="description" content="SmartCrick — AI-powered cricket training. 150 drills, 242 mental sessions, challenges, fitness builder." />
   <title>SmartCrick — Train Like a Pro</title>
 
-  <!-- Custom styles: XP flash, spinner, sidebar animations, premium badge -->
+  <!--
+    Tailwind CSS v3 — pre-generated from source files.
+    NO CDN required. Dark mode uses .dark class strategy.
+    This eliminates the CDN v3/v4 mismatch that broke dark: classes.
+  -->
   <link rel="stylesheet" href="/styles.css" />
 
   <!--
-    Tailwind Play CDN v4.
-    The @variant dark rule enables CLASS-based dark mode:
-    add .dark class to any ancestor element to activate dark: variants.
+    Canvas Confetti — loaded BEFORE app.js so window.confetti exists
+    when fireConfetti() is called on drill/workout completion.
   -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style type="text/tailwindcss">
-    @import "tailwindcss";
-    @variant dark (&:is(.dark, .dark *));
-  </style>
-
-  <!-- Canvas Confetti: provides window.confetti() for completion celebrations -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
-<body class="overscroll-none">
+<body class="bg-slate-950 text-slate-100 overscroll-none">
   <div id="root"></div>
-  <!-- defer: waits for full DOM parse so getElementById(root) never returns null -->
+  <!--
+    defer: waits for full DOM parse before executing.
+    Without this, getElementById("root") returns null and React never mounts.
+  -->
   <script defer src="/app.js"></script>
 </body>
 </html>
