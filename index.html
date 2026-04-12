@@ -9,11 +9,26 @@
   <meta name="apple-mobile-web-app-title" content="SmartCrick" />
   <meta name="description" content="SmartCrick — AI-powered cricket training. 150 drills, 242 mental sessions, challenges, fitness builder." />
   <title>SmartCrick — Train Like a Pro</title>
+
+  <!--
+    Tailwind CSS v3 — pre-generated from source files.
+    NO CDN required. Dark mode uses .dark class strategy.
+    This eliminates the CDN v3/v4 mismatch that broke dark: classes.
+  -->
   <link rel="stylesheet" href="/styles.css" />
+
+  <!--
+    Canvas Confetti — loaded BEFORE app.js so window.confetti exists
+    when fireConfetti() is called on drill/workout completion.
+  -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 overscroll-none">
   <div id="root"></div>
+  <!--
+    defer: waits for full DOM parse before executing.
+    Without this, getElementById("root") returns null and React never mounts.
+  -->
   <script defer src="/app.js"></script>
 </body>
 </html>
