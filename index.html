@@ -9,22 +9,21 @@
   <meta name="apple-mobile-web-app-title" content="SmartCrick" />
   <meta name="description" content="SmartCrick — AI-powered cricket training. 150 drills, 242 mental sessions, challenges, fitness builder." />
   <title>SmartCrick — Train Like a Pro</title>
-
-  <!-- CSS loads first, before any JS -->
+  <!-- CSS first, always -->
   <link rel="stylesheet" href="/styles.css" />
-
-  <!-- defer: downloads in parallel, executes after DOM is parsed, in order -->
-  <!-- confetti runs before app.js since it appears first in the document -->
-  <script
-    defer
-    src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"
-  ></script>
+  <!--
+    async = downloads in parallel, executes the moment it arrives,
+    never blocks app.js. app.js already guards with typeof confetti !== "undefined".
+  -->
+  <script async src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
-
 <body class="bg-slate-950 text-slate-100">
   <div id="root"></div>
-
-  <!-- defer ensures DOM (including #root) exists before React mounts -->
-  <script defer src="/app.js"></script>
+  <!--
+    app.js is at the END of body, so document.getElementById("root")
+    is guaranteed to exist. No defer needed — DOM is already parsed.
+    This is the original, correct pattern for script-at-bottom loading.
+  -->
+  <script src="/app.js"></script>
 </body>
 </html>
