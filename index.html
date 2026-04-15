@@ -13,11 +13,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- React 18 UMD — SYNC, BEFORE app.js. app.js calls window.React & window.ReactDOM -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+  <!-- Tailwind CDN — app.js uses thousands of Tailwind classes. Without this: black screen -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { slate: { 950: '#020617' } } } } }
+  </script>
+  <!-- Custom CSS — component classes not covered by Tailwind -->
   <link rel="stylesheet" href="/styles.css" />
 </head>
-<body class="bg-slate-950 text-slate-100">
+<body class="bg-slate-950 text-slate-100 overflow-x-hidden">
   <div id="root"></div>
+  <!-- async: never blocks app.js. app.js guards: if (typeof confetti !== 'undefined') -->
   <script async src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- app.js at END of body: #root guaranteed to exist, no defer needed -->
   <script src="/app.js"></script>
 </body>
 </html>
