@@ -237,4 +237,207 @@ html:not(.dark) .level-track{background:#e2e8f0}
 .pb-nav{padding-bottom:calc(4.5rem + var(--safe-bot))}
 
 /* Overscroll handling */
+.overscroll-none{overscroll-behavior:none}  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-top:1px solid rgba(16,185,129,.12);
+  padding-bottom:var(--safe-bot);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+}
+html:not(.dark) .bot-nav{background:rgba(255,255,255,.97);border-top-color:rgba(16,185,129,.18)}
+
+/* ── Sidebar ─────────────────────────────────────────────────── */
+.sidebar{
+  position:fixed;top:0;bottom:0;left:0;width:19rem;z-index:50;
+  background:var(--bg1);display:flex;flex-direction:column;
+  box-shadow:0 0 60px rgba(0,0,0,.5);
+  animation:slideIn .22s cubic-bezier(.16,1,.3,1) both;
+}
+.sidebar.out{animation:slideOut .2s cubic-bezier(.4,0,1,1) both}
+@keyframes slideIn{from{transform:translateX(-100%);opacity:.4}to{transform:translateX(0);opacity:1}}
+@keyframes slideOut{from{transform:translateX(0);opacity:1}to{transform:translateX(-100%);opacity:0}}
+
+/* Always-visible sidebar scrollbar */
+.sidebar-body{
+  flex:1;overflow-y:scroll;
+  scrollbar-width:auto;
+  scrollbar-color:rgba(16,185,129,.45) rgba(30,41,59,.4);
+}
+.sidebar-body::-webkit-scrollbar{width:5px;display:block}
+.sidebar-body::-webkit-scrollbar-track{background:rgba(30,41,59,.4);border-radius:3px}
+.sidebar-body::-webkit-scrollbar-thumb{background:rgba(16,185,129,.45);border-radius:3px}
+.sidebar-body::-webkit-scrollbar-thumb:hover{background:rgba(16,185,129,.7)}
+
+/* Always-visible page scrollbar */
+html{scrollbar-width:thin;scrollbar-color:rgba(16,185,129,.35) rgba(30,41,59,.3)}
+html::-webkit-scrollbar{width:5px}
+html::-webkit-scrollbar-track{background:rgba(30,41,59,.3)}
+html::-webkit-scrollbar-thumb{background:rgba(16,185,129,.35);border-radius:3px}
+
+/* ── XP Flash ────────────────────────────────────────────────── */
+.xp-flash{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:9999;pointer-events:none;
+  background:linear-gradient(135deg,#10b981,#059669);
+  color:#fff;font-size:1.6rem;font-weight:900;letter-spacing:-.02em;
+  padding:.6rem 1.6rem;border-radius:1.2rem;
+  box-shadow:0 16px 48px rgba(16,185,129,.5),0 0 0 2px rgba(255,255,255,.2);
+  animation:xpPop 1.4s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes xpPop{
+  0%{transform:translate(-50%,-50%) scale(.2);opacity:0}
+  15%{transform:translate(-50%,-58%) scale(1.18);opacity:1}
+  50%{transform:translate(-50%,-62%) scale(1);opacity:1}
+  80%{transform:translate(-50%,-68%) scale(.97);opacity:.9}
+  100%{transform:translate(-50%,-80%) scale(.8);opacity:0}
+}
+
+/* ── Notification Bar ────────────────────────────────────────── */
+.notif{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  background:linear-gradient(to right,#10b981,#059669);
+  color:#fff;font-size:.8rem;font-weight:600;
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  padding:.5rem 1rem;padding-top:max(.5rem,var(--safe-top));
+}
+
+/* ── Glass morphism ──────────────────────────────────────────── */
+.glass{
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.18);
+}
+
+/* ── Cards ───────────────────────────────────────────────────── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:1rem}
+.card-elevated{background:var(--bg1);border:1px solid var(--border);border-radius:1rem}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1.4rem;border:none;border-radius:.85rem;font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s;outline:none}
+.btn-green{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 16px rgba(16,185,129,.3)}
+.btn-green:hover{opacity:.9;box-shadow:0 8px 24px rgba(16,185,129,.4)}
+.btn-green:active{transform:scale(.97)}
+.btn-slate{background:var(--bg3);color:var(--text2);border:1.5px solid var(--border)}
+.btn-slate:hover{border-color:rgba(16,185,129,.4)}
+.btn-slate:active{transform:scale(.97)}
+
+/* ── Badges ──────────────────────────────────────────────────── */
+.badge-premium{display:inline-flex;align-items:center;padding:.1rem .5rem;border-radius:9999px;font-size:.6rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:linear-gradient(135deg,#f59e0b,#d97706);color:#1c1917;flex-shrink:0}
+.badge-xp{display:inline-flex;align-items:center;gap:.2rem;background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);padding:.15rem .5rem;border-radius:9999px;font-size:.7rem;font-weight:700}
+.badge-level{display:inline-flex;align-items:center;padding:.2rem .7rem;border-radius:9999px;font-size:.7rem;font-weight:700;letter-spacing:.03em}
+.badge-beg{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.badge-int{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
+.badge-adv{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.badge-pro{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.3)}
+
+/* ── Streak badge ────────────────────────────────────────────── */
+.streak-pill{display:inline-flex;align-items:center;gap:.35rem;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;font-size:.8rem;font-weight:700;padding:.35rem .85rem;border-radius:9999px;box-shadow:0 4px 12px rgba(249,115,22,.3)}
+
+/* ── Level bar ───────────────────────────────────────────────── */
+.level-track{height:.5rem;background:rgba(30,41,59,.8);border-radius:9999px;overflow:hidden;position:relative}
+html:not(.dark) .level-track{background:#e2e8f0}
+.level-fill{height:100%;background:linear-gradient(to right,#10b981,#34d399);border-radius:9999px;transition:width .7s cubic-bezier(.4,0,.2,1);position:relative}
+.level-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:6px;background:rgba(255,255,255,.45);border-radius:9999px;animation:lvlGlow 2s ease-in-out infinite}
+@keyframes lvlGlow{0%,100%{opacity:0}50%{opacity:1}}
+
+/* ── Timer display ───────────────────────────────────────────── */
+.timer-big{font-family:var(--font-display);font-size:5rem;font-weight:700;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.timer-ring-fill{fill:none;stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke .3s ease}
+.timer-ring-track{fill:none}
+
+/* ── Interval phases ─────────────────────────────────────────── */
+.phase-work{color:#10b981}
+.phase-rest{color:#3b82f6}
+.phase-done{color:#f59e0b}
+
+/* ── XP bar chart ────────────────────────────────────────────── */
+.xp-bar-wrap{display:flex;align-items:flex-end;gap:.2rem;height:5rem}
+.xp-bar{flex:1;background:linear-gradient(to top,#10b981,#34d399);border-radius:.2rem .2rem 0 0;min-height:3px;transition:height .5s cubic-bezier(.4,0,.2,1)}
+.xp-bar:hover{opacity:.75}
+
+/* ── Streak heatmap ──────────────────────────────────────────── */
+.heatmap{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}
+.heat-0{background:rgba(30,41,59,.7);border-radius:3px;aspect-ratio:1}
+.heat-1{background:rgba(16,185,129,.3);border-radius:3px;aspect-ratio:1}
+.heat-2{background:rgba(16,185,129,.6);border-radius:3px;aspect-ratio:1}
+.heat-3{background:#10b981;border-radius:3px;aspect-ratio:1}
+
+/* ── Skill path cards ────────────────────────────────────────── */
+.path-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.25rem;overflow:hidden;transition:all .2s cubic-bezier(.16,1,.3,1)}
+.path-card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.3);border-color:rgba(16,185,129,.35)}
+
+/* ── Day grid cells ──────────────────────────────────────────── */
+.day-cell{aspect-ratio:1;border-radius:.5rem;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;cursor:pointer;transition:transform .15s}
+.day-cell:hover{transform:scale(1.12)}
+.day-done{background:#10b981;color:#fff}
+.day-today{background:rgba(16,185,129,.2);color:#34d399;box-shadow:0 0 0 2px #10b981}
+.day-rest{background:rgba(100,116,139,.15);color:#475569}
+.day-future{background:rgba(30,41,59,.7);color:#334155}
+
+/* ── Video wrapper ───────────────────────────────────────────── */
+.video-wrap{position:relative;aspect-ratio:16/9;background:#0f172a;border-radius:.75rem;overflow:hidden}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* ── Fitness wizard ──────────────────────────────────────────── */
+.wiz-opt{
+  display:flex;align-items:center;gap:.75rem;padding:.9rem 1.1rem;
+  border-radius:1rem;border:2px solid var(--border);background:var(--bg2);
+  cursor:pointer;transition:all .2s;text-align:left;width:100%;color:var(--text1)
+}
+.wiz-opt.sel{border-color:#10b981;background:rgba(16,185,129,.1)}
+.wiz-opt:hover:not(.sel){border-color:rgba(16,185,129,.4)}
+
+/* ── Workout exercise card ───────────────────────────────────── */
+.ex-card{background:var(--bg2);border:1px solid var(--border);border-radius:1rem;padding:1rem;transition:all .2s}
+.ex-card.done{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.3)}
+
+/* ── Scrollbar hide ──────────────────────────────────────────── */
+.no-scroll::-webkit-scrollbar{display:none}
+.no-scroll{scrollbar-width:none;-ms-overflow-style:none}
+
+/* ── Search dropdown ─────────────────────────────────────────── */
+.search-drop{position:absolute;top:calc(100% + .5rem);left:0;right:0;z-index:50;background:var(--bg2);border-radius:1.25rem;box-shadow:0 20px 60px rgba(0,0,0,.4);border:1px solid var(--border);overflow:hidden}
+
+/* ── Animations ──────────────────────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0}55%{transform:scale(1.08);opacity:1}75%{transform:scale(.96)}100%{transform:scale(1)}}
+@keyframes pulse{50%{opacity:.5}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fade-up{animation:fadeUp .45s cubic-bezier(.16,1,.3,1) both}
+.delay-1{animation-delay:.08s}
+.delay-2{animation-delay:.16s}
+.delay-3{animation-delay:.24s}
+.delay-4{animation-delay:.32s}
+.bounce-in{animation:bounceIn .5s cubic-bezier(.16,1,.3,1) both}
+.spin{animation:spin .7s linear infinite}
+.pulse-slow{animation:pulse 2.5s ease infinite}
+
+/* ── Prose & typography ──────────────────────────────────────── */
+.display-font{font-family:var(--font-display)}
+.tabular{font-variant-numeric:tabular-nums}
+
+/* ── Input ───────────────────────────────────────────────────── */
+.sc-input{
+  width:100%;padding:.75rem 1rem;
+  background:var(--bg2);border:2px solid var(--border);
+  border-radius:.85rem;color:var(--text1);font-size:.875rem;outline:none;
+  transition:border-color .2s;font-family:inherit;
+}
+.sc-input::placeholder{color:var(--text3)}
+.sc-input:focus{border-color:#10b981}
+
+/* ── Misc helpers ────────────────────────────────────────────── */
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.line-clamp2{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.no-select{user-select:none;-webkit-user-select:none}
+.pointer{cursor:pointer}
+.transition{transition:all .2s cubic-bezier(.16,1,.3,1)}
+.shadow-green{box-shadow:0 8px 24px rgba(16,185,129,.25)}
+.ring-green{box-shadow:0 0 0 2px #10b981}
+.ring-green-soft{box-shadow:0 0 0 2px rgba(16,185,129,.4)}
+
+/* Safe area padding */
+.pt-safe{padding-top:max(1rem,var(--safe-top))}
+.pt-nav{padding-top:calc(3.75rem + var(--safe-top))}
+.pb-nav{padding-bottom:calc(4.5rem + var(--safe-bot))}
+
+/* Overscroll handling */
 .overscroll-none{overscroll-behavior:none}
