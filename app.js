@@ -17,7 +17,7 @@ class ErrorBoundary extends React.Component {
   static getDerivedStateFromError(e) { return { err:e }; }
   render() {
     if (this.state.err) return h('div', { style:{padding:'2rem',color:'#ef4444',fontFamily:'system-ui',textAlign:'center'} },
-      h('div', { style:{fontSize:'2rem',marginBottom:'1rem'} }, '⚠️'),
+      h(Icon,{n:'alertTriangle',cls:'w-10 h-10',style:{color:'#f59e0b',marginBottom:'1rem'}}),
       h('h2', { style:{color:'#f8fafc',marginBottom:'.5rem'} }, 'Something went wrong'),
       h('p', { style:{color:'#94a3b8',fontSize:'.875rem',marginBottom:'1.5rem'} }, this.state.err.message),
       h('button', { onClick:()=>{ this.setState({err:null}); nav('Home'); },
@@ -76,6 +76,29 @@ const IC = {
   repeat:'<path d="m17 2 4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
   crosshair:'<circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>',
   wind:'<path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>',
+  // ── Cricket-specific icons ────────────────────────────────────
+  bat:'<path d="M3 21l3.5-3.5"/><path d="M5.5 19.5L16 9a2 2 0 0 0 0-2.83L14.83 5A2 2 0 0 0 12 5L2.5 16l-1 1 1 4z"/><path d="M19 4.5l.5.5"/><circle cx="20" cy="4" r="1"/>',
+  ball:'<circle cx="12" cy="12" r="9"/><path d="M12 3c-1.2 3.6-1.2 14.4 0 18" stroke-width="1.5"/><path d="M3.5 9.5c3.3.8 11.7.8 17 0" stroke-width="1.5"/><path d="M3.5 14.5c3.3-.8 11.7-.8 17 0" stroke-width="1.5"/>',
+  wicket:'<line x1="8" y1="4" x2="8" y2="21"/><line x1="12" y1="4" x2="12" y2="21"/><line x1="16" y1="4" x2="16" y2="21"/><rect x="6" y="4" width="12" height="3" rx="1"/>',
+  helmet:'<path d="M12 2a8 8 0 0 0-8 8c0 3.5 1.8 6.6 4.5 8.5H7"/><path d="M12 2a8 8 0 0 1 8 8c0 3.5-1.8 6.6-4.5 8.5H12"/><line x1="4.5" y1="14" x2="19.5" y2="14"/><path d="M4 10h16"/>',
+  field:'<ellipse cx="12" cy="12" rx="10" ry="6"/><ellipse cx="12" cy="12" rx="3.5" ry="2"/><line x1="12" y1="6" x2="12" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/>',
+  glove:'<path d="M8 18V9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M16 11h2a2 2 0 0 1 0 4h-2"/><path d="M6 11H4a2 2 0 0 0 0 4h2"/><path d="M8 18h8"/><path d="M8 21h8"/>',
+  pitch:'<rect x="3" y="7" width="18" height="10" rx="1"/><line x1="8" y1="7" x2="8" y2="17"/><line x1="16" y1="7" x2="16" y2="17"/><line x1="3" y1="12" x2="21" y2="12"/>',
+  // ── Professional general icons ─────────────────────────────────
+  cpu:'<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/>',
+  diamond:'<path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41L13.7 2.71a2.41 2.41 0 0 0-3.41 0z"/>',
+  puzzle:'<path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02z"/>',
+  helpCircle:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+  chartLine:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  bell:'<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+  grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>',
+  navigation:'<polygon points="3 11 22 2 13 21 11 13 3 11"/>',
+  flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
+  trendDown:'<polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/>',
+  alertTriangle:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  chevronsRight:'<polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/>',
+  rotateCcw:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+  maximize:'<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>',
 };
 
 function Icon({ n, cls='w-5 h-5', style }) {
@@ -244,18 +267,18 @@ function getLevelInfo(totalXP) {
 
 const BADGE_DEFS = {
   first500:  { icon:'⚡', label:'First 500',      desc:'Earned your first 500 XP' },
-  xp5k:      { icon:'🏆', label:'5K Club',         desc:'5,000 total XP earned' },
-  streak3:   { icon:'🔥', label:'On Fire',          desc:'3-day training streak' },
-  streak7:   { icon:'🔥', label:'Week Warrior',     desc:'7-day training streak' },
-  streak14:  { icon:'🔥', label:'Fortnight',        desc:'14-day streak' },
-  streak30:  { icon:'🔥', label:'Monthly Legend',   desc:'30 consecutive days' },
-  drills10:  { icon:'🏏', label:'Drill Starter',    desc:'10 cricket drills done' },
-  drills50:  { icon:'🏏', label:'Drill Master',     desc:'50 cricket drills done' },
-  mental10:  { icon:'🧠', label:'Mind Builder',     desc:'10 mental sessions done' },
-  mental25:  { icon:'🧠', label:'Mind Master',      desc:'25 mental sessions done' },
+  xp5k:      { icon:'trophy',  label:'5K Club',         desc:'5,000 total XP earned' },
+  streak3:   { icon:'flame',   label:'On Fire',          desc:'3-day training streak' },
+  streak7:   { icon:'flame',   label:'Week Warrior',     desc:'7-day training streak' },
+  streak14:  { icon:'flame',   label:'Fortnight',        desc:'14-day streak' },
+  streak30:  { icon:'flame',   label:'Monthly Legend',   desc:'30 consecutive days' },
+  drills10:  { icon:'bat',     label:'Drill Starter',    desc:'10 cricket drills done' },
+  drills50:  { icon:'bat',     label:'Drill Master',     desc:'50 cricket drills done' },
+  mental10:  { icon:'brain',   label:'Mind Builder',     desc:'10 mental sessions done' },
+  mental25:  { icon:'brain',   label:'Mind Master',      desc:'25 mental sessions done' },
   min60:     { icon:'⏱', label:'First Hour',        desc:'60 min of practice' },
   min600:    { icon:'⏱', label:'600 Min Club',      desc:'600 min of practice' },
-  workouts5: { icon:'💪', label:'Fitness Start',    desc:'5 workouts completed' },
+  workouts5: { icon:'dumbbell', label:'Fitness Start',    desc:'5 workouts completed' },
   sched10:   { icon:'📅', label:'Scheduled Pro',    desc:'10 scheduled sessions done' },
 };
 
@@ -362,12 +385,12 @@ function fmtTime(s) {
 
 // Schedule session type config
 const SCHED_TYPES = {
-  drill:   { label:'Cricket Drill', emoji:'🏏', color:'#3b82f6', bg:'rgba(59,130,246,0.12)', border:'rgba(59,130,246,0.4)' },
-  mental:  { label:'Mental Session', emoji:'🧠', color:'#a855f7', bg:'rgba(168,85,247,0.12)', border:'rgba(168,85,247,0.4)' },
-  fitness: { label:'Fitness', emoji:'💪', color:'#f97316', bg:'rgba(249,115,22,0.12)', border:'rgba(249,115,22,0.4)' },
-  match:   { label:'Match Day', emoji:'🏆', color:'#f59e0b', bg:'rgba(245,158,11,0.12)', border:'rgba(245,158,11,0.4)' },
-  rest:    { label:'Rest & Recover', emoji:'😴', color:'#10b981', bg:'rgba(16,185,129,0.08)', border:'rgba(16,185,129,0.25)' },
-  custom:  { label:'Custom Session', emoji:'📌', color:'#64748b', bg:'rgba(100,116,139,0.12)', border:'rgba(100,116,139,0.4)' },
+  drill:   { label:'Cricket Drill', icon:'bat',      color:'#3b82f6', bg:'rgba(59,130,246,0.12)', border:'rgba(59,130,246,0.4)' },
+  mental:  { label:'Mental Session', icon:'brain',   color:'#a855f7', bg:'rgba(168,85,247,0.12)', border:'rgba(168,85,247,0.4)' },
+  fitness: { label:'Fitness', icon:'dumbbell',       color:'#f97316', bg:'rgba(249,115,22,0.12)', border:'rgba(249,115,22,0.4)' },
+  match:   { label:'Match Day', icon:'wicket',       color:'#f59e0b', bg:'rgba(245,158,11,0.12)', border:'rgba(245,158,11,0.4)' },
+  rest:    { label:'Rest & Recover', icon:'heart',   color:'#16a34a', bg:'rgba(22,163,74,0.08)', border:'rgba(22,163,74,0.25)' },
+  custom:  { label:'Custom Session', icon:'list',    color:'#8b949e', bg:'rgba(139,148,158,0.12)', border:'rgba(139,148,158,0.4)' },
 };
 
 // ================================================================
@@ -766,71 +789,71 @@ function findWorkouts(level, target, goal, durCat) {
 
 // ── Skill Paths ───────────────────────────────────────────────────
 const SKILL_PATHS = [
-  { id:'batting', title:'Batting Mastery', emoji:'🏏', desc:'From solid defence to dominant attacking play — the complete batsman blueprint.',
+  { id:'batting', title:'Batting Mastery', icon:'bat', desc:'From solid defence to dominant attacking play — the complete batsman blueprint.',
     color:'from-blue-600 to-indigo-700', textColor:'text-blue-300', borderColor:'border-blue-500/50',
     accent:'#3b82f6',
     levels:[
-      { id:'beginner', label:'Club Cricketer', icon:'🏏', xpPerDay:80,
+      { id:'beginner', label:'Club Cricketer', icon:'bat', xpPerDay:80,
         desc:'Fundamentals, defensive technique, and basic stroke play.',
         sampleDrills:['Defensive Block Foundation','Cover Drive Mastery','Running Between Wickets'] },
-      { id:'intermediate', label:'District Player', icon:'⚡', xpPerDay:120,
+      { id:'intermediate', label:'District Player', icon:'bat', xpPerDay:120,
         desc:'Shot expansion, spin play, and core T20 skills.',
         sampleDrills:['Cut Shot Technique','Sweep Shot vs Spin','Pull Shot Power'] },
-      { id:'advanced', label:'State Performer', icon:'🌟', xpPerDay:160,
+      { id:'advanced', label:'State Performer', icon:'bat', xpPerDay:160,
         desc:'Power hitting, pressure batting, and match-winning skills.',
         sampleDrills:['T20 Power Hitting','Ramp Shot over Keeper','Pressure Inoculation'] },
-      { id:'pro', label:'Elite Cricketer', icon:'👑', xpPerDay:200,
+      { id:'pro', label:'Elite Cricketer', icon:'crown', xpPerDay:200,
         desc:'Elite refinement, match simulation, and peak performance.',
         sampleDrills:['Reading Spin from Hand','Between-Ball Reset Routine','Complete Shot Arsenal'] }
     ] },
-  { id:'bowling', title:'Bowling Excellence', emoji:'⚾', desc:'Build line and length, develop all variations, and become unplayable.',
+  { id:'bowling', title:'Bowling Excellence', icon:'ball', desc:'Build line and length, develop all variations, and become unplayable.',
     color:'from-red-600 to-orange-600', textColor:'text-red-300', borderColor:'border-red-500/50',
     accent:'#ef4444',
     levels:[
-      { id:'beginner', label:'Club Bowler', icon:'⚾', xpPerDay:75,
+      { id:'beginner', label:'Club Bowler', icon:'ball', xpPerDay:75,
         desc:'Correct action, basic control, and seam presentation.',
         sampleDrills:['Line & Length Precision','Off Spin with Drift','Leg Spin Fundamentals'] },
-      { id:'intermediate', label:'District Bowler', icon:'🎯', xpPerDay:115,
+      { id:'intermediate', label:'District Bowler', icon:'ball', xpPerDay:115,
         desc:'Swing bowling, spin variations, and field setting.',
         sampleDrills:['Outswing Mastery','Inswing Bowling','Googly Disguise'] },
-      { id:'advanced', label:'State Bowler', icon:'🔥', xpPerDay:155,
+      { id:'advanced', label:'State Bowler', icon:'ball', xpPerDay:155,
         desc:'Death bowling, yorkers, and pressure bowling mastery.',
         sampleDrills:['Yorker Death Bowling','Bouncer Control & Use','Slower Ball Variations'] },
-      { id:'pro', label:'Elite Bowler', icon:'💥', xpPerDay:195,
+      { id:'pro', label:'Elite Bowler', icon:'crown', xpPerDay:195,
         desc:'Complete mastery of swing, seam, spin, and pace variety.',
         sampleDrills:['Death Bowling Masterclass','Complete Variation Arsenal','Match Simulation'] }
     ] },
-  { id:'fielding', title:'Fielding Athlete', emoji:'🏃', desc:'Become the player every captain wants — quick, accurate, fearless, match-winning.',
+  { id:'fielding', title:'Fielding Athlete', icon:'navigation', desc:'Become the player every captain wants — quick, accurate, fearless, match-winning.',
     color:'from-emerald-600 to-teal-600', textColor:'text-emerald-300', borderColor:'border-emerald-500/50',
     accent:'#10b981',
     levels:[
-      { id:'beginner', label:'Safe Pair of Hands', icon:'🤲', xpPerDay:65,
+      { id:'beginner', label:'Safe Pair of Hands', icon:'navigation', xpPerDay:65,
         desc:'Clean stops, basic catching, and safe accurate returns.',
         sampleDrills:['Ground Fielding Excellence','High Catch Confidence','Throwing Accuracy at Stumps'] },
-      { id:'intermediate', label:'Athletic Fielder', icon:'⚡', xpPerDay:100,
+      { id:'intermediate', label:'Athletic Fielder', icon:'navigation', xpPerDay:100,
         desc:'Slip catching, direct hits, and boundary saving.',
         sampleDrills:['Slip Cordon Reactions','Direct Hit Run Outs','Boundary Diving Saves'] },
-      { id:'advanced', label:'Elite Fielder', icon:'🌟', xpPerDay:140,
+      { id:'advanced', label:'Elite Fielder', icon:'navigation', xpPerDay:140,
         desc:'Elite boundary work, run-out artistry, and impact fielding.',
         sampleDrills:['Direct Hit Run Outs','Boundary Diving Saves','Pressure Catches'] },
-      { id:'pro', label:'World-Class Fielder', icon:'🏆', xpPerDay:180,
+      { id:'pro', label:'World-Class Fielder', icon:'crown', xpPerDay:180,
         desc:'Redefine the standard of fielding excellence.',
         sampleDrills:['Full Fielding Masterclass','Captaining the Field','Zero Boundaries Conceded'] }
     ] },
-  { id:'allrounder', title:'All-Rounder Path', emoji:'⭐', desc:'The complete cricketer — contribute meaningfully with bat, ball, and in the field.',
+  { id:'allrounder', title:'All-Rounder Path', icon:'star', desc:'The complete cricketer — contribute meaningfully with bat, ball, and in the field.',
     color:'from-purple-600 to-pink-600', textColor:'text-purple-300', borderColor:'border-purple-500/50',
     accent:'#a855f7',
     levels:[
-      { id:'beginner', label:'Utility Player', icon:'⭐', xpPerDay:90,
+      { id:'beginner', label:'Utility Player', icon:'star', xpPerDay:90,
         desc:'Solid in two disciplines — reliable, consistent contribution.',
         sampleDrills:['Cover Drive Mastery','Line & Length Precision','Ground Fielding Excellence'] },
       { id:'intermediate', label:'Impact Player', icon:'💥', xpPerDay:135,
         desc:'Match-winning contributions in both disciplines.',
         sampleDrills:['Pull Shot Power','Outswing Mastery','Slip Cordon Reactions'] },
-      { id:'advanced', label:'Key All-Rounder', icon:'🔥', xpPerDay:175,
+      { id:'advanced', label:'Key All-Rounder', icon:'star', xpPerDay:175,
         desc:'Consistently influential in all three disciplines.',
         sampleDrills:['T20 Power Hitting','Death Bowling Masterclass','Elite Fielding'] },
-      { id:'pro', label:'Complete Cricketer', icon:'👑', xpPerDay:220,
+      { id:'pro', label:'Complete Cricketer', icon:'crown', xpPerDay:220,
         desc:'Redefine what an all-rounder brings to the team.',
         sampleDrills:['Complete Batting Arsenal','Complete Bowling Arsenal','World-Class Fielding'] }
     ] }
@@ -946,51 +969,51 @@ function LevelBar({ totalXP, compact=false }) {
 }
 
 function StreakBadge({ streak=0 }) {
-  if(!streak) return h('div',{className:'flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700'},
-    h('span',{className:'text-slate-500 text-sm'},'🏏'),
-    h('span',{className:'text-slate-500 text-xs font-semibold'},'No streak yet')
+  if(!streak) return h('div',{style:{display:'flex',alignItems:'center',gap:6,padding:'5px 10px',
+    borderRadius:6,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
+    h(Icon,{n:'bat',cls:'w-3.5 h-3.5',style:{color:'#374151'}}),
+    h('span',{style:{fontSize:11,fontWeight:600,color:'#484f58'}},'No streak yet')
   );
-  return h('div',{className:'flex items-center gap-1.5 px-3 py-1.5 rounded-full',
-    style:{background:'linear-gradient(135deg,#f97316,#dc2626)',boxShadow:'0 4px 16px rgba(249,115,22,0.4)'}},
-    h('span',{className:'text-base'},'🔥'),
-    h('span',{className:'text-white font-black text-sm'},streak),
-    h('span',{className:'text-orange-100 text-xs'},streak===1?'day':'days')
+  return h('div',{className:'streak-badge'},
+    h(Icon,{n:'flame',cls:'w-3.5 h-3.5'}),
+    streak, streak===1?' day':' days'
   );
 }
 
 function XPBadge({ xp }) {
-  return h('span',{className:'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-black',
-    style:{background:'rgba(16,185,129,0.12)',border:'1px solid rgba(16,185,129,0.35)',color:'#34d399'}},
+  return h('span',{style:{display:'inline-flex',alignItems:'center',gap:4,padding:'2px 8px',
+    borderRadius:5,fontSize:11,fontWeight:700,background:'rgba(22,163,74,0.1)',
+    border:'1px solid rgba(22,163,74,0.25)',color:'#4ade80'}},
     h(Icon,{n:'zap',cls:'w-3 h-3'}), `${xp} XP`
   );
 }
 
 function PremiumBadge({ label='PRO' }) {
-  return h('span',{className:'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-black',
-    style:{background:'linear-gradient(135deg,#f59e0b,#d97706)',color:'#1c1917'}},
-    `⭐ ${label}`
-  );
+  return h('span',{className:'premium-badge'},label);
 }
 
 function StatCard({ label, value, color='text-emerald-400', icon, sub, cls='' }) {
-  return h('div',{className:`rounded-2xl p-4 flex flex-col gap-1 ${cls}`,
-    style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.8)'}},
-    icon && h('div',{className:`flex items-center gap-1.5 mb-1`},
-      h(Icon,{n:icon,cls:`w-4 h-4 ${color}`}),
-      h('span',{className:'text-xs text-slate-500 uppercase font-bold tracking-wider'},label)
+  return h('div',{className:`stat-card ${cls}`},
+    h('div',{style:{display:'flex',alignItems:'center',gap:6,marginBottom:4}},
+      icon && h(Icon,{n:icon,cls:'w-3.5 h-3.5',style:{color:color.replace('text-','').includes('#')?color:'inherit'}}),
+      h('span',{style:{fontSize:10,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em'}},label)
     ),
-    !icon && h('span',{className:'text-xs text-slate-500 uppercase font-bold tracking-wider'},label),
-    h('div',{className:`text-2xl font-black ${color}`},value),
-    sub && h('div',{className:'text-xs text-slate-500'},sub)
+    h('div',{style:{fontSize:22,fontWeight:800,fontVariantNumeric:'tabular-nums',lineHeight:1,
+      color:color.startsWith('#')?color:'inherit'},className:color.startsWith('text-')?color:''},value),
+    sub && h('div',{style:{fontSize:11,color:'#484f58',marginTop:4}},sub)
   );
 }
 
-function EmptyState({ emoji='🏏', title, desc, action }) {
-  return h('div',{className:'flex flex-col items-center justify-center py-16 px-6 text-center'},
-    h('div',{className:'text-5xl mb-4'},emoji),
-    h('h3',{className:'text-base font-black text-slate-300 mb-2'},title),
-    h('p',{className:'text-sm text-slate-500 mb-6 max-w-xs leading-relaxed'},desc),
-    action && h('button',{onClick:action.fn,className:'btn-primary px-6 py-3 text-sm'},action.label)
+function EmptyState({ icon='bat', emoji, title, desc, action }) {
+  return h('div',{style:{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
+    padding:'48px 24px',textAlign:'center'}},
+    h('div',{style:{width:56,height:56,borderRadius:12,background:'rgba(48,54,61,0.6)',
+      display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},
+      h(Icon,{n:icon||'bat',cls:'w-7 h-7',style:{color:'#484f58'}})
+    ),
+    h('h3',{style:{fontSize:15,fontWeight:700,color:'#8b949e',marginBottom:8}},title),
+    h('p',{style:{fontSize:13,color:'#484f58',maxWidth:240,lineHeight:1.6,marginBottom:24}},desc),
+    action && h('button',{onClick:action.fn,className:'btn-primary',style:{width:'auto',padding:'10px 24px',fontSize:13}},action.label)
   );
 }
 
@@ -1032,9 +1055,7 @@ function Heatmap({ days }) {
 
 // ── Section title helper ──────────────────────────────────────────
 function SectionLabel({ children }) {
-  return h('div',{className:'px-4 pt-5 pb-2'},
-    h('span',{className:'text-xs font-black text-slate-500 uppercase tracking-widest'},children)
-  );
+  return h('div', { className:'sc-section-label' }, children);
 }
 
 // ── Page header ───────────────────────────────────────────────────
@@ -1090,20 +1111,19 @@ function Sidebar({ open, onClose, currentPage }) {
     }
   },[open]);
 
+  // Fully SVG-icon driven nav button — zero emojis
   function NavBtn({ label, icon, pg, onClick, badge, isNew }) {
     const active = currentPage===pg;
     return h('button',{
       onClick:onClick||(()=>{ nav(pg); handleClose(); }),
-      className:'flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-left transition-all active:scale-[.98]',
-      style:active?{background:'rgba(16,185,129,0.12)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}
-        :{color:'#cbd5e1',background:'transparent',border:'1px solid transparent'}
+      className:`sc-nav-btn${active?' active':''}`,
     },
-      h('span',{className:'text-lg w-6 flex-shrink-0'},icon),
-      h('span',{className:'text-sm font-semibold flex-1 text-left'},label),
-      badge && h('span',{className:'text-xs font-black px-1.5 py-0.5 rounded-full flex-shrink-0',
-        style:{background:'linear-gradient(135deg,#f59e0b,#d97706)',color:'#1c1917'}},badge),
-      isNew && h('span',{className:'text-xs font-black px-1.5 py-0.5 rounded-full flex-shrink-0',
-        style:{background:'rgba(16,185,129,0.2)',color:'#34d399',border:'1px solid rgba(16,185,129,0.4)'}}, 'NEW')
+      h(Icon,{n:icon,cls:'w-4 h-4 flex-shrink-0',style:{color:active?'#4ade80':'#484f58'}}),
+      h('span',{style:{fontSize:'13px',fontWeight:600,flex:1,textAlign:'left',color:active?'#e6edf3':'#8b949e'}},label),
+      badge && h('span',{className:'premium-badge'},badge),
+      isNew && h('span',{style:{fontSize:'10px',fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',
+        background:'rgba(22,163,74,0.12)',color:'#4ade80',border:'1px solid rgba(22,163,74,0.25)',
+        padding:'2px 6px',borderRadius:'4px',flexShrink:0}},'NEW')
     );
   }
 
@@ -1117,138 +1137,148 @@ function Sidebar({ open, onClose, currentPage }) {
     // Backdrop
     open && h('div',{
       className:'fixed inset-0 z-40',
-      style:{background:'rgba(0,0,0,0.65)',backdropFilter:'blur(4px)'},
+      style:{background:'rgba(0,0,0,0.7)',backdropFilter:'blur(4px)'},
       onClick:handleClose
     }),
 
-    // Drawer
+    // Drawer — professional sidebar panel
     h('div',{
-      className:'fixed inset-y-0 left-0 z-50 w-72 flex flex-col',
+      className:'fixed inset-y-0 left-0 z-50 w-72 flex flex-col sidebar-panel',
       style:{
-        background:dark?'#0f172a':'#ffffff',
-        borderRight:'1px solid rgba(51,65,85,0.8)',
         transform:open?'translateX(0)':'translateX(-100%)',
-        transition:'transform .25s cubic-bezier(.16,1,.3,1)',
+        transition:'transform .22s cubic-bezier(.16,1,.3,1)',
         willChange:'transform',
-        boxShadow:open?'8px 0 48px rgba(0,0,0,0.4)':'none'
       }
     },
-      // Header
-      h('div',{className:'flex items-center justify-between px-5 py-4',style:{borderBottom:'1px solid rgba(51,65,85,0.6)'}},
-        h('div',{className:'flex items-center gap-3'},
-          h('div',{className:'w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0',
-            style:{background:'linear-gradient(135deg,#10b981,#0d9488)'}}, '🏏'),
+      // ── Header ──────────────────────────────────────────────────
+      h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',
+        padding:'16px 20px',borderBottom:'1px solid rgba(48,54,61,0.9)'}},
+        h('div',{style:{display:'flex',alignItems:'center',gap:10}},
+          h('div',{style:{width:36,height:36,borderRadius:8,background:'#16a34a',
+            display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+            h(Icon,{n:'bat',cls:'w-5 h-5 text-white'})
+          ),
           h('div',{},
-            h('div',{className:'text-sm font-black text-white'},'SmartCrick AI'),
-            h('div',{className:'text-xs font-semibold',style:{color:'#34d399'}},`Level ${info.level} — ${info.name}`)
+            h('div',{style:{fontSize:14,fontWeight:800,color:'#e6edf3',letterSpacing:'-0.01em'}},'SMARTCRICK'),
+            h('div',{style:{fontSize:11,fontWeight:600,color:'#4ade80',marginTop:1}},`Level ${info.level} · ${info.name}`)
           )
         ),
-        h('button',{onClick:handleClose,className:'w-8 h-8 rounded-xl flex items-center justify-center',
-          style:{background:'rgba(255,255,255,0.05)',color:'#94a3b8'}},
+        h('button',{onClick:handleClose,
+          style:{width:30,height:30,borderRadius:6,display:'flex',alignItems:'center',justifyContent:'center',
+            background:'rgba(48,54,61,0.6)',border:'1px solid rgba(48,54,61,0.9)',cursor:'pointer',color:'#8b949e'}},
           h(Icon,{n:'x',cls:'w-4 h-4'})
         )
       ),
 
-      // Level bar
-      h('div',{className:'px-5 py-3',style:{borderBottom:'1px solid rgba(51,65,85,0.4)',background:'rgba(15,23,42,0.5)'}},
+      // ── Level + streak ────────────────────────────────────────
+      h('div',{style:{padding:'12px 20px',borderBottom:'1px solid rgba(48,54,61,0.6)',background:'rgba(22,27,34,0.5)'}},
         h(LevelBar,{totalXP:p.total_xp||0}),
-        streak>0 && h('div',{className:'mt-2 flex items-center gap-1.5'},
-          h('span',{className:'text-sm'},'🔥'),
-          h('span',{className:'text-xs font-bold text-orange-400'},`${streak}-day streak — keep it up!`)
+        h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:8}},
+          h('span',{style:{fontSize:11,color:'#484f58'}},'XP to next level'),
+          streak>0 && h('div',{style:{display:'flex',alignItems:'center',gap:4}},
+            h(Icon,{n:'flame',cls:'w-3.5 h-3.5',style:{color:'#fb923c'}}),
+            h('span',{style:{fontSize:11,fontWeight:700,color:'#fb923c'}},`${streak}d streak`)
+          )
         )
       ),
 
-      // Nav items
-      h('div',{ref:scrollRef,className:'flex-1 overflow-y-auto sidebar-scroll py-2'},
-        h(SectionLabel,{},'⭐ Premium'),
-        h(NavBtn,{label:'AI Head Coach',icon:'🤖',pg:'AICoach',badge:'PRO'}),
-        h(NavBtn,{label:'90-Day Elite Program',icon:'💎',pg:'NinetyDay',badge:'PRO'}),
+      // ── Scrollable nav ────────────────────────────────────────
+      h('div',{ref:scrollRef,className:'flex-1 sidebar-scroll',style:{padding:'6px 8px'}},
 
-        h(SectionLabel,{},'🏠 Core Training'),
-        h(NavBtn,{label:'Home',icon:'🏠',pg:'Home'}),
-        h(NavBtn,{label:'Smart Start',icon:'⚡',onClick:handleSmartStart}),
-        h(NavBtn,{label:'Cricket Drills',icon:'🏏',pg:'Drills'}),
-        h(NavBtn,{label:'Mental Training',icon:'🧠',pg:'Mental'}),
-        h(NavBtn,{label:'30-Day Challenge',icon:'🎯',pg:'ThirtyDay'}),
-        h(NavBtn,{label:'Fitness Builder',icon:'💪',pg:'Fitness'}),
-        h(NavBtn,{label:'Timer',icon:'⏱',pg:'Timer'}),
+        h(SectionLabel,{},'Premium'),
+        h(NavBtn,{label:'AI Head Coach',icon:'cpu',pg:'AICoach',badge:'PRO'}),
+        h(NavBtn,{label:'90-Day Program',icon:'diamond',pg:'NinetyDay',badge:'PRO'}),
 
-        h(SectionLabel,{},'📈 Progress & Skills'),
-        h(NavBtn,{label:'My Progress',icon:'📊',pg:'Progress'}),
-        h(NavBtn,{label:'Skill Paths',icon:'🛤',pg:'SkillPaths'}),
-        h(NavBtn,{label:'Leaderboard',icon:'🏆',pg:'Leaderboard'}),
-        h(NavBtn,{label:'Goals',icon:'🎯',pg:'Goals'}),
-        h(NavBtn,{label:'My Profile',icon:'👤',pg:'Profile'}),
+        h(SectionLabel,{},'Training'),
+        h(NavBtn,{label:'Home',icon:'home',pg:'Home'}),
+        h(NavBtn,{label:'Smart Start',icon:'zap',onClick:handleSmartStart}),
+        h(NavBtn,{label:'Cricket Drills',icon:'bat',pg:'Drills'}),
+        h(NavBtn,{label:'Mental Training',icon:'brain',pg:'Mental'}),
+        h(NavBtn,{label:'30-Day Challenge',icon:'target',pg:'ThirtyDay'}),
+        h(NavBtn,{label:'Fitness Builder',icon:'dumbbell',pg:'Fitness'}),
+        h(NavBtn,{label:'AI Workout',icon:'sparkles',pg:'AIWorkout'}),
+        h(NavBtn,{label:'Timer',icon:'timer',pg:'Timer'}),
 
-        h(SectionLabel,{},'📅 Planning'),
-        h(NavBtn,{label:'Training Schedule',icon:'📅',pg:'Schedule',isNew:true}),
+        h(SectionLabel,{},'Performance'),
+        h(NavBtn,{label:'My Progress',icon:'barChart',pg:'Progress'}),
+        h(NavBtn,{label:'Skill Paths',icon:'layers',pg:'SkillPaths'}),
+        h(NavBtn,{label:'Leaderboard',icon:'trophy',pg:'Leaderboard'}),
+        h(NavBtn,{label:'Goals',icon:'target',pg:'Goals'}),
+        h(NavBtn,{label:'My Profile',icon:'user',pg:'Profile'}),
 
-        h(SectionLabel,{},'🏏 Cricket Tools'),
-        h(NavBtn,{label:'Match Tracker',icon:'📋',pg:'MatchTracker'}),
-        h(NavBtn,{label:'MiniMatch IQ',icon:'🧩',pg:'MiniMatch'}),
-        h(NavBtn,{label:'Why Did I Get Out?',icon:'❓',pg:'GetOut'}),
-        h(NavBtn,{label:'Quizzes',icon:'📝',pg:'Quizzes'}),
+        h(SectionLabel,{},'Planning'),
+        h(NavBtn,{label:'Training Schedule',icon:'calendar',pg:'Schedule',isNew:true}),
 
-        h(SectionLabel,{},'⚙️ Account'),
-        h(NavBtn,{label:'Settings',icon:'⚙️',pg:'Settings'}),
+        h(SectionLabel,{},'Cricket Tools'),
+        h(NavBtn,{label:'Match Tracker',icon:'list',pg:'MatchTracker'}),
+        h(NavBtn,{label:'MiniMatch IQ',icon:'puzzle',pg:'MiniMatch'}),
+        h(NavBtn,{label:'Why Did I Get Out?',icon:'helpCircle',pg:'GetOut'}),
+        h(NavBtn,{label:'Quizzes',icon:'book',pg:'Quizzes'}),
+
+        h(SectionLabel,{},'Account'),
+        h(NavBtn,{label:'Settings',icon:'settings',pg:'Settings'}),
 
         // Dark mode toggle
-        h('div',{className:'flex items-center justify-between mx-4 my-2 px-4 py-3 rounded-xl',
-          style:{background:'rgba(30,41,59,0.5)',border:'1px solid rgba(51,65,85,0.5)'}},
-          h('div',{className:'flex items-center gap-2'},
-            h(Icon,{n:dark?'moon':'sun',cls:'w-4 h-4 text-slate-400'}),
-            h('span',{className:'text-sm text-slate-300 font-semibold'},dark?'Dark Mode':'Light Mode')
+        h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',
+          margin:'8px 8px 4px',padding:'10px 12px',borderRadius:8,
+          background:'rgba(22,27,34,0.6)',border:'1px solid rgba(48,54,61,0.9)'}},
+          h('div',{style:{display:'flex',alignItems:'center',gap:8}},
+            h(Icon,{n:dark?'moon':'sun',cls:'w-4 h-4',style:{color:'#484f58'}}),
+            h('span',{style:{fontSize:13,fontWeight:600,color:'#8b949e'}},'Dark Mode')
           ),
           h('button',{onClick:toggle,
-            className:'relative w-12 h-6 rounded-full transition-colors flex-shrink-0',
-            style:{background:dark?'#10b981':'#475569'}},
-            h('div',{className:'absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform',
-              style:{left:'2px',transform:dark?'translateX(24px)':'translateX(0)'}})
+            style:{position:'relative',width:40,height:22,borderRadius:11,
+              background:dark?'#16a34a':'rgba(48,54,61,0.9)',
+              border:'none',cursor:'pointer',transition:'background .2s',flexShrink:0}},
+            h('div',{style:{position:'absolute',top:3,width:16,height:16,background:'#fff',
+              borderRadius:'50%',transition:'transform .2s',
+              left:3,transform:dark?'translateX(18px)':'translateX(0)'}})
           )
         ),
-        h('div',{className:'h-8'})
+        h('div',{style:{height:24}})
       )
     )
   );
 }
 
 // ================================================================
-// BOTTOM NAVIGATION
+// BOTTOM NAVIGATION — Professional sports-app style
 // ================================================================
 function BottomNav({ page }) {
   const items=[
     {n:'home',label:'Home',pg:'Home'},
-    {n:'target',label:'Drills',pg:'Drills'},
+    {n:'bat',label:'Drills',pg:'Drills'},
     {n:'brain',label:'Mental',pg:'Mental'},
     {n:'dumbbell',label:'Fitness',pg:'Fitness'},
     {n:'calendar',label:'Schedule',pg:'Schedule'},
   ];
   return h('nav',{
-    className:'fixed bottom-0 left-0 right-0 z-40',
-    style:{
-      background:'rgba(9,15,31,0.97)',backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
-      borderTop:'1px solid rgba(52,211,153,0.1)',
-      paddingBottom:'max(0px,env(safe-area-inset-bottom))'
-    }
+    className:'bottom-nav',
+    style:{paddingBottom:'max(0px,env(safe-area-inset-bottom))'}
   },
-    h('div',{className:'flex items-center h-16'},
-      items.map(item=>
-        h('button',{key:item.pg,onClick:()=>nav(item.pg),
-          className:'flex-1 flex flex-col items-center justify-center gap-0.5 h-full transition-all relative',
+    h('div',{style:{display:'flex',alignItems:'center',height:56}},
+      items.map(item=>{
+        const active=page===item.pg;
+        return h('button',{key:item.pg,onClick:()=>nav(item.pg),
+          style:{flex:1,display:'flex',flexDirection:'column',alignItems:'center',
+            justifyContent:'center',gap:3,height:'100%',position:'relative',
+            background:'transparent',border:'none',cursor:'pointer',padding:0}
         },
-          h('div',{className:'relative'},
-            h(Icon,{n:item.n,cls:`w-5 h-5 transition-colors ${page===item.pg?'text-emerald-400':'text-slate-600'}`}),
-            page===item.pg && h('div',{style:{position:'absolute',bottom:'-4px',left:'50%',transform:'translateX(-50%)',width:'4px',height:'4px',borderRadius:'50%',background:'#10b981'}})
-          ),
-          h('span',{className:`text-xs font-bold transition-colors ${page===item.pg?'text-emerald-400':'text-slate-600'}`},item.label)
-        )
-      )
+          active && h('div',{style:{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',
+            width:20,height:2,background:'#16a34a',borderRadius:'0 0 3px 3px'}}),
+          h(Icon,{n:item.n,cls:'w-5 h-5',style:{color:active?'#4ade80':'#374151'}}),
+          h('span',{style:{fontSize:10,fontWeight:active?700:500,letterSpacing:'0.02em',
+            color:active?'#4ade80':'#374151'}},item.label)
+        );
+      })
     )
   );
 }
 
 // ================================================================
 // HOME PAGE
+// ================================================================
+// HOME PAGE — Professional data-forward dashboard
 // ================================================================
 function HomePage() {
   const [progress, setProgress] = useState(()=>DB.getProgress());
@@ -1273,14 +1303,9 @@ function HomePage() {
   const info = getLevelInfo(progress.total_xp||0);
   const user = DB.getUser();
   const name = user.name?(user.name.split(' ')[0]):'Cricketer';
-  const h2 = new Date().getHours();
-  const greeting = h2<12?'Good morning':h2<17?'Good afternoon':'Good evening';
-
-  // Today's Schedule
-  const todaySessions = DB.getSessionsForDate(new Date().toISOString().slice(0,10))
-    .filter(s=>s.status!=='skipped');
-  const pendingToday = todaySessions.filter(s=>s.status==='pending');
-  const todayXP = pendingToday.reduce((s,sess)=>s+sess.xp_value,0);
+  const hh = new Date().getHours();
+  const greeting = hh<12?'Good morning':hh<17?'Good afternoon':'Good evening';
+  const streak = progress.current_streak||0;
 
   const handleCheckIn = () => {
     if(checkedIn) return;
@@ -1290,220 +1315,241 @@ function HomePage() {
     setCheckedIn(true);
   };
 
-  // Smart picks (not yet completed)
+  // Smart picks — first uncompleted from each category
   const done = progress.completed_drills||[];
   const doneMental = progress.completed_mental||[];
   const drillPick = DRILLS.find(d=>!done.includes(d.id)&&d.category==='batting')||DRILLS[0];
   const mentalPick = MENTAL_SESSIONS.find(m=>!doneMental.includes(m.id)&&!m.is_premium)||MENTAL_SESSIONS[0];
   const workoutPick = WORKOUTS.find(w=>w.level==='beginner')||WORKOUTS[0];
 
-  const quickActions = [
-    {icon:'🏏',label:'Drills',pg:'Drills',from:'#1d4ed8',to:'#4338ca'},
-    {icon:'🧠',label:'Mental',pg:'Mental',from:'#7e22ce',to:'#9333ea'},
-    {icon:'💪',label:'Fitness',pg:'Fitness',from:'#c2410c',to:'#ea580c'},
-    {icon:'⏱',label:'Timer',pg:'Timer',from:'#0d9488',to:'#0891b2'},
+  // Quick actions — use SVG icon names, no emojis
+  const quickActions=[
+    {icon:'bat',label:'Drills',pg:'Drills',color:'#2563eb',bg:'rgba(37,99,235,0.12)',border:'rgba(37,99,235,0.25)'},
+    {icon:'brain',label:'Mental',pg:'Mental',color:'#7c3aed',bg:'rgba(124,58,237,0.12)',border:'rgba(124,58,237,0.25)'},
+    {icon:'dumbbell',label:'Fitness',pg:'Fitness',color:'#ea580c',bg:'rgba(234,88,12,0.12)',border:'rgba(234,88,12,0.25)'},
+    {icon:'timer',label:'Timer',pg:'Timer',color:'#0d9488',bg:'rgba(13,148,136,0.12)',border:'rgba(13,148,136,0.25)'},
   ];
 
-  return h('div',{className:'pb-28'},
-    // ── Hero ──────────────────────────────────────────────────────
-    h('div',{style:{background:'linear-gradient(160deg,#020f1f 0%,#0a1628 40%,#020617 100%)',paddingTop:'max(4.5rem,env(safe-area-inset-top))',paddingBottom:'1.5rem',paddingLeft:'1.25rem',paddingRight:'1.25rem',position:'relative',overflow:'hidden'}},
-      h('div',{style:{position:'absolute',top:'-50%',right:'-15%',width:'300px',height:'300px',background:'radial-gradient(circle,rgba(16,185,129,0.1),transparent 70%)',borderRadius:'50%',pointerEvents:'none'}}),
-      h('div',{style:{position:'absolute',bottom:'-30%',left:'-10%',width:'200px',height:'200px',background:'radial-gradient(circle,rgba(20,184,166,0.06),transparent 70%)',borderRadius:'50%',pointerEvents:'none'}}),
+  // Explore grid — icon names, clean labels
+  const exploreTiles=[
+    {icon:'layers',label:'Skill Paths',sub:'Structured programs',pg:'SkillPaths'},
+    {icon:'calendar',label:'Schedule',sub:'Plan your week',pg:'Schedule'},
+    {icon:'barChart',label:'Progress',sub:'Stats & badges',pg:'Progress'},
+    {icon:'target',label:'30-Day',sub:'Daily challenge',pg:'ThirtyDay'},
+    {icon:'trophy',label:'Leaderboard',sub:'Your ranking',pg:'Leaderboard'},
+    {icon:'book',label:'Quizzes',sub:'Cricket knowledge',pg:'Quizzes'},
+  ];
 
-      h('div',{className:'relative z-10'},
-        // Greeting row
-        h('div',{className:'flex items-start justify-between mb-5'},
-          h('div',{},
-            h('p',{className:'text-sm font-semibold mb-0.5',style:{color:'#34d399'}},greeting),
-            h('h1',{className:'text-3xl font-black text-white tracking-tight'},name),
-            h('p',{className:'text-sm mt-1',style:{color:'#64748b'}},'Ready to train like a pro?')
-          ),
-          h(StreakBadge,{streak:progress.current_streak||0})
+  // Stat divider helper
+  const Stat = ({val,label,color}) => h('div',{
+    style:{textAlign:'center',padding:'10px 4px',borderRadius:8,
+      background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
+    h('div',{style:{fontSize:18,fontWeight:800,color:color,lineHeight:1,fontVariantNumeric:'tabular-nums'}},val),
+    h('div',{style:{fontSize:10,fontWeight:600,color:'#484f58',marginTop:3,textTransform:'uppercase',letterSpacing:'0.06em'}},label)
+  );
+
+  return h('div',{style:{paddingBottom:'calc(5rem + env(safe-area-inset-bottom, 0px))',background:'#0d1117',minHeight:'100dvh'}},
+
+    // ── Hero Section ─────────────────────────────────────────────
+    h('div',{style:{
+      background:'linear-gradient(160deg,#0a1628 0%,#0d1117 60%)',
+      paddingTop:'calc(3.75rem + max(0.75rem,env(safe-area-inset-top)))',
+      paddingBottom:'24px',padding:'calc(3.75rem + max(0.75rem,env(safe-area-inset-top))) 20px 24px',
+      borderBottom:'1px solid rgba(48,54,61,0.9)',position:'relative',overflow:'hidden'
+    }},
+      // Subtle green ambient light
+      h('div',{style:{position:'absolute',top:'-60%',right:'-5%',width:280,height:280,
+        background:'radial-gradient(circle,rgba(22,163,74,0.07),transparent 70%)',
+        borderRadius:'50%',pointerEvents:'none'}}),
+
+      // Greeting row
+      h('div',{style:{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:20}},
+        h('div',{},
+          h('p',{style:{fontSize:12,fontWeight:600,color:'#16a34a',marginBottom:4,letterSpacing:'0.04em',textTransform:'uppercase'}},greeting),
+          h('h1',{style:{fontSize:28,fontWeight:800,color:'#e6edf3',margin:0,letterSpacing:'-0.02em',lineHeight:1.1}},name),
+          h('p',{style:{fontSize:13,color:'#484f58',marginTop:6}},'Train. Measure. Improve.')
         ),
+        streak>0 && h('div',{className:'streak-badge',style:{flexShrink:0}},
+          h(Icon,{n:'flame',cls:'w-3.5 h-3.5'}),
+          streak, ' day streak'
+        )
+      ),
 
-        // Level card
-        h('div',{className:'p-4 rounded-2xl mb-4',style:{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.08)'}},
-          h('div',{className:'flex items-center justify-between mb-3'},
-            h('div',{className:'flex items-center gap-2.5'},
-              h('div',{className:'w-9 h-9 rounded-xl flex items-center justify-center',style:{background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.3)'}},
-                h(Icon,{n:'crown',cls:'w-5 h-5',style:{color:'#34d399'}})
-              ),
-              h('div',{},
-                h('div',{className:'font-black text-white text-sm'},`Level ${info.level}`),
-                h('div',{className:'text-xs font-semibold',style:{color:'#34d399'}},info.name)
-              )
+      // Level card — clean data card design
+      h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',
+        borderRadius:10,padding:16,marginBottom:16}},
+        h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}},
+          h('div',{style:{display:'flex',alignItems:'center',gap:10}},
+            h('div',{style:{width:32,height:32,borderRadius:6,background:'rgba(22,163,74,0.12)',
+              border:'1px solid rgba(22,163,74,0.2)',display:'flex',alignItems:'center',justifyContent:'center'}},
+              h(Icon,{n:'crown',cls:'w-4 h-4',style:{color:'#16a34a'}})
             ),
-            h('div',{className:'text-right'},
-              h('div',{className:'font-black text-white text-sm'},`${(progress.total_xp||0).toLocaleString()} XP`),
-              info.next && h('div',{className:'text-xs',style:{color:'#475569'}},`${info.xpToNext.toLocaleString()} to Level ${info.level+1}`)
+            h('div',{},
+              h('div',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},`Level ${info.level}`),
+              h('div',{style:{fontSize:11,color:'#484f58',marginTop:1}},info.name)
             )
           ),
-          h(LevelBar,{totalXP:progress.total_xp||0})
-        ),
-
-        // 4 stats
-        h('div',{className:'grid grid-cols-4 gap-2 mb-4'},
-          [{val:progress.drills_done||0,label:'Drills',color:'#60a5fa'},
-           {val:progress.mental_done||0,label:'Mental',color:'#a78bfa'},
-           {val:progress.practice_minutes||0,label:'Mins',color:'#fb923c'},
-           {val:(progress.total_xp||0).toLocaleString(),label:'XP',color:'#34d399'}].map(s=>
-            h('div',{key:s.label,className:'text-center p-2.5 rounded-xl',style:{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.06)'}},
-              h('div',{className:'text-lg font-black',style:{color:s.color}},s.val),
-              h('div',{className:'text-xs font-medium',style:{color:'#475569'}},s.label)
-            )
+          h('div',{style:{textAlign:'right'}},
+            h('div',{style:{fontSize:15,fontWeight:800,color:'#e6edf3',fontVariantNumeric:'tabular-nums'}},
+              (progress.total_xp||0).toLocaleString(),' XP'),
+            info.next && h('div',{style:{fontSize:11,color:'#484f58',marginTop:1}},
+              `${info.xpToNext.toLocaleString()} to Level ${info.level+1}`)
           )
         ),
-
-        // 7-day chart
-        h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)'}},
-          h('div',{className:'flex justify-between items-center mb-3'},
-            h('span',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider'},'7-Day XP'),
-            h('span',{className:'text-xs font-bold',style:{color:'#34d399'}},`${xpDays.reduce((s,d)=>s+d.xp,0)} this week`)
-          ),
-          h(XPChart,{days:xpDays})
+        h('div',{className:'level-bar-track'},
+          h('div',{className:'level-bar-fill',style:{width:`${info.pct}%`}})
         )
-      )
-    ),
-
-    // ── Today's Training (Schedule integration) ──────────────────
-    todaySessions.length>0 && h('div',{className:'px-4 pt-5'},
-      h('div',{className:'flex items-center justify-between mb-3'},
-        h('h2',{className:'text-base font-black text-white'},'📅 Today\'s Training'),
-        h('button',{onClick:()=>nav('Schedule'),className:'text-xs font-bold',style:{color:'#34d399'}},'Full Schedule →')
       ),
-      h('div',{style:{background:'linear-gradient(135deg,rgba(16,185,129,0.08),rgba(13,148,136,0.05))',border:'1px solid rgba(16,185,129,0.2)',borderRadius:'1rem',padding:'1rem'}},
-        h('div',{className:'flex items-center justify-between mb-3'},
-          h('div',{className:'flex items-center gap-2'},
-            h('span',{className:'text-sm font-bold text-white'},`${pendingToday.length} session${pendingToday.length!==1?'s':''} remaining`),
-            todayXP>0 && h(XPBadge,{xp:todayXP})
+
+      // 4-stat row
+      h('div',{style:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8,marginBottom:16}},
+        h(Stat,{val:progress.drills_done||0,label:'Drills',color:'#3b82f6'}),
+        h(Stat,{val:progress.mental_done||0,label:'Mental',color:'#8b5cf6'}),
+        h(Stat,{val:progress.practice_minutes||0,label:'Minutes',color:'#f97316'}),
+        h(Stat,{val:(progress.total_xp||0).toLocaleString(),label:'XP',color:'#16a34a'}),
+      ),
+
+      // 7-day chart
+      h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',
+        borderRadius:10,padding:'14px 16px'}},
+        h('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}},
+          h('div',{style:{display:'flex',alignItems:'center',gap:8}},
+            h(Icon,{n:'chartLine',cls:'w-3.5 h-3.5',style:{color:'#484f58'}}),
+            h('span',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em'}},'7-Day XP')
           ),
-          todaySessions.filter(s=>s.status==='complete').length>0 && h('span',{className:'text-xs',style:{color:'#34d399'}},`✓ ${todaySessions.filter(s=>s.status==='complete').length} done`)
+          h('span',{style:{fontSize:12,fontWeight:700,color:'#16a34a'}},
+            `${xpDays.reduce((s,d)=>s+d.xp,0)} this week`)
         ),
-        h('div',{className:'flex gap-2 overflow-x-auto scrollbar-hide'},
-          todaySessions.slice(0,4).map(s=>{
-            const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;
-            return h('div',{key:s.id,
-              className:'flex-shrink-0 p-3 rounded-xl cursor-pointer',
-              style:{background:tc.bg,border:`1px solid ${tc.border}`,minWidth:'120px'},
-              onClick:()=>nav('Schedule')
-            },
-              h('div',{className:'text-xl mb-1'},tc.emoji),
-              h('div',{className:'text-xs font-bold text-white line-clamp-1'},s.title),
-              h('div',{className:'text-xs mt-0.5',style:{color:'rgba(255,255,255,0.5)'}},`${s.duration_minutes} min`),
-              s.status==='complete' && h('div',{className:'text-xs mt-1 font-bold',style:{color:'#34d399'}},'✓ Done')
-            );
-          })
-        )
+        h(XPChart,{days:xpDays})
       )
     ),
 
-    // ── Quick Actions ─────────────────────────────────────────────
-    h('div',{className:'px-4 pt-5'},
-      h('h2',{className:'text-base font-black text-white mb-3'},'Quick Train'),
-      h('div',{className:'grid grid-cols-4 gap-2'},
+    // ── Quick Train ───────────────────────────────────────────────
+    h('div',{style:{padding:'20px 20px 0'}},
+      h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}},
+        h('h2',{style:{fontSize:13,fontWeight:700,color:'#8b949e',margin:0,textTransform:'uppercase',letterSpacing:'0.08em'}},'Quick Train')
+      ),
+      h('div',{style:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8}},
         quickActions.map(a=>
           h('button',{key:a.pg,onClick:()=>nav(a.pg),
-            className:'flex flex-col items-center gap-2 p-3 rounded-2xl active:scale-95 transition-transform',
-            style:{background:`linear-gradient(135deg,${a.from}18,${a.to}08)`,border:`1px solid ${a.from}30`}
+            style:{display:'flex',flexDirection:'column',alignItems:'center',gap:8,
+              padding:'14px 8px',borderRadius:10,border:`1px solid ${a.border}`,
+              background:a.bg,cursor:'pointer',transition:'all 0.12s'}
           },
-            h('div',{className:'w-10 h-10 rounded-xl flex items-center justify-center text-xl',
-              style:{background:`linear-gradient(135deg,${a.from},${a.to})`}},a.icon),
-            h('span',{className:'text-xs font-bold text-white'},a.label)
+            h('div',{style:{width:36,height:36,borderRadius:8,display:'flex',alignItems:'center',
+              justifyContent:'center',background:'rgba(0,0,0,0.3)'}},
+              h(Icon,{n:a.icon,cls:'w-5 h-5',style:{color:a.color}})
+            ),
+            h('span',{style:{fontSize:11,fontWeight:600,color:'#8b949e'}},a.label)
           )
         )
       )
     ),
 
     // ── Daily Check-In ────────────────────────────────────────────
-    h('div',{className:'px-4 pt-4'},
+    h('div',{style:{padding:'16px 20px 0'}},
       h('button',{onClick:handleCheckIn,disabled:checkedIn,
-        className:'w-full flex items-center gap-4 p-4 rounded-2xl transition-all text-left',
-        style:{background:checkedIn?'rgba(16,185,129,0.08)':'rgba(30,41,59,0.6)',
-          border:checkedIn?'1px solid rgba(16,185,129,0.3)':'1px solid rgba(51,65,85,0.6)'}
+        style:{width:'100%',display:'flex',alignItems:'center',gap:14,padding:14,
+          borderRadius:10,border:checkedIn?'1px solid rgba(22,163,74,0.25)':'1px solid rgba(48,54,61,0.9)',
+          background:checkedIn?'rgba(22,163,74,0.06)':'rgba(22,27,34,0.9)',
+          cursor:checkedIn?'default':'pointer',textAlign:'left',transition:'all 0.12s'}
       },
-        h('div',{className:'w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0',
-          style:{background:checkedIn?'rgba(16,185,129,0.2)':'rgba(30,41,59,0.8)'}},
-          checkedIn?'✅':'⚡'
+        h('div',{style:{width:40,height:40,borderRadius:8,display:'flex',alignItems:'center',
+          justifyContent:'center',flexShrink:0,
+          background:checkedIn?'rgba(22,163,74,0.15)':'rgba(48,54,61,0.6)'}},
+          h(Icon,{n:checkedIn?'circleCheck':'zap',cls:'w-5 h-5',
+            style:{color:checkedIn?'#16a34a':'#8b949e'}})
         ),
-        h('div',{className:'flex-1'},
-          h('div',{className:'font-bold text-sm',style:{color:checkedIn?'#34d399':'#f8fafc'}},
-            checkedIn?'Checked in today!':'Daily Check-In'),
-          h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},
-            checkedIn?'+15 XP earned — see you tomorrow!':'Tap to claim your daily 15 XP reward')
+        h('div',{style:{flex:1}},
+          h('div',{style:{fontSize:13,fontWeight:700,color:checkedIn?'#4ade80':'#e6edf3'}},
+            checkedIn?'Checked in today':'Daily Check-In'),
+          h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},
+            checkedIn?'15 XP earned. Come back tomorrow.':'Tap to claim 15 XP.')
         ),
-        !checkedIn && h('span',{className:'text-xs font-black px-2 py-1 rounded-full flex-shrink-0',
-          style:{background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.35)',color:'#34d399'}},'+15 XP')
+        !checkedIn && h('span',{style:{fontSize:11,fontWeight:700,color:'#16a34a',
+          background:'rgba(22,163,74,0.1)',border:'1px solid rgba(22,163,74,0.2)',
+          padding:'4px 8px',borderRadius:6,flexShrink:0}},'+15 XP')
       )
     ),
 
     // ── Smart Start ───────────────────────────────────────────────
-    h('div',{id:'smart-start',className:'px-4 pt-6'},
-      h('div',{className:'flex items-center justify-between mb-3'},
-        h('h2',{className:'text-base font-black text-white flex items-center gap-2'},'⚡ Smart Start',
-          h('span',{className:'text-xs font-semibold px-2 py-0.5 rounded-full',style:{background:'rgba(16,185,129,0.1)',color:'#34d399'}},'AI Picks')
-        ),
-        h('span',{className:'text-xs',style:{color:'#475569'}},"Personalized for you")
+    h('div',{id:'smart-start',style:{padding:'20px 20px 0'}},
+      h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}},
+        h('h2',{style:{fontSize:13,fontWeight:700,color:'#8b949e',margin:0,textTransform:'uppercase',letterSpacing:'0.08em'}},'Today\'s Focus'),
+        h('span',{style:{fontSize:11,color:'#484f58'}},'AI-selected')
       ),
-      h('div',{className:'space-y-2.5'},
+      h('div',{style:{display:'flex',flexDirection:'column',gap:8}},
         // Drill pick
         h('button',{onClick:()=>nav('DrillDetail',{id:drillPick.id}),
-          className:'w-full flex items-center gap-3 p-4 rounded-2xl text-left active:scale-[.99] transition-transform',
-          style:{background:'linear-gradient(135deg,rgba(29,78,216,0.15),rgba(15,23,42,0.8))',border:'1px solid rgba(59,130,246,0.3)'}},
-          h('div',{className:'w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0',style:{background:'rgba(59,130,246,0.15)'}}, '🏏'),
-          h('div',{className:'flex-1 min-w-0'},
-            h('div',{className:'text-xs font-bold mb-0.5',style:{color:'#60a5fa'}},'Cricket Drill'),
-            h('div',{className:'font-bold text-white text-sm truncate'},drillPick.title),
-            h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},`${drillPick.duration_minutes} min · ${drillPick.xp_value} XP`)
+          style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
+            border:'1px solid rgba(37,99,235,0.2)',background:'rgba(37,99,235,0.06)',
+            cursor:'pointer',textAlign:'left',transition:'all 0.12s'}
+        },
+          h('div',{style:{width:40,height:40,borderRadius:8,display:'flex',alignItems:'center',
+            justifyContent:'center',flexShrink:0,background:'rgba(37,99,235,0.15)'}},
+            h(Icon,{n:'bat',cls:'w-5 h-5',style:{color:'#3b82f6'}})
           ),
-          h(Icon,{n:'chevR',cls:'w-5 h-5 flex-shrink-0',style:{color:'#475569'}})
+          h('div',{style:{flex:1,minWidth:0}},
+            h('div',{style:{fontSize:10,fontWeight:700,color:'#3b82f6',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:2}},'Cricket Drill'),
+            h('div',{style:{fontSize:13,fontWeight:600,color:'#e6edf3',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},drillPick.title),
+            h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},`${drillPick.duration_minutes} min · ${drillPick.xp_value} XP`)
+          ),
+          h(Icon,{n:'chevR',cls:'w-4 h-4 flex-shrink-0',style:{color:'#374151'}})
         ),
         // Mental pick
         h('button',{onClick:()=>nav('MentalPlayer',{id:mentalPick.id}),
-          className:'w-full flex items-center gap-3 p-4 rounded-2xl text-left active:scale-[.99] transition-transform',
-          style:{background:'linear-gradient(135deg,rgba(126,34,206,0.15),rgba(15,23,42,0.8))',border:'1px solid rgba(168,85,247,0.3)'}},
-          h('div',{className:'w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0',style:{background:'rgba(168,85,247,0.15)'}}, '🧠'),
-          h('div',{className:'flex-1 min-w-0'},
-            h('div',{className:'text-xs font-bold mb-0.5',style:{color:'#c084fc'}},'Mental Session'),
-            h('div',{className:'font-bold text-white text-sm truncate'},mentalPick.title),
-            h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},`${Math.floor(mentalPick.duration_seconds/60)} min · ${mentalPick.xp_value} XP`)
+          style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
+            border:'1px solid rgba(124,58,237,0.2)',background:'rgba(124,58,237,0.06)',
+            cursor:'pointer',textAlign:'left',transition:'all 0.12s'}
+        },
+          h('div',{style:{width:40,height:40,borderRadius:8,display:'flex',alignItems:'center',
+            justifyContent:'center',flexShrink:0,background:'rgba(124,58,237,0.15)'}},
+            h(Icon,{n:'brain',cls:'w-5 h-5',style:{color:'#8b5cf6'}})
           ),
-          h(Icon,{n:'chevR',cls:'w-5 h-5 flex-shrink-0',style:{color:'#475569'}})
+          h('div',{style:{flex:1,minWidth:0}},
+            h('div',{style:{fontSize:10,fontWeight:700,color:'#8b5cf6',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:2}},'Mental Session'),
+            h('div',{style:{fontSize:13,fontWeight:600,color:'#e6edf3',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},mentalPick.title),
+            h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},`${Math.floor(mentalPick.duration_seconds/60)} min · ${mentalPick.xp_value} XP`)
+          ),
+          h(Icon,{n:'chevR',cls:'w-4 h-4 flex-shrink-0',style:{color:'#374151'}})
         ),
         // Workout pick
         h('button',{onClick:()=>nav('WorkoutDetail',{id:workoutPick.id}),
-          className:'w-full flex items-center gap-3 p-4 rounded-2xl text-left active:scale-[.99] transition-transform',
-          style:{background:'linear-gradient(135deg,rgba(194,65,12,0.15),rgba(15,23,42,0.8))',border:'1px solid rgba(249,115,22,0.3)'}},
-          h('div',{className:'w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0',style:{background:'rgba(249,115,22,0.15)'}}, '💪'),
-          h('div',{className:'flex-1 min-w-0'},
-            h('div',{className:'text-xs font-bold mb-0.5',style:{color:'#fb923c'}},'Fitness Workout'),
-            h('div',{className:'font-bold text-white text-sm truncate'},workoutPick.name),
-            h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},`${workoutPick.duration_minutes} min · ${workoutPick.xp_value} XP`)
+          style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
+            border:'1px solid rgba(234,88,12,0.2)',background:'rgba(234,88,12,0.06)',
+            cursor:'pointer',textAlign:'left',transition:'all 0.12s'}
+        },
+          h('div',{style:{width:40,height:40,borderRadius:8,display:'flex',alignItems:'center',
+            justifyContent:'center',flexShrink:0,background:'rgba(234,88,12,0.15)'}},
+            h(Icon,{n:'dumbbell',cls:'w-5 h-5',style:{color:'#f97316'}})
           ),
-          h(Icon,{n:'chevR',cls:'w-5 h-5 flex-shrink-0',style:{color:'#475569'}})
+          h('div',{style:{flex:1,minWidth:0}},
+            h('div',{style:{fontSize:10,fontWeight:700,color:'#f97316',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:2}},'Fitness'),
+            h('div',{style:{fontSize:13,fontWeight:600,color:'#e6edf3',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},workoutPick.name),
+            h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},`${workoutPick.duration_minutes} min · ${workoutPick.xp_value} XP`)
+          ),
+          h(Icon,{n:'chevR',cls:'w-4 h-4 flex-shrink-0',style:{color:'#374151'}})
         )
       )
     ),
 
-    // ── Explore More ──────────────────────────────────────────────
-    h('div',{className:'px-4 pt-6'},
-      h('h2',{className:'text-base font-black text-white mb-3'},'Explore'),
-      h('div',{className:'grid grid-cols-2 gap-2.5'},
-        [
-          {icon:'🛤',label:'Skill Paths',sub:'Structured programs',pg:'SkillPaths'},
-          {icon:'📅',label:'Schedule',sub:'Plan your training',pg:'Schedule'},
-          {icon:'📊',label:'My Progress',sub:'Stats & badges',pg:'Progress'},
-          {icon:'🎯',label:'30-Day Challenge',sub:'Daily commitment',pg:'ThirtyDay'},
-          {icon:'🏆',label:'Leaderboard',sub:'How you rank',pg:'Leaderboard'},
-          {icon:'📝',label:'Quizzes',sub:'Test your knowledge',pg:'Quizzes'},
-        ].map(t=>
+    // ── Explore ───────────────────────────────────────────────────
+    h('div',{style:{padding:'20px 20px 0'}},
+      h('h2',{style:{fontSize:13,fontWeight:700,color:'#8b949e',margin:'0 0 12px',textTransform:'uppercase',letterSpacing:'0.08em'}},'Explore'),
+      h('div',{style:{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:8}},
+        exploreTiles.map(t=>
           h('button',{key:t.pg,onClick:()=>nav(t.pg),
-            className:'flex items-center gap-3 p-4 rounded-2xl text-left active:scale-[.98] transition-transform',
-            style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.6)'}
+            style:{display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
+              border:'1px solid rgba(48,54,61,0.9)',background:'rgba(22,27,34,0.9)',
+              cursor:'pointer',textAlign:'left',transition:'all 0.12s'}
           },
-            h('span',{className:'text-2xl'},t.icon),
-            h('div',{},
-              h('div',{className:'text-sm font-bold text-white'},t.label),
-              h('div',{className:'text-xs',style:{color:'#64748b'}},t.sub)
+            h('div',{style:{width:32,height:32,borderRadius:6,display:'flex',alignItems:'center',
+              justifyContent:'center',flexShrink:0,background:'rgba(48,54,61,0.6)'}},
+              h(Icon,{n:t.icon,cls:'w-4 h-4',style:{color:'#8b949e'}})
+            ),
+            h('div',{style:{minWidth:0}},
+              h('div',{style:{fontSize:13,fontWeight:600,color:'#e6edf3',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},t.label),
+              h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},t.sub)
             )
           )
         )
@@ -1512,16 +1558,17 @@ function HomePage() {
   );
 }
 
+
 // ================================================================
 // DRILLS PAGE
 // ================================================================
 const DRILL_CATS=[
-  {id:'batting',label:'Batting',emoji:'🏏',from:'#1d4ed8',to:'#4338ca',text:'#60a5fa'},
-  {id:'bowling',label:'Bowling',emoji:'⚾',from:'#dc2626',to:'#ea580c',text:'#f87171'},
-  {id:'fielding',label:'Fielding',emoji:'🏃',from:'#059669',to:'#0d9488',text:'#34d399'},
-  {id:'wicketkeeping',label:'Keeping',emoji:'🧤',from:'#0d9488',to:'#0891b2',text:'#2dd4bf'},
-  {id:'fitness',label:'Fitness',emoji:'💪',from:'#c2410c',to:'#d97706',text:'#fb923c'},
-  {id:'mental',label:'Mental',emoji:'🧠',from:'#6d28d9',to:'#4f46e5',text:'#a78bfa'},
+  {id:'batting',label:'Batting',icon:'bat',from:'#1d4ed8',to:'#4338ca',text:'#60a5fa'},
+  {id:'bowling',label:'Bowling',icon:'ball',from:'#dc2626',to:'#ea580c',text:'#f87171'},
+  {id:'fielding',label:'Fielding',icon:'navigation',from:'#059669',to:'#0d9488',text:'#34d399'},
+  {id:'wicketkeeping',label:'Keeping',icon:'glove',from:'#0d9488',to:'#0891b2',text:'#2dd4bf'},
+  {id:'fitness',label:'Fitness',icon:'dumbbell',from:'#c2410c',to:'#d97706',text:'#fb923c'},
+  {id:'mental',label:'Mental',icon:'brain',from:'#6d28d9',to:'#4f46e5',text:'#a78bfa'},
 ];
 const LVL_BADGE={
   beginner:{bg:'rgba(34,197,94,0.12)',border:'rgba(34,197,94,0.3)',color:'#4ade80',label:'Beginner'},
@@ -1538,7 +1585,7 @@ function DrillsPage() {
   const filtered=DRILLS.filter(d=>d.category===cat&&(search===''||d.title.toLowerCase().includes(search.toLowerCase())));
 
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'🏏 Cricket Drills',subtitle:`${DRILLS.length} professional drills`,
+    h(PageHeader,{title:'Cricket Drills',subtitle:`${DRILLS.length} professional drills`,
       gradient:`linear-gradient(135deg,${catDef?.from||'#1d4ed8'},${catDef?.to||'#4338ca'})`}),
 
     // Cat pills
@@ -1547,18 +1594,20 @@ function DrillsPage() {
         h('button',{key:c.id,onClick:()=>setCat(c.id),
           className:'flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap flex-shrink-0 transition-all',
           style:cat===c.id?{background:`linear-gradient(135deg,${c.from},${c.to})`,color:'#fff',boxShadow:`0 4px 16px ${c.from}40`}
-            :{background:'rgba(30,41,59,0.6)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.5)'}
-        }, c.emoji,' ',c.label)
+            :{background:'rgba(22,27,34,0.9)',color:'#8b949e',border:'1px solid rgba(48,54,61,0.9)'}
+        },
+          h(Icon,{n:c.icon,cls:'w-3.5 h-3.5 flex-shrink-0',style:{color:cat===c.id?'#fff':c.text}}),
+          ' ', c.label)
       )
     ),
 
     // Search
     h('div',{className:'px-4 mb-3'},
       h('div',{className:'relative'},
-        h(Icon,{n:'search',cls:'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2',style:{color:'#64748b'}}),
+        h(Icon,{n:'search',cls:'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2',style:{color:'#484f58'}}),
         h('input',{type:'text',placeholder:'Search drills...',value:search,onChange:e=>setSearch(e.target.value),
-          className:'w-full pl-9 pr-4 py-2.5 rounded-xl text-sm text-white placeholder-slate-500 outline-none',
-          style:{background:'rgba(30,41,59,0.6)',border:`1px solid ${search?catDef?.from+'60':'rgba(51,65,85,0.5)'}`}
+          className:'w-full pl-9 pr-4 py-2.5 rounded-xl text-sm placeholder-slate-600 outline-none',
+          style:{background:'rgba(22,27,34,0.9)',border:`1px solid ${search?catDef?.from+'60':'rgba(48,54,61,0.9)'}`,color:'#e6edf3'}
         })
       )
     ),
@@ -1566,32 +1615,36 @@ function DrillsPage() {
     // List
     h('div',{className:'px-4 space-y-2.5'},
       filtered.length===0
-        ? h(EmptyState,{emoji:catDef?.emoji||'🏏',title:'No drills found',desc:'Try a different search term'})
+        ? h(EmptyState,{icon:catDef?.icon||'bat',title:'No drills found',desc:'Try a different search term'})
         : filtered.map(d=>{
           const lvl=LVL_BADGE[d.skill_level]||LVL_BADGE.beginner;
           const done=completed.includes(d.id);
           return h('button',{key:d.id,onClick:()=>nav('DrillDetail',{id:d.id}),
-            className:'w-full text-left p-4 rounded-2xl transition-all active:scale-[.99]',
-            style:{background:'rgba(30,41,59,0.6)',border:`1px solid ${done?'rgba(16,185,129,0.3)':'rgba(51,65,85,0.5)'}`}
+            className:'w-full text-left p-4 rounded-2xl transition-all active:scale-[.99] pro-card',
+            style:{background:'rgba(22,27,34,0.9)',border:`1px solid ${done?'rgba(22,163,74,0.3)':'rgba(48,54,61,0.9)'}`,borderRadius:10}
           },
             h('div',{className:'flex items-start gap-3'},
-              h('div',{className:'w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 relative',
-                style:{background:`linear-gradient(135deg,${catDef?.from||'#1d4ed8'},${catDef?.to||'#4338ca'})`}},
-                h('span',{className:'text-xl'},catDef?.emoji||'🏏'),
-                done && h('div',{className:'absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center',style:{background:'#10b981'}},
+              h('div',{style:{width:44,height:44,borderRadius:8,display:'flex',alignItems:'center',
+                justifyContent:'center',flexShrink:0,position:'relative',
+                background:`linear-gradient(135deg,${catDef?.from||'#1d4ed8'},${catDef?.to||'#4338ca'})`}},
+                h(Icon,{n:catDef?.icon||'bat',cls:'w-5 h-5 text-white'}),
+                done && h('div',{style:{position:'absolute',top:-4,right:-4,width:18,height:18,
+                  borderRadius:'50%',background:'#16a34a',display:'flex',alignItems:'center',justifyContent:'center'}},
                   h(Icon,{n:'check',cls:'w-3 h-3 text-white'})
                 )
               ),
               h('div',{className:'flex-1 min-w-0'},
                 h('div',{className:'flex items-start justify-between gap-2'},
-                  h('h3',{className:'font-bold text-white text-sm leading-tight'},d.title),
+                  h('h3',{style:{fontSize:13,fontWeight:700,color:'#e6edf3',lineHeight:1.3}},d.title),
                   d.is_premium && h(PremiumBadge)
                 ),
-                h('p',{className:'text-xs mt-1 line-clamp-1',style:{color:'#64748b'}},d.description),
-                h('div',{className:'flex items-center gap-2 mt-2'},
-                  h('span',{className:'text-xs font-bold px-2 py-0.5 rounded-full',
-                    style:{background:lvl.bg,border:`1px solid ${lvl.border}`,color:lvl.color}},lvl.label),
-                  h('span',{className:'text-xs',style:{color:'#475569'}},`${d.duration_minutes} min`),
+                h('p',{style:{fontSize:11,color:'#484f58',marginTop:4,overflow:'hidden',
+                  textOverflow:'ellipsis',whiteSpace:'nowrap'}},d.description),
+                h('div',{style:{display:'flex',alignItems:'center',gap:8,marginTop:8}},
+                  h('span',{style:{fontSize:10,fontWeight:700,padding:'2px 7px',borderRadius:4,
+                    background:lvl.bg,border:`1px solid ${lvl.border}`,color:lvl.color,
+                    textTransform:'uppercase',letterSpacing:'0.04em'}},lvl.label),
+                  h('span',{style:{fontSize:11,color:'#484f58'}},`${d.duration_minutes} min`),
                   h(XPBadge,{xp:d.xp_value})
                 )
               )
@@ -1611,7 +1664,7 @@ function DrillDetailPage({ params }) {
   const catDef=DRILL_CATS.find(c=>c.id===drill?.category);
 
   if(!drill) return h('div',{className:'pb-28 flex flex-col items-center justify-center',style:{minHeight:'80vh'}},
-    h('div',{className:'text-5xl mb-4'},'🏏'),
+    h('div',{style:{width:56,height:56,borderRadius:12,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'bat',cls:'w-7 h-7',style:{color:'#484f58'}})),
     h('div',{className:'font-bold text-white mb-4'},'Drill not found'),
     h('button',{onClick:()=>nav('Drills'),className:'btn-primary px-6 py-3'},'Back to Drills')
   );
@@ -1622,7 +1675,7 @@ function DrillDetailPage({ params }) {
   };
 
   if(done) return h('div',{className:'flex flex-col items-center justify-center text-center px-5 pb-28',style:{minHeight:'100vh'}},
-    h('div',{className:'text-6xl mb-4'},'🎉'),
+    h('div',{style:{width:64,height:64,borderRadius:16,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-8 h-8',style:{color:'#16a34a'}})),
     h('h2',{className:'text-2xl font-black text-white mb-2'},'Drill Complete!'),
     h('p',{className:'text-slate-400 mb-3'},drill.title),
     h(XPBadge,{xp:drill.xp_value}),
@@ -1679,7 +1732,7 @@ function DrillDetailPage({ params }) {
 
       // Tip
       drill.tips && h('div',{className:'flex items-start gap-3 p-4 rounded-2xl',style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)'}},
-        h('span',{className:'text-lg flex-shrink-0'},'💡'),
+        h(Icon,{n:'sparkles',cls:'w-4 h-4 flex-shrink-0',style:{color:'#16a34a'}}),
         h('div',{},
           h('p',{className:'text-xs font-black text-emerald-400 uppercase tracking-wider mb-1'},'Coach Tip'),
           h('p',{className:'text-sm',style:{color:'#6ee7b7'}},drill.tips)
@@ -1688,7 +1741,7 @@ function DrillDetailPage({ params }) {
 
       // Target
       drill.target_metric && h('div',{className:'flex items-start gap-3 p-4 rounded-2xl',style:{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.25)'}},
-        h('span',{className:'text-lg flex-shrink-0'},'🎯'),
+        h(Icon,{n:'target',cls:'w-4 h-4 flex-shrink-0',style:{color:'#484f58'}}),
         h('div',{},
           h('p',{className:'text-xs font-black text-blue-400 uppercase tracking-wider mb-1'},'Success Target'),
           h('p',{className:'text-sm text-blue-300'},drill.target_metric)
@@ -1723,15 +1776,15 @@ function DrillDetailPage({ params }) {
 // MENTAL TRAINING PAGE
 // ================================================================
 const MENT_CATS=[
-  {id:'all',label:'All',emoji:'🧠',from:'#6d28d9',to:'#4f46e5'},
-  {id:'focus',label:'Focus',emoji:'🎯',from:'#1d4ed8',to:'#4338ca'},
-  {id:'confidence',label:'Confidence',emoji:'💪',from:'#c2410c',to:'#d97706'},
-  {id:'recovery',label:'Recovery',emoji:'💚',from:'#15803d',to:'#059669'},
-  {id:'pre-performance',label:'Pre-Match',emoji:'⚡',from:'#b45309',to:'#d97706'},
-  {id:'pressure',label:'Pressure',emoji:'🔥',from:'#be123c',to:'#dc2626'},
-  {id:'visualization',label:'Visualize',emoji:'🌟',from:'#6d28d9',to:'#7c3aed'},
-  {id:'match-day-calm',label:'Calm',emoji:'🌊',from:'#0d9488',to:'#0891b2'},
-  {id:'pro-mental',label:'Pro',emoji:'👑',from:'#3730a3',to:'#4c1d95'},
+  {id:'all',label:'All',icon:'brain',from:'#6d28d9',to:'#4f46e5'},
+  {id:'focus',label:'Focus',icon:'crosshair',from:'#1d4ed8',to:'#4338ca'},
+  {id:'confidence',label:'Confidence',icon:'shield',from:'#c2410c',to:'#d97706'},
+  {id:'recovery',label:'Recovery',icon:'heart',from:'#15803d',to:'#059669'},
+  {id:'pre-performance',label:'Pre-Match',icon:'zap',from:'#b45309',to:'#d97706'},
+  {id:'pressure',label:'Pressure',icon:'flame',from:'#be123c',to:'#dc2626'},
+  {id:'visualization',label:'Visualize',icon:'sparkles',from:'#6d28d9',to:'#7c3aed'},
+  {id:'match-day-calm',label:'Calm',icon:'wind',from:'#0d9488',to:'#0891b2'},
+  {id:'pro-mental',label:'Pro',icon:'crown',from:'#3730a3',to:'#4c1d95'},
 ];
 
 function MentalPage() {
@@ -1747,7 +1800,7 @@ function MentalPage() {
   );
 
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'🧠 Mental Training',subtitle:`${MENTAL_SESSIONS.length} guided sessions`,
+    h(PageHeader,{title:'Mental Training',subtitle:`${MENTAL_SESSIONS.length} guided sessions`,
       gradient:`linear-gradient(135deg,#6d28d9,#4f46e5)`}),
 
     h('div',{className:'flex gap-2 px-4 py-3 overflow-x-auto scrollbar-hide'},
@@ -1755,37 +1808,41 @@ function MentalPage() {
         h('button',{key:c.id,onClick:()=>setCat(c.id),
           className:'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap flex-shrink-0 transition-all',
           style:cat===c.id?{background:`linear-gradient(135deg,${c.from},${c.to})`,color:'#fff',boxShadow:`0 4px 14px ${c.from}40`}
-            :{background:'rgba(30,41,59,0.6)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.5)'}
-        }, c.emoji,' ',c.label)
+            :{background:'rgba(22,27,34,0.9)',color:'#8b949e',border:'1px solid rgba(48,54,61,0.9)'}
+        },
+          h(Icon,{n:c.icon,cls:'w-3.5 h-3.5 flex-shrink-0',style:{color:cat===c.id?'#fff':'#484f58'}}),
+          ' ', c.label)
       )
     ),
 
     h('div',{className:'px-4 mb-3'},
       h('div',{className:'relative'},
-        h(Icon,{n:'search',cls:'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2',style:{color:'#64748b'}}),
+        h(Icon,{n:'search',cls:'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2',style:{color:'#484f58'}}),
         h('input',{type:'text',placeholder:'Search sessions...',value:search,onChange:e=>setSearch(e.target.value),
-          className:'w-full pl-9 pr-4 py-2.5 rounded-xl text-sm text-white placeholder-slate-500 outline-none',
-          style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}
+          className:'w-full pl-9 pr-4 py-2.5 rounded-xl text-sm placeholder-slate-600 outline-none',
+          style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',color:'#e6edf3'}
         })
       )
     ),
 
     h('div',{className:'px-4 space-y-2.5'},
       filtered.length===0
-        ? h(EmptyState,{emoji:'🧠',title:'No sessions found',desc:'Try a different category or search term'})
+        ? h(EmptyState,{icon:'brain',title:'No sessions found',desc:'Try a different category or search term'})
         : filtered.map(s=>{
           const mins=Math.floor(s.duration_seconds/60);
           const isDone=done.includes(s.id);
           const sc=MENT_CATS.find(c=>c.id===s.category)||MENT_CATS[1];
           return h('button',{key:s.id,onClick:()=>nav('MentalPlayer',{id:s.id}),
-            className:'w-full text-left p-4 rounded-2xl transition-all active:scale-[.99]',
-            style:{background:'rgba(30,41,59,0.6)',border:`1px solid ${isDone?'rgba(16,185,129,0.3)':'rgba(51,65,85,0.5)'}`}
+            className:'w-full text-left p-4 rounded-2xl transition-all active:scale-[.99] pro-card',
+            style:{background:'rgba(22,27,34,0.9)',border:`1px solid ${isDone?'rgba(22,163,74,0.3)':'rgba(48,54,61,0.9)'}`,borderRadius:10}
           },
             h('div',{className:'flex items-center gap-3'},
-              h('div',{className:'w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 relative',
-                style:{background:`linear-gradient(135deg,${sc.from},${sc.to})`}},
-                h('span',{className:'text-xl'},sc.emoji),
-                isDone && h('div',{className:'absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center',style:{background:'#10b981'}},
+              h('div',{style:{width:44,height:44,borderRadius:8,display:'flex',alignItems:'center',
+                justifyContent:'center',flexShrink:0,position:'relative',
+                background:`linear-gradient(135deg,${sc.from},${sc.to})`}},
+                h(Icon,{n:sc.icon,cls:'w-5 h-5 text-white'}),
+                isDone && h('div',{style:{position:'absolute',top:-4,right:-4,width:18,height:18,
+                  borderRadius:'50%',background:'#16a34a',display:'flex',alignItems:'center',justifyContent:'center'}},
                   h(Icon,{n:'check',cls:'w-3 h-3 text-white'})
                 )
               ),
@@ -1797,7 +1854,7 @@ function MentalPage() {
                 h('div',{className:'flex items-center gap-2 mt-1.5'},
                   h('span',{className:'text-xs',style:{color:'#64748b'}},`${mins} min`),
                   h(XPBadge,{xp:s.xp_value}),
-                  isDone && h('span',{className:'text-xs font-bold',style:{color:'#34d399'}},'✓ Complete')
+                  isDone && h('div',{style:{display:'flex',alignItems:'center',gap:3}},h(Icon,{n:'check',cls:'w-3 h-3',style:{color:'#4ade80'}}),h('span',{style:{fontSize:11,fontWeight:700,color:'#4ade80'}},'Complete'))
                 )
               )
             )
@@ -1842,13 +1899,13 @@ function MentalPlayerPage({ params }) {
   },[started,done,step]);
 
   if(!sess) return h('div',{className:'pb-28 flex flex-col items-center justify-center text-center px-5',style:{minHeight:'80vh'}},
-    h('div',{className:'text-5xl mb-4'},'🧠'),
+    h('div',{style:{width:56,height:56,borderRadius:12,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'brain',cls:'w-7 h-7',style:{color:'#484f58'}})),
     h('p',{className:'font-bold text-white mb-4'},'Session not found'),
     h('button',{onClick:()=>nav('Mental'),className:'btn-primary px-6 py-3'},'Back')
   );
 
   if(done) return h('div',{style:{minHeight:'100vh',background:'linear-gradient(135deg,#0f0824,#1e1040,#0f172a)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1.5rem',textAlign:'center'}},
-    h('div',{className:'text-6xl mb-4'},'🧘'),
+    h('div',{style:{width:64,height:64,borderRadius:16,background:'rgba(124,58,237,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'brain',cls:'w-8 h-8',style:{color:'#8b5cf6'}})),
     h('h2',{className:'text-2xl font-black text-white mb-2'},'Session Complete'),
     h('p',{style:{color:'#94a3b8',marginBottom:'1rem'}},sess.title),
     h(XPBadge,{xp:sess.xp_value}),
@@ -1937,20 +1994,20 @@ const FIT_LEVELS=[
   {id:'pro',label:'Pro',icon:'💎',desc:'Elite-level daily training'},
 ];
 const FIT_TARGETS=[
-  {id:'full-body',label:'Full Body',icon:'🏃'},{id:'chest',label:'Chest',icon:'💪'},
-  {id:'back',label:'Back',icon:'🦵'},{id:'shoulders',label:'Shoulders',icon:'🤲'},
-  {id:'arms',label:'Arms',icon:'💪'},{id:'legs',label:'Legs',icon:'🦵'},
-  {id:'core',label:'Core',icon:'🎯'},{id:'glutes',label:'Glutes',icon:'🏋️'},
+  {id:'full-body',label:'Full Body',icon:'activity'},{id:'chest',label:'Chest',icon:'heart'},
+  {id:'back',label:'Back',icon:'layers'},{id:'shoulders',label:'Shoulders',icon:'wind'},
+  {id:'arms',label:'Arms',icon:'dumbbell'},{id:'legs',label:'Legs',icon:'zap'},
+  {id:'core',label:'Core',icon:'crosshair'},{id:'glutes',label:'Glutes',icon:'dumbbell'},
 ];
 const FIT_GOALS=[
-  {id:'build-muscle',label:'Build Muscle',icon:'💪',desc:'Strength and size gains'},
-  {id:'lose-weight',label:'Lose Weight',icon:'🔥',desc:'Fat burn and conditioning'},
-  {id:'improve-endurance',label:'Endurance',icon:'🏃',desc:'Stamina and cricket fitness'},
+  {id:'build-muscle',label:'Build Muscle',icon:'dumbbell',desc:'Strength and size gains'},
+  {id:'lose-weight',label:'Lose Weight',icon:'flame',desc:'Fat burn and conditioning'},
+  {id:'improve-endurance',label:'Endurance',icon:'activity',desc:'Stamina and cricket fitness'},
 ];
 const FIT_DURS=[
-  {id:'<10',label:'Under 10 min',icon:'⚡'},{id:'10-15',label:'10-15 min',icon:'⏱'},
-  {id:'15-20',label:'15-20 min',icon:'🕐'},{id:'20-25',label:'20-25 min',icon:'⏰'},
-  {id:'25+',label:'25+ min',icon:'🏆'},
+  {id:'<10',label:'Under 10 min',icon:'zap'},{id:'10-15',label:'10-15 min',icon:'clock'},
+  {id:'15-20',label:'15-20 min',icon:'timer'},{id:'20-25',label:'20-25 min',icon:'clock'},
+  {id:'25+',label:'25+ min',icon:'trophy'},
 ];
 
 function FitnessPage() {
@@ -1984,7 +2041,7 @@ function FitnessPage() {
     advanced:'from-orange-600 to-red-600',pro:'from-purple-600 to-pink-600'};
 
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'💪 Fitness Builder',subtitle:`${WORKOUTS.length} workouts · every combination`,
+    h(PageHeader,{title:'Fitness Builder',subtitle:`${WORKOUTS.length} workouts · every combination`,
       gradient:'linear-gradient(135deg,#c2410c,#dc2626)'}),
 
     // Tabs
@@ -2002,7 +2059,7 @@ function FitnessPage() {
       quickPicks.map(w=>h('button',{key:w.id,onClick:()=>nav('WorkoutDetail',{id:w.id}),
         className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
         style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{className:`w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0 bg-gradient-to-br ${LVL_GRAD[w.level]}`},'💪'),
+        h('div',{className:`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${LVL_GRAD[w.level]}`},h(Icon,{n:'dumbbell',cls:'w-5 h-5 text-white'})),
         h('div',{className:'flex-1'},
           h('div',{className:'font-bold text-white text-sm'},w.name),
           h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},`${w.level} · ${w.target} · ${w.duration_minutes} min`),
@@ -2022,14 +2079,16 @@ function FitnessPage() {
       picks.level && h('p',{className:'text-xs text-slate-500 mb-3'},[picks.level,picks.target,picks.goal].filter(Boolean).join(' · ')),
       h('div',{className:'space-y-2'},
         WIZARD[step].opts.map(opt=>h('button',{key:opt.id,onClick:()=>choose(WIZARD[step].key,opt.id),
-          className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
-          style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-          h('span',{className:'text-2xl'},opt.icon),
-          h('div',{className:'flex-1'},
-            h('div',{className:'font-bold text-white text-sm'},opt.label),
-            opt.desc && h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},opt.desc)
+          style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:'12px 14px',borderRadius:10,
+            textAlign:'left',background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',cursor:'pointer',transition:'all 0.12s'}},
+          h('div',{style:{width:36,height:36,borderRadius:7,background:'rgba(48,54,61,0.6)',
+            display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+            h(Icon,{n:opt.icon||'activity',cls:'w-4 h-4',style:{color:'#8b949e'}})),
+          h('div',{style:{flex:1}},
+            h('div',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},opt.label),
+            opt.desc && h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},opt.desc)
           ),
-          h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
+          h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#374151'}})
         ))
       ),
       step>0 && h('button',{onClick:()=>setStep(s=>s-1),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
@@ -2050,7 +2109,7 @@ function FitnessPage() {
         results.map(w=>h('button',{key:w.id,onClick:()=>nav('WorkoutDetail',{id:w.id}),
           className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
           style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-          h('div',{className:`w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0 bg-gradient-to-br ${LVL_GRAD[w.level]}`},'💪'),
+          h('div',{className:`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${LVL_GRAD[w.level]}`},h(Icon,{n:'dumbbell',cls:'w-5 h-5 text-white'})),
           h('div',{className:'flex-1'},
             h('div',{className:'font-bold text-white text-sm'},w.name),
             h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},`${w.duration_minutes} min · ${w.exercises} exercises`),
@@ -2077,13 +2136,13 @@ function WorkoutDetailPage({ params }) {
   const w=WORKOUTS.find(wk=>wk.id===params?.id);
   const [done,setDone]=useState(false);
   if(!w) return h('div',{className:'pb-28 flex flex-col items-center justify-center',style:{minHeight:'80vh'}},
-    h('div',{className:'text-5xl mb-4'},'💪'),h('p',{className:'font-bold text-white mb-4'},'Workout not found'),
+    h('div',{style:{width:56,height:56,borderRadius:12,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'dumbbell',cls:'w-7 h-7',style:{color:'#484f58'}})),h('p',{className:'font-bold text-white mb-4'},'Workout not found'),
     h('button',{onClick:()=>nav('Fitness'),className:'btn-primary px-6 py-3'},'Back')
   );
   const LVL_GRAD={beginner:'#15803d,#059669',intermediate:'#1d4ed8,#4338ca',advanced:'#c2410c,#ea580c',pro:'#6d28d9,#7c3aed'};
   const complete=()=>{ awardXP(w.xp_value,w.duration_minutes,'workout','workout',w.id); fireConfetti(); setDone(true); };
   if(done) return h('div',{className:'flex flex-col items-center justify-center text-center px-5 pb-28',style:{minHeight:'100vh'}},
-    h('div',{className:'text-6xl mb-4'},'🎉'),h('h2',{className:'text-2xl font-black text-white mb-2'},'Workout Complete!'),
+    h('div',{style:{width:64,height:64,borderRadius:16,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-8 h-8',style:{color:'#16a34a'}})),h('h2',{className:'text-2xl font-black text-white mb-2'},'Workout Complete!'),
     h('p',{className:'text-slate-400 mb-3'},w.name),h(XPBadge,{xp:w.xp_value}),
     h('div',{className:'mt-6 flex flex-col gap-3 w-full max-w-xs'},
       h('button',{onClick:()=>nav('Fitness'),className:'btn-primary'},'More Workouts'),
@@ -2117,15 +2176,15 @@ function WorkoutDetailPage({ params }) {
 // ================================================================
 function TimerPage() {
   const [mode,setMode]=useState('stopwatch');
-  const MODES=[{id:'stopwatch',label:'Stopwatch',emoji:'⏱'},{id:'countdown',label:'Countdown',emoji:'⏰'},
-    {id:'interval',label:'Interval',emoji:'🔄'},{id:'cricket',label:'Cricket',emoji:'🏏'}];
+  const MODES=[{id:'stopwatch',label:'Stopwatch',icon:'timer'},{id:'countdown',label:'Countdown',icon:'clock'},
+    {id:'interval',label:'Interval',icon:'repeat'},{id:'cricket',label:'Cricket',icon:'bat'}];
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'⏱ Training Timer',subtitle:'Professional-grade cricket timer',gradient:'linear-gradient(135deg,#0d9488,#0891b2)'}),
+    h(PageHeader,{title:'Training Timer',subtitle:'Professional-grade cricket timer',gradient:'linear-gradient(135deg,#0d9488,#0891b2)'}),
     h('div',{className:'flex gap-2 px-4 py-3 overflow-x-auto scrollbar-hide'},
       MODES.map(m=>h('button',{key:m.id,onClick:()=>setMode(m.id),
         className:'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap flex-shrink-0 transition-all',
-        style:mode===m.id?{background:'linear-gradient(135deg,#0d9488,#0891b2)',color:'#fff',boxShadow:'0 4px 14px rgba(13,148,136,0.4)'}:{background:'rgba(30,41,59,0.6)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.5)'}
-      },m.emoji,' ',m.label))
+        style:mode===m.id?{background:'linear-gradient(135deg,#0d9488,#0891b2)',color:'#fff',boxShadow:'0 4px 14px rgba(13,148,136,0.4)'}:{background:'rgba(22,27,34,0.9)',color:'#8b949e',border:'1px solid rgba(48,54,61,0.9)'}
+      },h(Icon,{n:m.icon,cls:'w-3.5 h-3.5',style:{color:mode===m.id?'#fff':'#484f58'}}), ' ', m.label))
     ),
     mode==='stopwatch' && h(StopwatchMode),
     mode==='countdown' && h(CountdownMode),
@@ -2226,7 +2285,7 @@ function CountdownMode() {
 
   return h('div',{className:'flex flex-col items-center px-5 pt-6'},
     done && h('div',{className:'w-full p-4 mb-4 rounded-2xl text-center',style:{background:'rgba(245,158,11,0.1)',border:'1px solid rgba(245,158,11,0.3)'}},
-      h('div',{className:'text-2xl mb-1'},'🎉'),h('div',{className:'font-black text-amber-400'},"Time's up! Great work!"),
+      h(Icon,{n:'circleCheck',cls:'w-6 h-6',style:{color:'#f59e0b',marginBottom:4}}),h('div',{style:{fontWeight:800,color:'#f59e0b'}},"Time's up! Great work!"),
       h('button',{onClick:reset,className:'btn-primary mt-3 px-6 py-2 text-sm'},'Reset')
     ),
     h(Ring,{pct,color:col},
@@ -2314,14 +2373,14 @@ function IntervalMode() {
     h('div',{className:'p-4 rounded-2xl text-center',style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)'}},
       h('span',{style:{color:'#34d399',fontSize:'0.875rem',fontWeight:700}},`Total: ${fmtTime(rounds*(workS+restS))} · ${rounds} rounds`)
     ),
-    h('button',{onClick:startIt,className:'btn-primary w-full py-4 text-base font-black'},'▶ Start Interval Session')
+    h('button',{onClick:startIt,className:'btn-primary w-full py-4 text-base font-black'},'Start Interval Session')
   );
 
   const pct=phase==='work'?remaining/workS:remaining/restS;
   const col=phase==='work'?'#10b981':phase==='rest'?'#3b82f6':'#f59e0b';
   return h('div',{className:'flex flex-col items-center px-5 pt-6'},
     done
-      ? h('div',{className:'text-center py-8'},h('div',{className:'text-5xl mb-4'},'🎉'),h('div',{className:'text-xl font-black text-white mb-4'},'Session Complete!'),h('button',{onClick:reset,className:'btn-primary px-8 py-3'},'Done'))
+      ? h('div',{className:'text-center py-8'},h('div',{style:{width:56,height:56,borderRadius:14,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-7 h-7',style:{color:'#16a34a'}})),h('div',{className:'text-xl font-black text-white mb-4'},'Session Complete!'),h('button',{onClick:reset,className:'btn-primary px-8 py-3'},'Done'))
       : h(Fragment,null,
           h('div',{className:'w-full py-3 rounded-2xl mb-5 text-center font-black text-white text-sm',
             style:{background:phase==='work'?'linear-gradient(135deg,rgba(5,150,105,0.3),rgba(13,148,136,0.2))':'linear-gradient(135deg,rgba(29,78,216,0.3),rgba(67,56,202,0.2))',
@@ -2347,12 +2406,12 @@ function IntervalMode() {
 function CricketPresetsMode() {
   const [active,setActive]=useState(null);
   const presets=[
-    {id:'bowl',emoji:'⚾',name:'Bowling Spell',desc:'4 min bowl / 2 min rest / 4 rounds',work:240,rest:120,rounds:4,col:'#dc2626',grad:'linear-gradient(135deg,#dc2626,#ea580c)'},
-    {id:'bat',emoji:'🏏',name:'Batting Focus',desc:'10-minute countdown session',work:600,rest:0,rounds:1,col:'#3b82f6',grad:'linear-gradient(135deg,#1d4ed8,#4338ca)'},
-    {id:'field',emoji:'🏃',name:'Fielding Drills',desc:'45s intense / 15s rest / 8 rounds',work:45,rest:15,rounds:8,col:'#10b981',grad:'linear-gradient(135deg,#059669,#0d9488)'},
-    {id:'mental',emoji:'🧠',name:'Mental Session',desc:'5-minute guided focus countdown',work:300,rest:0,rounds:1,col:'#a855f7',grad:'linear-gradient(135deg,#6d28d9,#4338ca)'},
-    {id:'warmup',emoji:'🔥',name:'Cricket Warm-Up',desc:'90s drills / 30s rest / 6 rounds',work:90,rest:30,rounds:6,col:'#f97316',grad:'linear-gradient(135deg,#c2410c,#d97706)'},
-    {id:'sprint',emoji:'💨',name:'Speed Sprints',desc:'10s sprint / 50s rest / 10 rounds',work:10,rest:50,rounds:10,col:'#06b6d4',grad:'linear-gradient(135deg,#0891b2,#0d9488)'},
+    {id:'bowl',icon:'ball',name:'Bowling Spell',desc:'4 min bowl / 2 min rest / 4 rounds',work:240,rest:120,rounds:4,col:'#dc2626',grad:'linear-gradient(135deg,#dc2626,#ea580c)'},
+    {id:'bat',icon:'bat',name:'Batting Focus',desc:'10-minute countdown session',work:600,rest:0,rounds:1,col:'#3b82f6',grad:'linear-gradient(135deg,#1d4ed8,#4338ca)'},
+    {id:'field',icon:'navigation',name:'Fielding Drills',desc:'45s intense / 15s rest / 8 rounds',work:45,rest:15,rounds:8,col:'#10b981',grad:'linear-gradient(135deg,#059669,#0d9488)'},
+    {id:'mental',icon:'brain',name:'Mental Session',desc:'5-minute guided focus countdown',work:300,rest:0,rounds:1,col:'#a855f7',grad:'linear-gradient(135deg,#6d28d9,#4338ca)'},
+    {id:'warmup',icon:'flame',name:'Cricket Warm-Up',desc:'90s drills / 30s rest / 6 rounds',work:90,rest:30,rounds:6,col:'#f97316',grad:'linear-gradient(135deg,#c2410c,#d97706)'},
+    {id:'sprint',icon:'zap',name:'Speed Sprints',desc:'10s sprint / 50s rest / 10 rounds',work:10,rest:50,rounds:10,col:'#06b6d4',grad:'linear-gradient(135deg,#0891b2,#0d9488)'},
   ];
 
   if(active){
@@ -2368,7 +2427,9 @@ function CricketPresetsMode() {
       presets.map(p=>h('button',{key:p.id,onClick:()=>setActive(p.id),
         className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
         style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{className:'w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0',style:{background:p.grad}},p.emoji),
+        h('div',{style:{width:44,height:44,borderRadius:8,display:'flex',alignItems:'center',
+          justifyContent:'center',flexShrink:0,background:p.grad}},
+          h(Icon,{n:p.icon||'timer',cls:'w-5 h-5 text-white'})),
         h('div',{className:'flex-1'},h('div',{className:'font-bold text-white text-sm'},p.name),h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},p.desc)),
         h(Icon,{n:'chevR',cls:'w-5 h-5',style:{color:'#475569'}})
       ))
@@ -2389,8 +2450,8 @@ function SimpleCountdownPreset({ preset, onBack }) {
   const pct=remaining/preset.work;
   return h('div',{className:'flex flex-col items-center px-5 pt-4'},
     h('button',{onClick:onBack,className:'self-start flex items-center gap-2 text-slate-400 mb-4 text-sm font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back'),
-    h('div',{className:'w-full py-3 rounded-2xl mb-5 text-center font-black text-white text-sm',style:{background:preset.grad}},`${preset.emoji} ${preset.name}`),
-    done && h('div',{className:'text-2xl mb-4'},'🎉 Complete!'),
+    h('div',{className:'w-full py-3 rounded-2xl mb-5 text-center font-black text-white text-sm',style:{background:preset.grad}},preset.name),
+    done && h('div',{style:{display:'flex',alignItems:'center',gap:8,marginBottom:16,color:'#16a34a',fontWeight:700}},h(Icon,{n:'circleCheck',cls:'w-5 h-5'}),'Complete!'),
     h(Ring,{pct,color:preset.col},
       h('div',{style:{fontSize:'2.5rem',fontWeight:900,color:'#fff',fontVariantNumeric:'tabular-nums'}},fmtTime(remaining)),
       h('div',{style:{fontSize:'0.7rem',color:'#94a3b8',fontWeight:700}},'remaining')
@@ -2423,9 +2484,9 @@ function SimpleIntervalPreset({ preset, onBack }) {
   return h('div',{className:'flex flex-col items-center px-5 pt-4'},
     h('button',{onClick:onBack,className:'self-start flex items-center gap-2 text-slate-400 mb-4 text-sm font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back'),
     done
-      ? h('div',{className:'text-center py-8'},h('div',{className:'text-5xl mb-4'},'🎉'),h('div',{className:'text-xl font-black text-white mb-4'},'Complete!'),h('button',{onClick:onBack,className:'btn-primary px-8 py-3'},'Done'))
+      ? h('div',{className:'text-center py-8'},h('div',{style:{width:56,height:56,borderRadius:14,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-7 h-7',style:{color:'#16a34a'}})),h('div',{className:'text-xl font-black text-white mb-4'},'Complete!'),h('button',{onClick:onBack,className:'btn-primary px-8 py-3'},'Done'))
       : h(Fragment,null,
-          h('div',{className:'w-full py-3 rounded-2xl mb-5 text-center font-black text-white text-sm',style:{background:preset.grad}},`${preset.emoji} ${preset.name} — Round ${round}/${preset.rounds}`),
+          h('div',{className:'w-full py-3 rounded-2xl mb-5 text-center font-black text-white text-sm',style:{background:preset.grad}},`${preset.name} — Round ${round}/${preset.rounds}`),
           h(Ring,{pct,color:col},
             h('div',{style:{fontSize:'2.5rem',fontWeight:900,color:'#fff',fontVariantNumeric:'tabular-nums'}},fmtTime(remaining)),
             h('div',{style:{fontSize:'0.7rem',fontWeight:800,textTransform:'uppercase',color:col}},phase)
@@ -2577,7 +2638,9 @@ function SchedulePage() {
             className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
             style:{background:tc.bg,border:`1px solid ${tc.border}`}
           },
-            h('span',{className:'text-2xl'},tc.emoji),
+            h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(0,0,0,0.25)',
+              display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+              h(Icon,{n:tc.icon||'calendar',cls:'w-5 h-5',style:{color:tc.color}})),
             h('div',{className:'flex-1'},h('div',{className:'font-bold text-white text-sm'},tc.label)),
             h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
           ))
@@ -2644,13 +2707,13 @@ function SchedulePage() {
 
   // ── Smart Generator view ──────────────────────────────────────
   if(view==='generate') {
-    const FOCUS=[{id:'batting',label:'Batting',emoji:'🏏'},{id:'bowling',label:'Bowling',emoji:'⚾'},
-      {id:'fielding',label:'Fielding',emoji:'🏃'},{id:'allrounder',label:'All-Round',emoji:'⭐'}];
-    const INTENSITY=[{id:'light',label:'Light',emoji:'🌱',desc:'2 sessions/day max'},
-      {id:'moderate',label:'Moderate',emoji:'⚡',desc:'2-3 sessions/day'},
-      {id:'intense',label:'Intense',emoji:'🔥',desc:'3 sessions/day'}];
+    const FOCUS=[{id:'batting',label:'Batting',icon:'bat'},{id:'bowling',label:'Bowling',icon:'ball'},
+      {id:'fielding',label:'Fielding',icon:'navigation'},{id:'allrounder',label:'All-Round',icon:'star'}];
+    const INTENSITY=[{id:'light',label:'Light',icon:'activity',desc:'2 sessions/day max'},
+      {id:'moderate',label:'Moderate',icon:'zap',desc:'2-3 sessions/day'},
+      {id:'intense',label:'Intense',icon:'flame',desc:'3 sessions/day'}];
     return h('div',{className:'pb-28'},
-      h(PageHeader,{title:'🤖 Smart Generator',subtitle:'AI-powered weekly schedule',
+      h(PageHeader,{title:'Smart Generator',subtitle:'AI-powered weekly schedule',
         gradient:'linear-gradient(135deg,#4c1d95,#5b21b6)',onBack:()=>{setView('week');setGenStep(0);setGenFocus('');setGenPreview(null);}}),
       h('div',{className:'px-4 pt-5'},
         // Progress
@@ -2667,9 +2730,12 @@ function SchedulePage() {
           h('h3',{className:'text-base font-black text-white mb-3'},'Which area needs most work?'),
           h('div',{className:'grid grid-cols-2 gap-3'},
             FOCUS.map(f=>h('button',{key:f.id,onClick:()=>{setGenFocus(f.id);setGenStep(1);},
-              className:'flex flex-col items-center gap-2 p-5 rounded-2xl active:scale-[.99] transition-all',
-              style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-              h('span',{className:'text-3xl'},f.emoji),h('span',{className:'font-black text-white text-sm'},f.label)
+              style:{display:'flex',flexDirection:'column',alignItems:'center',gap:8,padding:'20px 16px',
+                borderRadius:10,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',cursor:'pointer'}},
+              h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(48,54,61,0.6)',
+                display:'flex',alignItems:'center',justifyContent:'center'}},
+                h(Icon,{n:f.icon,cls:'w-5 h-5',style:{color:'#8b949e'}})),
+              h('span',{style:{fontSize:12,fontWeight:700,color:'#e6edf3'}},f.label)
             ))
           )
         ),
@@ -2691,10 +2757,12 @@ function SchedulePage() {
           h('div',{className:'space-y-2'},
             INTENSITY.map(i=>h('button',{key:i.id,onClick:()=>{setGenInt(i.id);runGenerator();},
               className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
-              style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-              h('span',{className:'text-2xl'},i.emoji),
-              h('div',{className:'flex-1'},h('div',{className:'font-bold text-white text-sm'},i.label),h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},i.desc)),
-              h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
+              style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
+              h('div',{style:{width:36,height:36,borderRadius:7,background:'rgba(48,54,61,0.6)',
+                display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+                h(Icon,{n:i.icon||'activity',cls:'w-4 h-4',style:{color:'#8b949e'}})),
+              h('div',{className:'flex-1'},h('div',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},i.label),h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},i.desc)),
+              h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#374151'}})
             ))
           ),
           h('button',{onClick:()=>setGenStep(1),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
@@ -2711,8 +2779,11 @@ function SchedulePage() {
           h('div',{className:'space-y-2 max-h-72 overflow-y-auto sidebar-scroll pr-1'},
             genPreview.map((s,i)=>{
               const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;
-              return h('div',{key:i,className:'flex items-center gap-3 p-3 rounded-xl',style:{background:tc.bg,border:`1px solid ${tc.border}`}},
-                h('span',{className:'text-lg'},tc.emoji),
+              return h('div',{key:i,style:{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',
+                borderRadius:8,background:tc.bg,border:`1px solid ${tc.border}`}},
+                h('div',{style:{width:32,height:32,borderRadius:6,background:'rgba(0,0,0,0.2)',
+                  display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+                  h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})),
                 h('div',{className:'flex-1'},
                   h('div',{className:'text-xs font-bold text-white'},s.title),
                   h('div',{className:'text-xs',style:{color:'rgba(255,255,255,0.5)'}},`${formatDate(s.date)} ${s.time?'· '+s.time:''} · ${s.duration_minutes} min`)
@@ -2723,7 +2794,7 @@ function SchedulePage() {
           ),
           h('div',{className:'flex gap-3 mt-4'},
             h('button',{onClick:()=>{setGenStep(0);setGenPreview(null);},className:'btn-secondary flex-1'},'Regenerate'),
-            h('button',{onClick:confirmGenerate,className:'btn-primary flex-1 font-black'},'✓ Confirm Schedule')
+            h('button',{onClick:confirmGenerate,className:'btn-primary flex-1 font-black'},'Confirm Schedule')
           )
         )
       )
@@ -2740,7 +2811,7 @@ function SchedulePage() {
       h('div',{className:'relative z-10'},
         h('div',{className:'flex items-center justify-between mb-4'},
           h('div',{},
-            h('h1',{className:'text-xl font-black text-white'},'📅 Schedule'),
+            h('h1',{className:'text-xl font-black text-white'},'Schedule'),
             h('p',{style:{color:'rgba(255,255,255,0.65)',fontSize:'0.8125rem'}},`Week of ${new Date(weekStart+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})} – ${new Date(addDays(new Date(weekStart+'T00:00:00'),6)+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}`)
           ),
           h('button',{onClick:()=>{setView('generate');setGenStep(0);setGenFocus('');setGenPreview(null);},
@@ -2806,7 +2877,7 @@ function SchedulePage() {
       // Session cards
       daySessions.length===0
         ? h('div',{className:'flex flex-col items-center py-10 text-center',style:{border:'2px dashed rgba(51,65,85,0.5)',borderRadius:'1rem'}},
-          h('div',{className:'text-4xl mb-3'},'📅'),
+          h(Icon,{n:'calendar',cls:'w-10 h-10',style:{color:'#484f58'}}),
           h('div',{className:'font-bold text-white text-sm mb-1'},'No sessions planned'),
           h('div',{className:'text-xs text-slate-500 mb-4'},'Add a session or generate a smart schedule'),
           h('div',{className:'flex gap-2'},
@@ -2830,12 +2901,12 @@ function SchedulePage() {
                 // Top row
                 h('div',{className:'flex items-start gap-3'},
                   h('div',{style:{width:44,height:44,borderRadius:'0.875rem',background:isDone?'rgba(16,185,129,0.15)':'rgba(0,0,0,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.375rem',flexShrink:0}},
-                    isDone?'✅':tc.emoji
+                    isDone?h(Icon,{n:'check',cls:'w-4 h-4 text-white'}):h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})
                   ),
                   h('div',{className:'flex-1 min-w-0'},
                     h('div',{className:'flex items-start justify-between gap-2'},
                       h('h3',{style:{fontSize:'0.9375rem',fontWeight:800,color:isSkipped?'#64748b':'#f8fafc',lineHeight:1.3}},s.title),
-                      isDone && h('span',{style:{fontSize:'0.7rem',fontWeight:800,padding:'0.125rem 0.5rem',background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.3)',borderRadius:'9999px',color:'#34d399',whiteSpace:'nowrap'}},'✓ Done')
+                      isDone && h('div',{style:{width:18,height:18,borderRadius:4,background:'#16a34a',display:'flex',alignItems:'center',justifyContent:'center'}},h(Icon,{n:'check',cls:'w-2.5 h-2.5 text-white'})),h('span',{style:{fontSize:'0.7rem',fontWeight:700,padding:'0.125rem 0.5rem',background:'rgba(22,163,74,0.12)',border:'1px solid rgba(22,163,74,0.25)',borderRadius:4,color:'#4ade80',whiteSpace:'nowrap'}},'Done')
                     ),
                     h('div',{className:'flex items-center gap-2 mt-1.5 flex-wrap'},
                       s.time && h('span',{style:{fontSize:'0.75rem',color:'#94a3b8',fontWeight:600}},s.time),
@@ -2900,7 +2971,7 @@ function SchedulePage() {
       h('button',{onClick:()=>nav('SkillPaths'),
         className:'w-full flex items-center gap-3 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
         style:{background:'rgba(30,41,59,0.4)',border:'1px solid rgba(51,65,85,0.4)'}},
-        h('span',{className:'text-xl'},'🛤'),
+        h(Icon,{n:'layers',cls:'w-5 h-5',style:{color:'#8b949e'}}),
         h('div',{className:'flex-1'},
           h('div',{className:'text-sm font-bold text-white'},'Import from Skill Path'),
           h('div',{className:'text-xs text-slate-500'},'Load your active path\'s weekly plan')
@@ -2947,7 +3018,7 @@ function SkillPathsPage() {
   }
 
   if(!pathId) return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'🛤 Skill Paths',subtitle:'Structured programs for every discipline',
+    h(PageHeader,{title:'Skill Paths',subtitle:'Structured programs for every discipline',
       gradient:'linear-gradient(135deg,#7e22ce,#4f46e5)'}),
     h('div',{className:'px-4 pt-5 space-y-4'},
       SKILL_PATHS.map(path=>{
@@ -2968,7 +3039,7 @@ function SkillPathsPage() {
                   strokeDasharray:2*Math.PI*22,strokeDashoffset:2*Math.PI*22*(1-pct/100),
                   strokeLinecap:'round',style:{transition:'stroke-dashoffset .6s'}})
               ),
-              h('div',{style:{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.5rem'}},path.emoji)
+              h('div',{style:{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}},h(Icon,{n:path.icon||'bat',cls:'w-6 h-6 text-white'}))
             ),
             h('div',{className:'flex-1'},
               h('h3',{className:'font-black text-white text-base'},path.title),
@@ -2991,7 +3062,7 @@ function SkillPathsPage() {
   const grad=`linear-gradient(135deg,${path.accent},${path.accent}88)`;
 
   if(!levelId) return h('div',{className:'pb-28'},
-    h(PageHeader,{title:`${path.emoji} ${path.title}`,subtitle:path.desc,gradient:grad,onBack:()=>setPathId(null)}),
+    h(PageHeader,{title:path.title,subtitle:path.desc,gradient:grad,onBack:()=>setPathId(null)}),
     h('div',{className:'px-4 pt-5 space-y-3'},
       h('p',{className:'text-sm text-slate-400 mb-2'},'Choose your level to begin your structured 5-week program:'),
       path.levels.map((lv,i)=>{
@@ -3011,8 +3082,8 @@ function SkillPathsPage() {
             h('div',{className:'flex-1'},
               h('div',{className:'flex items-center gap-2'},
                 h('h3',{className:'font-black text-white'},lv.label),
-                !unlocked && h('span',{style:{fontSize:'0.7rem',color:'#64748b'}},'🔒'),
-                done && h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:'#34d399'}},'✓ Complete')
+                !unlocked && h(Icon,{n:'lock',cls:'w-3 h-3',style:{color:'#484f58',flexShrink:0}}),
+                done && h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'check',cls:'w-3 h-3',style:{color:'#4ade80'}}),h('span',{style:{fontSize:'0.7rem',fontWeight:700,color:'#4ade80'}},'Complete'))
               ),
               h('p',{className:'text-xs text-slate-400 mt-0.5'},lv.desc),
               h('div',{className:'flex items-center gap-2 mt-2'},
@@ -3030,7 +3101,7 @@ function SkillPathsPage() {
   if(!lv||!weekPlan) return null;
 
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:`${path.emoji} ${lv.label}`,subtitle:path.title,gradient:grad,onBack:()=>setLevelId(null)}),
+    h(PageHeader,{title:lv.label,subtitle:path.title,gradient:grad,onBack:()=>setLevelId(null)}),
     h('div',{className:'px-4 pt-5'},
       // Action row
       h('div',{className:'flex gap-2 mb-5'},
@@ -3073,12 +3144,12 @@ function WeekAccordion({ week, pathAccent }) {
         h('div',{className:'flex items-center justify-between mb-2'},
           h('span',{style:{fontSize:'0.875rem',fontWeight:800,color:'#fff'}},day.label),
           day.isRest
-            ? h('span',{style:{fontSize:'0.7rem',color:'#64748b'}},'😴 Rest & Recover')
+            ? h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'heart',cls:'w-3 h-3',style:{color:'#484f58'}}),h('span',{style:{fontSize:'0.65rem',color:'#484f58'}},'Rest'))
             : h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:pathAccent}},`+${day.totalXP} XP`)
         ),
         !day.isRest && h('div',{className:'space-y-1.5'},
           day.activities.map((act,i)=>h('div',{key:i,className:'flex items-center gap-2'},
-            h('span',{className:'text-sm'},act.type==='drill'?'🏏':act.type==='mental'?'🧠':'💪'),
+            h(Icon,{n:act.type==='drill'?'bat':act.type==='mental'?'brain':'dumbbell',cls:'w-3.5 h-3.5',style:{color:'#484f58'}}),
             h('div',{className:'flex-1'},
               h('div',{style:{fontSize:'0.75rem',fontWeight:700,color:'#cbd5e1'}},act.title),
               h('div',{style:{fontSize:'0.7rem',color:'#64748b'}},`${act.duration} · +${act.xp} XP`)
@@ -3114,7 +3185,7 @@ function ProgressPage() {
   };
 
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'📊 My Progress',subtitle:'Your complete training stats',gradient:'linear-gradient(135deg,#064e3b,#065f46)'}),
+    h(PageHeader,{title:'My Progress',subtitle:'Your complete training stats',gradient:'linear-gradient(135deg,#064e3b,#065f46)'}),
     h('div',{className:'px-4 pt-5 space-y-5'},
       // Level card
       h('div',{className:'p-5 rounded-2xl',style:{background:'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(13,148,136,0.06))',border:'1px solid rgba(16,185,129,0.3)'}},
@@ -3157,7 +3228,7 @@ function ProgressPage() {
       // Badges
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('div',{className:'flex justify-between items-center mb-4'},
-          h('span',{className:'text-sm font-bold text-white'},'🏅 Badges'),
+          h('div',{style:{display:'flex',alignItems:'center',gap:8}},h(Icon,{n:'award',cls:'w-4 h-4',style:{color:'#8b949e'}}),h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Badges')),
           h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},`${badges.length} of ${Object.keys(BADGE_DEFS).length}`)
         ),
         h('div',{className:'grid grid-cols-3 gap-2.5'},
@@ -3167,7 +3238,7 @@ function ProgressPage() {
               style:{background:earned?'rgba(16,185,129,0.08)':'rgba(15,23,42,0.4)',
                 border:`1px solid ${earned?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.3)'}`,
                 opacity:earned?1:0.4}},
-              h('span',{style:{fontSize:'1.5rem'}},earned?def.icon:'🔒'),
+              h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',width:'100%'}},earned?h(Icon,{n:def.icon,cls:'w-6 h-6',style:{color:'#e6edf3'}}):h(Icon,{n:'lock',cls:'w-5 h-5',style:{color:'#484f58'}})),
               h('span',{style:{fontSize:'0.65rem',fontWeight:800,color:earned?'#f8fafc':'#64748b'}},def.label)
             );
           })
@@ -3175,14 +3246,14 @@ function ProgressPage() {
       ),
       // Skill path progress
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('p',{className:'text-sm font-bold text-white mb-4'},'🛤 Skill Paths'),
+        h('div',{style:{display:'flex',alignItems:'center',gap:8,marginBottom:16}},h(Icon,{n:'layers',cls:'w-4 h-4',style:{color:'#8b949e'}}),h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Skill Paths')),
         SKILL_PATHS.map(path=>{
           const pp=(progress.skill_path_progress||{})[path.id]||{};
           const done=Object.values(pp).filter(Boolean).length;
           const pct=done/path.levels.length*100;
           return h('div',{key:path.id,className:'mb-3 last:mb-0'},
             h('div',{className:'flex justify-between text-xs mb-1.5'},
-              h('span',{style:{color:'#cbd5e1',fontWeight:600}},`${path.emoji} ${path.title}`),
+              h('div',{style:{display:'flex',alignItems:'center',gap:6}},h(Icon,{n:path.icon||'bat',cls:'w-3.5 h-3.5',style:{color:'#8b949e'}}),h('span',{style:{color:'#8b949e',fontWeight:600,fontSize:13}},path.title)),
               h('span',{style:{color:path.accent,fontWeight:800}},`${done}/${path.levels.length}`)
             ),
             h('div',{style:{height:'6px',background:'rgba(51,65,85,0.6)',borderRadius:'9999px',overflow:'hidden'}},
@@ -3225,7 +3296,7 @@ function ThirtyDayPage() {
   const phases=['Foundation','Development','Integration','Performance'];
 
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'🎯 30-Day Challenge',subtitle:'Build the habit. Transform your game.',gradient:'linear-gradient(135deg,#d97706,#b45309)'}),
+    h(PageHeader,{title:'30-Day Challenge',subtitle:'Build the habit. Transform your game.',gradient:'linear-gradient(135deg,#d97706,#b45309)'}),
     h('div',{className:'px-4 pt-5 space-y-5'},
       // Progress summary
       h('div',{className:'p-5 rounded-2xl',style:{background:'rgba(217,119,6,0.1)',border:'1px solid rgba(217,119,6,0.3)'}},
@@ -3273,7 +3344,7 @@ function ThirtyDayPage() {
           h('div',{style:{fontSize:'0.7rem',fontWeight:800,color:'#f59e0b',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.5rem'}},`Up Next — Day ${next.day}`),
           h('div',{className:'font-black text-white text-base mb-1'},next.title),
           h('div',{style:{fontSize:'0.75rem',color:'#64748b',marginBottom:'1rem'}},`Phase: ${next.phase} · +${next.xp} XP`),
-          h('button',{onClick:()=>markDay(next),className:'btn-primary w-full py-3 text-sm'},`✓ Complete Day ${next.day}`)
+          h('button',{onClick:()=>markDay(next),className:'btn-primary w-full py-3 text-sm'},`Complete Day ${next.day}`)
         );
       })()
     )
@@ -3291,7 +3362,7 @@ function ProfilePage() {
   const info=getLevelInfo(progress.total_xp||0);
   const save=()=>{ DB.setUser(form); setUser(form); setEditing(false); };
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'👤 My Profile',subtitle:'Your cricketer identity',
+    h(PageHeader,{title:'My Profile',subtitle:'Your cricketer identity',
       gradient:'linear-gradient(135deg,#0f766e,#0d9488)',
       actions:h('button',{onClick:()=>editing?save():setEditing(true),
         className:'px-4 py-2 rounded-xl text-white text-sm font-bold',
@@ -3299,7 +3370,7 @@ function ProfilePage() {
     }),
     h('div',{className:'px-4 pt-5 space-y-4'},
       h('div',{className:'flex items-center gap-4 p-5 rounded-2xl',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{className:'w-20 h-20 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0',style:{background:'linear-gradient(135deg,#10b981,#0d9488)'}},'🏏'),
+        h('div',{style:{width:80,height:80,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,background:'linear-gradient(135deg,#16a34a,#0d9488)'}},h(Icon,{n:'bat',cls:'w-10 h-10 text-white'})),
         h('div',{className:'flex-1'},
           h('div',{className:'text-xl font-black text-white'},user.name||'Cricketer'),
           h('div',{style:{color:'#34d399',fontWeight:700,fontSize:'0.875rem'}},`${info.name} — Level ${info.level}`),
@@ -3344,7 +3415,7 @@ function SettingsPage() {
     setMsg('Progress reset successfully!');
   };
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'⚙️ Settings',gradient:'linear-gradient(135deg,#334155,#1e293b)'}),
+    h(PageHeader,{title:'Settings',gradient:'linear-gradient(135deg,#334155,#1e293b)'}),
     h('div',{className:'px-4 pt-5 space-y-3'},
       msg && h('div',{className:'p-3 rounded-xl text-sm font-semibold text-center',style:{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}},msg),
       h('div',{className:'flex items-center justify-between p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
@@ -3372,7 +3443,7 @@ function LeaderboardPage() {
   ].sort((a,b)=>b.xp-a.xp).map((e,i)=>({...e,rank:i+1}));
 
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'🏆 Leaderboard',subtitle:'Top SmartCrick athletes worldwide',gradient:'linear-gradient(135deg,#b45309,#92400e)'}),
+    h(PageHeader,{title:'Leaderboard',subtitle:'Top SmartCrick athletes worldwide',gradient:'linear-gradient(135deg,#b45309,#92400e)'}),
     h('div',{className:'px-4 pt-5 space-y-2.5'},
       entries.map(e=>h('div',{key:e.rank,className:'flex items-center gap-4 p-4 rounded-2xl',
         style:{background:e.isYou?'rgba(16,185,129,0.08)':'rgba(30,41,59,0.6)',
@@ -3380,12 +3451,12 @@ function LeaderboardPage() {
         h('div',{style:{width:32,height:32,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.75rem',fontWeight:900,
           background:e.rank<=3?'linear-gradient(135deg,#f59e0b,#d97706)':'rgba(30,41,59,0.8)',
           color:e.rank<=3?'#fff':'#94a3b8'}},`#${e.rank}`),
-        h('span',{className:'text-lg'},e.flag||'🌍'),
+        h('div',{style:{fontSize:16,lineHeight:1}},e.flag||''),
         h('div',{className:'flex-1'},
           h('div',{style:{fontWeight:800,fontSize:'0.875rem',color:e.isYou?'#34d399':'#f8fafc'}},e.isYou?`${e.n} (You)`:e.n),
           h('div',{style:{fontSize:'0.75rem',color:'#64748b'}},`Level ${e.lv} · ${e.xp.toLocaleString()} XP`)
         ),
-        h('div',{style:{fontSize:'0.75rem',fontWeight:800,color:'#fb923c'}},`🔥 ${e.streak}d`)
+        h('div',{style:{fontSize:'0.75rem',fontWeight:800,color:'#fb923c'}},h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'flame',cls:'w-3.5 h-3.5',style:{color:'#fb923c'}}),`${e.streak}d`))
       ))
     )
   );
@@ -3406,7 +3477,7 @@ function GoalsPage() {
   };
   const del=id=>{ const g=goals.filter(x=>x.id!==id); DB.saveGoals(g); setGoals(g); };
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'🎯 Goals',subtitle:'Set and track your training targets',gradient:'linear-gradient(135deg,#15803d,#16a34a)'}),
+    h(PageHeader,{title:'Goals',subtitle:'Set and track your training targets',gradient:'linear-gradient(135deg,#15803d,#16a34a)'}),
     h('div',{className:'px-4 pt-5 space-y-4'},
       h('div',{className:'flex gap-2'},
         h('input',{type:'text',placeholder:'Add a training goal...',value:newGoal,onChange:e=>setNewGoal(e.target.value),
@@ -3415,7 +3486,7 @@ function GoalsPage() {
           style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.6)'}}),
         h('button',{onClick:add,className:'btn-primary px-4 py-3 rounded-xl'},h(Icon,{n:'plus',cls:'w-5 h-5'}))
       ),
-      goals.length===0 && h(EmptyState,{emoji:'🎯',title:'No goals yet',desc:'Add your first cricket training goal to stay focused and track progress'}),
+      goals.length===0 && h(EmptyState,{icon:'target',title:'No goals yet',desc:'Add your first cricket training goal to stay focused and track progress'}),
       goals.map(g=>h('div',{key:g.id,className:'flex items-center gap-3 p-4 rounded-2xl',
         style:{background:g.done?'rgba(16,185,129,0.06)':'rgba(30,41,59,0.6)',
           border:`1px solid ${g.done?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.5)'}`}},
@@ -3432,21 +3503,28 @@ function GoalsPage() {
 // ================================================================
 // STUB PAGES
 // ================================================================
-function StubPage({ title, emoji, desc }) {
-  return h('div',{className:'pb-28 flex flex-col items-center justify-center text-center px-6',style:{minHeight:'80vh'}},
-    h('div',{style:{fontSize:'4rem',marginBottom:'1rem'}},emoji),
-    h('h2',{style:{fontSize:'1.5rem',fontWeight:900,color:'#f8fafc',marginBottom:'0.5rem'}},title),
-    h('p',{style:{color:'#64748b',fontSize:'0.875rem',maxWidth:'24rem',lineHeight:1.6}},desc||'This feature is coming in the next update.'),
-    h('button',{onClick:()=>nav('Home'),className:'btn-secondary mt-6 px-6 py-3'},'Go Home')
+function StubPage({ title, icon='zap', emoji, desc }) {
+  return h('div',{style:{paddingBottom:'7rem',display:'flex',flexDirection:'column',alignItems:'center',
+    justifyContent:'center',textAlign:'center',padding:'6rem 1.5rem 7rem',minHeight:'80vh',background:'#0d1117'}},
+    h('div',{style:{width:72,height:72,borderRadius:16,background:'rgba(22,27,34,0.9)',
+      border:'1px solid rgba(48,54,61,0.9)',display:'flex',alignItems:'center',justifyContent:'center',
+      marginBottom:24}},
+      h(Icon,{n:icon,cls:'w-9 h-9',style:{color:'#484f58'}})
+    ),
+    h('h2',{style:{fontSize:'1.375rem',fontWeight:800,color:'#e6edf3',marginBottom:8,letterSpacing:'-0.02em'}},title),
+    h('p',{style:{color:'#484f58',fontSize:'0.875rem',maxWidth:'22rem',lineHeight:1.7,marginBottom:32}},
+      desc||'This feature is coming in the next update.'),
+    h('button',{onClick:()=>nav('Home'),className:'btn-secondary',style:{width:'auto',padding:'10px 28px'}},
+      'Go Home')
   );
 }
-function AICoachPage() { return h(StubPage,{title:'AI Head Coach',emoji:'🤖',desc:"Your personal AI cricket coach — powered by SmartCrick's elite training intelligence."}); }
-function NinetyDayPage() { return h(StubPage,{title:'90-Day Elite Program',emoji:'💎',desc:'A complete 90-day transformation program for serious cricketers. The full roadmap to elite performance.'}); }
-function AIWorkoutPage() { return h(StubPage,{title:'AI Workout Creator',emoji:'🤖',desc:'Tell the AI what you need — it generates your perfect personalized workout instantly.'}); }
-function MatchTrackerPage() { return h(StubPage,{title:'Match Tracker',emoji:'📋',desc:'Log every match performance: runs, wickets, catches, milestones, and memorable moments.'}); }
-function MiniMatchPage() { return h(StubPage,{title:'MiniMatch IQ',emoji:'🧩',desc:'Cricket tactical decision scenarios. What would you do? Train your cricket brain with real match simulations.'}); }
-function GetOutPage() { return h(StubPage,{title:'Why Did I Get Out?',emoji:'❓',desc:'Analyze your dismissal type, understand the pattern, and eliminate the weakness from your game permanently.'}); }
-function QuizzesPage() { return h(StubPage,{title:'Cricket Quizzes',emoji:'📝',desc:'Test your cricket knowledge — rules, history, tactics, and technical questions at every difficulty level.'}); }
+function AICoachPage() { return h(StubPage,{title:'AI Head Coach',icon:'cpu',desc:"Your personal AI cricket coach — powered by SmartCrick's elite training intelligence."}); }
+function NinetyDayPage() { return h(StubPage,{title:'90-Day Elite Program',icon:'diamond',desc:'A complete 90-day transformation program for serious cricketers. The full roadmap to elite performance.'}); }
+function AIWorkoutPage() { return h(StubPage,{title:'AI Workout Creator',icon:'sparkles',desc:'Tell the AI what you need — it generates your perfect personalized workout instantly.'}); }
+function MatchTrackerPage() { return h(StubPage,{title:'Match Tracker',icon:'list',desc:'Log every match performance: runs, wickets, catches, milestones, and memorable moments.'}); }
+function MiniMatchPage() { return h(StubPage,{title:'MiniMatch IQ',icon:'puzzle',desc:'Cricket tactical decision scenarios. What would you do? Train your cricket brain with real match simulations.'}); }
+function GetOutPage() { return h(StubPage,{title:'Why Did I Get Out?',icon:'helpCircle',desc:'Analyze your dismissal type, understand the pattern, and eliminate the weakness from your game permanently.'}); }
+function QuizzesPage() { return h(StubPage,{title:'Cricket Quizzes',icon:'book',desc:'Test your cricket knowledge — rules, history, tactics, and technical questions at every difficulty level.'}); }
 
 // ================================================================
 // APP ROOT
@@ -3515,12 +3593,17 @@ function AppRoot() {
         style:{width:36,height:36,borderRadius:'0.75rem',display:'flex',alignItems:'center',justifyContent:'center',background:'rgba(255,255,255,0.05)',border:'1px solid rgba(51,65,85,0.5)',flexShrink:0,cursor:'pointer'}},
         h(Icon,{n:'menu',cls:'w-5 h-5',style:{color:'#94a3b8'}})
       ),
-      h('span',{style:{fontSize:'0.9375rem',fontWeight:900,color:'#fff',letterSpacing:'-0.01em'}},'🏏 SmartCrick'),
+      h('div',{style:{display:'flex',alignItems:'center',gap:8}},
+          h(Icon,{n:'bat',cls:'w-4 h-4',style:{color:'#16a34a'}}),
+          h('span',{style:{fontSize:14,fontWeight:800,color:'#e6edf3',letterSpacing:'0.02em'}},
+            'SMARTCRICK')
+        ),
       h('div',{style:{flex:1}}),
       (() => {
         const s=DB.getProgress().current_streak||0;
         if(!s) return null;
-        return h('div',{style:{display:'flex',alignItems:'center',gap:'0.25rem',fontSize:'0.75rem',fontWeight:800,color:'#fb923c',background:'rgba(249,115,22,0.1)',border:'1px solid rgba(249,115,22,0.3)',padding:'0.25rem 0.625rem',borderRadius:'9999px'}},'🔥',s,'d');
+        return h('div',{style:{display:'flex',alignItems:'center',gap:4,fontSize:'0.75rem',fontWeight:800,color:'#fb923c',background:'rgba(249,115,22,0.08)',border:'1px solid rgba(249,115,22,0.2)',padding:'4px 10px',borderRadius:6}},
+            h(Icon,{n:'flame',cls:'w-3.5 h-3.5'}),s,'d');
       })()
     ),
 
