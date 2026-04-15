@@ -3145,27 +3145,1090 @@ function GoalsPage() {
   );
 }
 
+
 // ================================================================
-// STUB PAGES (placeholder for non-implemented pages)
+// MATCH TRACKER — Log every match, track your performance
 // ================================================================
-function StubPage({ title, emoji, desc }) {
-  return h('div', { className:'page-wrapper flex flex-col items-center justify-center px-6 text-center', style:{ minHeight:'80vh' } },
-    h('div', { className:'text-6xl mb-4' }, emoji),
-    h('h2', { className:'text-2xl font-black text-white mb-2' }, title),
-    h('p', { className:'text-slate-400 text-sm max-w-xs' }, desc || 'This feature is coming soon in the next update.'),
-    h('button', { onClick:()=>nav('Home'), className:'mt-6 btn-secondary px-6 py-3' }, 'Go Home')
+function MatchTrackerPage() {
+  const [matches, setMatches] = useState(() => DB.get('matches') || []);
+  const [view, setView] = useState('list'); // list | add | detail
+  const [selected, setSelected] = useState(null);
+  const [form, setForm] = useState({
+    date: new Date().toISOString().slice(0,10),
+    format: 'T20', opponent: '', venue: '', result: 'won',
+    bat_runs: '', bat_balls: '', bat_dismissed: 'not-out', bat_how: '',
+    bowl_overs: '', bowl_wickets: '', bowl_runs: '',
+    catches: '0', runouts: '0', notes: ''
+  });
+
+  const F = (key, val) => setForm(f => ({...f, [key]: val}));
+
+  const saveMatch = () => {
+    if (!form.opponent.trim()) return;
+    const match = { ...form, id: Date.now(),
+      bat_runs: parseInt(form.bat_runs)||0,
+      bat_balls: parseInt(form.bat_balls)||0,
+      bowl_overs: parseFloat(form.bowl_overs)||0,
+      bowl_wickets: parseInt(form.bowl_wickets)||0,
+      bowl_runs: parseInt(form.bowl_runs)||0,
+      catches: parseInt(form.catches)||0,
+      runouts: parseInt(form.runouts)||0,
+    };
+    const updated = [match, ...matches];
+    DB.set('matches', updated);
+    setMatches(updated);
+    awardXP(40, 0, 'match_logged');
+    setView('list');
+    setForm({ date:new Date().toISOString().slice(0,10), format:'T20', opponent:'', venue:'', result:'won',
+      bat_runs:'', bat_balls:'', bat_dismissed:'not-out', bat_how:'', bowl_overs:'', bowl_wickets:'', bowl_runs:'', catches:'0', runouts:'0', notes:'' });
+  };
+
+  const deleteMatch = (id) => {
+    const updated = matches.filter(m => m.id !== id);
+    DB.set('matches', updated); setMatches(updated); setView('list');
+  };
+
+  // ── Stats summary ─────────────────────────────────────────────
+  const stats = useMemo(() => {
+    if (!matches.length) return null;
+    const runs = matches.reduce((s,m)=>s+m.bat_runs,0);
+    const wkts = matches.reduce((s,m)=>s+m.bowl_wickets,0);
+    const wins = matches.filter(m=>m.result==='won').length;
+    const batAvg = matches.filter(m=>m.bat_dismissed!=='not-out').length
+      ? (runs / matches.filter(m=>m.bat_dismissed!=='not-out').length).toFixed(1) : '∞';
+    return { runs, wkts, wins, avg: batAvg, matches: matches.length };
+  }, [matches]);
+
+  const resultColor = { won:'text-emerald-400 bg-emerald-900/30 border-emerald-700/50', lost:'text-red-400 bg-red-900/30 border-red-700/50', draw:'text-slate-400 bg-slate-800 border-slate-700', nr:'text-amber-400 bg-amber-900/30 border-amber-700/50' };
+  const fmtColor = { T20:'from-blue-600 to-indigo-700', ODI:'from-emerald-600 to-teal-700', Test:'from-amber-600 to-orange-700', T10:'from-purple-600 to-pink-600' };
+
+  if (view==='add') return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#1e40af,#1d4ed8)'} },
+      h('div', { className:'relative z-10' },
+        h('div', { className:'flex items-center gap-3 mb-2' },
+          h('button', {onClick:()=>setView('list'), className:'p-2 rounded-xl bg-white/15'}, h(Icon,{n:'arrowL',cls:'w-5 h-5 text-white'}))
+        ),
+        h('h1', { className:'text-xl font-black text-white' }, '📋 Log a Match'),
+        h('p', { className:'text-white/75 text-sm' }, 'Record your performance')
+      )
+    ),
+    h('div', { className:'px-4 pt-5 space-y-4' },
+      // Match info
+      h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700 space-y-3' },
+        h('p', { className:'text-xs font-bold text-slate-400 uppercase tracking-wider' }, 'Match Details'),
+        h('div', { className:'grid grid-cols-2 gap-3' },
+          h('div', {},
+            h('label', { className:'text-xs text-slate-500 block mb-1' }, 'Date'),
+            h('input', { type:'date', value:form.date, onChange:e=>F('date',e.target.value), className:'sc-input text-sm' })
+          ),
+          h('div', {},
+            h('label', { className:'text-xs text-slate-500 block mb-1' }, 'Format'),
+            h('select', { value:form.format, onChange:e=>F('format',e.target.value), className:'sc-input text-sm' },
+              ['T10','T20','ODI','Test'].map(f => h('option', {key:f, value:f}, f))
+            )
+          )
+        ),
+        h('input', { type:'text', placeholder:'Opponent team *', value:form.opponent, onChange:e=>F('opponent',e.target.value), className:'sc-input' }),
+        h('input', { type:'text', placeholder:'Venue (optional)', value:form.venue, onChange:e=>F('venue',e.target.value), className:'sc-input' }),
+        h('div', {},
+          h('label', { className:'text-xs text-slate-500 block mb-1' }, 'Result'),
+          h('div', { className:'flex gap-2' },
+            ['won','lost','draw','nr'].map(r =>
+              h('button', { key:r, onClick:()=>F('result',r),
+                className:`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${form.result===r?'bg-blue-600 text-white':'bg-slate-700 text-slate-400'}`
+              }, r.toUpperCase())
+            )
+          )
+        )
+      ),
+      // Batting
+      h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700 space-y-3' },
+        h('p', { className:'text-xs font-bold text-blue-400 uppercase tracking-wider' }, '🏏 Batting'),
+        h('div', { className:'grid grid-cols-2 gap-3' },
+          h('div', {},
+            h('label', { className:'text-xs text-slate-500 block mb-1' }, 'Runs'),
+            h('input', { type:'number', placeholder:'0', value:form.bat_runs, onChange:e=>F('bat_runs',e.target.value), className:'sc-input' })
+          ),
+          h('div', {},
+            h('label', { className:'text-xs text-slate-500 block mb-1' }, 'Balls Faced'),
+            h('input', { type:'number', placeholder:'0', value:form.bat_balls, onChange:e=>F('bat_balls',e.target.value), className:'sc-input' })
+          )
+        ),
+        h('div', {},
+          h('label', { className:'text-xs text-slate-500 block mb-1' }, 'Dismissal'),
+          h('select', { value:form.bat_dismissed, onChange:e=>F('bat_dismissed',e.target.value), className:'sc-input' },
+            ['not-out','caught','bowled','lbw','run-out','stumped','hit-wicket','handled-ball','obstructed'].map(d => h('option',{key:d,value:d},d))
+          )
+        ),
+        form.bat_dismissed!=='not-out' && h('input', { type:'text', placeholder:'Bowler or how (optional)', value:form.bat_how, onChange:e=>F('bat_how',e.target.value), className:'sc-input' })
+      ),
+      // Bowling
+      h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700 space-y-3' },
+        h('p', { className:'text-xs font-bold text-red-400 uppercase tracking-wider' }, '⚾ Bowling'),
+        h('div', { className:'grid grid-cols-3 gap-2' },
+          h('div', {},
+            h('label', { className:'text-xs text-slate-500 block mb-1' }, 'Overs'),
+            h('input', { type:'number', placeholder:'0', step:'0.1', value:form.bowl_overs, onChange:e=>F('bowl_overs',e.target.value), className:'sc-input' })
+          ),
+          h('div', {},
+            h('label', { className:'text-xs text-slate-500 block mb-1' }, 'Wickets'),
+            h('input', { type:'number', placeholder:'0', value:form.bowl_wickets, onChange:e=>F('bowl_wickets',e.target.value), className:'sc-input' })
+          ),
+          h('div', {},
+            h('label', { className:'text-xs text-slate-500 block mb-1' }, 'Runs Given'),
+            h('input', { type:'number', placeholder:'0', value:form.bowl_runs, onChange:e=>F('bowl_runs',e.target.value), className:'sc-input' })
+          )
+        )
+      ),
+      // Fielding
+      h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700 space-y-3' },
+        h('p', { className:'text-xs font-bold text-emerald-400 uppercase tracking-wider' }, '🏃 Fielding'),
+        h('div', { className:'grid grid-cols-2 gap-3' },
+          ['catches','runouts'].map(k => h('div', {key:k},
+            h('label', { className:'text-xs text-slate-500 block mb-1' }, k==='catches'?'Catches':'Run Outs'),
+            h('input', { type:'number', placeholder:'0', value:form[k], onChange:e=>F(k,e.target.value), className:'sc-input' })
+          ))
+        )
+      ),
+      // Notes
+      h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700' },
+        h('label', { className:'text-xs text-slate-500 block mb-2' }, 'Match Notes'),
+        h('textarea', { placeholder:'Key moments, lessons, what you did well...', value:form.notes, onChange:e=>F('notes',e.target.value), rows:3, className:'sc-input resize-none' })
+      ),
+      h('button', { onClick:saveMatch, disabled:!form.opponent.trim(), className:'btn-primary w-full py-4 text-base font-black disabled:opacity-50' },
+        '📋 Save Match (+40 XP)'
+      )
+    )
+  );
+
+  if (view==='detail' && selected) {
+    const m = matches.find(x=>x.id===selected);
+    if (!m) { setView('list'); return null; }
+    const sr = m.bat_balls ? Math.round((m.bat_runs/m.bat_balls)*100) : 0;
+    const econ = m.bowl_overs ? (m.bowl_runs/m.bowl_overs).toFixed(2) : '-';
+    return h('div', { className:'page-wrapper' },
+      h('div', { className:`page-header`, style:{background:`linear-gradient(135deg,${m.result==='won'?'#065f46,#047857':m.result==='lost'?'#7f1d1d,#991b1b':'#334155,#1e293b'})`} },
+        h('div', { className:'relative z-10' },
+          h('div', { className:'flex items-center gap-3 mb-2' },
+            h('button', {onClick:()=>setView('list'), className:'p-2 rounded-xl bg-white/15'}, h(Icon,{n:'arrowL',cls:'w-5 h-5 text-white'}))
+          ),
+          h('h1', { className:'text-xl font-black text-white' }, `vs ${m.opponent}`),
+          h('p', { className:'text-white/75 text-sm' }, `${m.format} • ${m.date} • ${m.venue||'Unknown venue'}`)
+        )
+      ),
+      h('div', { className:'px-4 pt-5 space-y-4' },
+        h('div', { className:`p-3 rounded-2xl border text-center font-black text-sm ${resultColor[m.result]||'bg-slate-800 border-slate-700 text-white'}` },
+          m.result.toUpperCase()
+        ),
+        h('div', { className:'grid grid-cols-2 gap-3' },
+          [
+            { label:'Runs', val:m.bat_runs, sub:`${m.bat_balls}b ${sr>0?`• SR ${sr}`:''}`, color:'text-blue-400' },
+            { label:'Dismissed', val:m.bat_dismissed, sub:m.bat_how||'', color:'text-slate-300' },
+            { label:'Bowling', val:`${m.bowl_wickets}/${m.bowl_runs}`, sub:`${m.bowl_overs} overs • Econ ${econ}`, color:'text-red-400' },
+            { label:'Fielding', val:`${m.catches}c ${m.runouts}ro`, sub:'catches + run outs', color:'text-emerald-400' },
+          ].map(s => h('div', { key:s.label, className:'stat-card' },
+            h('div', { className:`text-xl font-black ${s.color}` }, s.val),
+            h('div', { className:'text-xs text-slate-500 uppercase font-bold' }, s.label),
+            s.sub && h('div', { className:'text-xs text-slate-500 mt-0.5' }, s.sub)
+          ))
+        ),
+        m.notes && h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700' },
+          h('p', { className:'text-xs text-slate-500 uppercase font-bold tracking-wider mb-2' }, 'Notes'),
+          h('p', { className:'text-sm text-slate-300' }, m.notes)
+        ),
+        h('button', { onClick:()=>{ if(window.confirm('Delete this match?')) deleteMatch(m.id); },
+          className:'w-full p-3 rounded-xl border border-red-800/50 text-red-400 text-sm font-semibold bg-red-900/10 active:scale-[.99]'
+        }, '🗑 Delete Match')
+      )
+    );
+  }
+
+  return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#1e40af,#1d4ed8)'} },
+      h('div', { className:'relative z-10 flex items-center justify-between' },
+        h('div', {},
+          h('h1', { className:'text-xl font-black text-white' }, '📋 Match Tracker'),
+          h('p', { className:'text-white/75 text-sm' }, `${matches.length} match${matches.length!==1?'es':''} logged`)
+        ),
+        h('button', { onClick:()=>setView('add'), className:'px-4 py-2 rounded-xl bg-white/15 text-white text-sm font-bold flex items-center gap-2' },
+          h(Icon,{n:'plus',cls:'w-4 h-4'}), 'Log Match'
+        )
+      )
+    ),
+    h('div', { className:'px-4 pt-5 space-y-4' },
+      // Career summary
+      stats && h('div', { className:'grid grid-cols-4 gap-2' },
+        [
+          { label:'Matches', val:stats.matches, color:'text-blue-400' },
+          { label:'Runs', val:stats.runs, color:'text-white' },
+          { label:'Wickets', val:stats.wkts, color:'text-red-400' },
+          { label:'Bat Avg', val:stats.avg, color:'text-emerald-400' },
+        ].map(s => h('div', {key:s.label, className:'text-center p-3 rounded-xl bg-slate-800 border border-slate-700'},
+          h('div', { className:`text-lg font-black ${s.color}` }, s.val),
+          h('div', { className:'text-xs text-slate-500' }, s.label)
+        ))
+      ),
+      matches.length===0 && h(EmptyState, { emoji:'📋', title:'No matches yet', desc:'Log your first match to start tracking your cricket career',
+        action:{ label:'Log a Match', fn:()=>setView('add') }
+      }),
+      matches.map(m => {
+        const sr = m.bat_balls ? Math.round((m.bat_runs/m.bat_balls)*100) : 0;
+        return h('button', { key:m.id, onClick:()=>{ setSelected(m.id); setView('detail'); },
+          className:'w-full flex items-center gap-4 p-4 rounded-2xl border border-slate-700 bg-slate-800/80 text-left active:scale-[.99] pro-card'
+        },
+          h('div', { className:`w-12 h-12 rounded-xl flex items-center justify-center text-lg font-black flex-shrink-0 bg-gradient-to-br ${fmtColor[m.format]||'from-blue-600 to-indigo-700'} text-white` }, m.format),
+          h('div', { className:'flex-1 min-w-0' },
+            h('div', { className:'font-bold text-white text-sm' }, `vs ${m.opponent}`),
+            h('div', { className:'text-xs text-slate-400' }, `${m.date}${m.venue?' • '+m.venue:''}`),
+            h('div', { className:'flex items-center gap-2 mt-1 text-xs' },
+              h('span', { className:'text-blue-400 font-semibold' }, `${m.bat_runs} runs`),
+              m.bowl_wickets>0 && h('span', { className:'text-red-400 font-semibold' }, `${m.bowl_wickets} wkts`)
+            )
+          ),
+          h('div', { className:`px-2 py-1 rounded-lg text-xs font-black border ${resultColor[m.result]||'border-slate-700 text-slate-400'}` }, m.result.toUpperCase())
+        );
+      })
+    )
   );
 }
 
-const AICoachPage = () => h(StubPage, { title:'AI Head Coach', emoji:'🤖', desc:'Your personal AI cricket coach — powered by SmartCrick\'s elite training intelligence. Coming in next update.' });
-const NinetyDayPage = () => h(StubPage, { title:'90-Day Elite Program', emoji:'💎', desc:'A complete 90-day transformation program for serious cricketers. Coming in next update.' });
-const AIWorkoutPage = () => h(StubPage, { title:'AI Workout Creator', emoji:'🤖', desc:'Tell the AI what you need — it builds your perfect workout on the spot. Coming in next update.' });
-const MatchTrackerPage = () => h(StubPage, { title:'Match Tracker', emoji:'📋', desc:'Log your match performance — runs, wickets, catches, and moments of brilliance.' });
-const MiniMatchPage = () => h(StubPage, { title:'MiniMatch IQ', emoji:'🧩', desc:'Cricket tactical scenarios. What would you do? Train your cricket brain with real match simulations.' });
-const GetOutPage = () => h(StubPage, { title:'Why Did I Get Out?', emoji:'❓', desc:'Analyze your dismissal type, understand the pattern, and eliminate it from your game.' });
-const SchedulePage = () => h(StubPage, { title:'Training Schedule', emoji:'📅', desc:'Plan your weekly training schedule and never miss a session again.' });
-const QuizzesPage = () => h(StubPage, { title:'Cricket Quizzes', emoji:'📝', desc:'Test your cricket knowledge — rules, history, tactics, and technique.' });
+// ================================================================
+// MINIMATH IQ — Tactical cricket scenarios
+// ================================================================
+const SCENARIOS = [
+  { id:1, situation:'Last over. 12 runs needed. 2 wickets in hand. Your best batsman is on strike. The bowler is a medium-pacer bowling at 125km/h. What is your strategy?',
+    context:'T20 Final', difficulty:'medium',
+    options:['Attack every ball — go for boundaries immediately', 'Singles first to keep strike, then attack last 2 balls', 'Look for one big over and rotate strike to set it up', 'Play safe — a draw-style approach'],
+    correct:0, xp:25, explanation:'With 12 needed off 6, you must average 2 per ball. Attack from ball 1, targeting the shorter boundary. Singles are luxury you cannot afford — you need at least 2 boundaries.'
+  },
+  { id:2, situation:'You are bowling the 19th over of a T20. The batting team needs 22 runs. You have 2 wickets remaining in your spell. Where do you bowl?',
+    context:'Death Bowling', difficulty:'hard',
+    options:['Full yorkers every ball targeting base of stumps', 'Short ball every delivery to slow scoring', 'Mix: yorker, slower ball, wide yorker in rotation', 'Aim outside off stump with outswing'],
+    correct:2, xp:35, explanation:'Variety is the weapon. Yorker sets up the slower ball. Identical deliveries can be read by elite batsmen. Yorker → slower → wide yorker is the classic death bowling sequence.'
+  },
+  { id:3, situation:'You are batting in an ODI. 30 overs gone, 4 wickets fallen. Score 145/4. Target 280. What is your approach?',
+    context:'ODI Chase', difficulty:'medium',
+    options:['Attack immediately — 135 runs in 20 overs is achievable', 'Consolidate 5 more overs then attack', 'Play normal cricket and see how last 10 overs develop', 'Panic and swing at everything'],
+    correct:0, xp:30, explanation:'135 in 20 overs = required run rate of 6.75. With 6 wickets remaining this is very achievable. Attack now while fielding restrictions remain — the powerplay mindset applies here.'
+  },
+  { id:4, situation:'A right-handed batsman has scored 3 boundaries off the last 3 balls — all through the cover region. You are the bowler. Next ball?',
+    context:'Tactical Bowling', difficulty:'easy',
+    options:['Bowl another outswinger on off stump', 'Come around the wicket — bowl into the stumps', 'Short ball at the body — test their hook', 'Bowl a slower ball on the same line'],
+    correct:1, xp:20, explanation:'Coming around the wicket changes the angle completely. The cover drive line is now closed — the ball angles into the batsman, and the stumps become the target instead of the gap.'
+  },
+  { id:5, situation:'You are fielding captain. Opposition need 8 runs off the last over with 8 wickets standing. Who do you give the ball to?',
+    context:'Field Setting', difficulty:'medium',
+    options:['Your fastest bowler — pace unsettles batsmen under pressure', 'Your most experienced death bowler', 'A spinner — batsmen prefer pace to hit', 'Bring back your opening bowler for nostalgia'],
+    correct:1, xp:25, explanation:'Experience under pressure beats raw pace every time. Your death bowling specialist has practiced this exact scenario. They know their variations, their lengths, and how to handle pressure.'
+  },
+  { id:6, situation:'Batting in Test cricket. Score 0/1. Facing a quality left-arm swing bowler on a green pitch. First ball: outswinger that beats the outside edge. What do you do next ball?',
+    context:'Test Batting', difficulty:'hard',
+    options:['Drive hard to show you mean business', 'Leave everything outside off stump until you are set', 'Ask for a runner — you are clearly nervous', 'Step across your stumps to negate the swing'],
+    correct:1, xp:40, explanation:'Green pitch + quality swing bowler + new ball = patience. The ball will stop swinging after 10-15 overs. Leave religiously outside off, defend anything straight, let the conditions change in your favor.'
+  },
+  { id:7, situation:'You are keeping wicket. The spinner bowls a turning delivery. The batsman plays and misses. The ball deflects off your glove. The batsman has stepped out of the crease. What do you do?',
+    context:'Wicketkeeping', difficulty:'easy',
+    options:['Dive to retrieve the ball from the deflection', 'Stump immediately before anything else', 'Appeal loudly and let the umpire decide', 'Check with the bowler first'],
+    correct:1, xp:20, explanation:'STUMP FIRST. The ball is live. If the batsman is out of his crease and the bails are off before he grounds his bat — it\'s out. You can retrieve the ball after. This is the keeper\'s most instinctive skill.'
+  },
+  { id:8, situation:'Your team needs a run out on the last ball of the over. The batsman plays to mid-on and you are the fielder. He calls YES. What is your process?',
+    context:'Run Out Execution', difficulty:'medium',
+    options:['Pick up and throw to the keeper\'s end immediately', 'Pick up, take a step to balance, then throw to the strikers end', 'Pick up fast — throw wherever feels right in the moment', 'Hold the ball to force a missed run'],
+    correct:1, xp:30, explanation:'One step to stabilize your body before throwing dramatically improves accuracy. A wild throw misses the stumps entirely. At the striker\'s end, the batsman is still running — a direct hit or clean take wins you the wicket.'
+  },
+  { id:9, situation:'You are opening the batting in a T20. Powerplay — 6 overs. What is your ideal approach in the first 2 overs?',
+    context:'T20 Powerplay', difficulty:'medium',
+    options:['Smash everything from ball 1 — boundaries only', 'Pace yourself — singles and twos to build confidence', 'Assess conditions for 4 balls, then attack with full intent', 'Defensive play until 1 wicket falls'],
+    correct:2, xp:30, explanation:'4-ball assessment is elite T20 thinking. You identify: pitch pace, movement, bowler strengths. Then attack with FULL information. Blind aggression loses wickets. Informed aggression wins matches.'
+  },
+  { id:10, situation:'Chasing 180 in a T20. 10 overs left, 95 needed, 5 wickets remaining. You have just come in to bat. Your strike rate last 3 matches: 92, 88, 101. What do you do?',
+    context:'T20 Chase', difficulty:'hard',
+    options:['Try to maintain those rates — the target is achievable', 'Accept a loss — the target is too difficult', 'Reset completely — you must score at 158+ from now on', 'Play one big over and then reassess'],
+    correct:2, xp:40, explanation:'95 in 10 overs = 9.5 required rate. Your average SR of 94 is NOT fast enough. You must recalibrate completely — attack from ball 1, accept risk of wickets, target 160+ SR. The only way to win is to change your game right now.'
+  },
+];
 
+function MiniMatchPage() {
+  const [mode, setMode] = useState('menu'); // menu | quiz | results
+  const [current, setCurrent] = useState(0);
+  const [score, setScore] = useState(0);
+  const [xpEarned, setXPEarned] = useState(0);
+  const [answered, setAnswered] = useState(null); // null or chosen index
+  const [answers, setAnswers] = useState([]); // { chosen, correct, xp }[]
+
+  const q = SCENARIOS[current];
+
+  const start = () => { setCurrent(0); setScore(0); setXPEarned(0); setAnswered(null); setAnswers([]); setMode('quiz'); };
+  const choose = (idx) => {
+    if (answered !== null) return;
+    const correct = idx === q.correct;
+    const xp = correct ? q.xp : Math.round(q.xp*0.3);
+    setAnswered(idx);
+    setAnswers(a => [...a, { chosen:idx, correct, xp }]);
+    if (correct) { setScore(s=>s+1); }
+    setXPEarned(x=>x+xp);
+  };
+  const next = () => {
+    if (current < SCENARIOS.length-1) { setCurrent(c=>c+1); setAnswered(null); }
+    else {
+      awardXP(xpEarned + (score===SCENARIOS.length?50:0), 0, 'miniMatch');
+      if (score===SCENARIOS.length) fireConfetti();
+      setMode('results');
+    }
+  };
+
+  if (mode==='menu') return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#6d28d9,#7c3aed)'} },
+      h('div', { className:'relative z-10' },
+        h('h1', { className:'text-xl font-black text-white' }, '🧩 MiniMatch IQ'),
+        h('p', { className:'text-white/75 text-sm' }, 'Train your tactical cricket brain')
+      )
+    ),
+    h('div', { className:'px-4 pt-5 space-y-5' },
+      h('div', { className:'p-5 rounded-2xl bg-purple-900/20 border border-purple-700/50 text-center' },
+        h('div', { className:'text-4xl mb-3' }, '🧩'),
+        h('h2', { className:'text-lg font-black text-white mb-2' }, `${SCENARIOS.length} Tactical Scenarios`),
+        h('p', { className:'text-sm text-slate-400' }, 'Real match situations. What would you do? Each correct answer earns XP and builds elite cricket thinking.'),
+        h('div', { className:'flex justify-center gap-4 mt-4 text-xs' },
+          [['Easy','text-green-400'],['Medium','text-amber-400'],['Hard','text-red-400']].map(([d,c])=>h('span',{key:d,className:`${c} font-bold`},d))
+        )
+      ),
+      h('button', { onClick:start, className:'btn-primary w-full py-4 text-base font-black' },
+        '▶ Start Quiz'
+      ),
+      h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700' },
+        h('p', { className:'text-xs text-slate-500 uppercase font-bold tracking-wider mb-3' }, 'Categories'),
+        h('div', { className:'flex flex-wrap gap-2' },
+          [...new Set(SCENARIOS.map(s=>s.context))].map(c =>
+            h('span', {key:c, className:'text-xs text-slate-300 bg-slate-700 px-2 py-1 rounded-lg font-medium'}, c)
+          )
+        )
+      )
+    )
+  );
+
+  if (mode==='results') return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:`linear-gradient(135deg,${score>=8?'#064e3b,#065f46':score>=5?'#1e40af,#1d4ed8':'#7f1d1d,#991b1b'})`} },
+      h('div', { className:'relative z-10 text-center' },
+        h('div', { className:'text-5xl mb-2' }, score===SCENARIOS.length?'🏆':score>=7?'🌟':score>=5?'👍':'🏏'),
+        h('h1', { className:'text-2xl font-black text-white' }, `${score}/${SCENARIOS.length} Correct`),
+        h('p', { className:'text-white/75' }, `${xpEarned}${score===SCENARIOS.length?' + 50 BONUS':''} XP earned`)
+      )
+    ),
+    h('div', { className:'px-4 pt-5 space-y-3' },
+      h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700' },
+        h('div', { className:'text-sm font-bold text-white mb-3' }, 'Question Breakdown'),
+        h('div', { className:'space-y-2' },
+          answers.map((a,i)=>h('div',{key:i,className:`flex items-center gap-3 py-2 ${i<answers.length-1?'border-b border-slate-700':''}`},
+            h('div',{className:`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${a.correct?'bg-emerald-500 text-white':'bg-red-500 text-white'}`},i+1),
+            h('div',{className:'flex-1 text-xs text-slate-300'},SCENARIOS[i].context),
+            h('span',{className:`text-xs font-bold ${a.correct?'text-emerald-400':'text-red-400'}`},`+${a.xp} XP`)
+          ))
+        )
+      ),
+      h('div', { className:'flex gap-3' },
+        h('button', { onClick:start, className:'btn-primary flex-1' }, 'Try Again'),
+        h('button', { onClick:()=>nav('Home'), className:'btn-secondary flex-1' }, 'Home')
+      )
+    )
+  );
+
+  // Quiz view
+  const diffColor = { easy:'text-green-400', medium:'text-amber-400', hard:'text-red-400' };
+  return h('div', { className:'min-h-screen', style:{background:'linear-gradient(135deg,#0f0824,#1a0a3a,#0f172a)'} },
+    // Progress bar
+    h('div', { className:'h-1 bg-slate-800' },
+      h('div', { className:'h-full bg-gradient-to-r from-purple-500 to-indigo-500 transition-all duration-300', style:{width:`${((current)/SCENARIOS.length)*100}%`} })
+    ),
+    h('div', { className:'px-5 pt-16 pb-28' },
+      // Header
+      h('div', { className:'flex items-center justify-between mb-6' },
+        h('div', { className:'flex items-center gap-2' },
+          h('span', { className:'text-xs text-slate-500 font-bold' }, `${current+1} / ${SCENARIOS.length}`),
+          h('span', { className:`text-xs font-bold ${diffColor[q.difficulty]}` }, q.difficulty.toUpperCase())
+        ),
+        h('div', { className:'flex items-center gap-1.5 text-amber-400 text-xs font-bold' },
+          h(Icon,{n:'zap',cls:'w-3.5 h-3.5'}), `${xpEarned} XP`
+        )
+      ),
+      // Context badge
+      h('div', { className:'inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-900/40 border border-purple-700/50 mb-4' },
+        h('span', { className:'text-xs font-bold text-purple-300' }, `🎯 ${q.context}`)
+      ),
+      // Situation
+      h('div', { className:'mb-6' },
+        h('h2', { className:'text-base font-bold text-white leading-relaxed' }, q.situation)
+      ),
+      // Options
+      h('div', { className:'space-y-3' },
+        q.options.map((opt,i)=>{
+          let cls = 'w-full text-left p-4 rounded-2xl border-2 transition-all active:scale-[.99] ';
+          if (answered===null) cls += 'border-slate-700 bg-slate-800/80 text-white';
+          else if (i===q.correct) cls += 'border-emerald-500 bg-emerald-900/30 text-emerald-300';
+          else if (i===answered && i!==q.correct) cls += 'border-red-500 bg-red-900/30 text-red-300';
+          else cls += 'border-slate-700/40 bg-slate-900/50 text-slate-500';
+          return h('button', { key:i, onClick:()=>choose(i), className:cls, disabled:answered!==null },
+            h('div', { className:'flex items-start gap-3' },
+              h('div', { className:`w-7 h-7 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0 mt-0.5
+                ${answered===null?'bg-slate-700':i===q.correct?'bg-emerald-500':i===answered?'bg-red-500':'bg-slate-800'}` },
+                answered!==null&&i===q.correct?'✓':answered!==null&&i===answered?'✗':['A','B','C','D'][i]
+              ),
+              h('span', { className:'text-sm leading-relaxed' }, opt)
+            )
+          );
+        })
+      ),
+      // Explanation (after answering)
+      answered!==null && h('div', { className:'mt-4 p-4 rounded-2xl bg-slate-800/80 border border-slate-700' },
+        h('p', { className:'text-xs font-bold text-amber-400 uppercase tracking-wider mb-2' }, '💡 Coach Explains'),
+        h('p', { className:'text-sm text-slate-300 leading-relaxed' }, q.explanation)
+      ),
+      answered!==null && h('button', { onClick:next, className:'mt-5 btn-primary w-full py-4 font-black' },
+        current===SCENARIOS.length-1 ? '📊 See Results' : 'Next Scenario →'
+      )
+    )
+  );
+}
+
+// ================================================================
+// WHY DID I GET OUT? — Dismissal pattern analyzer
+// ================================================================
+const DISMISSAL_DRILLS = {
+  lbw: { drills:['b006','b003'], advice:'LBW dismissals usually come from playing across the line or missing straight deliveries. Work on presenting the full face of the bat and getting your pad behind the line of the ball.' },
+  caught: { drills:['b002','b008'], advice:'Caught dismissals often come from playing the wrong shot or playing too early. Identify if you\'re caught at slip (edge), in the outfield (mistimed drive/pull), or at short leg (defensive edge).' },
+  bowled: { drills:['b006','b009'], advice:'Being bowled suggests a gap between bat and pad, playing around the ball, or being deceived by swing/spin. Focus on presenting the full face of the bat and watching the ball onto the bat.' },
+  'run-out': { drills:['b010'], advice:'Run outs come from poor communication, bad running decisions, or poor ground awareness. Practice running between wickets with a partner and work on calling clarity.' },
+  stumped: { drills:['b009','ment001'], advice:'Being stumped means you played a false shot against spin and your feet were not to the pitch. Work on using your feet to spinners and your defensive technique on a turning pitch.' },
+  'hit-wicket': { drills:['b006'], advice:'Hit wicket is a technical fault — usually a large backlift that hits the stumps, or stepping back too far on the pull. Simplify your backlift and practice your pull shot positioning.' },
+};
+
+const BALL_ANALYSIS = {
+  'fast-outswing':{ tip:'The outswinger moves away. Leave everything outside off, play close to your body, wait for it to come straight.', drill:'b006' },
+  'fast-inswing':{ tip:'The inswinger angles in. Ensure full face of bat, pad behind the line, do not drive across the line.', drill:'b006' },
+  'short-ball':{ tip:'The short ball is about position. Get back early and hit it DOWN. A hook you commit to works. A half-pull kills you.', drill:'b002' },
+  'leg-spin':{ tip:'Leg spin turns away. Use your feet to get to the pitch or play back confidently. Don\'t let it pitch in the rough.', drill:'b009' },
+  'off-spin':{ tip:'Off spin comes into the right-hander. Use your pads and play straight — the spin does the work for you.', drill:'b009' },
+  'googly':{ tip:'The googly turns the wrong way. Read the wrist at release — look for the prominent seam position.', drill:'b009' },
+  'yorker':{ tip:'The yorker is about footwork. Get onto your toes, go deep in the crease, dig it out straight or wide.', drill:'b005' },
+  'slower-ball':{ tip:'Slower balls are won before the ball is bowled. Watch the grip, watch the wrist — don\'t commit early.', drill:'b005' },
+};
+
+function GetOutPage() {
+  const [step, setStep] = useState(0); // 0-3 = selection steps, 4=results
+  const [data, setData] = useState({ how:'', ball:'', score:'', mental:'' });
+
+  const howOut = ['lbw','caught','bowled','run-out','stumped','hit-wicket'];
+  const ballTypes = [
+    {id:'fast-outswing',label:'Fast Outswing',emoji:'💨'},
+    {id:'fast-inswing',label:'Fast Inswing',emoji:'↩️'},
+    {id:'short-ball',label:'Short Ball',emoji:'📦'},
+    {id:'leg-spin',label:'Leg Spin',emoji:'🌀'},
+    {id:'off-spin',label:'Off Spin',emoji:'↪️'},
+    {id:'googly',label:'Googly',emoji:'🔮'},
+    {id:'yorker',label:'Yorker',emoji:'⬇️'},
+    {id:'slower-ball',label:'Slower Ball',emoji:'🐢'},
+  ];
+  const mentalStates = [
+    {id:'excellent',label:'Excellent',emoji:'😤',desc:'Fully in the zone'},
+    {id:'good',label:'Good',emoji:'😊',desc:'Comfortable and focused'},
+    {id:'nervous',label:'Nervous',emoji:'😰',desc:'Feeling the pressure'},
+    {id:'distracted',label:'Distracted',emoji:'😵',desc:'Mind was elsewhere'},
+    {id:'overconfident',label:'Overconfident',emoji:'😏',desc:'Got complacent'},
+  ];
+
+  const set = (key,val) => { setData(d=>({...d,[key]:val})); setStep(s=>s+1); };
+
+  if (step===4) {
+    const dis = DISMISSAL_DRILLS[data.how];
+    const ball = BALL_ANALYSIS[data.ball];
+    const mentalTip = { excellent:'Even in excellent mental states, technique can let us down. This is a pure skill fix.', good:'Good mental state means this is a technical issue, not pressure-based.', nervous:'Nerves affect decision-making. Work on your pre-ball reset routine.', distracted:'Distraction causes poor shot selection. Mental training is as important as net practice.', overconfident:'Overconfidence leads to playing attacking shots at the wrong time. Respect the ball.' }[data.mental];
+    return h('div', { className:'page-wrapper' },
+      h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#7c3aed,#6d28d9)'} },
+        h('div', { className:'relative z-10' },
+          h('h1', { className:'text-xl font-black text-white' }, '❓ Dismissal Analysis'),
+          h('p', { className:'text-white/75 text-sm' }, 'Here\'s what happened and how to fix it')
+        )
+      ),
+      h('div', { className:'px-4 pt-5 space-y-4' },
+        // Summary
+        h('div', { className:'p-4 rounded-2xl bg-purple-900/20 border border-purple-700/50' },
+          h('div', { className:'text-xs text-purple-400 font-bold uppercase tracking-wider mb-2' }, 'What Happened'),
+          h('div', { className:'font-bold text-white' }, `Dismissed: ${data.how.replace('-',' ')} • Ball: ${data.ball.replace(/-/g,' ')} • Score: ${data.score||'N/A'} • Mental: ${data.mental}`)
+        ),
+        // Dismissal advice
+        dis && h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700' },
+          h('div', { className:'text-xs text-amber-400 font-bold uppercase tracking-wider mb-2' }, '🎯 Dismissal Pattern Fix'),
+          h('p', { className:'text-sm text-slate-300 leading-relaxed' }, dis.advice)
+        ),
+        // Ball type advice
+        ball && h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700' },
+          h('div', { className:'text-xs text-blue-400 font-bold uppercase tracking-wider mb-2' }, '🏏 Against This Delivery'),
+          h('p', { className:'text-sm text-slate-300 leading-relaxed' }, ball.tip)
+        ),
+        // Mental state
+        h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700' },
+          h('div', { className:'text-xs text-purple-400 font-bold uppercase tracking-wider mb-2' }, '🧠 Mental Factor'),
+          h('p', { className:'text-sm text-slate-300 leading-relaxed' }, mentalTip)
+        ),
+        // Recommended drills
+        dis && h('div', { className:'p-4 rounded-2xl bg-emerald-900/20 border border-emerald-700/50' },
+          h('div', { className:'text-xs text-emerald-400 font-bold uppercase tracking-wider mb-3' }, '📋 Fix These Drills'),
+          h('div', { className:'space-y-2' },
+            [...(dis.drills||[]), ball?.drill].filter(Boolean).map(id=>{
+              const drill = DRILLS.find(d=>d.id===id);
+              if (!drill) return null;
+              return h('button', { key:id, onClick:()=>nav('DrillDetail',{id}),
+                className:'w-full flex items-center gap-3 p-3 rounded-xl bg-slate-800/80 border border-slate-700 text-left active:scale-[.99]'
+              },
+                h('span',{className:'text-lg'},'🏏'),
+                h('div',{className:'flex-1'},h('div',{className:'text-sm font-bold text-white'},drill.title)),
+                h(Icon,{n:'chevR',cls:'w-4 h-4 text-slate-500'})
+              );
+            }).filter(Boolean)
+          )
+        ),
+        h('button', { onClick:()=>{setStep(0);setData({how:'',ball:'',score:'',mental:''}); },
+          className:'btn-secondary w-full'
+        }, 'Analyze Another Dismissal')
+      )
+    );
+  }
+
+  const steps = [
+    { label:'How were you dismissed?', opts:howOut.map(h=>({id:h,label:h.replace(/-/g,' '),emoji:{'lbw':'🦵','caught':'🤲','bowled':'💥','run-out':'🏃','stumped':'🧤','hit-wicket':'😬'}[h]||'❓'})) },
+    { label:'What type of delivery was it?', opts:ballTypes },
+    { label:'What was your score at dismissal?', isText:true },
+    { label:'Your mental state when dismissed?', opts:mentalStates },
+  ];
+
+  const cur = steps[step];
+
+  return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#7c3aed,#6d28d9)'} },
+      h('div', { className:'relative z-10' },
+        step>0 && h('div', { className:'flex items-center gap-3 mb-2' },
+          h('button', {onClick:()=>setStep(s=>s-1), className:'p-2 rounded-xl bg-white/15'}, h(Icon,{n:'arrowL',cls:'w-5 h-5 text-white'}))
+        ),
+        h('h1', { className:'text-xl font-black text-white' }, '❓ Why Did I Get Out?'),
+        h('div', { className:'flex gap-1 mt-2' },
+          [0,1,2,3].map(i=>h('div',{key:i,className:`h-1.5 flex-1 rounded-full ${i<=step?'bg-white':'bg-white/30'}`}))
+        )
+      )
+    ),
+    h('div', { className:'px-4 pt-5' },
+      h('h2', { className:'text-base font-bold text-white mb-4' }, cur.label),
+      cur.isText
+        ? h('div', { className:'space-y-3' },
+          h('input', { type:'text', placeholder:'e.g., 12, duck, 87...', autoFocus:true,
+            className:'sc-input', onKeyDown:e=>e.key==='Enter'&&set('score',e.target.value||'N/A') }),
+          h('button', { onClick:e=>{ const v=document.querySelector('.sc-input')?.value||'N/A'; set('score',v); }, className:'btn-primary w-full' }, 'Continue'),
+          h('button', { onClick:()=>set('score','N/A'), className:'btn-secondary w-full' }, 'Skip (Score unknown)')
+        )
+        : h('div', { className:'space-y-2' },
+          cur.opts.map(opt=>h('button',{key:opt.id,
+            onClick:()=>set(Object.keys(data).filter(k=>!data[k])[0]||'mental',opt.id),
+            className:'w-full flex items-center gap-4 p-4 rounded-2xl border border-slate-700 bg-slate-800/80 text-left active:scale-[.99] pro-card'
+          },
+            h('span',{className:'text-2xl'},opt.emoji),
+            h('div',{className:'flex-1'},
+              h('div',{className:'font-bold text-white capitalize'},opt.label),
+              opt.desc&&h('div',{className:'text-xs text-slate-400'},opt.desc)
+            ),
+            h(Icon,{n:'chevR',cls:'w-4 h-4 text-slate-500'})
+          ))
+        )
+    )
+  );
+}
+
+// ================================================================
+// CRICKET QUIZZES — Knowledge & technique
+// ================================================================
+const QUIZ_QUESTIONS = [
+  { q:'What is the maximum width allowed for a cricket bat?', opts:['4.25 inches','3.75 inches','5 inches','4.5 inches'], a:0, cat:'Rules' },
+  { q:'In Test cricket, how many days does a match last?', opts:['3 days','4 days','5 days','7 days'], a:2, cat:'Rules' },
+  { q:'What does "Duckworth-Lewis" relate to in limited-overs cricket?', opts:['Ball tracking technology','Revised targets after interruptions','Umpire decision review','Over-rate calculations'], a:1, cat:'Rules' },
+  { q:'Which bowler holds the record for most Test wickets?', opts:['Shane Warne','Anil Kumble','Muttiah Muralitharan','James Anderson'], a:2, cat:'History' },
+  { q:'A "golden duck" means the batsman was dismissed for:', opts:['0 runs on the first ball','0 runs in total','0 runs off fast bowling','The first ball of the innings'], a:0, cat:'Terminology' },
+  { q:'In the fielding circle, how many fielders are permitted OUTSIDE the circle during a powerplay?', opts:['None','2 fielders maximum','4 fielders maximum','Any number'], a:0, cat:'Rules' },
+  { q:'What is "swing" in fast bowling primarily caused by?', opts:['The bowler\'s wrist position alone','The differential pressure on either side of the seam','The humidity only','The umpire\'s choice of ball'], a:1, cat:'Technique' },
+  { q:'The term "googly" was invented by which legendary cricketer?', opts:['Shane Warne','B.J.T. Bosanquet','Anil Kumble','Abdul Qadir'], a:1, cat:'History' },
+  { q:'Which country won the inaugural T20 World Cup in 2007?', opts:['Australia','India','Pakistan','West Indies'], a:1, cat:'History' },
+  { q:'In leg-spin bowling, which direction does the ball turn for a right-handed batsman?', opts:['Into the batsman','Away from the batsman (off side)','Straight through','Depends on the pitch'], a:1, cat:'Technique' },
+  { q:'What is the correct height range for a cricket stump?', opts:['26 inches','28 inches','30 inches','32 inches'], a:1, cat:'Rules' },
+  { q:'A "maiden over" in cricket means:', opts:['The first over of the match','No runs scored in the over','The bowler\'s first wicket','A no-ball free hit'], a:1, cat:'Terminology' },
+  { q:'Which fielding position is directly behind the batsman on the off side?', opts:['Slip','Gully','Third man','Cover point'], a:2, cat:'Fielding' },
+  { q:'What is "reverse swing" primarily achieved with?', opts:['New ball with a seam','Old ball bowled at high pace','Wet conditions','Spin bowling technique'], a:1, cat:'Technique' },
+  { q:'In T20 cricket, how many fielders may remain inside the 30-yard circle after the powerplay?', opts:['2','3','4','5'], a:3, cat:'Rules' },
+];
+
+function QuizzesPage() {
+  const [mode, setMode] = useState('menu'); // menu | quiz | results
+  const [current, setCurrent] = useState(0);
+  const [answered, setAnswered] = useState(null);
+  const [answers, setAnswers] = useState([]);
+
+  const q = QUIZ_QUESTIONS[current];
+  const score = answers.filter(a=>a).length;
+  const xp = score * 15 + (score===QUIZ_QUESTIONS.length ? 75 : 0);
+
+  const start = () => { setCurrent(0); setAnswered(null); setAnswers([]); setMode('quiz'); };
+  const choose = (i) => {
+    if (answered!==null) return;
+    setAnswered(i);
+    setAnswers(a=>[...a, i===q.a]);
+  };
+  const next = () => {
+    if (current<QUIZ_QUESTIONS.length-1) { setCurrent(c=>c+1); setAnswered(null); }
+    else {
+      awardXP(xp, 0, 'quiz');
+      if (score===QUIZ_QUESTIONS.length) fireConfetti();
+      setMode('results');
+    }
+  };
+
+  const catColor = { Rules:'text-blue-400 bg-blue-900/30', History:'text-amber-400 bg-amber-900/30', Terminology:'text-purple-400 bg-purple-900/30', Technique:'text-emerald-400 bg-emerald-900/30', Fielding:'text-teal-400 bg-teal-900/30' };
+
+  if (mode==='menu') return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#0f766e,#0d9488)'} },
+      h('div', { className:'relative z-10' },
+        h('h1', { className:'text-xl font-black text-white' }, '📝 Cricket Quizzes'),
+        h('p', { className:'text-white/75 text-sm' }, `${QUIZ_QUESTIONS.length} questions across 5 categories`)
+      )
+    ),
+    h('div', { className:'px-4 pt-5 space-y-4' },
+      h('div', { className:'p-5 rounded-2xl bg-teal-900/20 border border-teal-700/50 text-center' },
+        h('div', { className:'text-4xl mb-3' }, '📝'),
+        h('p', { className:'text-sm text-slate-300' }, 'Test your cricket knowledge — rules, history, technique, and terminology. Each correct answer earns 15 XP, and a perfect score earns a 75 XP bonus!'),
+        h('div', { className:'flex flex-wrap justify-center gap-2 mt-4' },
+          ['Rules','History','Technique','Terminology','Fielding'].map(c=>h('span',{key:c,className:`text-xs px-2 py-1 rounded-full font-bold ${catColor[c]}`},c))
+        )
+      ),
+      h('button', { onClick:start, className:'btn-primary w-full py-4 text-base font-black' }, '📝 Start Quiz'),
+      h('div', { className:'grid grid-cols-2 gap-3' },
+        h(StatCard,{label:'Questions',value:QUIZ_QUESTIONS.length,color:'text-teal-400'}),
+        h(StatCard,{label:'Max XP',value:`${QUIZ_QUESTIONS.length*15+75}`,color:'text-emerald-400'})
+      )
+    )
+  );
+
+  if (mode==='results') return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:`linear-gradient(135deg,${score>=12?'#064e3b,#065f46':score>=8?'#1e40af,#1d4ed8':'#7f1d1d,#991b1b'})`} },
+      h('div', { className:'relative z-10 text-center' },
+        h('div', { className:'text-5xl mb-2' }, score===QUIZ_QUESTIONS.length?'🏆':score>=10?'🌟':score>=7?'👍':'📚'),
+        h('h1', { className:'text-2xl font-black text-white' }, `${score}/${QUIZ_QUESTIONS.length}`),
+        h('p', { className:'text-white/75' }, `${xp} XP earned`)
+      )
+    ),
+    h('div', { className:'px-4 pt-5 space-y-4' },
+      h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700 text-center' },
+        h('div', { className:'text-2xl font-black text-white mb-1' }, `${Math.round((score/QUIZ_QUESTIONS.length)*100)}%`),
+        h('div', { className:'text-sm text-slate-400' }, score===QUIZ_QUESTIONS.length?'Perfect score! You\'re a cricket expert!':score>=10?'Excellent cricket knowledge!':score>=7?'Good knowledge — keep studying!':'Keep practicing — cricket knowledge takes time!'),
+        score===QUIZ_QUESTIONS.length&&h('div',{className:'text-amber-400 font-bold text-sm mt-2'},'🎉 +75 Bonus XP for perfect score!')
+      ),
+      h('div', { className:'flex gap-3' },
+        h('button',{onClick:start,className:'btn-primary flex-1'},'Try Again'),
+        h('button',{onClick:()=>nav('Home'),className:'btn-secondary flex-1'},'Home')
+      )
+    )
+  );
+
+  return h('div', { className:'min-h-screen px-5', style:{background:'linear-gradient(135deg,#0a1628,#0f172a)'} },
+    h('div', { className:'h-1 bg-slate-800 mb-0' },
+      h('div', { className:'h-full bg-gradient-to-r from-teal-500 to-emerald-500 transition-all', style:{width:`${(current/QUIZ_QUESTIONS.length)*100}%`} })
+    ),
+    h('div', { className:'pt-20 pb-28' },
+      h('div', { className:'flex items-center justify-between mb-5' },
+        h('span', { className:'text-xs text-slate-500 font-bold' }, `${current+1} / ${QUIZ_QUESTIONS.length}`),
+        h('span', { className:`text-xs px-2 py-1 rounded-full font-bold ${catColor[q.cat]||'text-slate-400'}` }, q.cat)
+      ),
+      h('h2', { className:'text-base font-bold text-white mb-6 leading-relaxed' }, q.q),
+      h('div', { className:'space-y-3' },
+        q.opts.map((opt,i)=>{
+          let cls='w-full text-left p-4 rounded-2xl border-2 transition-all ';
+          if(answered===null) cls+='border-slate-700 bg-slate-800/80 text-white';
+          else if(i===q.a) cls+='border-emerald-500 bg-emerald-900/30 text-emerald-300';
+          else if(i===answered&&i!==q.a) cls+='border-red-500 bg-red-900/30 text-red-300';
+          else cls+='border-slate-700/40 bg-slate-900/50 text-slate-500';
+          return h('button',{key:i,onClick:()=>choose(i),className:cls,disabled:answered!==null},
+            h('div',{className:'flex items-center gap-3'},
+              h('div',{className:`w-7 h-7 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0 ${answered===null?'bg-slate-700':i===q.a?'bg-emerald-500':i===answered?'bg-red-500':'bg-slate-800'}`},
+                answered!==null&&i===q.a?'✓':answered!==null&&i===answered?'✗':['A','B','C','D'][i]
+              ),
+              h('span',{className:'text-sm'},opt)
+            )
+          );
+        })
+      ),
+      answered!==null&&h('button',{onClick:next,className:'mt-5 btn-primary w-full py-4 font-black'},
+        current===QUIZ_QUESTIONS.length-1?'See Results →':'Next Question →'
+      )
+    )
+  );
+}
+
+// ================================================================
+// SCHEDULE PAGE — Weekly training planner
+// ================================================================
+const SCHEDULE_TYPES = [
+  {id:'rest',label:'Rest Day',emoji:'😴',color:'text-slate-400 bg-slate-800 border-slate-700',xp:0},
+  {id:'batting',label:'Batting',emoji:'🏏',color:'text-blue-400 bg-blue-900/20 border-blue-700/50',xp:80},
+  {id:'bowling',label:'Bowling',emoji:'⚾',color:'text-red-400 bg-red-900/20 border-red-700/50',xp:75},
+  {id:'fielding',label:'Fielding',emoji:'🏃',color:'text-emerald-400 bg-emerald-900/20 border-emerald-700/50',xp:65},
+  {id:'fitness',label:'Fitness',emoji:'💪',color:'text-orange-400 bg-orange-900/20 border-orange-700/50',xp:70},
+  {id:'mental',label:'Mental',emoji:'🧠',color:'text-purple-400 bg-purple-900/20 border-purple-700/50',xp:55},
+  {id:'match',label:'Match Day',emoji:'🏆',color:'text-amber-400 bg-amber-900/20 border-amber-700/50',xp:120},
+];
+
+function SchedulePage() {
+  const [schedule, setSchedule] = useState(() => DB.get('schedule') || {Mon:'rest',Tue:'batting',Wed:'bowling',Thu:'fitness',Fri:'batting',Sat:'match',Sun:'rest'});
+  const [picking, setPicking] = useState(null); // day being edited
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+  const setDay = (day,type) => {
+    const s = {...schedule,[day]:type};
+    DB.set('schedule',s); setSchedule(s); setPicking(null);
+  };
+
+  const totalXP = days.reduce((t,d)=>{
+    const type = SCHEDULE_TYPES.find(t=>t.id===schedule[d]);
+    return t+(type?.xp||0);
+  }, 0);
+
+  return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#1e40af,#7e22ce)'} },
+      h('div', { className:'relative z-10' },
+        h('h1', { className:'text-xl font-black text-white' }, '📅 Training Schedule'),
+        h('p', { className:'text-white/75 text-sm' }, 'Plan your training week for maximum results')
+      )
+    ),
+    h('div', { className:'px-4 pt-5 space-y-4' },
+      h('div', { className:'p-4 rounded-2xl bg-indigo-900/20 border border-indigo-700/50 flex items-center justify-between' },
+        h('div', {},
+          h('div', { className:'font-black text-white' }, 'Weekly XP Potential'),
+          h('div', { className:'text-xs text-slate-400' }, 'If you complete every session')
+        ),
+        h('div', { className:'text-2xl font-black text-indigo-400' }, `${totalXP} XP`)
+      ),
+      picking && h('div', { className:'p-4 rounded-2xl bg-slate-800 border border-slate-700' },
+        h('div', { className:'text-xs font-bold text-slate-400 uppercase tracking-wider mb-3' }, `Set ${picking}'s training`),
+        h('div', { className:'grid grid-cols-2 gap-2' },
+          SCHEDULE_TYPES.map(t=>h('button',{key:t.id,onClick:()=>setDay(picking,t.id),
+            className:`flex items-center gap-2 p-3 rounded-xl border text-left ${t.color} font-bold text-sm active:scale-[.98]`
+          },h('span',{},t.emoji),t.label))
+        )
+      ),
+      h('div', { className:'space-y-2' },
+        days.map(day=>{
+          const typeId = schedule[day]||'rest';
+          const type = SCHEDULE_TYPES.find(t=>t.id===typeId)||SCHEDULE_TYPES[0];
+          return h('button',{key:day,onClick:()=>setPicking(picking===day?null:day),
+            className:`w-full flex items-center gap-4 p-4 rounded-2xl border transition-all text-left pro-card ${picking===day?'border-emerald-500/50 bg-emerald-900/10':type.color}`
+          },
+            h('span',{className:'text-sm font-bold text-slate-400 w-8'},day),
+            h('span',{className:'text-xl'},type.emoji),
+            h('div',{className:'flex-1'},
+              h('div',{className:'font-bold text-white text-sm'},type.label),
+              type.xp>0&&h('div',{className:'text-xs text-slate-400'},`+${type.xp} XP if completed`)
+            ),
+            h(Icon,{n:'pencil',cls:'w-4 h-4 text-slate-500'})
+          );
+        })
+      ),
+      h('button',{onClick:()=>{
+        const today=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+        const type=schedule[today]||'rest';
+        const dest={batting:'Drills',bowling:'Drills',fielding:'Drills',fitness:'Fitness',mental:'Mental',match:'Progress',rest:'Home'}[type]||'Home';
+        nav(dest);
+      }, className:'btn-primary w-full py-4 font-black'},
+        "▶ Start Today's Session"
+      )
+    )
+  );
+}
+
+// ================================================================
+// AI COACH PAGE — Smart personalized coaching
+// ================================================================
+const COACH_RESPONSES = {
+  streak: (n) => n>7 ? `🔥 ${n}-day streak — you're in the elite consistency zone. Fewer than 3% of cricketers maintain this discipline. The question now isn't whether you'll improve — it's HOW FAST.` : n>0 ? `🔥 ${n}-day streak building! Keep the momentum going. Players who maintain 7+ day streaks improve 40% faster than those who train sporadically.` : `Start a streak today. Even 5 minutes of mental training counts. Consistency is the foundation of elite cricket.`,
+  xp_low: `You're early in your SmartCrick journey. Focus on completing drills consistently rather than jumping to advanced content. Master the fundamentals — cover drive, line and length, ground fielding — before moving on.`,
+  xp_mid: `Good progress! You've built a solid base. Now is the time to add mental training sessions alongside your drills. The brain is the most undertrained muscle in cricket.`,
+  xp_high: `Elite training history. You're in the top tier of SmartCrick athletes. Time to focus on skill paths, pressure inoculation training, and refining your game under match conditions.`,
+  drills_low: `Your drill completion count is low. Drills are the engine of cricket improvement. Aim for at least one cricket-specific drill every single day. Even 15 minutes of focused cover drive practice produces measurable results within 2 weeks.`,
+  mental_low: `Most cricketers neglect mental training until it's too late. The best players in the world spend as much time on mental preparation as physical. Add one 5-minute mental session per day. It will transform your game under pressure.`,
+  consistent: `Your training data shows excellent consistency across drills, mental sessions, and fitness. This cross-disciplinary approach is exactly what separates club cricketers from elite performers.`,
+};
+
+function AICoachPage() {
+  const progress = DB.getProgress();
+  const info = getLevelInfo(progress.total_xp||0);
+  const user = DB.getUser();
+  const streak = progress.current_streak||0;
+  const [tab, setTab] = useState('insights');
+
+  // Generate personalized insights
+  const insights = useMemo(()=>{
+    const msgs = [];
+    msgs.push({ icon:'🔥', title:'Streak Status', text:COACH_RESPONSES.streak(streak), color:'text-orange-400' });
+    if ((progress.total_xp||0)<1000) msgs.push({icon:'⚡',title:'XP Stage',text:COACH_RESPONSES.xp_low,color:'text-emerald-400'});
+    else if ((progress.total_xp||0)<10000) msgs.push({icon:'⚡',title:'XP Stage',text:COACH_RESPONSES.xp_mid,color:'text-emerald-400'});
+    else msgs.push({icon:'⚡',title:'XP Stage',text:COACH_RESPONSES.xp_high,color:'text-emerald-400'});
+    if ((progress.drills_done||0)<5) msgs.push({icon:'🏏',title:'Drill Frequency',text:COACH_RESPONSES.drills_low,color:'text-blue-400'});
+    if ((progress.mental_done||0)<5) msgs.push({icon:'🧠',title:'Mental Training',text:COACH_RESPONSES.mental_low,color:'text-purple-400'});
+    if ((progress.drills_done||0)>=10 && (progress.mental_done||0)>=5) msgs.push({icon:'🌟',title:'Cross-Training',text:COACH_RESPONSES.consistent,color:'text-amber-400'});
+    return msgs;
+  },[progress]);
+
+  // Today's recommended plan
+  const todayPlan = [
+    { type:'drill', item:DRILLS.find(d=>!(progress.completed_drills||[]).includes(d.id)&&d.category==='batting')||DRILLS[0], label:'Cricket Drill', color:'from-blue-600 to-indigo-700', emoji:'🏏', page:'DrillDetail' },
+    { type:'mental', item:MENTAL_SESSIONS.find(m=>!(progress.completed_mental||[]).includes(m.id)&&!m.is_premium)||MENTAL_SESSIONS[0], label:'Mental Session', color:'from-purple-600 to-indigo-700', emoji:'🧠', page:'MentalPlayer' },
+    { type:'fitness', item:WORKOUTS.find(w=>w.level==='beginner')||WORKOUTS[0], label:'Fitness', color:'from-orange-600 to-red-600', emoji:'💪', page:'WorkoutDetail' },
+  ];
+
+  return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#064e3b,#065f46,#0f172a)'} },
+      h('div', { className:'relative z-10' },
+        h('div', { className:'flex items-center gap-3 mb-2' },
+          h('div', { className:'w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-2xl' }, '🤖'),
+          h('div', {},
+            h('h1', { className:'text-xl font-black text-white' }, 'Head Coach AI'),
+            h('p', { className:'text-emerald-400/80 text-xs font-semibold' }, 'Personalized for your training data')
+          )
+        )
+      )
+    ),
+
+    // Tabs
+    h('div', { className:'flex gap-2 px-4 py-3' },
+      [['insights','🎯 Insights'],['plan','📋 Today\'s Plan'],['goals','🛤 Next Steps']].map(([id,label])=>
+        h('button',{key:id,onClick:()=>setTab(id),className:`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${tab===id?'bg-emerald-600 text-white':'bg-slate-800 text-slate-400'}`},label)
+      )
+    ),
+
+    // ── Insights ────────────────────────────────────────────────
+    tab==='insights' && h('div', { className:'px-4 space-y-3' },
+      h('div', { className:'p-3 rounded-xl bg-slate-800/60 border border-slate-700 flex items-center gap-3 mb-4' },
+        h('div', { className:'text-2xl' }, '👤'),
+        h('div', {},
+          h('div', { className:'font-bold text-white text-sm' }, user.name||'Cricketer'),
+          h('div', { className:'text-xs text-slate-400' }, `Level ${info.level} ${info.name} • ${(progress.total_xp||0).toLocaleString()} XP`)
+        )
+      ),
+      insights.map((ins,i)=>h('div',{key:i,className:'p-4 rounded-2xl bg-slate-800 border border-slate-700'},
+        h('div',{className:'flex items-center gap-2 mb-2'},h('span',{},ins.icon),h('span',{className:`font-bold text-sm ${ins.color}`},ins.title)),
+        h('p',{className:'text-sm text-slate-300 leading-relaxed'},ins.text)
+      ))
+    ),
+
+    // ── Today's plan ────────────────────────────────────────────
+    tab==='plan' && h('div', { className:'px-4 space-y-3' },
+      h('p', { className:'text-sm text-slate-400 mb-1' }, 'Your AI-curated session for today:'),
+      todayPlan.map((item,i)=>{
+        const target = item.type==='drill'?item.item:item.type==='mental'?item.item:item.item;
+        const name = target?.title||target?.name||'Session';
+        const xp = target?.xp_value||target?.xp||0;
+        const dur = target?.duration_minutes || (target?.duration_seconds ? Math.floor(target.duration_seconds/60) : 0);
+        return h('button',{key:i,
+          onClick:()=>nav(item.page,{id:target?.id}),
+          className:'w-full flex items-center gap-4 p-4 rounded-2xl border border-slate-700 bg-slate-800/80 text-left active:scale-[.99] pro-card'
+        },
+          h('div',{className:`w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-gradient-to-br ${item.color} flex-shrink-0`},item.emoji),
+          h('div',{className:'flex-1 min-w-0'},
+            h('div',{className:'text-xs text-slate-400 uppercase font-bold tracking-wider mb-0.5'},item.label),
+            h('div',{className:'font-bold text-white text-sm truncate'},name),
+            h('div',{className:'text-xs text-slate-400'},`${dur} min • ${xp} XP`)
+          ),
+          h(Icon,{n:'chevR',cls:'w-5 h-5 text-slate-500'})
+        );
+      }),
+      h('div', { className:'p-4 rounded-2xl bg-emerald-900/20 border border-emerald-700/50' },
+        h('div', { className:'text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1' }, '⚡ Coach Note'),
+        h('p', { className:'text-sm text-slate-300' }, streak>0 ? `You\'re on a ${streak}-day streak. Don\'t break it today — even one session keeps the momentum alive.` : 'Start a training streak today. The first session is always the hardest. After that, momentum carries you forward.')
+      )
+    ),
+
+    // ── Next Steps ───────────────────────────────────────────────
+    tab==='goals' && h('div', { className:'px-4 space-y-3' },
+      h('p', { className:'text-sm text-slate-400 mb-1' }, 'Your personalized improvement roadmap:'),
+      [
+        { title:'Start a Skill Path', desc:`You\'ve completed ${Object.keys(progress.skill_path_progress||{}).length} skill paths. Start the Batting or Bowling path for structured progression.`, action:()=>nav('SkillPaths'), btnLabel:'View Skill Paths', emoji:'🛤' },
+        { title:'30-Day Challenge', desc:`${Object.keys(progress.thirtyDay_completed||{}).length}/30 days complete. Daily consistency transforms game faster than weekend binges.`, action:()=>nav('ThirtyDay'), btnLabel:'Continue Challenge', emoji:'🎯' },
+        { title:'Mental Training Library', desc:`${progress.mental_done||0} sessions done. Aim for 25+ to reach Mental Master status and unlock the elite mindset badge.`, action:()=>nav('Mental'), btnLabel:'Mental Training', emoji:'🧠' },
+        { title:'Drill Mastery', desc:`${progress.drills_done||0} drills completed. Work through all 6 categories — Batting, Bowling, Fielding, Keeping, Fitness, Mental.`, action:()=>nav('Drills'), btnLabel:'Cricket Drills', emoji:'🏏' },
+      ].map((item,i)=>h('div',{key:i,className:'p-4 rounded-2xl bg-slate-800 border border-slate-700'},
+        h('div',{className:'flex items-start gap-3'},
+          h('span',{className:'text-2xl flex-shrink-0'},item.emoji),
+          h('div',{className:'flex-1'},
+            h('div',{className:'font-bold text-white text-sm mb-1'},item.title),
+            h('p',{className:'text-xs text-slate-400 leading-relaxed mb-3'},item.desc),
+            h('button',{onClick:item.action,className:'text-xs font-bold text-emerald-400 bg-emerald-900/30 border border-emerald-700/50 px-3 py-1.5 rounded-lg'},item.btnLabel)
+          )
+        )
+      ))
+    )
+  );
+}
+
+// ================================================================
+// 90-DAY ELITE PROGRAM — Structured transformation
+// ================================================================
+const NINETY_PHASES = [
+  { week:'1-3', phase:'Foundation', emoji:'🌱', color:'from-green-600 to-emerald-700', desc:'Build unbreakable technique fundamentals in batting, bowling, and fielding. Every elite career starts here.',
+    focus:['Defensive technique','Line and length accuracy','Ground fielding mechanics','Mental pre-performance routine'],
+    dailyXP:120, total:2520 },
+  { week:'4-6', phase:'Development', emoji:'⚡', color:'from-blue-600 to-indigo-700', desc:'Expand your arsenal. Introduce attacking strokes, bowling variations, and pressure mental training.',
+    focus:['Attacking stroke play','Swing and seam variations','Slip catching','Pressure inoculation'],
+    dailyXP:150, total:3150 },
+  { week:'7-9', phase:'Integration', emoji:'🔥', color:'from-orange-600 to-red-600', desc:'Combine skills in match simulations. Build real game intelligence and tactical understanding.',
+    focus:['Match simulations','Death bowling/batting','Run chase psychology','Field placement strategy'],
+    dailyXP:180, total:3780 },
+  { week:'10-12', phase:'Performance', emoji:'🏆', color:'from-purple-600 to-pink-600', desc:'Peak performance output. Elite mental state, maximum physical conditioning, complete game mastery.',
+    focus:['Peak performance mindset','Complete skill mastery','Leadership and team dynamics','Match-winning performances'],
+    dailyXP:200, total:4200 },
+  { week:'13', phase:'Ascension', emoji:'👑', color:'from-amber-500 to-orange-600', desc:'The final week. You are a transformed cricketer. Consolidate everything and step into your best cricket self.',
+    focus:['Full game simulation','Personal peak performance','Legacy mentality','Elite identity lock-in'],
+    dailyXP:250, total:1750 },
+];
+
+function NinetyDayPage() {
+  const [started, setStarted] = useState(() => !!DB.get('ninety_day_started'));
+  const [activePhase, setActivePhase] = useState(null);
+  const totalXP = NINETY_PHASES.reduce((s,p)=>s+p.total,0);
+
+  const begin = () => {
+    DB.set('ninety_day_started', new Date().toISOString().slice(0,10));
+    awardXP(100, 0, '90day_start');
+    setStarted(true);
+  };
+
+  return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#1e1b4b,#4338ca,#7e22ce)'} },
+      h('div', { className:'relative z-10' },
+        h('div', { className:'flex items-center gap-3 mb-2' },
+          h('span', { className:'text-3xl' }, '💎'),
+          h('div', {},
+            h('h1', { className:'text-xl font-black text-white' }, '90-Day Elite Program'),
+            h('p', { className:'text-white/75 text-sm' }, 'A complete cricket transformation')
+          )
+        )
+      )
+    ),
+    h('div', { className:'px-4 pt-5 space-y-4' },
+      h('div', { className:'p-5 rounded-2xl bg-indigo-900/20 border border-indigo-700/50' },
+        h('div', { className:'grid grid-cols-3 gap-3 text-center' },
+          h('div', {},h('div',{className:'text-2xl font-black text-white'},'90'),h('div',{className:'text-xs text-slate-400'},'Days')),
+          h('div', {},h('div',{className:'text-2xl font-black text-indigo-400'},NINETY_PHASES.length),h('div',{className:'text-xs text-slate-400'},'Phases')),
+          h('div', {},h('div',{className:'text-2xl font-black text-emerald-400'},`${(totalXP/1000).toFixed(1)}k`),h('div',{className:'text-xs text-slate-400'},'Total XP')),
+        ),
+        h('p',{className:'text-sm text-slate-300 mt-4 leading-relaxed'},'The most comprehensive structured cricket training program ever built. 90 days of daily sessions, progressive difficulty, and complete skill transformation.')
+      ),
+      !started && h('button', { onClick:begin, className:'btn-primary w-full py-4 text-base font-black' }, '💎 Begin 90-Day Program (+100 XP)'),
+      started && h('div', { className:'p-3 rounded-xl bg-emerald-900/30 border border-emerald-700/50 text-center text-sm text-emerald-400 font-bold' }, '✓ Program Active — Keep going every day!'),
+      // Phase breakdown
+      NINETY_PHASES.map((phase,i)=>h('button',{key:i,onClick:()=>setActivePhase(activePhase===i?null:i),
+        className:'w-full text-left p-5 rounded-2xl border border-slate-700 bg-slate-800 active:scale-[.99] pro-card'
+      },
+        h('div',{className:'flex items-center gap-4'},
+          h('div',{className:`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl bg-gradient-to-br ${phase.color} flex-shrink-0`},phase.emoji),
+          h('div',{className:'flex-1'},
+            h('div',{className:'font-black text-white'},`Week ${phase.week} — ${phase.phase}`),
+            h('div',{className:'text-xs text-slate-400 mt-0.5'},phase.desc),
+            h('div',{className:'flex items-center gap-3 mt-2'},
+              h('span',{className:'text-xs text-emerald-400 font-bold'},`+${phase.dailyXP} XP/day`),
+              h('span',{className:'text-xs text-slate-500'},`${phase.total.toLocaleString()} total XP`)
+            )
+          ),
+          h(Icon,{n:activePhase===i?'chevU':'chevD',cls:'w-5 h-5 text-slate-500'})
+        ),
+        activePhase===i&&h('div',{className:'mt-4 pt-4 border-t border-slate-700 space-y-2'},
+          h('p',{className:'text-xs font-bold text-slate-400 uppercase tracking-wider mb-2'},'Focus Areas'),
+          phase.focus.map((f,j)=>h('div',{key:j,className:'flex items-center gap-2'},
+            h('div',{className:'w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0'}),
+            h('span',{className:'text-sm text-slate-300'},f)
+          ))
+        )
+      ))
+    )
+  );
+}
+
+// ================================================================
+// AI WORKOUT PAGE — Conversational workout generator
+// ================================================================
+function AIWorkoutPage() {
+  const [step, setStep] = useState(0);
+  const [choices, setChoices] = useState({});
+  const [results, setResults] = useState(null);
+
+  const questions = [
+    { key:'level', prompt:'What\'s your current fitness level?', emoji:'💪',
+      opts:[{id:'beginner',label:'Beginner — new to training',emoji:'🌱'},{id:'intermediate',label:'Intermediate — training regularly',emoji:'⚡'},{id:'advanced',label:'Advanced — high intensity',emoji:'🔥'},{id:'pro',label:'Pro — elite performance',emoji:'💎'}] },
+    { key:'target', prompt:'What muscle group do you want to target?', emoji:'🎯',
+      opts:[{id:'full-body',label:'Full Body',emoji:'🏃'},{id:'chest',label:'Chest',emoji:'💪'},{id:'back',label:'Back',emoji:'🦵'},{id:'legs',label:'Legs',emoji:'🦵'},{id:'core',label:'Core',emoji:'🎯'},{id:'arms',label:'Arms',emoji:'💪'},{id:'shoulders',label:'Shoulders',emoji:'🤲'},{id:'glutes',label:'Glutes',emoji:'🏋️'}] },
+    { key:'goal', prompt:'What\'s your training goal?', emoji:'🏆',
+      opts:[{id:'build-muscle',label:'Build Muscle & Strength',emoji:'💪'},{id:'lose-weight',label:'Burn Fat & Get Lean',emoji:'🔥'},{id:'improve-endurance',label:'Cricket Fitness & Endurance',emoji:'🏃'}] },
+    { key:'duration', prompt:'How much time do you have?', emoji:'⏱',
+      opts:[{id:'<10',label:'Under 10 minutes — quick hit',emoji:'⚡'},{id:'10-15',label:'10-15 minutes',emoji:'⏱'},{id:'15-20',label:'15-20 minutes',emoji:'🕐'},{id:'20-25',label:'20-25 minutes',emoji:'⏰'},{id:'25+',label:'25+ minutes — full session',emoji:'🏆'}] },
+  ];
+
+  const choose = (key,val) => {
+    const next = {...choices,[key]:val};
+    setChoices(next);
+    if (step<questions.length-1) setStep(s=>s+1);
+    else setResults(findWorkouts(next.level,next.target,next.goal,next.duration));
+  };
+
+  const reset = () => { setStep(0); setChoices({}); setResults(null); };
+
+  if (results) return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#ea580c,#dc2626)'} },
+      h('div', { className:'relative z-10' },
+        h('div', { className:'flex items-center gap-3 mb-2' },
+          h('button', {onClick:reset, className:'p-2 rounded-xl bg-white/15'}, h(Icon,{n:'arrowL',cls:'w-5 h-5 text-white'}))
+        ),
+        h('h1', { className:'text-xl font-black text-white' }, '🤖 Your Workouts'),
+        h('p', { className:'text-white/75 text-sm' }, `${results.length} perfect match${results.length!==1?'es':''} found`)
+      )
+    ),
+    h('div', { className:'px-4 pt-5 space-y-3' },
+      h('div', { className:'p-3 rounded-2xl bg-orange-900/20 border border-orange-700/50 flex flex-wrap gap-2' },
+        Object.values(choices).map((v,i)=>h('span',{key:i,className:'text-xs font-bold text-orange-300 bg-orange-900/40 px-2 py-1 rounded-lg'},v.replace(/-/g,' ')))
+      ),
+      results.map(w=>h('button',{key:w.id,onClick:()=>nav('WorkoutDetail',{id:w.id}),
+        className:'w-full flex items-center gap-4 p-4 rounded-2xl border border-slate-700 bg-slate-800/80 text-left active:scale-[.99] pro-card'
+      },
+        h('div',{className:'w-12 h-12 rounded-xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center text-xl flex-shrink-0'},'💪'),
+        h('div',{className:'flex-1'},
+          h('div',{className:'font-bold text-white text-sm'},w.name),
+          h('div',{className:'text-xs text-slate-400'},`${w.duration_minutes} min • ${w.exercises} exercises`),
+          h('div',{className:'flex items-center gap-2 mt-1'},h(XPBadge,{xp:w.xp_value}))
+        ),
+        h(Icon,{n:'chevR',cls:'w-5 h-5 text-slate-500'})
+      ))
+    )
+  );
+
+  const q = questions[step];
+  return h('div', { className:'page-wrapper' },
+    h('div', { className:'page-header', style:{background:'linear-gradient(135deg,#ea580c,#dc2626)'} },
+      h('div', { className:'relative z-10' },
+        step>0&&h('div',{className:'flex items-center gap-3 mb-2'},h('button',{onClick:()=>setStep(s=>s-1),className:'p-2 rounded-xl bg-white/15'},h(Icon,{n:'arrowL',cls:'w-5 h-5 text-white'}))),
+        h('h1',{className:'text-xl font-black text-white'},'🤖 AI Workout Creator'),
+        h('div',{className:'flex gap-1 mt-2'},questions.map((_,i)=>h('div',{key:i,className:`h-1.5 flex-1 rounded-full ${i<=step?'bg-white':'bg-white/30'}`})))
+      )
+    ),
+    h('div',{className:'px-4 pt-6'},
+      h('div',{className:'text-center mb-6'},h('div',{className:'text-4xl mb-3'},q.emoji),h('h2',{className:'text-base font-bold text-white'},q.prompt)),
+      h('div',{className:'space-y-2'},
+        q.opts.map(opt=>h('button',{key:opt.id,onClick:()=>choose(q.key,opt.id),
+          className:'w-full flex items-center gap-4 p-4 rounded-2xl border border-slate-700 bg-slate-800/80 text-left active:scale-[.99] pro-card'
+        },h('span',{className:'text-2xl'},opt.emoji),h('span',{className:'text-sm font-bold text-white flex-1'},opt.label),h(Icon,{n:'chevR',cls:'w-4 h-4 text-slate-500'})))
+      )
+    )
+  );
+}
 // ================================================================
 // APP ROOT — Router and global layout
 // ================================================================
