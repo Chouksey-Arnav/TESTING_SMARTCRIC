@@ -99,6 +99,10 @@ const IC = {
   chevronsRight:'<polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/>',
   rotateCcw:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
   maximize:'<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>',
+  lock:'<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  book:'<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+  activity:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
 };
 
 function Icon({ n, cls='w-5 h-5', style }) {
@@ -143,19 +147,40 @@ function useRoute() {
 // ── LocalStorage DB ───────────────────────────────────────────────
 const DB = {
   _k: k=>`sc_${k}`,
-  get(k) { try { const v=localStorage.getItem(this._k(k)); return v?JSON.parse(v):null; } catch { return null; } },
-  set(k,v) { try { localStorage.setItem(this._k(k),JSON.stringify(v)); } catch {} return v; },
+  // Test localStorage is writable at startup
+  isAvailable() {
+    try { localStorage.setItem('sc_test','1'); localStorage.removeItem('sc_test'); return true; }
+    catch { return false; }
+  },
+  get(k) {
+    try { const v=localStorage.getItem(this._k(k)); return v?JSON.parse(v):null; }
+    catch { return null; }
+  },
+  set(k,v) {
+    try {
+      const serialized=JSON.stringify(v);
+      localStorage.setItem(this._k(k),serialized);
+      // Verify it was actually saved (critical for XP persistence)
+      const readback=localStorage.getItem(this._k(k));
+      if(!readback) console.warn('SC: write failed for key',k);
+    } catch(e) {
+      console.warn('SC: localStorage write error',k,e);
+    }
+    return v;
+  },
   del(k) { try { localStorage.removeItem(this._k(k)); } catch {} },
 
-  // Progress
+  // Progress — always returns a complete object with all fields
   getProgress() {
-    return this.get('progress') || {
+    const saved=this.get('progress');
+    // Merge saved with defaults so new fields never come back undefined
+    return Object.assign({
       total_xp:0, drills_done:0, mental_done:0, workouts_done:0,
       practice_minutes:0, current_streak:0, longest_streak:0,
       last_active_date:null, last_checkin_date:null,
       completed_drills:[], completed_mental:[], completed_workouts:[],
       badges:[], skill_path_progress:{}, thirtyDay_completed:{}
-    };
+    }, saved||{});
   },
   saveProgress(v) { this.set('progress', v); },
 
@@ -310,31 +335,44 @@ function awardXP(xp, minutes=0, source='general', completedKey=null, itemId=null
     const today = new Date().toISOString().slice(0,10);
     const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
 
-    // Streak logic
-    if (p.last_active_date === today) { /* same day */ }
+    // Idempotency guard: prevent duplicate checkin awards on the same day
+    if (source==='checkin') {
+      if (p.last_checkin_date===today) {
+        console.log('SC: checkin already awarded today, skipping');
+        return p;
+      }
+      p.last_checkin_date=today;
+    }
+
+    // Streak logic — only update once per day
+    if (p.last_active_date === today) { /* same day, no streak change */ }
     else if (p.last_active_date === yesterday) {
       p.current_streak = (p.current_streak||0)+1;
       p.longest_streak = Math.max(p.longest_streak||0, p.current_streak);
     } else {
+      // Gap in training — reset streak
       p.current_streak = 1;
-      if (!p.longest_streak) p.longest_streak=1;
+      p.longest_streak = Math.max(p.longest_streak||0, 1);
     }
     p.last_active_date = today;
+
+    // Accumulate XP — always additive, never replace
     p.total_xp = (p.total_xp||0)+xp;
     p.practice_minutes = (p.practice_minutes||0)+minutes;
 
+    // Mark completed items — deduplicated arrays
     if (completedKey==='drill' && itemId) {
-      if (!p.completed_drills) p.completed_drills=[];
+      p.completed_drills = p.completed_drills||[];
       if (!p.completed_drills.includes(itemId)) p.completed_drills.push(itemId);
       p.drills_done = (p.drills_done||0)+1;
     }
     if (completedKey==='mental' && itemId) {
-      if (!p.completed_mental) p.completed_mental=[];
+      p.completed_mental = p.completed_mental||[];
       if (!p.completed_mental.includes(itemId)) p.completed_mental.push(itemId);
       p.mental_done = (p.mental_done||0)+1;
     }
     if (completedKey==='workout' && itemId) {
-      if (!p.completed_workouts) p.completed_workouts=[];
+      p.completed_workouts = p.completed_workouts||[];
       if (!p.completed_workouts.includes(itemId)) p.completed_workouts.push(itemId);
       p.workouts_done = (p.workouts_done||0)+1;
     }
@@ -1308,9 +1346,16 @@ function HomePage() {
   const streak = progress.current_streak||0;
 
   const handleCheckIn = () => {
+    // Guard 1: React state (prevents double-tap before re-render)
     if(checkedIn) return;
+    // Guard 2: Live DB check (prevents re-award after navigate-away-and-back)
     const today=new Date().toISOString().slice(0,10);
-    const p=DB.getProgress(); p.last_checkin_date=today; DB.saveProgress(p);
+    const currentProgress=DB.getProgress();
+    if(currentProgress.last_checkin_date===today) {
+      setCheckedIn(true);
+      return;
+    }
+    // Award: awardXP internally also guards via last_checkin_date
     awardXP(15,0,'checkin');
     setCheckedIn(true);
   };
@@ -1579,7 +1624,14 @@ const LVL_BADGE={
 function DrillsPage() {
   const [cat,setCat]=useState('batting');
   const [search,setSearch]=useState('');
-  const progress=DB.getProgress();
+  // Live progress state — refreshes when any XP is awarded
+  const [progress,setProgress]=useState(()=>DB.getProgress());
+  useEffect(()=>{
+    const refresh=()=>setProgress(DB.getProgress());
+    window.addEventListener('sc_update',refresh);
+    window.addEventListener('focus',refresh);
+    return ()=>{ window.removeEventListener('sc_update',refresh); window.removeEventListener('focus',refresh); };
+  },[]);
   const completed=progress.completed_drills||[];
   const catDef=DRILL_CATS.find(c=>c.id===cat);
   const filtered=DRILLS.filter(d=>d.category===cat&&(search===''||d.title.toLowerCase().includes(search.toLowerCase())));
@@ -1661,6 +1713,7 @@ function DrillsPage() {
 function DrillDetailPage({ params }) {
   const drill=DRILLS.find(d=>d.id===params?.id);
   const [done,setDone]=useState(false);
+  const completing=useRef(false); // guard against double-tap
   const catDef=DRILL_CATS.find(c=>c.id===drill?.category);
 
   if(!drill) return h('div',{className:'pb-28 flex flex-col items-center justify-center',style:{minHeight:'80vh'}},
@@ -1670,6 +1723,8 @@ function DrillDetailPage({ params }) {
   );
 
   const complete=()=>{
+    if(completing.current) return; // prevent double-tap XP award
+    completing.current=true;
     awardXP(drill.xp_value,drill.duration_minutes,'drill','drill',drill.id);
     fireConfetti(); setDone(true);
   };
@@ -1865,7 +1920,7 @@ function MentalPage() {
 }
 
 // ================================================================
-// MENTAL PLAYER — Step-by-step guided session
+// MENTAL PLAYER — Step-by-step guided session with skip support
 // ================================================================
 function MentalPlayerPage({ params }) {
   const sess=MENTAL_SESSIONS.find(s=>s.id===params?.id);
@@ -1873,30 +1928,85 @@ function MentalPlayerPage({ params }) {
   const [step,setStep]=useState(0);
   const [timeLeft,setTimeLeft]=useState(0);
   const [done,setDone]=useState(false);
+  const [paused,setPaused]=useState(false);
   const intRef=useRef(null);
+  const awardedRef=useRef(false); // prevents double-award on complete
+  const completingRef=useRef(false); // prevents double-tap
 
+  // Reset awarded ref when session is restarted
+  useEffect(()=>{ if(!started) { awardedRef.current=false; completingRef.current=false; } },[started]);
+
+  // Load new step duration whenever step changes
   useEffect(()=>{
     if(started && sess && !done){
+      clearInterval(intRef.current);
       setTimeLeft(sess.steps[step]?.duration_seconds||60);
+      setPaused(false);
     }
     return ()=>clearInterval(intRef.current);
   },[step,started,done]);
 
+  // Countdown ticker
   useEffect(()=>{
-    if(!started||done) return;
+    if(!started||done||paused) { clearInterval(intRef.current); return; }
     clearInterval(intRef.current);
     intRef.current=setInterval(()=>{
       setTimeLeft(t=>{
         if(t<=1){
           clearInterval(intRef.current);
-          if(step<sess.steps.length-1){ setStep(s=>s+1); return 0; }
-          else { setDone(true); awardXP(sess.xp_value,Math.floor(sess.duration_seconds/60),'mental','mental',sess.id); fireConfetti(); return 0; }
+          // Auto-advance to next step OR complete
+          if(step<sess.steps.length-1){
+            setStep(s=>s+1);
+          } else {
+            finishSession();
+          }
+          return 0;
         }
         return t-1;
       });
     },1000);
     return ()=>clearInterval(intRef.current);
-  },[started,done,step]);
+  },[started,done,paused,step]);
+
+  // Cleanup on unmount
+  useEffect(()=>()=>clearInterval(intRef.current),[]);
+
+  const finishSession=()=>{
+    if(awardedRef.current) return;
+    awardedRef.current=true;
+    setDone(true);
+    awardXP(sess.xp_value,Math.floor(sess.duration_seconds/60),'mental','mental',sess.id);
+    fireConfetti();
+  };
+
+  const goNext=()=>{
+    if(completingRef.current) return;
+    clearInterval(intRef.current);
+    if(step<sess.steps.length-1){
+      setStep(s=>s+1);
+    } else {
+      completingRef.current=true;
+      finishSession();
+    }
+  };
+
+  const skipStep=()=>{
+    clearInterval(intRef.current);
+    if(step<sess.steps.length-1){
+      setStep(s=>s+1);
+    } else {
+      // Skipping last step still completes the session and awards XP
+      completingRef.current=true;
+      finishSession();
+    }
+  };
+
+  const goPrev=()=>{
+    if(step>0){
+      clearInterval(intRef.current);
+      setStep(s=>s-1);
+    }
+  };
 
   if(!sess) return h('div',{className:'pb-28 flex flex-col items-center justify-center text-center px-5',style:{minHeight:'80vh'}},
     h('div',{style:{width:56,height:56,borderRadius:12,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'brain',cls:'w-7 h-7',style:{color:'#484f58'}})),
@@ -1905,80 +2015,130 @@ function MentalPlayerPage({ params }) {
   );
 
   if(done) return h('div',{style:{minHeight:'100vh',background:'linear-gradient(135deg,#0f0824,#1e1040,#0f172a)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1.5rem',textAlign:'center'}},
-    h('div',{style:{width:64,height:64,borderRadius:16,background:'rgba(124,58,237,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'brain',cls:'w-8 h-8',style:{color:'#8b5cf6'}})),
-    h('h2',{className:'text-2xl font-black text-white mb-2'},'Session Complete'),
-    h('p',{style:{color:'#94a3b8',marginBottom:'1rem'}},sess.title),
+    h('div',{style:{width:72,height:72,borderRadius:18,background:'rgba(124,58,237,0.2)',border:'1px solid rgba(168,85,247,0.3)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:20}},
+      h(Icon,{n:'circleCheck',cls:'w-9 h-9',style:{color:'#a855f7'}})),
+    h('h2',{style:{fontSize:'1.5rem',fontWeight:800,color:'#fff',marginBottom:8,letterSpacing:'-0.02em'}},'Session Complete'),
+    h('p',{style:{color:'#a78bfa',marginBottom:16,fontSize:14}},sess.title),
     h(XPBadge,{xp:sess.xp_value}),
-    h('div',{className:'mt-6 flex flex-col gap-3 w-full max-w-xs'},
+    h('div',{style:{marginTop:24,display:'flex',flexDirection:'column',gap:10,width:'100%',maxWidth:280}},
       h('button',{onClick:()=>nav('Mental'),className:'btn-primary'},'More Sessions'),
-      h('button',{onClick:()=>{setDone(false);setStarted(false);setStep(0);},className:'btn-secondary'},'Again')
+      h('button',{onClick:()=>{setDone(false);setStarted(false);setStep(0);awardedRef.current=false;completingRef.current=false;},className:'btn-secondary'},'Repeat Session')
     )
   );
 
   const mins=Math.floor(sess.duration_seconds/60);
 
+  // Pre-session preview screen
   if(!started) return h('div',{className:'pb-28'},
-    h(PageHeader,{title:sess.title,subtitle:`${mins} min · ${sess.xp_value} XP`,
+    h(PageHeader,{title:sess.title,subtitle:`${mins} min · ${sess.xp_value} XP · ${sess.steps.length} steps`,
       gradient:'linear-gradient(135deg,#6d28d9,#4338ca)',onBack:()=>nav('Mental')}),
-    h('div',{className:'px-4 pt-5 space-y-4'},
-      h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('p',{className:'text-sm text-slate-300 leading-relaxed'},sess.description)
+    h('div',{style:{padding:'20px'}},
+      h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16,marginBottom:16}},
+        h('p',{style:{fontSize:13,color:'#8b949e',lineHeight:1.7}},sess.description)
       ),
-      h('div',{},
-        h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-3'},`${sess.steps.length} Steps`),
-        h('div',{className:'space-y-2'},
+      h('div',{style:{marginBottom:20}},
+        h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:12}},
+          `${sess.steps.length} Steps — tap Skip to advance any step early`),
+        h('div',{style:{display:'flex',flexDirection:'column',gap:8}},
           sess.steps.map((s,i)=>
-            h('div',{key:i,className:'flex items-start gap-3 p-3 rounded-xl',style:{background:'rgba(15,23,42,0.5)',border:'1px solid rgba(51,65,85,0.4)'}},
-              h('div',{className:'w-6 h-6 rounded-full flex items-center justify-center text-xs font-black text-white flex-shrink-0 mt-0.5',
-                style:{background:'linear-gradient(135deg,#6d28d9,#4338ca)'}},i+1),
-              h('p',{className:'text-sm text-slate-300 flex-1 leading-relaxed'},s.instruction),
-              h('span',{className:'text-xs flex-shrink-0 ml-auto',style:{color:'#64748b'}},`${s.duration_seconds}s`)
+            h('div',{key:i,style:{display:'flex',alignItems:'flex-start',gap:12,padding:'12px 14px',
+              borderRadius:8,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
+              h('div',{style:{width:22,height:22,borderRadius:'50%',background:'rgba(168,85,247,0.2)',
+                border:'1px solid rgba(168,85,247,0.3)',display:'flex',alignItems:'center',justifyContent:'center',
+                flexShrink:0,marginTop:1,fontSize:10,fontWeight:800,color:'#a855f7'}},i+1),
+              h('p',{style:{fontSize:13,color:'#8b949e',flex:1,lineHeight:1.6}},s.instruction),
+              h('span',{style:{fontSize:11,color:'#484f58',flexShrink:0,marginTop:1}},`${s.duration_seconds}s`)
             )
           )
         )
       ),
       h('button',{onClick:()=>{setStarted(true);setStep(0);setTimeLeft(sess.steps[0].duration_seconds);},
-        className:'btn-primary w-full py-4 text-base font-black'},
-        h(Icon,{n:'play',cls:'w-5 h-5'}),' Begin Session'
+        className:'btn-primary',style:{padding:'14px',fontSize:15,fontWeight:700}},
+        h(Icon,{n:'play',cls:'w-5 h-5'}), ' Begin Session'
       )
     )
   );
 
-  // Guided player
+  // Active guided player
   const cur=sess.steps[step];
-  const pct=cur?timeLeft/cur.duration_seconds:0;
+  const pct=cur&&cur.duration_seconds>0?timeLeft/cur.duration_seconds:0;
   const R=90, C=2*Math.PI*R;
-  return h('div',{style:{minHeight:'100vh',background:'linear-gradient(160deg,#0f0824,#1e1040,#0f172a)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1.5rem',paddingBottom:'2rem'}},
+  const isLastStep=step===sess.steps.length-1;
+  const progressPct=Math.round(((step)/(sess.steps.length))*100);
+
+  return h('div',{style:{minHeight:'100vh',background:'linear-gradient(160deg,#0f0824 0%,#1e1040 50%,#0f172a 100%)',
+    display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'space-between',
+    padding:'max(1.5rem,env(safe-area-inset-top)) 1.5rem max(1.5rem,env(safe-area-inset-bottom))'}},
+
+    // Top bar — session title + overall progress
+    h('div',{style:{width:'100%',maxWidth:360,display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem'}},
+      h('button',{onClick:()=>nav('Mental'),style:{background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.12)',
+        borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'#a78bfa',fontSize:12,fontWeight:600}},
+        '← Exit'),
+      h('div',{style:{textAlign:'center'}},
+        h('div',{style:{fontSize:11,fontWeight:700,color:'#7c3aed',textTransform:'uppercase',letterSpacing:'0.08em'}},sess.title.slice(0,28)),
+        h('div',{style:{fontSize:10,color:'#6d28d9',marginTop:2}},`Step ${step+1} of ${sess.steps.length}`)
+      ),
+      h('div',{style:{fontSize:11,fontWeight:700,color:'#7c3aed',background:'rgba(109,40,217,0.15)',
+        border:'1px solid rgba(109,40,217,0.25)',borderRadius:6,padding:'4px 8px'}},
+        `${progressPct}%`)
+    ),
+
+    // Progress bar
+    h('div',{style:{width:'100%',maxWidth:360,height:3,background:'rgba(109,40,217,0.2)',borderRadius:2,marginBottom:'1.5rem'}},
+      h('div',{style:{height:'100%',borderRadius:2,background:'#a855f7',
+        width:`${Math.round(((step+(1-pct))/(sess.steps.length))*100)}%`,transition:'width 0.5s ease'}})
+    ),
+
     // Ring timer
-    h('div',{style:{position:'relative',width:220,height:220,marginBottom:'2rem'}},
-      h('svg',{width:220,height:220,viewBox:'0 0 220 220',style:{position:'absolute',inset:0}},
-        h('circle',{cx:110,cy:110,r:R,fill:'none',stroke:'rgba(109,40,217,0.2)',strokeWidth:14}),
-        h('circle',{cx:110,cy:110,r:R,fill:'none',stroke:'#a855f7',strokeWidth:14,
-          strokeLinecap:'round',strokeDasharray:C,strokeDashoffset:C*(1-Math.max(0,Math.min(1,pct))),
+    h('div',{style:{position:'relative',width:220,height:220,flexShrink:0}},
+      h('svg',{width:220,height:220,viewBox:'0 0 220 220'},
+        h('circle',{cx:110,cy:110,r:R,fill:'none',stroke:'rgba(109,40,217,0.15)',strokeWidth:12}),
+        h('circle',{cx:110,cy:110,r:R,fill:'none',stroke:'#a855f7',strokeWidth:12,
+          strokeLinecap:'round',strokeDasharray:C,
+          strokeDashoffset:C*(1-Math.max(0,Math.min(1,pct))),
           style:{transform:'rotate(-90deg)',transformOrigin:'center',transition:'stroke-dashoffset 1s linear'}
         })
       ),
       h('div',{style:{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center'}},
-        h('div',{style:{fontSize:'2.5rem',fontWeight:900,color:'#fff',fontVariantNumeric:'tabular-nums'}},fmtTime(timeLeft)),
-        h('div',{style:{fontSize:'0.75rem',color:'#a855f7',fontWeight:700,marginTop:'0.25rem'}},`Step ${step+1} of ${sess.steps.length}`)
+        h('div',{style:{fontSize:'2.75rem',fontWeight:900,color:'#fff',fontVariantNumeric:'tabular-nums',lineHeight:1}},
+          fmtTime(timeLeft)),
+        h('div',{style:{fontSize:11,color:'#7c3aed',fontWeight:700,marginTop:6,letterSpacing:'0.04em'}},
+          paused?'PAUSED':'RUNNING')
       )
     ),
-    // Content
-    h('div',{style:{textAlign:'center',maxWidth:'320px',marginBottom:'2rem'}},
-      h('h2',{style:{fontSize:'1.1rem',fontWeight:800,color:'#fff',marginBottom:'1rem'}},sess.title),
-      h('p',{style:{fontSize:'1rem',color:'#ddd6fe',lineHeight:1.7}},cur?.instruction)
+
+    // Step instruction
+    h('div',{style:{textAlign:'center',maxWidth:320,flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1.5rem 0'}},
+      h('p',{style:{fontSize:'1.05rem',color:'#ddd6fe',lineHeight:1.75,fontWeight:500}},cur?.instruction)
     ),
-    // Controls
-    h('div',{style:{display:'flex',gap:'0.75rem'}},
-      step>0 && h('button',{onClick:()=>{clearInterval(intRef.current);setStep(s=>s-1);},
-        style:{padding:'.75rem 1.25rem',background:'rgba(255,255,255,0.1)',color:'#fff',borderRadius:'0.75rem',fontWeight:700,border:'none',cursor:'pointer'}
-      },'← Prev'),
-      h('button',{onClick:()=>{
-        clearInterval(intRef.current);
-        if(step<sess.steps.length-1) setStep(s=>s+1);
-        else { setDone(true); awardXP(sess.xp_value,Math.floor(sess.duration_seconds/60),'mental','mental',sess.id); fireConfetti(); }
-      },style:{padding:'.75rem 1.5rem',background:'linear-gradient(135deg,#6d28d9,#4338ca)',color:'#fff',borderRadius:'0.75rem',fontWeight:800,border:'none',cursor:'pointer'}},
-        step===sess.steps.length-1?'✓ Complete':'Next →'
+
+    // Controls — Prev / Skip / Pause / Next(or Complete)
+    h('div',{style:{width:'100%',maxWidth:360,display:'flex',flexDirection:'column',gap:10}},
+      // Primary row: Prev + Next/Complete
+      h('div',{style:{display:'flex',gap:10}},
+        step>0 && h('button',{onClick:goPrev,
+          style:{flex:'0 0 auto',padding:'12px 18px',background:'rgba(255,255,255,0.08)',
+            color:'#a78bfa',borderRadius:10,fontWeight:700,border:'1px solid rgba(168,85,247,0.2)',cursor:'pointer',fontSize:14}},
+          h(Icon,{n:'arrowL',cls:'w-4 h-4 inline-block'})),
+        h('button',{onClick:goNext,
+          style:{flex:1,padding:'13px',background:isLastStep?'#16a34a':'linear-gradient(135deg,#6d28d9,#4338ca)',
+            color:'#fff',borderRadius:10,fontWeight:700,border:'none',cursor:'pointer',fontSize:14,fontWeight:700}},
+          isLastStep ? h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',gap:8}},
+            h(Icon,{n:'circleCheck',cls:'w-4 h-4'}),'Complete Session')
+            : h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',gap:6}},'Next Step ',h(Icon,{n:'chevR',cls:'w-4 h-4'}))
+        )
+      ),
+      // Secondary row: Skip + Pause
+      h('div',{style:{display:'flex',gap:10}},
+        h('button',{onClick:skipStep,
+          style:{flex:1,padding:'10px',background:'transparent',color:'#6d28d9',borderRadius:10,
+            fontWeight:600,border:'1px solid rgba(109,40,217,0.3)',cursor:'pointer',fontSize:13}},
+          isLastStep?'Skip & Complete':'Skip Step'),
+        h('button',{onClick:()=>{ setPaused(p=>!p); if(!paused) clearInterval(intRef.current); },
+          style:{flex:'0 0 auto',padding:'10px 18px',background:'transparent',color:'#6d28d9',borderRadius:10,
+            fontWeight:600,border:'1px solid rgba(109,40,217,0.3)',cursor:'pointer',fontSize:13}},
+          h(Icon,{n:paused?'play':'pause',cls:'w-4 h-4'}))
       )
     )
   );
@@ -2015,7 +2175,12 @@ function FitnessPage() {
   const [step,setStep]=useState(0);
   const [picks,setPicks]=useState({level:'',target:'',goal:'',duration:''});
   const [results,setResults]=useState(null);
-  const progress=DB.getProgress();
+  const [progress,setProgress]=useState(()=>DB.getProgress());
+  useEffect(()=>{
+    const refresh=()=>setProgress(DB.getProgress());
+    window.addEventListener('sc_update',refresh);
+    return ()=>window.removeEventListener('sc_update',refresh);
+  },[]);
 
   const WIZARD=[
     {key:'level',label:'Experience Level',opts:FIT_LEVELS},
@@ -2135,12 +2300,18 @@ function FitnessPage() {
 function WorkoutDetailPage({ params }) {
   const w=WORKOUTS.find(wk=>wk.id===params?.id);
   const [done,setDone]=useState(false);
+  const completing=useRef(false); // double-tap guard
   if(!w) return h('div',{className:'pb-28 flex flex-col items-center justify-center',style:{minHeight:'80vh'}},
     h('div',{style:{width:56,height:56,borderRadius:12,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'dumbbell',cls:'w-7 h-7',style:{color:'#484f58'}})),h('p',{className:'font-bold text-white mb-4'},'Workout not found'),
     h('button',{onClick:()=>nav('Fitness'),className:'btn-primary px-6 py-3'},'Back')
   );
   const LVL_GRAD={beginner:'#15803d,#059669',intermediate:'#1d4ed8,#4338ca',advanced:'#c2410c,#ea580c',pro:'#6d28d9,#7c3aed'};
-  const complete=()=>{ awardXP(w.xp_value,w.duration_minutes,'workout','workout',w.id); fireConfetti(); setDone(true); };
+  const complete=()=>{
+    if(completing.current) return;
+    completing.current=true;
+    awardXP(w.xp_value,w.duration_minutes,'workout','workout',w.id);
+    fireConfetti(); setDone(true);
+  };
   if(done) return h('div',{className:'flex flex-col items-center justify-center text-center px-5 pb-28',style:{minHeight:'100vh'}},
     h('div',{style:{width:64,height:64,borderRadius:16,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-8 h-8',style:{color:'#16a34a'}})),h('h2',{className:'text-2xl font-black text-white mb-2'},'Workout Complete!'),
     h('p',{className:'text-slate-400 mb-3'},w.name),h(XPBadge,{xp:w.xp_value}),
@@ -3284,11 +3455,25 @@ function ThirtyDayPage() {
   const doneCnt=Object.keys(completed).length;
   const pct=Math.round(doneCnt/30*100);
 
+  useEffect(()=>{
+    const refresh=()=>setProgress(DB.getProgress());
+    window.addEventListener('sc_update',refresh);
+    return ()=>window.removeEventListener('sc_update',refresh);
+  },[]);
+
   const markDay=day=>{
+    // Guard: already completed
     if(completed[day.day]) return;
+    // Guard: live DB check to prevent race conditions
+    const currentP=DB.getProgress();
+    if(currentP.thirtyDay_completed?.[day.day]) {
+      setProgress(currentP);
+      return;
+    }
     const p=DB.getProgress();
     if(!p.thirtyDay_completed) p.thirtyDay_completed={};
-    p.thirtyDay_completed[day.day]=today; DB.saveProgress(p);
+    p.thirtyDay_completed[day.day]=today;
+    DB.saveProgress(p);
     awardXP(day.xp,15,'30day');
     setProgress(DB.getProgress());
   };
