@@ -160,12 +160,22 @@ const DB = {
     try {
       const serialized=JSON.stringify(v);
       localStorage.setItem(this._k(k),serialized);
-      // Verify it was actually saved (critical for XP persistence)
       const readback=localStorage.getItem(this._k(k));
       if(!readback) console.warn('SC: write failed for key',k);
-    } catch(e) {
-      console.warn('SC: localStorage write error',k,e);
-    }
+    } catch(e) { console.warn('SC: localStorage write error',k,e); }
+    // Async PouchDB sync — non-blocking, guarded (works even without PouchDB loaded)
+    try {
+      if(typeof getPouchDB==='function' && typeof SC_SYNC_KEYS!=='undefined') {
+        var _pdb=getPouchDB(), _fk=this._k(k);
+        if(_pdb && SC_SYNC_KEYS.indexOf(_fk)!==-1) {
+          var _did='sc::'+_fk, _val=v;
+          _pdb.get(_did)
+            .then(function(ex){return _pdb.put(Object.assign({},ex,{value:_val,updatedAt:Date.now()}));})
+            .catch(function(e){if(e&&e.name==='not_found')return _pdb.put({_id:_did,value:_val,createdAt:Date.now(),updatedAt:Date.now()});})
+            .catch(function(e){console.warn('[SC] PouchDB:',k,e);});
+        }
+      }
+    } catch(e) {}
     return v;
   },
   del(k) { try { localStorage.removeItem(this._k(k)); } catch {} },
