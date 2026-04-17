@@ -1256,6 +1256,11 @@ function Sidebar({ open, onClose, currentPage }) {
 
         h(SectionLabel,{},'Planning'),
         h(NavBtn,{label:'Training Schedule',icon:'calendar',pg:'Schedule',isNew:true}),
+        h(SectionLabel,{},'AI & Analytics'),
+        h(NavBtn,{label:'Video Analysis',  icon:'cpu',     pg:'VideoAnalysis', isNew:true}),
+        h(NavBtn,{label:'Performance',     icon:'chartLine', pg:'Performance',  isNew:true}),
+        h(NavBtn,{label:'Match Logger',    icon:'list',    pg:'MatchLogger',   isNew:true}),
+        h(NavBtn,{label:'Reaction Drill',  icon:'zap',     pg:'ReactionDrill', isNew:true}),
 
         h(SectionLabel,{},'Cricket Tools'),
         h(NavBtn,{label:'Match Tracker',icon:'list',pg:'MatchTracker'}),
