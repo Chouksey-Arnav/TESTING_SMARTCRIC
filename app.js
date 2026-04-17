@@ -3735,6 +3735,9 @@ function AppRoot() {
   },[dark]);
 
   useEffect(()=>{
+    // Open source startup hooks — safe, guarded, silent if not loaded
+    if(typeof applyChartDefaults==='function') applyChartDefaults();
+    if(typeof migrateLSToPouchDB==='function') migrateLSToPouchDB();
     if(!window.location.hash||window.location.hash==='#'||window.location.hash==='#/') {
       window.location.hash='#/Home';
     }
