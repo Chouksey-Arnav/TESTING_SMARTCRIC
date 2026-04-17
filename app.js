@@ -3771,6 +3771,11 @@ function AppRoot() {
       case 'MiniMatch': return h(MiniMatchPage);
       case 'GetOut': return h(GetOutPage);
       case 'Quizzes': return h(QuizzesPage);
+      // ── Open source integration pages ──────────────
+      case 'VideoAnalysis': return h(VideoAnalysisPage);
+      case 'Performance':   return h(PerformancePage);
+      case 'MatchLogger':   return h(MatchLoggerPage);
+      case 'ReactionDrill': return h(ReactionDrillPage);
       default: return h(HomePage);
     }
   }
