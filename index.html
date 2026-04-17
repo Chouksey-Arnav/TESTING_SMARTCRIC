@@ -1,34 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#10b981" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover" />
+  <meta name="theme-color" content="#0d1117" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- iOS PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="SmartCrick" />
-  <meta name="description" content="SmartCrick AI — Elite cricket training ecosystem." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏏</text></svg>" />
-  <title>SmartCrick — Train Like a Pro</title>
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- SEO / Sharing -->
+  <title>SmartCrick AI — Train. Measure. Improve.</title>
+  <meta name="description" content="AI-powered cricket training: drills, mental sessions, video analysis, and smart scheduling." />
+  <meta property="og:title" content="SmartCrick AI" />
+  <meta property="og:description" content="The elite cricketer's training companion." />
+  <meta property="og:type" content="website" />
+
+  <!-- Performance preconnects -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <!-- Tailwind (existing) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <!-- React 18 UMD — SYNC, BEFORE app.js. app.js calls window.React & window.ReactDOM -->
-  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
-  <!-- Tailwind CDN — app.js uses thousands of Tailwind classes. Without this: black screen -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { slate: { 950: '#020617' } } } } }
-  </script>
-  <!-- Custom CSS — component classes not covered by Tailwind -->
-  <link rel="stylesheet" href="/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
+
+  <!-- Confetti (existing optional) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- React 18 UMD — MUST load synchronously (no defer)             -->
+  <!-- These populate window.React and window.ReactDOM immediately   -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- OPEN SOURCE LIBRARIES — load in parallel, execute in order    -->
+  <!-- crossorigin="anonymous" enables SharedArrayBuffer for TF.js    -->
+  <!-- defer = guaranteed order-preserving execution                  -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <!-- PouchDB — offline-first database with optional cloud sync -->
+  <script defer crossorigin="anonymous"
+    src="https://cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js"></script>
+
+  <!-- Lottie — lightweight JSON animations -->
+  <script defer crossorigin="anonymous"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+
+  <!-- Howler.js — audio engine (binaural beats, ambient) -->
+  <script defer crossorigin="anonymous"
+    src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+
+  <!-- Chart.js — progress visualizations -->
+  <script defer crossorigin="anonymous"
+    src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- D3 — cricket-specific viz (wagon wheels, pitch maps) -->
+  <script defer crossorigin="anonymous"
+    src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+
+  <!-- Note: TensorFlow.js, ml5.js, MediaPipe, OpenCV are lazy-loaded -->
+  <!-- by the LibLoader in sc_opensource.js to keep initial payload small -->
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- Integration layer — MUST load after libs, before app.js       -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <script defer crossorigin="anonymous" src="sc_opensource.js"></script>
+
+  <!-- Main app -->
+  <script defer src="app.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-slate-950 text-slate-100 overflow-x-hidden">
-  <div id="root"></div>
-  <!-- async: never blocks app.js. app.js guards: if (typeof confetti !== 'undefined') -->
-  <script async src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <!-- app.js at END of body: #root guaranteed to exist, no defer needed -->
-  <script src="/app.js"></script>
+<body>
+  <div id="root">
+    <!-- Loading state shown while scripts load -->
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;background:#0d1117;color:#e6edf3;font-family:'Inter',system-ui,sans-serif">
+      <div style="width:48px;height:48px;border:3px solid rgba(22,163,74,0.15);border-top-color:#16a34a;border-radius:50%;animation:spin 0.7s linear infinite"></div>
+      <p style="margin-top:20px;font-size:13px;font-weight:600;color:#8b949e;letter-spacing:0.04em">Loading SmartCrick AI...</p>
+      <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+    </div>
+  </div>
 </body>
 </html>
