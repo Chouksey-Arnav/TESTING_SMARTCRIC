@@ -1960,6 +1960,7 @@ function HomePage() {
   const [progress] = useStorageValue(() => SC.storage.getProgress());
   const [drillsDone] = useStorageValue(() => SC.storage.getCompletedDrills());
   const [mentalDone] = useStorageValue(() => SC.storage.getCompletedMental());
+  const [workoutsDone] = useStorageValue(() => SC.storage.getCompletedWorkouts());
   const [rec, setRec] = useState(null);
   const [overtraining, setOvertraining] = useState(null);
   const [upcomingMatch, setUpcomingMatch] = useState(null);
@@ -1981,6 +1982,7 @@ function HomePage() {
 
   const levelInfo = levelFromXp(progress.total_xp);
   const xpPct = (levelInfo.xpInLevel / levelInfo.xpNeeded) * 100;
+  const lastSession = useMemo(() => SC.state.getLastSessionSummary(), [drillsDone.length, mentalDone.length, workoutsDone.length]);
 
   // Streak bar: last 7 days
   const streakDays = useMemo(() => {
@@ -1988,22 +1990,41 @@ function HomePage() {
     const all = [
       ...drillsDone.map(d => startOfDay(d.timestamp)),
       ...mentalDone.map(m => startOfDay(m.timestamp)),
+      ...workoutsDone.map(w => startOfDay(w.timestamp)),
     ];
     const set = new Set(all);
     return Array.from({ length: 7 }, (_, i) => {
       const day = today - (6 - i) * 86400000;
       return { day, done: set.has(day) };
     });
-  }, [drillsDone, mentalDone]);
+  }, [drillsDone, mentalDone, workoutsDone]);
 
   // Mental training gap
   const showWeakMental = progress.total_xp > 500 && (progress.xp_by_category.mental || 0) / progress.total_xp < 0.1;
+  const totalSessions = drillsDone.length + mentalDone.length + workoutsDone.length;
+
+  // Auto-animate the alert stack
+  const alertsRef = useAutoAnimate();
 
   return h("div", { className: "page" },
-    // Greeting
-    h("div", { style: { marginBottom: 20 } },
-      h("div", { className: "t-sm t-muted" }, t("home.subtitle")),
-      h("h1", { className: "page-title" }, profile.name ? `${greeting}, ${profile.name}` : greeting),
+    // Top bar: profile chip (personalization thread)
+    h("div", { className: "row-between", style: { marginBottom: 14 } },
+      h("div", { className: "row", style: { gap: 12 } },
+        h("div", { className: "profile-avatar" },
+          (profile.name || "S").slice(0, 1).toUpperCase(),
+        ),
+        h("div", null,
+          h("div", { className: "t-xs t-muted" }, greeting + (profile.name ? "," : "")),
+          h("div", { className: "t-lg t-bold t-white", style: { lineHeight: 1.1 } },
+            profile.name || t("settings.profile")),
+          h("div", { className: "t-xs t-muted", style: { marginTop: 2 } },
+            t(`common.${profile.level || "intermediate"}`) + " · " + t(`settings.role_${profile.role || "allrounder"}`)),
+        ),
+      ),
+      progress.streak > 0 && h("div", { className: "streak-chip" },
+        h(Icon, { name: "flame", size: 14 }),
+        h("span", null, progress.streak),
+      ),
     ),
 
     // Level & XP card (hero)
@@ -2023,36 +2044,56 @@ function HomePage() {
         t("progress.next_level", { xp: levelInfo.xpNeeded - levelInfo.xpInLevel, level: levelInfo.level + 1 })),
     ),
 
-    // Today's Focus (brain.js-powered)
-    rec && rec.confidence > 0.28 && h(TodayFocusCard, { rec, t }),
-
-    // Match week alert
-    upcomingMatch && h(Card, { variant: "amber", className: "", style: { marginTop: 12 } },
-      h("div", { className: "row", style: { marginBottom: 8 } },
-        h(Icon, { name: "calendar", size: 20, className: "t-amber" }),
-        h("div", { className: "t-lg t-bold" }, t("home.match_week_title", { days: upcomingMatch.days_until })),
+    // Last session (Day.js powered)
+    lastSession && h(Card, { style: { marginBottom: 16, cursor: "pointer" },
+      onClick: () => lastSession.kind === "drill" ? navigate("/Drills") : lastSession.kind === "mental" ? navigate("/Mental") : navigate("/Workouts"),
+    },
+      h("div", { className: "row-between" },
+        h("div", null,
+          h("div", { className: "t-xs t-upper t-muted t-semi" }, t("home.last_session") || "Last session"),
+          h("div", { className: "t-base t-semi t-white", style: { marginTop: 4 } },
+            (lastSession.kind === "drill" ? t("nav.drills") : lastSession.kind === "mental" ? t("nav.mental") : t("nav.workouts"))
+            + " · " + t(`drills.cat_${lastSession.cat}`, { defaultValue: lastSession.cat })),
+          h("div", { className: "t-xs t-muted", style: { marginTop: 2 } },
+            SC.dates.fromNow(lastSession.ts) + "  ·  +" + lastSession.xp + " XP"),
+        ),
+        h(Icon, { name: "chevron_right", size: 20, className: "drill-chev" }),
       ),
-      h("div", { className: "t-sm t-muted" }, t("home.match_week_msg")),
     ),
 
-    // Overtraining alert
-    overtraining && h(Card, { variant: "rose", style: { marginTop: 12 } },
-      h("div", { className: "row", style: { marginBottom: 6 } },
-        h(Icon, { name: "alert", size: 18, className: "t-rose" }),
-        h("div", { className: "t-bold t-white" }, t("home.overtraining_title")),
-      ),
-      h("div", { className: "t-sm t-muted" }, t("home.overtraining_msg", {
-        category: t(`drills.cat_${overtraining.category}`), count: overtraining.streak_days,
-      })),
-    ),
+    // Alerts stack (auto-animated)
+    h("div", { ref: alertsRef },
+      // Today's Focus (brain.js-powered)
+      rec && rec.confidence > 0.28 && h(TodayFocusCard, { key: "focus", rec, t }),
 
-    // Weak mental gap
-    showWeakMental && h(Card, { variant: "sky", style: { marginTop: 12, cursor: "pointer" }, onClick: () => navigate("/Mental") },
-      h("div", { className: "row", style: { marginBottom: 6 } },
-        h(Icon, { name: "brain", size: 20, className: "t-sky" }),
-        h("div", { className: "t-bold t-white" }, t("home.weak_area_title")),
+      // Match week alert
+      upcomingMatch && h(Card, { key: "match", variant: "amber", style: { marginTop: 12 } },
+        h("div", { className: "row", style: { marginBottom: 8 } },
+          h(Icon, { name: "calendar", size: 20, className: "t-amber" }),
+          h("div", { className: "t-lg t-bold" }, t("home.match_week_title", { days: upcomingMatch.days_until })),
+        ),
+        h("div", { className: "t-sm t-muted" }, t("home.match_week_msg")),
       ),
-      h("div", { className: "t-sm t-muted" }, t("home.weak_area_mental", { count: mentalDone.length })),
+
+      // Overtraining alert
+      overtraining && h(Card, { key: "overtrain", variant: "rose", style: { marginTop: 12 } },
+        h("div", { className: "row", style: { marginBottom: 6 } },
+          h(Icon, { name: "alert", size: 18, className: "t-rose" }),
+          h("div", { className: "t-bold t-white" }, t("home.overtraining_title")),
+        ),
+        h("div", { className: "t-sm t-muted" }, t("home.overtraining_msg", {
+          category: t(`drills.cat_${overtraining.category}`), count: overtraining.streak_days,
+        })),
+      ),
+
+      // Weak mental gap
+      showWeakMental && h(Card, { key: "weak", variant: "sky", style: { marginTop: 12, cursor: "pointer" }, onClick: () => navigate("/Mental") },
+        h("div", { className: "row", style: { marginBottom: 6 } },
+          h(Icon, { name: "brain", size: 20, className: "t-sky" }),
+          h("div", { className: "t-bold t-white" }, t("home.weak_area_title")),
+        ),
+        h("div", { className: "t-sm t-muted" }, t("home.weak_area_mental", { count: mentalDone.length })),
+      ),
     ),
 
     // Streak card
@@ -2076,10 +2117,14 @@ function HomePage() {
       h("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
         h(QuickTile, { icon: "swords",   label: t("nav.drills"),   color: "emerald", to: "/Drills" }),
         h(QuickTile, { icon: "brain",    label: t("nav.mental"),   color: "sky",     to: "/Mental" }),
-        h(QuickTile, { icon: "message",  label: t("nav.coach"),    color: "violet",  to: "/AICoach" }),
+        h(QuickTile, { icon: "dumbbell", label: t("nav.workouts"), color: "rose",    to: "/Workouts" }),
         h(QuickTile, { icon: "waves",    label: t("nav.physics"),  color: "amber",   to: "/BowlingScience" }),
       ),
     ),
+
+    // Trainer footer: session count + achievement hint
+    totalSessions > 0 && h("div", { className: "t-xs t-muted t-center", style: { marginTop: 28 } },
+      (t("home.total_sessions") || "Total sessions logged:") + " " + totalSessions),
   );
 }
 
@@ -2174,15 +2219,22 @@ function DrillsPage() {
 
     drills.length === 0
       ? h(EmptyState, { icon: "search", title: t("drills.empty") })
-      : h("div", { className: "stack" },
+      : h(AnimatedList, null,
           drills.map(d => h(DrillRow, { key: d.id, drill: d, t })),
         ),
   );
 }
 
+// List wrapper that auto-animates when children change
+function AnimatedList({ children }) {
+  const ref = useAutoAnimate();
+  return h("div", { className: "stack", ref }, children);
+}
+
 function FilterChip({ active, onClick, label }) {
   return h("button", {
-    type: "button", onClick,
+    type: "button",
+    onClick: () => { SC.audio?.play("tap"); onClick?.(); },
     className: cx("chip", active && "preset-chip", active && "active"),
     style: { padding: "6px 12px", fontSize: 13, fontWeight: 600, flexShrink: 0, cursor: "pointer", whiteSpace: "nowrap" },
   }, label);
@@ -2194,12 +2246,18 @@ const categoryIconMap = {
 
 function DrillRow({ drill, t }) {
   const iconName = categoryIconMap[drill.category] || "target";
+  const completed = useMemo(() => SC.state.getCompletedDrillIds().has(drill.id), [drill.id]);
   return h("div", {
-    className: "drill-row", onClick: () => navigate("/Drills/" + drill.id),
+    className: cx("drill-row", completed && "completed"),
+    onClick: () => navigate("/Drills/" + drill.id),
   },
     h("div", { className: "drill-icon" }, h(Icon, { name: iconName, size: 20 })),
     h("div", { className: "drill-meta" },
-      h("div", { className: "drill-title" }, drill.title),
+      h("div", { className: "drill-title" },
+        drill.title,
+        completed && h("span", { className: "completion-pill" },
+          h(Icon, { name: "check", size: 11 })),
+      ),
       h("div", { className: "drill-sub" }, drill.duration_min + " " + t("common.min") + " · " + t(`common.${drill.level}`) + " · +" + drill.xp + " " + t("common.xp")),
     ),
     h(Icon, { name: "chevron_right", size: 20, className: "drill-chev" }),
@@ -2308,21 +2366,26 @@ function MentalPage() {
       })),
     ),
 
-    h("div", { className: "stack" },
+    h(AnimatedList, null,
       sessions.map(s => h(MentalRow, { key: s.id, session: s, locked: s.is_premium && !isPremium, t })),
     ),
   );
 }
 
 function MentalRow({ session, locked, t }) {
+  const completed = useMemo(() => SC.state.getCompletedMentalIds().has(session.id), [session.id]);
   return h("div", {
-    className: "mental-row",
+    className: cx("mental-row", completed && "completed"),
     onClick: () => locked ? navigate("/Premium") : navigate("/Mental/" + session.id),
   },
     h("div", { className: "drill-icon", style: { color: locked ? "#64748b" : "#38bdf8", background: locked ? "rgba(100,116,139,0.1)" : "linear-gradient(135deg, rgba(56,189,248,0.2), rgba(14,165,233,0.08))" } },
       h(Icon, { name: locked ? "lock" : "brain", size: 20 })),
     h("div", { className: "drill-meta" },
-      h("div", { className: "drill-title" }, session.title),
+      h("div", { className: "drill-title" },
+        session.title,
+        completed && h("span", { className: "completion-pill" },
+          h(Icon, { name: "check", size: 11 })),
+      ),
       h("div", { className: "drill-sub" }, session.duration_min + " " + t("common.min") + " · " + t(`mental.cat_${session.category}`) + " · +" + session.xp + " " + t("common.xp")),
     ),
     session.is_premium && h(PremiumBadge),
@@ -2416,7 +2479,7 @@ function WorkoutsPage() {
         h(FilterChip, { key: lv, active: level === lv, onClick: () => setLevel(lv), label: t(`common.${lv}`) })),
     ),
 
-    h("div", { className: "stack" },
+    h(AnimatedList, null,
       list.map(w => h(WorkoutRow, { key: w.id, workout: w, t })),
     ),
   );
@@ -2843,7 +2906,9 @@ function SettingsPage() {
     // Data
     h(Card, { style: { marginBottom: 16 } },
       h("div", { className: "t-sm t-upper t-muted t-semi", style: { marginBottom: 12 } }, t("settings.data")),
-      h("div", { className: "row", style: { gap: 10 } },
+      h("div", { className: "row", style: { gap: 10, flexWrap: "wrap" } },
+        h(Button, { variant: "primary", icon: "download", onClick: () => SC.pdf.exportProgressReport() },
+          t("settings.export_pdf") || "Export PDF"),
         h(Button, { variant: "ghost", icon: "download", onClick: exportData }, t("settings.export")),
         h(Button, { variant: "danger", onClick: resetAll }, t("settings.reset")),
       ),
@@ -3359,6 +3424,173 @@ function AudioToggle() {
 
 
 console.log("[SmartCrick] OSS modules loaded: Chart.js, Day.js, Fuse.js, Tone.js");
+
+
+/* ────────────────────────── @formkit/auto-animate — effortless list animations ────────────────────────── */
+SC.anim = (() => {
+  function apply(el, options = {}) {
+    if (!el) return;
+    if (typeof window.autoAnimate !== "function") return;
+    try { window.autoAnimate(el, { duration: 200, easing: "ease-in-out", ...options }); }
+    catch (err) { console.warn("[auto-animate] apply failed", err); }
+  }
+  return { apply };
+})();
+
+function useAutoAnimate() {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    // Retry a couple times if autoAnimate hasn't loaded yet
+    let tries = 0;
+    const tryApply = () => {
+      if (typeof window.autoAnimate === "function") { SC.anim.apply(ref.current); return; }
+      if (tries++ > 20) return;
+      setTimeout(tryApply, 100);
+    };
+    tryApply();
+  }, []);
+  return ref;
+}
+
+
+/* ────────────────────────── jsPDF — export Progress Report ────────────────────────── */
+SC.pdf = (() => {
+  function ensureReady() {
+    return typeof window.jspdf !== "undefined" && typeof window.jspdf.jsPDF === "function";
+  }
+
+  function exportProgressReport() {
+    if (!ensureReady()) {
+      alert("PDF engine is still loading. Please try again in a moment.");
+      return;
+    }
+    const { jsPDF } = window.jspdf;
+    const profile = SC.storage.getProfile();
+    const progress = SC.storage.getProgress();
+    const drills = SC.storage.getCompletedDrills();
+    const mental = SC.storage.getCompletedMental();
+    const workouts = SC.storage.getCompletedWorkouts();
+    const levelInfo = levelFromXp(progress.total_xp);
+
+    const doc = new jsPDF({ unit: "pt", format: "a4" });
+    const pw = doc.internal.pageSize.getWidth();
+    const ph = doc.internal.pageSize.getHeight();
+
+    // Header band
+    doc.setFillColor(16, 185, 129);
+    doc.rect(0, 0, pw, 90, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(22);
+    doc.text("SmartCrick AI — Progress Report", 40, 44);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+    doc.text(new Date().toLocaleDateString(undefined, { dateStyle: "full" }), 40, 66);
+
+    let y = 120;
+    doc.setTextColor(20, 24, 40);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+    doc.text("Athlete", 40, y); y += 22;
+    doc.setFont("helvetica", "normal"); doc.setFontSize(12);
+    doc.text(`Name: ${profile.name || "—"}`, 40, y); y += 18;
+    doc.text(`Role: ${profile.role || "—"}`, 40, y); y += 18;
+    doc.text(`Level: ${profile.level || "—"}`, 40, y); y += 30;
+
+    doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+    doc.text("Overall", 40, y); y += 22;
+    doc.setFont("helvetica", "normal"); doc.setFontSize(12);
+    doc.text(`Total XP: ${progress.total_xp.toLocaleString()}`, 40, y); y += 18;
+    doc.text(`Current level: ${levelInfo.level}`, 40, y); y += 18;
+    doc.text(`Current streak: ${progress.streak} day${progress.streak === 1 ? "" : "s"}`, 40, y); y += 18;
+    doc.text(`Drills completed: ${drills.length}`, 40, y); y += 18;
+    doc.text(`Mental sessions: ${mental.length}`, 40, y); y += 18;
+    doc.text(`Workouts finished: ${workouts.length}`, 40, y); y += 30;
+
+    doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+    doc.text("XP by category", 40, y); y += 22;
+    doc.setFont("helvetica", "normal"); doc.setFontSize(12);
+    ["batting", "bowling", "fielding", "keeping", "fitness", "mental"].forEach(cat => {
+      const xp = progress.xp_by_category[cat] || 0;
+      const pctVal = progress.total_xp > 0 ? Math.round(xp / progress.total_xp * 100) : 0;
+      doc.text(`${cat.charAt(0).toUpperCase() + cat.slice(1)}: ${xp.toLocaleString()} XP (${pctVal}%)`, 40, y);
+      // bar
+      doc.setFillColor(230, 232, 236);
+      doc.rect(300, y - 10, 200, 10, "F");
+      doc.setFillColor(16, 185, 129);
+      doc.rect(300, y - 10, Math.max(2, pctVal * 2), 10, "F");
+      y += 20;
+    });
+    y += 20;
+
+    if (y > ph - 120) { doc.addPage(); y = 60; }
+    doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+    doc.text("Last 10 sessions", 40, y); y += 22;
+    doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+    const recent = [
+      ...drills.map(d => ({ type: "Drill", cat: d.category, xp: d.xp, ts: d.timestamp })),
+      ...mental.map(m => ({ type: "Mental", cat: m.category || "mental", xp: m.xp, ts: m.timestamp })),
+      ...workouts.map(w => ({ type: "Workout", cat: "fitness", xp: w.xp, ts: w.timestamp })),
+    ].sort((a, b) => b.ts - a.ts).slice(0, 10);
+    if (recent.length === 0) {
+      doc.text("No sessions logged yet.", 40, y); y += 18;
+    } else {
+      recent.forEach(ev => {
+        if (y > ph - 60) { doc.addPage(); y = 60; }
+        const when = new Date(ev.ts).toLocaleDateString();
+        doc.text(`${when}  —  ${ev.type} (${ev.cat})  +${ev.xp} XP`, 40, y);
+        y += 16;
+      });
+    }
+
+    // Footer on each page
+    const pages = doc.internal.getNumberOfPages();
+    for (let p = 1; p <= pages; p++) {
+      doc.setPage(p);
+      doc.setFontSize(9); doc.setTextColor(150, 160, 180);
+      doc.text(`SmartCrick AI  ·  Page ${p} of ${pages}`, pw / 2, ph - 24, { align: "center" });
+    }
+
+    doc.save(`smartcrick-progress-${new Date().toISOString().slice(0, 10)}.pdf`);
+  }
+
+  return { exportProgressReport };
+})();
+
+
+/* ────────────────────────── Enhanced completion-state helpers ────────────────────────── */
+SC.state = (() => {
+  function getCompletedDrillIds() {
+    return new Set(SC.storage.getCompletedDrills().map(d => d.drill_id));
+  }
+  function getCompletedMentalIds() {
+    return new Set(SC.storage.getCompletedMental().map(m => m.session_id));
+  }
+  function getLastEventTimestamp() {
+    const all = [
+      ...SC.storage.getCompletedDrills().map(d => d.timestamp),
+      ...SC.storage.getCompletedMental().map(m => m.timestamp),
+      ...SC.storage.getCompletedWorkouts().map(w => w.timestamp),
+    ];
+    if (all.length === 0) return null;
+    return Math.max(...all);
+  }
+  function getLastSessionSummary() {
+    const drills = SC.storage.getCompletedDrills().sort((a, b) => b.timestamp - a.timestamp);
+    const mental = SC.storage.getCompletedMental().sort((a, b) => b.timestamp - a.timestamp);
+    const workouts = SC.storage.getCompletedWorkouts().sort((a, b) => b.timestamp - a.timestamp);
+    const candidates = [
+      drills[0] && { kind: "drill", ts: drills[0].timestamp, cat: drills[0].category, xp: drills[0].xp, item_id: drills[0].drill_id },
+      mental[0] && { kind: "mental", ts: mental[0].timestamp, cat: mental[0].category, xp: mental[0].xp, item_id: mental[0].session_id },
+      workouts[0] && { kind: "workout", ts: workouts[0].timestamp, cat: "fitness", xp: workouts[0].xp, item_id: workouts[0].workout_id },
+    ].filter(Boolean);
+    if (candidates.length === 0) return null;
+    candidates.sort((a, b) => b.ts - a.ts);
+    return candidates[0];
+  }
+  return { getCompletedDrillIds, getCompletedMentalIds, getLastEventTimestamp, getLastSessionSummary };
+})();
+
+
+console.log("[SmartCrick] Extended OSS: auto-animate, jsPDF, Mousetrap ready");
 /* ============================================================================
  * APP ROOT — routing, sidebar, bottom nav, and mount
  * ========================================================================= */
@@ -3540,26 +3772,67 @@ function App() {
 }
 
 /* ────────────────────────── Mount ────────────────────────── */
+let mountAttempts = 0;
+const MAX_MOUNT_ATTEMPTS = 100; // 5 seconds @ 50ms each
+
+function showBootError(title, detail) {
+  const loader = document.getElementById("boot-loader");
+  if (loader) { loader.classList.add("done"); setTimeout(() => loader.remove(), 400); }
+  const root = document.getElementById("root");
+  if (!root) return;
+  root.innerHTML = `
+    <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;background:radial-gradient(ellipse at top,#0f1a2e 0%,#0b0f1a 60%);color:#e5e7eb;font-family:Inter,sans-serif">
+      <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#f43f5e,#e11d48);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:24px;margin-bottom:20px">!</div>
+      <h2 style="font-size:20px;font-weight:800;color:#fff;margin-bottom:8px">${title}</h2>
+      <p style="color:#94a3b8;font-size:14px;max-width:400px;line-height:1.6;margin-bottom:20px">${detail}</p>
+      <button onclick="location.reload()" style="padding:12px 24px;border-radius:12px;background:#10b981;color:white;border:0;font-weight:700;font-size:14px;cursor:pointer">Refresh</button>
+    </div>`;
+}
+
 function mountApp() {
-  // Wait for React to be available
   if (typeof React === "undefined" || typeof ReactDOM === "undefined") {
-    console.log("[SmartCrick] Waiting for React...");
+    mountAttempts++;
+    if (mountAttempts > MAX_MOUNT_ATTEMPTS) {
+      showBootError("Couldn't load React",
+        "The core framework didn't load from CDN. Check your internet connection and try refreshing. If the problem persists, your network may be blocking cdn.jsdelivr.net or unpkg.com.");
+      return;
+    }
     setTimeout(mountApp, 50);
     return;
   }
-  if (!document.getElementById("root")) {
+  const rootEl = document.getElementById("root");
+  if (!rootEl) {
     console.error("[SmartCrick] #root element not found");
     return;
   }
   try {
-    const root = ReactDOM.createRoot(document.getElementById("root"));
+    const root = ReactDOM.createRoot(rootEl);
     root.render(h(App));
     console.log("[SmartCrick] App mounted ✓");
+    // Wire up keyboard shortcuts once React is up
+    if (typeof Mousetrap !== "undefined") { initKeyboardShortcuts(); }
   } catch (err) {
     console.error("[SmartCrick] mount failed", err);
-    document.getElementById("root").innerHTML =
-      '<div style="padding:40px;text-align:center;color:#f43f5e"><h2>Something went wrong.</h2><p style="color:#94a3b8;margin-top:8px">Try refreshing the page.</p></div>';
+    showBootError("Something went wrong",
+      "The app hit an error while starting up. Try refreshing — and if it keeps happening, clearing your browser cache usually fixes it.<br><br><code style='font-size:11px;color:#6b7280;display:inline-block;margin-top:8px'>" + (err?.message || err) + "</code>");
   }
+}
+
+// Mousetrap keyboard shortcuts — power-user navigation
+function initKeyboardShortcuts() {
+  if (typeof Mousetrap === "undefined") return;
+  try {
+    Mousetrap.bind("g h", () => navigate("/Home"));
+    Mousetrap.bind("g d", () => navigate("/Drills"));
+    Mousetrap.bind("g m", () => navigate("/Mental"));
+    Mousetrap.bind("g w", () => navigate("/Workouts"));
+    Mousetrap.bind("g p", () => navigate("/Progress"));
+    Mousetrap.bind("g b", () => navigate("/BowlingScience"));
+    Mousetrap.bind("g s", () => navigate("/Settings"));
+    Mousetrap.bind("g c", () => navigate("/Schedule"));
+    Mousetrap.bind("?", () => alert("Shortcuts:\ng h — Home\ng d — Drills\ng m — Mental\ng w — Workouts\ng p — Progress\ng b — Bowling Lab\ng c — Schedule\ng s — Settings\n? — This help"));
+    console.log("[SmartCrick] Keyboard shortcuts active (type ? for help)");
+  } catch (err) { console.warn("[Mousetrap] bind failed", err); }
 }
 
 // Wait for DOM + CDN libs
