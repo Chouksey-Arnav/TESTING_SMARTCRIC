@@ -879,3 +879,73 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 
 /* Chart.js canvas container safeguard */
 canvas { max-width: 100%; }
+
+/* ───────────────────────── Personalization chrome ───────────────────────── */
+.profile-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+  font-size: 18px;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.streak-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.1));
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: #fbbf24;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+/* Completed row — subtle visual mark on drills/mental user has done */
+.drill-row.completed,
+.mental-row.completed {
+  border-color: rgba(16, 185, 129, 0.18);
+}
+.drill-row.completed::before,
+.mental-row.completed::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #10b981, transparent);
+}
+.drill-row, .mental-row { position: relative; }
+
+.completion-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* keyboard shortcut hint chip — future-ready */
+.kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  color: #cbd5e1;
+}
