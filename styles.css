@@ -1171,3 +1171,199 @@ html::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
 .audio-toggle-track.on .audio-toggle-thumb {
   transform: translateX(18px);
 }
+/* ================================================================
+   SPRINT 1 CSS ADDITIONS — GSAP + Lottie Mascot
+   Append entire contents to the END of styles.css
+   ================================================================ */
+
+/* ── Mascot wrapper ─────────────────────────────────────────────── */
+.mascot-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0 8px;
+  /* Will-change for GSAP opacity/scale tweens */
+  will-change: opacity, transform;
+}
+
+/* Ambient glow ring — CSS variable driven by JS state color */
+.mascot-glow-ring {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Soft glow using state color from JS (--mascot-glow) */
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--mascot-glow, #16a34a) 30%, transparent),
+    0 0 32px 4px color-mix(in srgb, var(--mascot-glow, #16a34a) 12%, transparent);
+  background:
+    radial-gradient(circle at 50% 40%,
+      color-mix(in srgb, var(--mascot-glow, #16a34a) 10%, transparent),
+      transparent 70%
+    );
+  transition: box-shadow 0.5s ease, background 0.5s ease;
+}
+
+/* Lottie container: fills the glow ring */
+.mascot-lottie-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Lottie renders SVG here; CSS fallback renders div here */
+  transition: opacity 0.28s ease;
+}
+
+/* ── CSS fallback ring (shows when Lottie JSON not yet loaded) ──── */
+.mascot-css-ring {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+/* State-specific pulse animations for the CSS fallback */
+.mascot-css-ring--default {
+  animation: mascotPulseDefault 3s ease-in-out infinite;
+}
+.mascot-css-ring--celebrating {
+  animation: mascotPulseCelebrating 1.4s ease-in-out infinite;
+}
+.mascot-css-ring--pumped {
+  animation: mascotPulsePumped 2s ease-in-out infinite;
+}
+.mascot-css-ring--focused {
+  animation: mascotPulseFocused 4s ease-in-out infinite;
+}
+.mascot-css-ring--tired {
+  animation: mascotPulseTired 5s ease-in-out infinite;
+}
+.mascot-css-ring--sleepy {
+  animation: mascotPulseSleepy 6s ease-in-out infinite;
+}
+
+@keyframes mascotPulseDefault {
+  0%, 100% { transform: scale(1);    opacity: 0.85; }
+  50%       { transform: scale(1.06); opacity: 1;    }
+}
+@keyframes mascotPulseCelebrating {
+  0%   { transform: scale(1);    }
+  20%  { transform: scale(1.1);  }
+  40%  { transform: scale(0.96); }
+  60%  { transform: scale(1.08); }
+  80%  { transform: scale(0.98); }
+  100% { transform: scale(1);    }
+}
+@keyframes mascotPulsePumped {
+  0%, 100% { transform: scale(1);    }
+  35%      { transform: scale(1.08); }
+  65%      { transform: scale(0.98); }
+}
+@keyframes mascotPulseFocused {
+  /* Slow breathing cycle — mirrors coherence breathing */
+  0%, 100% { transform: scale(1);    opacity: 0.8; }
+  50%      { transform: scale(1.05); opacity: 1;   }
+}
+@keyframes mascotPulseTired {
+  0%, 100% { transform: scale(1) translateY(0);   }
+  50%      { transform: scale(0.98) translateY(2px); }
+}
+@keyframes mascotPulseSleepy {
+  0%, 100% { transform: scale(1);    opacity: 0.6; }
+  50%      { transform: scale(1.02); opacity: 0.8; }
+}
+
+/* ── Speech bubble ──────────────────────────────────────────────── */
+.mascot-speech {
+  margin-top: 10px;
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #e6edf3;
+  text-align: center;
+  max-width: 230px;
+  line-height: 1.4;
+  background: rgba(22, 27, 34, 0.95);
+  border: 1px solid rgba(48, 54, 61, 0.9);
+  /* Entrance animation — fades in after mascot appears */
+  animation: speechBubbleIn 0.35s ease forwards;
+  animation-delay: 0.55s; /* slightly after mascot bounce */
+  opacity: 0; /* starts hidden, animation reveals it */
+}
+
+@keyframes speechBubbleIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+/* ── GSAP will-change hints (applied to GSAP-animated elements) ─── */
+/* These optimize GPU compositing for the elements GSAP tweens */
+[data-gsap-bar],
+.level-bar-fill,
+.mascot-wrapper,
+.stat-card {
+  will-change: opacity, transform;
+}
+
+/* ── Section header ScrollTrigger reveal ────────────────────────── */
+/* Section headers start at opacity 0 for ScrollTrigger reveal.
+   If GSAP is not loaded, the !important below makes them visible */
+[data-gsap-header] {
+  /* No opacity:0 here — GSAP sets that via gsap.fromTo() inside the
+     ScrollTrigger callback, which only fires when the element enters view.
+     Headers above the fold are handled by the entrance timeline directly. */
+}
+
+/* ── Level-up celebration — CSS reinforcement for the GSAP glow ─── */
+/* The GSAP levelUpCelebration adds a boxShadow via JS.
+   This class can be added additively for a border flash effect. */
+.level-up-flash {
+  animation: levelUpBorderFlash 1.2s ease forwards;
+}
+@keyframes levelUpBorderFlash {
+  0%   { border-color: rgba(22,163,74,0.4); }
+  25%  { border-color: rgba(22,163,74,0.9); }
+  100% { border-color: rgba(48,54,61,0.9);  }
+}
+
+/* ── Desktop hover micro-interactions (GSAP fallback) ───────────── */
+/* GSAP's addHoverEffects() does the actual animation.
+   This is a pure CSS fallback for environments where GSAP fails. */
+@media (hover: hover) {
+  .quick-train-tile {
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .quick-train-tile:hover {
+    transform: scale(1.04) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+}
+
+/* ── Reduced-motion fallback ────────────────────────────────────── */
+/* GSAP uses gsap.matchMedia() to detect this. This CSS is extra insurance. */
+@media (prefers-reduced-motion: reduce) {
+  .mascot-css-ring,
+  .mascot-glow-ring,
+  .mascot-speech,
+  .level-bar-fill {
+    animation: none !important;
+    transition: none !important;
+  }
+  /* Ensure nothing is hidden if GSAP animations are skipped */
+  .mascot-wrapper,
+  [data-gsap-bar] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
