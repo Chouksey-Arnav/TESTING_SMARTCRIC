@@ -1,6 +1,14 @@
 /* ================================================================
    SmartCrick AI — Professional Design System v2.0
    Target: GitHub-dark meets Nike Training Club meets Hawkeye
+   
+   Color Philosophy:
+     Base:    #0D1117  (true deep dark)
+     Card:    #161B22  (card surfaces)
+     Surface: #1C2128  (elevated elements)
+     Border:  rgba(48,54,61,0.9)
+     Primary: #16A34A  (cricket-green, rich & confident)
+     Amber:   #D97706  (premium/gold)
 ================================================================ */
 
 *, ::before, ::after {
@@ -44,6 +52,32 @@ body {
   --safe-bot: env(safe-area-inset-bottom, 0px);
 }
 
+/* ── Page Wrapper ──────────────────────────────────────────────── */
+.page-wrapper {
+  padding-top: calc(3.5rem + max(0.75rem, env(safe-area-inset-top)));
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  min-height: 100dvh;
+  background: #0d1117;
+}
+
+/* ── Page Header (gradient hero strip) ──────────────────────────── */
+.page-header {
+  padding: max(1.25rem, env(safe-area-inset-top)) 1.25rem 1.5rem;
+  margin-top: calc(-3.5rem - max(0.75rem, env(safe-area-inset-top)));
+  padding-top: calc(3.5rem + max(1.25rem, env(safe-area-inset-top)));
+  position: relative;
+  overflow: hidden;
+}
+/* Subtle dark overlay on page headers for text legibility */
+.page-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%);
+  pointer-events: none;
+}
+.page-header > * { position: relative; z-index: 1; }
+
 /* ── Bottom Navigation ─────────────────────────────────────────── */
 .bottom-nav {
   position: fixed;
@@ -55,6 +89,15 @@ body {
   border-top: 1px solid rgba(48,54,61,0.9);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+/* Active tab indicator — top line */
+.sc-tab-active-bar {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 18px; height: 2px;
+  background: #16a34a;
+  border-radius: 0 0 3px 3px;
+}
 
 /* ── Sidebar Panel ─────────────────────────────────────────────── */
 .sidebar-panel {
@@ -63,6 +106,7 @@ body {
   box-shadow: 4px 0 40px rgba(0,0,0,0.6);
 }
 
+/* Sidebar scroll — always-visible refined scrollbar */
 .sidebar-scroll {
   overflow-y: auto;
   scrollbar-width: thin;
@@ -70,9 +114,13 @@ body {
 }
 .sidebar-scroll::-webkit-scrollbar { width: 3px; display: block; }
 .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
-.sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(48,54,61,1); border-radius: 2px; }
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(48,54,61,1);
+  border-radius: 2px;
+}
 .sidebar-scroll::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
 
+/* Sidebar section label */
 .sc-section-label {
   padding: 18px 16px 4px;
   font-size: 10px;
@@ -84,6 +132,7 @@ body {
   line-height: 1;
 }
 
+/* Sidebar nav button */
 .sc-nav-btn {
   display: flex;
   align-items: center;
@@ -100,14 +149,17 @@ body {
   color: var(--text-2);
   text-decoration: none;
 }
-.sc-nav-btn:hover { background: var(--surface); color: var(--text-1); }
+.sc-nav-btn:hover {
+  background: var(--surface);
+  color: var(--text-1);
+}
 .sc-nav-btn.active {
   background: rgba(22,163,74,0.1);
   border-color: rgba(22,163,74,0.25);
   color: #4ade80;
 }
 
-/* ── Scrollbar Hide ─────────────────────────────────────────────── */
+/* ── Scrollbar Hide (category pills) ─────────────────────────────── */
 .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
@@ -125,6 +177,7 @@ body {
   border-radius: 9999px;
   transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
+/* Shimmer on fill */
 .level-bar-fill::after {
   content: '';
   position: absolute;
@@ -231,6 +284,7 @@ body {
 .btn-secondary:active { transform: scale(0.98); }
 
 /* ── Cards ─────────────────────────────────────────────────────── */
+/* Pro card — override Tailwind's bg-slate-800/80 for a richer dark */
 .pro-card, .activity-card {
   background: var(--card) !important;
   border-color: var(--border) !important;
@@ -240,8 +294,11 @@ body {
   background: var(--surface) !important;
   border-color: var(--border-em) !important;
 }
-.pro-card:active, .activity-card:active { transform: scale(0.99); }
+.pro-card:active, .activity-card:active {
+  transform: scale(0.99);
+}
 
+/* Stat card — number-forward design */
 .stat-card {
   background: var(--card) !important;
   border: 1px solid var(--border);
@@ -250,7 +307,7 @@ body {
   transition: background 0.12s;
 }
 
-/* ── Fitness Wizard ─────────────────────────────────────────────── */
+/* ── Fitness Wizard Option ─────────────────────────────────────── */
 .wizard-option {
   display: flex;
   align-items: center;
@@ -266,7 +323,10 @@ body {
   color: var(--text-1);
   font-family: inherit;
 }
-.wizard-option:hover { border-color: var(--green); background: rgba(22,163,74,0.06); }
+.wizard-option:hover {
+  border-color: var(--green);
+  background: rgba(22,163,74,0.06);
+}
 .wizard-option:active { transform: scale(0.99); }
 
 /* ── XP Bar Chart ──────────────────────────────────────────────── */
@@ -315,6 +375,21 @@ body {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   border: 0;
+}
+
+/* ── Notification Bar ──────────────────────────────────────────── */
+.notif-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 60;
+  background: var(--green);
+  color: #fff;
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 16px;
+  padding-top: max(10px, env(safe-area-inset-top));
 }
 
 /* ── XP Flash ──────────────────────────────────────────────────── */
@@ -371,10 +446,10 @@ body {
 select.sc-input { -webkit-appearance: none; cursor: pointer; }
 textarea.sc-input { resize: vertical; }
 
-/* ── Pulse animation ───────────────────────────────────────────── */
+/* ── Pulse animation (countdown warning) ──────────────────────── */
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 
-/* ── Global scrollbar ───────────────────────────────────────────── */
+/* ── Page scrollbar (global) ───────────────────────────────────── */
 html {
   scrollbar-width: thin;
   scrollbar-color: rgba(48,54,61,1) transparent;
@@ -388,22 +463,446 @@ html::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
 .pt-safe { padding-top: max(1rem, env(safe-area-inset-top)); }
 .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
 .min-h-dvh { min-height: 100dvh; }
+
+/* ── Misc ──────────────────────────────────────────────────────── */
 .overscroll-none { overscroll-behavior: none; }
 .tabular { font-variant-numeric: tabular-nums; }
-
-/* ── Video Analysis ──────────────────────────────────────────────── */
-.analysis-feedback-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(48,54,61,0.6);
-  color: var(--text-2);
-  font-size: 13px;
-  line-height: 1.4;
+/* ── Page Header (gradient hero strip) ──────────────────────────── */
+.page-header {
+  padding: max(1.25rem, env(safe-area-inset-top)) 1.25rem 1.5rem;
+  margin-top: calc(-3.5rem - max(0.75rem, env(safe-area-inset-top)));
+  padding-top: calc(3.5rem + max(1.25rem, env(safe-area-inset-top)));
+  position: relative;
+  overflow: hidden;
 }
-.analysis-feedback-item:last-child { border-bottom: none; }
+/* Subtle dark overlay on page headers for text legibility */
+.page-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%);
+  pointer-events: none;
+}
+.page-header > * { position: relative; z-index: 1; }
 
+/* ── Bottom Navigation ─────────────────────────────────────────── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 40;
+  background: rgba(13,17,23,0.97);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border-top: 1px solid rgba(48,54,61,0.9);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+/* Active tab indicator — top line */
+.sc-tab-active-bar {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 18px; height: 2px;
+  background: #16a34a;
+  border-radius: 0 0 3px 3px;
+}
+
+/* ── Sidebar Panel ─────────────────────────────────────────────── */
+.sidebar-panel {
+  background: #0d1117;
+  border-right: 1px solid rgba(48,54,61,0.9);
+  box-shadow: 4px 0 40px rgba(0,0,0,0.6);
+}
+
+/* Sidebar scroll — always-visible refined scrollbar */
+.sidebar-scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(48,54,61,1) transparent;
+}
+.sidebar-scroll::-webkit-scrollbar { width: 3px; display: block; }
+.sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(48,54,61,1);
+  border-radius: 2px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
+
+/* Sidebar section label */
+.sc-section-label {
+  padding: 18px 16px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  user-select: none;
+  line-height: 1;
+}
+
+/* Sidebar nav button */
+.sc-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s, border-color 0.1s;
+  font-family: inherit;
+  color: var(--text-2);
+  text-decoration: none;
+}
+.sc-nav-btn:hover {
+  background: var(--surface);
+  color: var(--text-1);
+}
+.sc-nav-btn.active {
+  background: rgba(22,163,74,0.1);
+  border-color: rgba(22,163,74,0.25);
+  color: #4ade80;
+}
+
+/* ── Scrollbar Hide (category pills) ─────────────────────────────── */
+.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ── Level Bar ─────────────────────────────────────────────────── */
+.level-bar-track {
+  height: 5px;
+  background: rgba(48,54,61,0.9);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+.level-bar-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 9999px;
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Shimmer on fill */
+.level-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  width: 32px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation: levelShimmer 2.5s ease-in-out infinite;
+}
+@keyframes levelShimmer {
+  0%, 100% { opacity: 0; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(-32px); }
+}
+
+/* ── Streak Badge ──────────────────────────────────────────────── */
+.streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #fb923c;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(251,146,60,0.25);
+  background: rgba(251,146,60,0.08);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ── Premium Badge ─────────────────────────────────────────────── */
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(217,119,6,0.12);
+  color: #d97706;
+  border: 1px solid rgba(217,119,6,0.3);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--green);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.1s, opacity 0.12s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  outline: none;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+  pointer-events: none;
+}
+.btn-primary:hover { background: #15803d; }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 11px 20px;
+  background: transparent;
+  color: var(--text-2);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.12s;
+  outline: none;
+  white-space: nowrap;
+}
+.btn-secondary:hover { background: var(--surface); color: var(--text-1); border-color: var(--border-em); }
+.btn-secondary:active { transform: scale(0.98); }
+
+/* ── Cards ─────────────────────────────────────────────────────── */
+/* Pro card — override Tailwind's bg-slate-800/80 for a richer dark */
+.pro-card, .activity-card {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+}
+.pro-card:hover, .activity-card:hover {
+  background: var(--surface) !important;
+  border-color: var(--border-em) !important;
+}
+.pro-card:active, .activity-card:active {
+  transform: scale(0.99);
+}
+
+/* Stat card — number-forward design */
+.stat-card {
+  background: var(--card) !important;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  transition: background 0.12s;
+}
+
+/* ── Fitness Wizard Option ─────────────────────────────────────── */
+.wizard-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  transition: all 0.12s;
+  text-align: left;
+  width: 100%;
+  color: var(--text-1);
+  font-family: inherit;
+}
+.wizard-option:hover {
+  border-color: var(--green);
+  background: rgba(22,163,74,0.06);
+}
+.wizard-option:active { transform: scale(0.99); }
+
+/* ── XP Bar Chart ──────────────────────────────────────────────── */
+.xp-bar {
+  background: var(--green);
+  border-radius: 2px 2px 0 0;
+  min-height: 3px;
+  transition: height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.9;
+}
+.xp-bar:hover { opacity: 1; }
+
+/* ── Activity Heatmap ──────────────────────────────────────────── */
+.heatmap-cell {
+  border-radius: 2px;
+  aspect-ratio: 1;
+  transition: opacity 0.2s;
+}
+.heatmap-cell:hover { opacity: 0.8; }
+.heatmap-0 { background: rgba(22,27,34,0.9); border: 1px solid rgba(48,54,61,0.6); }
+.heatmap-1 { background: rgba(14,68,41,0.6); }
+.heatmap-2 { background: rgba(21,128,61,0.65); }
+.heatmap-3 { background: rgba(22,163,74,0.8); }
+.heatmap-4 { background: #16a34a; box-shadow: 0 0 6px rgba(22,163,74,0.4); }
+
+/* ── Timer Display ─────────────────────────────────────────────── */
+.timer-display {
+  font-family: 'Rajdhani', 'Inter', system-ui, monospace;
+  font-size: 5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Video Wrapper ─────────────────────────────────────────────── */
+.video-wrapper {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--card);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.video-wrapper iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+
+/* ── Notification Bar ──────────────────────────────────────────── */
+.notif-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 60;
+  background: var(--green);
+  color: #fff;
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 16px;
+  padding-top: max(10px, env(safe-area-inset-top));
+}
+
+/* ── XP Flash ──────────────────────────────────────────────────── */
+.xp-flash {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  pointer-events: none;
+  background: var(--green);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  padding: 10px 24px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(22,163,74,0.4);
+  animation: xpPop 1.4s cubic-bezier(0.16,1,0.3,1) forwards;
+  white-space: nowrap;
+}
+@keyframes xpPop {
+  0%   { transform: translate(-50%,-50%) scale(0.3); opacity: 0; }
+  18%  { transform: translate(-50%,-58%) scale(1.12); opacity: 1; }
+  50%  { transform: translate(-50%,-62%) scale(1); opacity: 1; }
+  80%  { transform: translate(-50%,-68%) scale(0.97); opacity: 0.85; }
+  100% { transform: translate(-50%,-80%) scale(0.8); opacity: 0; }
+}
+
+/* ── Spinner ───────────────────────────────────────────────────── */
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(22,163,74,0.15);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Input ─────────────────────────────────────────────────────── */
+.sc-input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-1);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.12s, background 0.12s;
+  font-family: inherit;
+}
+.sc-input::placeholder { color: var(--text-3); }
+.sc-input:focus { border-color: var(--green); background: var(--surface); }
+select.sc-input { -webkit-appearance: none; cursor: pointer; }
+textarea.sc-input { resize: vertical; }
+
+/* ── Pulse animation (countdown warning) ──────────────────────── */
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+/* ── Page scrollbar (global) ───────────────────────────────────── */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(48,54,61,1) transparent;
+}
+html::-webkit-scrollbar { width: 4px; }
+html::-webkit-scrollbar-track { background: transparent; }
+html::-webkit-scrollbar-thumb { background: rgba(48,54,61,1); border-radius: 2px; }
+html::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
+
+/* ── Safe area helpers ─────────────────────────────────────────── */
+.pt-safe { padding-top: max(1rem, env(safe-area-inset-top)); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.min-h-dvh { min-height: 100dvh; }
+
+/* ── Misc ──────────────────────────────────────────────────────── */
+.overscroll-none { overscroll-behavior: none; }
+.tabular { font-variant-numeric: tabular-nums; }
+/* ================================================================
+   SMARTCRICK AI — CSS ADDITIONS
+   Append entire contents to the END of styles.css
+   ================================================================ */
+
+/* ─── Video Analysis ──────────────────────────────────────────── */
+.video-container {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0D1117;
+}
+.video-overlay-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Speed display — monospaced large number */
+.speed-display {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+/* Shot type labeling pills */
 .shot-label-pill {
   display: inline-flex;
   align-items: center;
@@ -421,11 +920,59 @@ html::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
 }
 .shot-label-pill.active {
   border-color: var(--green);
-  background: rgba(22,163,74,0.12);
+  background: rgba(22, 163, 74, 0.12);
   color: var(--green);
 }
+.shot-label-pill:hover:not(.active) {
+  border-color: rgba(56, 63, 72, 1);
+  color: var(--text-1);
+}
 
-/* ── Performance Charts ─────────────────────────────────────────── */
+/* Library loading progress bar */
+.lib-loading-bar {
+  height: 3px;
+  background: var(--green);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 6px rgba(22, 163, 74, 0.5);
+}
+
+/* Analysis feedback items */
+.analysis-feedback-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(48, 54, 61, 0.6);
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.analysis-feedback-item:last-child {
+  border-bottom: none;
+}
+
+/* Score ring (SVG-based circular progress) */
+.score-ring-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.score-ring-svg {
+  transform: rotate(-90deg);
+  display: block;
+}
+
+/* ─── Performance Charts ──────────────────────────────────────── */
+.chart-container {
+  position: relative;
+  border-radius: 12px;
+  background: var(--card);
+  padding: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
 .chart-tab-row {
   display: flex;
   gap: 4px;
@@ -452,7 +999,116 @@ html::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
   font-weight: 600;
 }
 
-/* ── Match Logger Delivery Grid ──────────────────────────────────── */
+/* ─── Wagon Wheel + Pitch Map ─────────────────────────────────── */
+.cricket-viz-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.wagon-wheel-legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  justify-content: center;
+}
+.ww-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-2);
+}
+.ww-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── Audio System UI ─────────────────────────────────────────── */
+.audio-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 20px;
+}
+.audio-bar {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--green);
+  animation: audioWave 0.75s ease-in-out infinite alternate;
+}
+.audio-bar:nth-child(1) { animation-delay: 0s;    height: 6px; }
+.audio-bar:nth-child(2) { animation-delay: 0.1s;  height: 10px; }
+.audio-bar:nth-child(3) { animation-delay: 0.2s;  height: 16px; }
+.audio-bar:nth-child(4) { animation-delay: 0.3s;  height: 12px; }
+.audio-bar:nth-child(5) { animation-delay: 0.15s; height: 8px; }
+@keyframes audioWave {
+  0%   { transform: scaleY(0.3); opacity: 0.5; }
+  100% { transform: scaleY(1.0); opacity: 1.0; }
+}
+
+.binaural-active-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.08);
+  font-size: 11px;
+  color: var(--green);
+  font-weight: 500;
+}
+
+/* ─── Lottie / Completion Overlay ────────────────────────────── */
+.lottie-completion-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 17, 23, 0.88);
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.lottie-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+  max-width: 320px;
+  text-align: center;
+}
+
+/* CSS fallback pulse ring when Lottie JSON not yet loaded */
+.lottie-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lottie-pulse-ring {
+  border-radius: 50%;
+  background: rgba(22, 163, 74, 0.15);
+  border: 3px solid var(--green);
+  animation: lottieRingPulse 1s ease-in-out infinite;
+}
+@keyframes lottieRingPulse {
+  0%   { transform: scale(0.9); opacity: 0.7; }
+  50%  { transform: scale(1.1); opacity: 1.0; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+/* ─── Match Logger Delivery Grid ─────────────────────────────── */
+.delivery-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
 .delivery-cell {
   aspect-ratio: 1;
   border-radius: 8px;
@@ -463,11 +1119,19 @@ html::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
   font-weight: 700;
   cursor: pointer;
   border: none;
-  transition: transform 0.1s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 .delivery-cell:active { transform: scale(0.92); }
 
-/* ── Reaction Drill ──────────────────────────────────────────────── */
+.delivery-0 { background: rgba(139,148,158,0.12); color: var(--text-2); }
+.delivery-1 { background: rgba(59,130,246,0.12);  color: #3B82F6; }
+.delivery-2 { background: rgba(59,130,246,0.18);  color: #3B82F6; }
+.delivery-3 { background: rgba(59,130,246,0.24);  color: #3B82F6; }
+.delivery-4 { background: rgba(22,163,74,0.18);   color: var(--green); }
+.delivery-6 { background: rgba(217,119,6,0.18);   color: var(--amber); }
+.delivery-w { background: rgba(239,68,68,0.18);   color: #EF4444; }
+
+/* ─── Reaction Drill ─────────────────────────────────────────── */
 .reaction-tap-zone {
   border-radius: 16px;
   cursor: pointer;
@@ -480,53 +1144,146 @@ html::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
   flex-direction: column;
 }
 
-/* ── Mascot ──────────────────────────────────────────────────────── */
+/* ─── Audio Settings Toggle ───────────────────────────────────── */
+.audio-toggle-track {
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  background: rgba(48,54,61,0.9);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+.audio-toggle-track.on {
+  background: var(--green);
+}
+.audio-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s ease;
+}
+.audio-toggle-track.on .audio-toggle-thumb {
+  transform: translateX(18px);
+}
+/* ================================================================
+   SPRINT 1 CSS ADDITIONS — GSAP + Lottie Mascot
+   Append entire contents to the END of styles.css
+   ================================================================ */
+
+/* ── Mascot wrapper ─────────────────────────────────────────────── */
 .mascot-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 16px 0 8px;
+  /* Will-change for GSAP opacity/scale tweens */
   will-change: opacity, transform;
 }
+
+/* Ambient glow ring — CSS variable driven by JS state color */
 .mascot-glow-ring {
-  width: 140px; height: 140px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Soft glow using state color from JS (--mascot-glow) */
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--mascot-glow, #16a34a) 30%, transparent),
+    0 0 32px 4px color-mix(in srgb, var(--mascot-glow, #16a34a) 12%, transparent);
+  background:
+    radial-gradient(circle at 50% 40%,
+      color-mix(in srgb, var(--mascot-glow, #16a34a) 10%, transparent),
+      transparent 70%
+    );
+  transition: box-shadow 0.5s ease, background 0.5s ease;
 }
+
+/* Lottie container: fills the glow ring */
 .mascot-lottie-container {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Lottie renders SVG here; CSS fallback renders div here */
   transition: opacity 0.28s ease;
 }
+
+/* ── CSS fallback ring (shows when Lottie JSON not yet loaded) ──── */
 .mascot-css-ring {
-  width: 96px; height: 96px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   border: 2px solid transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: border-color 0.3s, background 0.3s;
 }
-.mascot-css-ring--default   { animation: mascotPulseDefault 3s ease-in-out infinite; }
-.mascot-css-ring--celebrating { animation: mascotPulseCelebrating 1.4s ease-in-out infinite; }
-.mascot-css-ring--pumped    { animation: mascotPulsePumped 2s ease-in-out infinite; }
-.mascot-css-ring--focused   { animation: mascotPulseFocused 4s ease-in-out infinite; }
-.mascot-css-ring--tired     { animation: mascotPulseTired 5s ease-in-out infinite; }
-.mascot-css-ring--sleepy    { animation: mascotPulseSleepy 6s ease-in-out infinite; }
 
-@keyframes mascotPulseDefault    { 0%,100%{transform:scale(1);opacity:.85} 50%{transform:scale(1.06);opacity:1} }
-@keyframes mascotPulseCelebrating{ 0%{transform:scale(1)} 20%{transform:scale(1.1)} 40%{transform:scale(.96)} 60%{transform:scale(1.08)} 80%{transform:scale(.98)} 100%{transform:scale(1)} }
-@keyframes mascotPulsePumped     { 0%,100%{transform:scale(1)} 35%{transform:scale(1.08)} 65%{transform:scale(.98)} }
-@keyframes mascotPulseFocused    { 0%,100%{transform:scale(1);opacity:.8} 50%{transform:scale(1.05);opacity:1} }
-@keyframes mascotPulseTired      { 0%,100%{transform:scale(1) translateY(0)} 50%{transform:scale(.98) translateY(2px)} }
-@keyframes mascotPulseSleepy     { 0%,100%{transform:scale(1);opacity:.6} 50%{transform:scale(1.02);opacity:.8} }
+/* State-specific pulse animations for the CSS fallback */
+.mascot-css-ring--default {
+  animation: mascotPulseDefault 3s ease-in-out infinite;
+}
+.mascot-css-ring--celebrating {
+  animation: mascotPulseCelebrating 1.4s ease-in-out infinite;
+}
+.mascot-css-ring--pumped {
+  animation: mascotPulsePumped 2s ease-in-out infinite;
+}
+.mascot-css-ring--focused {
+  animation: mascotPulseFocused 4s ease-in-out infinite;
+}
+.mascot-css-ring--tired {
+  animation: mascotPulseTired 5s ease-in-out infinite;
+}
+.mascot-css-ring--sleepy {
+  animation: mascotPulseSleepy 6s ease-in-out infinite;
+}
 
+@keyframes mascotPulseDefault {
+  0%, 100% { transform: scale(1);    opacity: 0.85; }
+  50%       { transform: scale(1.06); opacity: 1;    }
+}
+@keyframes mascotPulseCelebrating {
+  0%   { transform: scale(1);    }
+  20%  { transform: scale(1.1);  }
+  40%  { transform: scale(0.96); }
+  60%  { transform: scale(1.08); }
+  80%  { transform: scale(0.98); }
+  100% { transform: scale(1);    }
+}
+@keyframes mascotPulsePumped {
+  0%, 100% { transform: scale(1);    }
+  35%      { transform: scale(1.08); }
+  65%      { transform: scale(0.98); }
+}
+@keyframes mascotPulseFocused {
+  /* Slow breathing cycle — mirrors coherence breathing */
+  0%, 100% { transform: scale(1);    opacity: 0.8; }
+  50%      { transform: scale(1.05); opacity: 1;   }
+}
+@keyframes mascotPulseTired {
+  0%, 100% { transform: scale(1) translateY(0);   }
+  50%      { transform: scale(0.98) translateY(2px); }
+}
+@keyframes mascotPulseSleepy {
+  0%, 100% { transform: scale(1);    opacity: 0.6; }
+  50%      { transform: scale(1.02); opacity: 0.8; }
+}
+
+/* ── Speech bubble ──────────────────────────────────────────────── */
 .mascot-speech {
   margin-top: 10px;
   padding: 7px 16px;
@@ -537,25 +1294,52 @@ html::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
   text-align: center;
   max-width: 230px;
   line-height: 1.4;
-  background: rgba(22,27,34,0.95);
-  border: 1px solid rgba(48,54,61,0.9);
+  background: rgba(22, 27, 34, 0.95);
+  border: 1px solid rgba(48, 54, 61, 0.9);
+  /* Entrance animation — fades in after mascot appears */
   animation: speechBubbleIn 0.35s ease forwards;
-  animation-delay: 0.55s;
-  opacity: 0;
+  animation-delay: 0.55s; /* slightly after mascot bounce */
+  opacity: 0; /* starts hidden, animation reveals it */
 }
-@keyframes speechBubbleIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
 
-/* ── GSAP will-change hints ──────────────────────────────────────── */
-[data-gsap-bar], .level-bar-fill, .mascot-wrapper, .stat-card {
+@keyframes speechBubbleIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+/* ── GSAP will-change hints (applied to GSAP-animated elements) ─── */
+/* These optimize GPU compositing for the elements GSAP tweens */
+[data-gsap-bar],
+.level-bar-fill,
+.mascot-wrapper,
+.stat-card {
   will-change: opacity, transform;
 }
-.level-up-flash { animation: levelUpBorderFlash 1.2s ease forwards; }
-@keyframes levelUpBorderFlash {
-  0%  { border-color: rgba(22,163,74,0.4); }
-  25% { border-color: rgba(22,163,74,0.9); }
-  100%{ border-color: rgba(48,54,61,0.9);  }
+
+/* ── Section header ScrollTrigger reveal ────────────────────────── */
+/* Section headers start at opacity 0 for ScrollTrigger reveal.
+   If GSAP is not loaded, the !important below makes them visible */
+[data-gsap-header] {
+  /* No opacity:0 here — GSAP sets that via gsap.fromTo() inside the
+     ScrollTrigger callback, which only fires when the element enters view.
+     Headers above the fold are handled by the entrance timeline directly. */
 }
 
+/* ── Level-up celebration — CSS reinforcement for the GSAP glow ─── */
+/* The GSAP levelUpCelebration adds a boxShadow via JS.
+   This class can be added additively for a border flash effect. */
+.level-up-flash {
+  animation: levelUpBorderFlash 1.2s ease forwards;
+}
+@keyframes levelUpBorderFlash {
+  0%   { border-color: rgba(22,163,74,0.4); }
+  25%  { border-color: rgba(22,163,74,0.9); }
+  100% { border-color: rgba(48,54,61,0.9);  }
+}
+
+/* ── Desktop hover micro-interactions (GSAP fallback) ───────────── */
+/* GSAP's addHoverEffects() does the actual animation.
+   This is a pure CSS fallback for environments where GSAP fails. */
 @media (hover: hover) {
   .quick-train-tile {
     transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -566,12 +1350,19 @@ html::-webkit-scrollbar-thumb:hover { background: rgba(56,63,72,1); }
   }
 }
 
+/* ── Reduced-motion fallback ────────────────────────────────────── */
+/* GSAP uses gsap.matchMedia() to detect this. This CSS is extra insurance. */
 @media (prefers-reduced-motion: reduce) {
-  .mascot-css-ring, .mascot-glow-ring, .mascot-speech, .level-bar-fill {
+  .mascot-css-ring,
+  .mascot-glow-ring,
+  .mascot-speech,
+  .level-bar-fill {
     animation: none !important;
     transition: none !important;
   }
-  .mascot-wrapper, [data-gsap-bar] {
+  /* Ensure nothing is hidden if GSAP animations are skipped */
+  .mascot-wrapper,
+  [data-gsap-bar] {
     opacity: 1 !important;
     transform: none !important;
   }
