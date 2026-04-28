@@ -35,9 +35,18 @@
   <!-- Confetti (existing optional) -->
   <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
-  <!-- React 18 UMD — MUST load synchronously (no defer) -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- React 18 UMD — MUST load synchronously (no defer)             -->
+  <!-- These populate window.React and window.ReactDOM immediately   -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- OPEN SOURCE LIBRARIES — load in parallel, execute in order    -->
+  <!-- crossorigin="anonymous" enables SharedArrayBuffer for TF.js    -->
+  <!-- defer = guaranteed order-preserving execution                  -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
 
   <!-- PouchDB — offline-first database with optional cloud sync -->
   <script defer crossorigin="anonymous"
@@ -59,7 +68,12 @@
   <script defer crossorigin="anonymous"
     src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
 
-  <!-- Integration layer — MUST load after libs, before app.js -->
+  <!-- Note: TensorFlow.js, ml5.js, MediaPipe, OpenCV are lazy-loaded -->
+  <!-- by the LibLoader in sc_opensource.js to keep initial payload small -->
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- Integration layer — MUST load after libs, before app.js       -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
   <script defer crossorigin="anonymous" src="sc_opensource.js"></script>
 
   <!-- Main app -->
