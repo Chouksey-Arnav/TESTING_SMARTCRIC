@@ -76,6 +76,7 @@ const IC = {
   repeat:'<path d="m17 2 4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
   crosshair:'<circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>',
   wind:'<path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>',
+  // ── Cricket-specific icons ────────────────────────────────────
   bat:'<path d="M3 21l3.5-3.5"/><path d="M5.5 19.5L16 9a2 2 0 0 0 0-2.83L14.83 5A2 2 0 0 0 12 5L2.5 16l-1 1 1 4z"/><path d="M19 4.5l.5.5"/><circle cx="20" cy="4" r="1"/>',
   ball:'<circle cx="12" cy="12" r="9"/><path d="M12 3c-1.2 3.6-1.2 14.4 0 18" stroke-width="1.5"/><path d="M3.5 9.5c3.3.8 11.7.8 17 0" stroke-width="1.5"/><path d="M3.5 14.5c3.3-.8 11.7-.8 17 0" stroke-width="1.5"/>',
   wicket:'<line x1="8" y1="4" x2="8" y2="21"/><line x1="12" y1="4" x2="12" y2="21"/><line x1="16" y1="4" x2="16" y2="21"/><rect x="6" y="4" width="12" height="3" rx="1"/>',
@@ -83,6 +84,7 @@ const IC = {
   field:'<ellipse cx="12" cy="12" rx="10" ry="6"/><ellipse cx="12" cy="12" rx="3.5" ry="2"/><line x1="12" y1="6" x2="12" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/>',
   glove:'<path d="M8 18V9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M16 11h2a2 2 0 0 1 0 4h-2"/><path d="M6 11H4a2 2 0 0 0 0 4h2"/><path d="M8 18h8"/><path d="M8 21h8"/>',
   pitch:'<rect x="3" y="7" width="18" height="10" rx="1"/><line x1="8" y1="7" x2="8" y2="17"/><line x1="16" y1="7" x2="16" y2="17"/><line x1="3" y1="12" x2="21" y2="12"/>',
+  // ── Professional general icons ─────────────────────────────────
   cpu:'<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/>',
   diamond:'<path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41L13.7 2.71a2.41 2.41 0 0 0-3.41 0z"/>',
   puzzle:'<path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02z"/>',
@@ -100,6 +102,7 @@ const IC = {
   lock:'<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
   shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
   book:'<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+  activity:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
 };
 
 function Icon({ n, cls='w-5 h-5', style }) {
@@ -144,6 +147,7 @@ function useRoute() {
 // ── LocalStorage DB ───────────────────────────────────────────────
 const DB = {
   _k: k=>`sc_${k}`,
+  // Test localStorage is writable at startup
   isAvailable() {
     try { localStorage.setItem('sc_test','1'); localStorage.removeItem('sc_test'); return true; }
     catch { return false; }
@@ -159,6 +163,7 @@ const DB = {
       const readback=localStorage.getItem(this._k(k));
       if(!readback) console.warn('SC: write failed for key',k);
     } catch(e) { console.warn('SC: localStorage write error',k,e); }
+    // Async PouchDB sync — non-blocking, guarded (works even without PouchDB loaded)
     try {
       if(typeof getPouchDB==='function' && typeof SC_SYNC_KEYS!=='undefined') {
         var _pdb=getPouchDB(), _fk=this._k(k);
@@ -174,8 +179,11 @@ const DB = {
     return v;
   },
   del(k) { try { localStorage.removeItem(this._k(k)); } catch {} },
+
+  // Progress — always returns a complete object with all fields
   getProgress() {
     const saved=this.get('progress');
+    // Merge saved with defaults so new fields never come back undefined
     return Object.assign({
       total_xp:0, drills_done:0, mental_done:0, workouts_done:0,
       practice_minutes:0, current_streak:0, longest_streak:0,
@@ -185,6 +193,8 @@ const DB = {
     }, saved||{});
   },
   saveProgress(v) { this.set('progress', v); },
+
+  // XP Log
   getXPLog() { return this.get('xp_log')||[]; },
   addXPEntry(xp, source) {
     const log = this.getXPLog();
@@ -216,10 +226,16 @@ const DB = {
     }
     return days;
   },
+
+  // User
   getUser() { return this.get('user')||{}; },
   setUser(v) { this.set('user',v); },
+
+  // Goals
   getGoals() { return this.get('goals')||[]; },
   saveGoals(v) { this.set('goals',v); },
+
+  // ── Schedule ─────────────────────────────────────────────────
   getSchedule() { return this.get('schedule')||{ sessions:[] }; },
   saveSchedule(v) { this.set('schedule',v); },
   getSessionsForDate(dateStr) {
@@ -272,6 +288,7 @@ const XP_LEVELS = [
   { level:10,name:'Legend',           min:60000, max:Infinity },
 ];
 
+// Safe getLevelInfo — no findLast (compat with Safari < 15.4)
 function getLevelInfo(totalXP) {
   const xp = totalXP || 0;
   let lv = XP_LEVELS[0];
@@ -284,20 +301,20 @@ function getLevelInfo(totalXP) {
 }
 
 const BADGE_DEFS = {
-  first500:  { icon:'zap',     label:'First 500',    desc:'Earned your first 500 XP' },
-  xp5k:      { icon:'trophy',  label:'5K Club',      desc:'5,000 total XP earned' },
-  streak3:   { icon:'flame',   label:'On Fire',      desc:'3-day training streak' },
-  streak7:   { icon:'flame',   label:'Week Warrior', desc:'7-day training streak' },
-  streak14:  { icon:'flame',   label:'Fortnight',    desc:'14-day streak' },
-  streak30:  { icon:'flame',   label:'Monthly Legend',desc:'30 consecutive days' },
-  drills10:  { icon:'bat',     label:'Drill Starter',desc:'10 cricket drills done' },
-  drills50:  { icon:'bat',     label:'Drill Master', desc:'50 cricket drills done' },
-  mental10:  { icon:'brain',   label:'Mind Builder', desc:'10 mental sessions done' },
-  mental25:  { icon:'brain',   label:'Mind Master',  desc:'25 mental sessions done' },
-  min60:     { icon:'clock',   label:'First Hour',   desc:'60 min of practice' },
-  min600:    { icon:'clock',   label:'600 Min Club', desc:'600 min of practice' },
-  workouts5: { icon:'dumbbell',label:'Fitness Start',desc:'5 workouts completed' },
-  sched10:   { icon:'calendar',label:'Scheduled Pro',desc:'10 scheduled sessions done' },
+  first500:  { icon:'⚡', label:'First 500',      desc:'Earned your first 500 XP' },
+  xp5k:      { icon:'trophy',  label:'5K Club',         desc:'5,000 total XP earned' },
+  streak3:   { icon:'flame',   label:'On Fire',          desc:'3-day training streak' },
+  streak7:   { icon:'flame',   label:'Week Warrior',     desc:'7-day training streak' },
+  streak14:  { icon:'flame',   label:'Fortnight',        desc:'14-day streak' },
+  streak30:  { icon:'flame',   label:'Monthly Legend',   desc:'30 consecutive days' },
+  drills10:  { icon:'bat',     label:'Drill Starter',    desc:'10 cricket drills done' },
+  drills50:  { icon:'bat',     label:'Drill Master',     desc:'50 cricket drills done' },
+  mental10:  { icon:'brain',   label:'Mind Builder',     desc:'10 mental sessions done' },
+  mental25:  { icon:'brain',   label:'Mind Master',      desc:'25 mental sessions done' },
+  min60:     { icon:'⏱', label:'First Hour',        desc:'60 min of practice' },
+  min600:    { icon:'⏱', label:'600 Min Club',      desc:'600 min of practice' },
+  workouts5: { icon:'dumbbell', label:'Fitness Start',    desc:'5 workouts completed' },
+  sched10:   { icon:'📅', label:'Scheduled Pro',    desc:'10 scheduled sessions done' },
 };
 
 function checkBadges(p) {
@@ -316,6 +333,7 @@ function checkBadges(p) {
   if ((p.practice_minutes||0)>=60) add('min60');
   if ((p.practice_minutes||0)>=600) add('min600');
   if ((p.workouts_done||0)>=5) add('workouts5');
+  // Count completed scheduled sessions
   const schedDone = (DB.getSchedule().sessions||[]).filter(s=>s.status==='complete').length;
   if (schedDone>=10) add('sched10');
   return b;
@@ -326,21 +344,33 @@ function awardXP(xp, minutes=0, source='general', completedKey=null, itemId=null
     const p = DB.getProgress();
     const today = new Date().toISOString().slice(0,10);
     const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+
+    // Idempotency guard: prevent duplicate checkin awards on the same day
     if (source==='checkin') {
-      if (p.last_checkin_date===today) { console.log('SC: checkin already awarded today, skipping'); return p; }
+      if (p.last_checkin_date===today) {
+        console.log('SC: checkin already awarded today, skipping');
+        return p;
+      }
       p.last_checkin_date=today;
     }
-    if (p.last_active_date === today) {}
+
+    // Streak logic — only update once per day
+    if (p.last_active_date === today) { /* same day, no streak change */ }
     else if (p.last_active_date === yesterday) {
       p.current_streak = (p.current_streak||0)+1;
       p.longest_streak = Math.max(p.longest_streak||0, p.current_streak);
     } else {
+      // Gap in training — reset streak
       p.current_streak = 1;
       p.longest_streak = Math.max(p.longest_streak||0, 1);
     }
     p.last_active_date = today;
+
+    // Accumulate XP — always additive, never replace
     p.total_xp = (p.total_xp||0)+xp;
     p.practice_minutes = (p.practice_minutes||0)+minutes;
+
+    // Mark completed items — deduplicated arrays
     if (completedKey==='drill' && itemId) {
       p.completed_drills = p.completed_drills||[];
       if (!p.completed_drills.includes(itemId)) p.completed_drills.push(itemId);
@@ -356,6 +386,7 @@ function awardXP(xp, minutes=0, source='general', completedKey=null, itemId=null
       if (!p.completed_workouts.includes(itemId)) p.completed_workouts.push(itemId);
       p.workouts_done = (p.workouts_done||0)+1;
     }
+
     p.badges = checkBadges(p);
     DB.saveProgress(p);
     DB.addXPEntry(xp, source);
@@ -378,6 +409,7 @@ function fireConfetti() {
   try { if (typeof confetti!=='undefined') confetti({ particleCount:90, spread:70, origin:{y:.65}, colors:['#10b981','#34d399','#6ee7b7','#fff'] }); } catch{}
 }
 
+// ── Utility: date helpers ─────────────────────────────────────────
 function getWeekMonday(date) {
   const d = new Date(date);
   d.setHours(0,0,0,0);
@@ -399,6 +431,7 @@ function fmtTime(s) {
   return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
 }
 
+// Schedule session type config
 const SCHED_TYPES = {
   drill:   { label:'Cricket Drill', icon:'bat',      color:'#3b82f6', bg:'rgba(59,130,246,0.12)', border:'rgba(59,130,246,0.4)' },
   mental:  { label:'Mental Session', icon:'brain',   color:'#a855f7', bg:'rgba(168,85,247,0.12)', border:'rgba(168,85,247,0.4)' },
@@ -409,8 +442,553 @@ const SCHED_TYPES = {
 };
 
 // ================================================================
-// SHARED UI COMPONENTS
+// DATA — Drills, Mental Sessions, Workouts, Skill Paths
 // ================================================================
+
+const DRILLS = [
+  // ===== BATTING =====
+  { id:'b001',category:'batting',title:'Cover Drive Mastery',skill_level:'beginner',duration_minutes:15,xp_value:70,
+    video_id:'HhEQQKnXqnw',
+    description:'Perfect the most elegant stroke in cricket. Master front elbow, head position, and the flowing high follow-through that separates average from elite batsmen.',
+    steps:['Set side-on stance, bat raised in backlift','Watch ball seam from the bowler\'s hand — track it all the way','Step forward, weight transferring to front foot','Drive through the line, full bat face presented to cover','Head over ball at point of contact — eyes level','High flowing follow-through pointing toward cover point'],
+    tips:'Keep front elbow HIGH, pointing at mid-on. Head stays perfectly still through contact.',
+    target_metric:'10 consecutive clean drives, all finding the cover boundary' },
+  { id:'b002',category:'batting',title:'Pull Shot Power',skill_level:'intermediate',duration_minutes:20,xp_value:90,
+    video_id:'2f8okmqYpg8',
+    description:'Dominate short-pitched bowling with authority. The pull shot turns the short ball from a threat into a guaranteed boundary when executed correctly.',
+    steps:['Read short delivery early from bowler\'s release point','Rock back fast — weight fully onto back foot','Get inside the line of the ball — position inside it','Swing bat in a powerful horizontal arc at shoulder height','Roll wrists over at contact — keeps it along the ground','Power follow-through toward mid-wicket'],
+    tips:'Identify the length EARLY — early positioning means everything else is automatic.',
+    target_metric:'15 controlled pull shots, 10 finding the boundary' },
+  { id:'b003',category:'batting',title:'Sweep Shot vs Spin',skill_level:'intermediate',duration_minutes:18,xp_value:85,
+    video_id:'kLpGM8q_bk0',
+    description:'Dominate spin bowling with the sweep. A well-executed sweep disrupts field settings, frustrates spinners, and forces bowling changes.',
+    steps:['Read full delivery from spinner early','Step forward, drop leading knee toward pitch','Get to pitch of ball — bat must meet ball under your eyes','Swing bat in horizontal arc, rolling wrists at contact','CRITICAL: contact ball in front of pad — not beside it','Follow through toward fine leg or mid-wicket depending on width'],
+    tips:'Commit FULLY to the sweep. Half-hearted attempts result in LBW or top edge. All or nothing.',
+    target_metric:'10 clean sweeps in a row, none miscuing' },
+  { id:'b004',category:'batting',title:'Cut Shot Technique',skill_level:'intermediate',duration_minutes:18,xp_value:85,
+    video_id:'2f8okmqYpg8',
+    description:'Attack anything short and wide outside off stump. The cut shot is your boundary weapon whenever bowlers err with width.',
+    steps:['Identify short-wide delivery early','Rock back and across the crease decisively','Position body BEHIND the line — inside the bounce trajectory','Downward arc with bat — cut INTO the ground firmly','Hit firmly through the top half of the ball','Finish with bat pointing toward point or backward point'],
+    tips:'Play LATE — the later you play it, the finer the angle, the more impossible to field.',
+    target_metric:'20 cut shots finding the target zone past point' },
+  { id:'b005',category:'batting',title:'T20 Power Hitting',skill_level:'advanced',duration_minutes:25,xp_value:120,
+    video_id:'B0XOcaRMBP4',
+    description:'Maximize boundary-hitting in T20 cricket. Strike rates above 150 sustained across 30 balls require correct weight transfer, full bat speed, and decisive shot selection.',
+    steps:['Read the field and plan your shot BEFORE ball is bowled','Full delivery: drive over mid-on or mid-off into the gap','Short delivery: aggressive upper-cut or powerful pull','Yorker: dig out with an open face or whip through leg side','Wide: inside-out drive or savage cut','Reset your mental state completely between every delivery'],
+    tips:'A bold pre-planned shot executed with conviction beats improvised aggression every time.',
+    target_metric:'Strike rate 150+ sustained across a full 30-ball simulation' },
+  { id:'b006',category:'batting',title:'Defensive Block Foundation',skill_level:'beginner',duration_minutes:12,xp_value:55,
+    video_id:'HhEQQKnXqnw',
+    description:'Build an unbreakable defensive technique. Every great innings is built on the foundation of a technically sound defensive block.',
+    steps:['Set correct stance — feet shoulder-width, weight balanced','Watch ball from the bowler\'s hand all the way to bat face','For good-length: stay in crease, lean weight forward','Present full face of bat to the ball — no angle','SOFT hands at contact — let the ball deaden against the bat','Ball should drop harmlessly at your feet'],
+    tips:'Relaxed hands = ball drops dead. Tense hands = caught at short leg. Relax.',
+    target_metric:'20 consecutive technically correct defensive blocks' },
+  { id:'b007',category:'batting',title:'Slog Sweep over Cow Corner',skill_level:'intermediate',duration_minutes:18,xp_value:100,
+    video_id:'kLpGM8q_bk0',
+    description:'The aggressive T20 weapon against spin. Clear the mid-wicket boundary reliably with perfect contact, timing, and commitment.',
+    steps:['Read full delivery from spinner','Step forward with deep knee bend — get very low to the pitch','Full horizontal bat arc swinging much higher than standard sweep','Make contact WELL IN FRONT of the pad — not beside it','Roll wrists powerfully at impact — close the face over','Follow through lofted powerfully toward cow corner'],
+    tips:'Contact in FRONT of pad prevents going straight up. This is the key technical difference.',
+    target_metric:'8 of 12 slog sweeps landing in the cow corner zone' },
+  { id:'b008',category:'batting',title:'Ramp Shot over Keeper',skill_level:'advanced',duration_minutes:15,xp_value:130,
+    video_id:'B0XOcaRMBP4',
+    description:'Redirect pace bowling over the wicketkeeper\'s head for guaranteed boundaries. The ultimate modern T20 weapon against fast bowlers.',
+    steps:['Identify delivery on stumps line — short to good length','Shuffle toward off stump, open your stance wide','Angle bat face skyward toward fine leg — hold frame still','Present bat softly to the line — minimal swing, maximum redirect','Ball deflects up off the face and clears the keeper','Boundary — or minimum 4 if keeper makes a desperate dive'],
+    tips:'Use the pace of the ball — the harder it comes, the further the ramp travels. Do NOT swing.',
+    target_metric:'6 of 15 attempts successfully clearing the keeper' },
+  { id:'b009',category:'batting',title:'Reading Spin from Hand',skill_level:'intermediate',duration_minutes:20,xp_value:95,
+    video_id:'kLpGM8q_bk0',
+    description:'Identify which way the ball turns before it pitches — by reading the bowler\'s hand at the point of release. The highest-value skill against quality spin.',
+    steps:['Off-spin: fingers roll OVER the top of ball at release — turns away from right-hander','Leg-spin: wrist cocks outward at release — turns away from right-hander (more)','Googly: same wrist position as leg-spin but ball exits back of hand — turns IN','Doosra: front of hand delivery — goes AWAY from right-hander like off-spin','Armball: no wrist turn — comes straight on through','Practice: partner calls the delivery AFTER each ball — develop your own reading instinct'],
+    tips:'Watch the seam orientation and wrist position AT release — not the flight or bounce.',
+    target_metric:'Correctly identify 15 of 20 deliveries before they pitch' },
+  { id:'b010',category:'batting',title:'Running Between Wickets',skill_level:'beginner',duration_minutes:20,xp_value:70,
+    video_id:'HhEQQKnXqnw',
+    description:'Turn ones into twos, twos into threes. Sharp running is the cheapest runs in cricket — they require zero skill from the ball, only from you.',
+    steps:['Hit ball — assess IMMEDIATELY from your follow-through position','Call CLEARLY in one word: YES, NO, or WAIT — single clear call','Sprint in a perfectly straight line to the crease — no curves','Ground the bat — not your foot — behind the crease while still moving','Look up immediately: assess second run potential while completing first','Back up CONSTANTLY at the non-striker end — every single delivery'],
+    tips:'Loud, early, definitive calls. Ground the bat over the line while running — not your foot.',
+    target_metric:'Convert 80%+ of hit-1s into running 2s in a drill simulation' },
+
+  // ===== BOWLING =====
+  { id:'w001',category:'bowling',title:'Line & Length Precision',skill_level:'beginner',duration_minutes:20,xp_value:65,
+    video_id:'7pFfqTFvOEs',
+    description:'The foundation of all wicket-taking. Perfect line and length creates relentless pressure. Sustained pressure makes batsmen make mistakes.',
+    steps:['Mark target zone with tape: good length, off-stump line','Warm up with 3-step approach at 60% pace — 10 balls, find the feel','Full run-up at 80% — 20 balls, count consecutive on-target deliveries','Increase to 100% pace — 15 balls maintaining accuracy','Shift target: bowl at 4th-stump line — threat the outside edge','Final 5: alternate target zones without warning yourself in advance'],
+    tips:'Aim at the TOP of off-stump. Good length means the batsman is UNCOMMITTED — can\'t drive, can\'t pull.',
+    target_metric:'8 of 10 consecutive balls hitting marked target zone' },
+  { id:'w002',category:'bowling',title:'Outswing Mastery',skill_level:'intermediate',duration_minutes:20,xp_value:100,
+    video_id:'SZsXolnz5Pg',
+    description:'Master the outswinger — the number one wicket-taker in seam bowling history. Beat the outside edge consistently and edges fly to slip.',
+    steps:['Hold ball with seam vertical pointing toward slip cordon','Wrist stays perfectly UPRIGHT behind ball at point of release','Aim at the TOP of off-stump — the swing does the rest for you','High-arm smooth action — release with full upright seam presentation','Bowl a FULL length — short balls lose swing rapidly','Target: 15-20cm of in-air movement confirmed by a partner'],
+    tips:'NEVER aim at the edge. Target off-stump — the swing finds the edge by itself.',
+    target_metric:'5 consecutive outswingers beating the imaginary outside edge' },
+  { id:'w003',category:'bowling',title:'Yorker Death Bowling',skill_level:'advanced',duration_minutes:25,xp_value:130,
+    video_id:'d3wJbkDK-SU',
+    description:'The single most difficult delivery to hit in cricket — the perfect yorker. Execute this reliably under death-over pressure and you become invaluable.',
+    steps:['Place a target marker at the BASE of the stumps — aim small','Full run-up — identical action and release position to all other deliveries','Release point is slightly LATER than for good-length ball','Mental cue: "hit the batsman\'s front toe" — release late, full length','Ball arrives below knee height at the base of the stumps','Variations: straight yorker, wide yorker outside off, slower yorker with same action'],
+    tips:'Think "hit the toe" with every delivery. Consistent release point is the entire secret.',
+    target_metric:'4 of 6 consecutive deliveries landing as perfect yorkers' },
+  { id:'w004',category:'bowling',title:'Inswing Bowling',skill_level:'intermediate',duration_minutes:20,xp_value:100,
+    video_id:'SZsXolnz5Pg',
+    description:'Swing the ball late into the right-handed batsman. The inswinger targeting the gap between bat and pad is the most dangerous delivery for LBW.',
+    steps:['Hold ball with seam pointing toward FINE LEG side','Wrist rotates slightly inward at address — a subtle, deliberate change','Aim significantly WIDER of off-stump than usual — let swing bring it to stumps','Bowl FULL length — short inswingers lose movement and get dispatched','Target: gap between bat and front pad of right-hander','LBW or bowled are the natural rewards when line and length are correct'],
+    tips:'Bowl FULL. Short inswingers completely lose movement and become bad deliveries.',
+    target_metric:'Consistent 10cm+ inswing movement confirmed by a training partner' },
+  { id:'w005',category:'bowling',title:'Leg Spin Fundamentals',skill_level:'beginner',duration_minutes:20,xp_value:80,
+    video_id:'7pFfqTFvOEs',
+    description:'Master the art of leg-spin. The most difficult bowling skill in cricket — and the most rewarding when it clicks into place.',
+    steps:['Grip: ball rests in the palm, THIRD FINGER primary across the seam','Cock wrist fully back so fingers point downward toward 6 o\'clock','High arm action — bring it over fast and smooth','At release: SNAP third finger rightward and over the top of the ball','Ball rotates right-to-left — leg-break turn confirmed by partner or video','Start at just 10 metres — gradually build up to full length as control develops'],
+    tips:'The snap comes from wrist AND third finger working together — not arm speed alone.',
+    target_metric:'6 of 10 balls showing clear, visible leg-spin turn' },
+  { id:'w006',category:'bowling',title:'Off Spin with Drift',skill_level:'beginner',duration_minutes:18,xp_value:70,
+    video_id:'7pFfqTFvOEs',
+    description:'Develop consistent off-spin with drift and turn. Accuracy plus flight plus drift makes you dangerous against any batsman at any level.',
+    steps:['Grip: index and middle finger across seam on top — control grip','Turn ball from right to left with fingers at release — wrist stays behind','Flight the ball up — use the air deliberately to create drift','Bowl on middle-off stump line — force the batsman to play at the ball','Vary pace intentionally — float one ball in 10mph slower than your stock ball','With breeze from behind: drift comes naturally — use it as an extra weapon'],
+    tips:'Use fingers — not wrist. Drift is your invisible weapon when conditions assist you.',
+    target_metric:'7 of 10 balls on correct line and length with visible turn' },
+  { id:'w007',category:'bowling',title:'Bouncer Control & Use',skill_level:'advanced',duration_minutes:20,xp_value:120,
+    video_id:'d3wJbkDK-SU',
+    description:'Use the short ball as a genuine weapon. The bouncer is 30% physical skill and 70% psychological warfare — use both correctly.',
+    steps:['Mark the back-of-length zone on the pitch precisely','Full run-up at maximum sustainable pace — don\'t save yourself','Higher arm arc at point of release — aim at back of length','Ball should arrive at the batsman at chest-to-head height','Control zone: NOT wide (free hit) and NOT overpitched (becomes pull food)','Vary target zone: chest, armpit, throat — never bowl the same spot twice consecutively'],
+    tips:'Aim for the ARMPIT — not the head. Vary target zone every time. Predictable bouncers are attacking balls.',
+    target_metric:'5 of 8 bouncers arriving in the target body zone' },
+  { id:'w008',category:'bowling',title:'Googly Disguise',skill_level:'intermediate',duration_minutes:20,xp_value:110,
+    video_id:'7pFfqTFvOEs',
+    description:'Bowl the googly with complete disguise — the batsman should not detect it until it has turned the wrong way past their forward defensive block.',
+    steps:['Standard leg-spin grip — practice 5 balls so the action feels natural','SAME action exactly — wrist rolls INWARD at release instead of outward','Ball exits from the BACK of hand — turns INTO right-hander instead of away','Sequence: bowl 5 leg-spinners then 1 googly with identical action and follow-through','Partner attempts to pick which delivery it is from the release position','Perfect the disguise until partner cannot identify it before pitch more than 50% of the time'],
+    tips:'The googly is identical to leg-spin until the last microsecond of wrist action. Identical.',
+    target_metric:'Partner misreads the googly 6 of 10 times correctly' },
+  { id:'w009',category:'bowling',title:'Slower Ball Variations',skill_level:'advanced',duration_minutes:22,xp_value:130,
+    video_id:'SZsXolnz5Pg',
+    description:'Off-cutter, leg-cutter, knuckleball — the T20 variations that turn ordinary fast-medium bowlers into match-winners in the death overs.',
+    steps:['Off-cutter: identical action, cut middle finger from OFF to LEG across seam at release','Leg-cutter: cut finger in the OPPOSITE direction — away from body','Knuckleball: grip on knuckles, push ball out slowly — 20-25km/h slower than fastball','Same full run-up and identical arm speed as your fastball — disguise is 100% of the weapon','Practice EACH variation for 10 balls per training session before mixing them','Mix variations without any predictable pattern — never the same twice in a row'],
+    tips:'Disguise is the entire weapon. Identical arm speed = unreadable, unplayable delivery.',
+    target_metric:'Deceive a batting partner with 3 of 4 variations in a sequence' },
+  { id:'w010',category:'bowling',title:'Death Bowling Masterclass',skill_level:'advanced',duration_minutes:25,xp_value:150,
+    video_id:'d3wJbkDK-SU',
+    description:'Defend 10+ runs in the last 2 overs of a T20 match. The complete death bowler\'s toolkit — sequencing, variation, and unbreakable nerve.',
+    steps:['Delivery 1: Full straight yorker at stumps — establish the threat immediately','Delivery 2: IDENTICAL action — knuckleball or wide yorker — now they\'re unsure','Delivery 3: Short of good length at body — push them back onto the back foot','Delivery 4: Full again — they\'re scared of the short ball now — yorker territory','Delivery 5: Wide yorker outside off — impossible to hit cleanly from a defensive position','Delivery 6: Full yorker at stumps — predictable because they expect variation at this point'],
+    tips:'Never bowl the same delivery twice consecutively. Sequential variety is an unbreakable weapon.',
+    target_metric:'Concede fewer than 8 runs in a complete simulated death over' },
+
+  // ===== FIELDING =====
+  { id:'f001',category:'fielding',title:'Ground Fielding Excellence',skill_level:'beginner',duration_minutes:15,xp_value:55,
+    video_id:'0mH8BKDB5Qk',
+    description:'Clean, athletic ground fielding with the long barrier. One clean stop and accurate throw saves more runs than most impressive boundaries score.',
+    steps:['Start in athletic ready position — weight on balls of feet, slightly crouched','Ball arrives: move quickly and ATTACK the ball — never wait for it','Drop to one knee creating a long barrier behind the entire line of the ball','Pick cleanly with BOTH hands — absolutely no one-hand grabs','Stand immediately to balanced throwing position','Complete throw at stumps or to designated partner — 20 repetitions each side'],
+    tips:'Body BEHIND ball every single time. One-hand grabs in match situations lose matches. Both hands always.',
+    target_metric:'20 clean stops of 25 balls from multiple angles and speeds' },
+  { id:'f002',category:'fielding',title:'Throwing Accuracy at Stumps',skill_level:'beginner',duration_minutes:20,xp_value:70,
+    video_id:'0mH8BKDB5Qk',
+    description:'Flat, fast, accurate throws directly at the stumps. Run outs are among the most valuable moments in cricket — train this relentlessly.',
+    steps:['Pick ball up cleanly in one single smooth motion','Pivot FAST onto your back foot — explosive rotation','Turn shoulders fully SIDE-ON to the target stumps — crucial for accuracy and power','Arm swings in a HIGH, full arc — shoulder is the pivot point','Release FLAT — aim at the TOP of the stumps — not the ground in front','Complete full follow-through: arm finishes pointing directly at the target'],
+    tips:'Side-on position. High arm. Target: TOP of stumps — not the ground. Flat throw = direct hit.',
+    target_metric:'8 of 15 direct hits on stumps from 30 metres' },
+  { id:'f003',category:'fielding',title:'High Catch Confidence',skill_level:'intermediate',duration_minutes:20,xp_value:90,
+    video_id:'0mH8BKDB5Qk',
+    description:'Take high skiers confidently under sun, pressure, and crowd noise. High catches are dropped because of poor footwork, not poor hands.',
+    steps:['Call "MINE" loudly and immediately — own the catch and own the space','Move FAST to get UNDER the ball — not to where it is, but where it will be','Plant feet well with one foot slightly forward for balance adjustment','Cup hands at eye level — fingers pointing upward toward the ball','Watch ball ALL the way into the cup — do not clutch or move hands early','Complete the carry-through — do not stop momentum at the hands'],
+    tips:'Get UNDER the ball early. Move your feet to perfect position THEN take the catch. Feet first.',
+    target_metric:'10 consecutive catches without a drop from varying heights' },
+  { id:'f004',category:'fielding',title:'Slip Cordon Reactions',skill_level:'intermediate',duration_minutes:20,xp_value:100,
+    video_id:'Qh5oHMmPb8k',
+    description:'React faster and catch harder in the slip cordon. Soft hands and ultra-fast reactions separate elite slip catchers from everyone else.',
+    steps:['Set up in slip position — hands held LOW at knee height at ALL times','Weight forward on balls of feet — slight lean toward the bat at all times','Partner sends fast deflections via catching cradle or edge board randomly','React to movement — do NOT anticipate direction before the ball is deflected','Take ball anywhere from knee to shoulder height in one fluid movement','Return IMMEDIATELY to starting ready position after every single catch'],
+    tips:'Hands LOW always. React to the SOUND of the edge before your eyes process the movement.',
+    target_metric:'15 of 20 catches taken cleanly at pace from random directions' },
+  { id:'f005',category:'fielding',title:'Direct Hit Run Outs',skill_level:'intermediate',duration_minutes:15,xp_value:90,
+    video_id:'0mH8BKDB5Qk',
+    description:'Field a ball at full sprint pace and hit the stumps directly with a flat throw. One direct hit changes a match.',
+    steps:['Ball rolled at medium pace from 20 metres — approach at full sprint','Sprint to intercept at absolute maximum pace — no jogging','Clean pick-up in ONE single motion — no bobble, no adjustment','Pivot IMMEDIATELY — set feet side-on to target stumps in the same motion','Throw FLAT at the near stump — not the far stump from an angle','Entire sequence from pick-up to ball hitting stumps must be under 3.5 seconds'],
+    tips:'Target the NEAR stump. A miss slightly wide still gives the wicketkeeper a stumping chance.',
+    target_metric:'3 direct hits in 10 attempts, all under 3.5 seconds total' },
+  { id:'f006',category:'fielding',title:'Boundary Diving Saves',skill_level:'advanced',duration_minutes:25,xp_value:115,
+    video_id:'0mH8BKDB5Qk',
+    description:'Save crucial boundaries with full athletic commitment. Half-dives result in fumbles. Full commitment saves matches.',
+    steps:['Partner drives ball hard toward the boundary from various angles','Sprint at maximum effort — attack the ball aggressively, do not hesitate','When you cannot stop conventionally: DIVE full length, arm fully extended','Stop ball before it reaches the boundary rope — palm facing down to field','Recover immediately to your feet — ball returned accurately in one movement','Train equal repetitions diving to the left AND to the right — no weak side'],
+    tips:'Commit 100% to the dive. A half-dive becomes a fumble and the ball reaches the rope. Commit or don\'t dive.',
+    target_metric:'Save 8 of 10 boundary attempts with athletic diving stops' },
+
+  // ===== WICKETKEEPING =====
+  { id:'k001',category:'wicketkeeping',title:'Keeper Stance & Takes',skill_level:'beginner',duration_minutes:15,xp_value:65,
+    video_id:'Qh5oHMmPb8k',
+    description:'Perfect the wicketkeeping stance — the foundation that every world-class keeper builds their entire game upon.',
+    steps:['Weight on TOES — never on heels throughout the entire delivery','Hands held out in front of body — soft, relaxed, ready','Side-step movement following the ball throughout the delivery from release','Stay LOW throughout — never stand up early to receive the ball','Fingers pointing DOWN for all balls below waist level','Fingers pointing UP for balls above waist — never thumbs up at waist height'],
+    tips:'Never cross your feet laterally to move. Keep hands soft — tense hands drop clean takes.',
+    target_metric:'15 consecutive clean takes across all heights and lines' },
+  { id:'k002',category:'wicketkeeping',title:'Stumping Technique',skill_level:'intermediate',duration_minutes:18,xp_value:100,
+    video_id:'Qh5oHMmPb8k',
+    description:'The wicketkeeper\'s signature dismissal. Master the stumping — explosive hands, perfect footwork, and an instant convincing appeal.',
+    steps:['Position directly behind the stumps — within half a metre','Spinner delivers wide or turning delivery — batsman misses or advances','Watch ball travel PAST the batsman\'s back foot before making any movement','Move laterally to take the wide delivery cleanly with soft hands','Single flowing motion: take ball and IMMEDIATELY whip bails off — one movement','Instant loud appeal — HOWZAT every time, regardless of certainty'],
+    tips:'Ball must pass the batsman\'s back foot BEFORE you begin any movement. Under 0.5 seconds is elite class.',
+    target_metric:'10 clean stumpings out of a 30-ball spin-bowling session' },
+  { id:'k003',category:'wicketkeeping',title:'Standing Up to Spin',skill_level:'advanced',duration_minutes:25,xp_value:130,
+    video_id:'Qh5oHMmPb8k',
+    description:'Stand directly up to the stumps for all spin bowling — restricts the batsman\'s movement and creates constant stumping opportunities.',
+    steps:['Position directly behind stumps — within one metre at all times','Begin with spinner bowling at HALF pace — build comfort with the position','Take deliveries arriving exactly at the stumps — not deflected wide','For turning delivery: quick explosive lateral swivel — strong hand leading the take','Stumping opportunity identified: whip bails off in one single motion from the take','Personal standard: zero byes — anything above zero is substandard performance'],
+    tips:'This is the hardest skill in wicketkeeping. Build up the practice distance gradually over weeks.',
+    target_metric:'Zero byes conceded across 20 spin deliveries while standing up' },
+
+  // ===== FITNESS =====
+  { id:'fit001',category:'fitness',title:'Cricket Sprint Protocol',skill_level:'beginner',duration_minutes:20,xp_value:70,
+    description:'Develop explosive sprint speed for running between wickets and explosive fielding starts. The first 10 metres separates elite fielders from the rest.',
+    steps:['Dynamic warm-up: high knees, butt kicks, leg swings — 5 full minutes','Sprint 22 yards (one crease to crease): 10 repetitions with 30 seconds rest','Focus on explosive first step — drive out with maximum force','Drive arms hard — arms are the engine that drives leg speed','Stay LOW for first 5 metres — do not straighten up early','Cool down: easy jog 3 minutes'],
+    tips:'The first 10 metres is everything in cricket fielding. Train the start exclusively.',
+    target_metric:'22 yards consistently under 3.2 seconds' },
+  { id:'fit002',category:'fitness',title:'Cricket Core Stability',skill_level:'beginner',duration_minutes:15,xp_value:65,
+    description:'Core strength for batting power generation, bowling action stability, and fielding agility. Non-negotiable for all cricketers at every level.',
+    steps:['Plank: 3 × 45 seconds — straight line from ankles through shoulders','Side plank: 2 × 30 seconds each side — hip up, body straight','Dead bugs: 3 × 10 each side — slow and completely controlled throughout','Bird dog: 3 × 10 each side — opposite arm and leg fully extended','Russian twists: 3 × 20 — use a cricket ball as weight resistance','Rest 45 seconds between all sets — no shorter'],
+    tips:'Brace your core actively on every single repetition. Breathe OUT on the effort phase.',
+    target_metric:'Complete the full circuit 3 times with perfect form throughout' },
+  { id:'fit003',category:'fitness',title:'Bowling Shoulder Pre-Hab',skill_level:'beginner',duration_minutes:15,xp_value:60,
+    description:'Protect your bowling shoulder with this essential routine. Every bowler must complete this BEFORE every session — non-negotiable injury insurance.',
+    steps:['Shoulder circles slow and large: 20 forward, 20 backward — full range','External rotation with resistance band: 3 × 15 each arm — controlled','Internal rotation: 3 × 15 each arm — controlled return','Scapular retractions: 3 × 15 — squeeze shoulder blades firmly together','YTW exercise: 3 × 10 each letter — strengthens the posterior rotator cuff','Sleeper stretch: 60 seconds on each side — essential for internal rotation'],
+    tips:'15 minutes of prevention = years of injury-free bowling. There are no exceptions to this rule.',
+    target_metric:'Complete pre-hab before 100% of all bowling sessions — no exceptions' },
+  { id:'fit004',category:'fitness',title:'Explosive Leg Power',skill_level:'advanced',duration_minutes:25,xp_value:110,
+    description:'Develop devastating leg power for batting explosiveness, bowling run-up speed, and fielding agility from a complete standstill.',
+    steps:['Box jumps: 4 × 8 repetitions — maximum height, land absolutely silently','Jump squats: 3 × 10 — controlled descent, explosive ascent with full hip extension','Single-leg bounds: 3 × 6 each leg — driving off one leg for maximum horizontal distance','Sprint starts from deep crouch: 5 × 30 metres at absolute maximum effort','Rest 90 seconds between ALL explosive sets — full recovery is mandatory','Landing noisily = poor power transfer — refine until landings are completely silent'],
+    tips:'Full hip extension at take-off. Silent landing = efficient power transfer = more explosive output.',
+    target_metric:'Standing broad jump consistently reaching 2.0 metres' },
+  { id:'fit005',category:'fitness',title:'Agility Ladder Footwork',skill_level:'intermediate',duration_minutes:20,xp_value:90,
+    description:'Rapid footwork patterns for explosive fielding starts and quick running between wickets. Fast feet win run outs and save boundaries.',
+    steps:['Single steps — one foot per box — 2 minutes continuous without hesitation','Two feet per box — jump in and out — 2 minutes continuous','Lateral shuffle through every box sideways — 2 minutes each side','In-in-out-out pattern — 2 minutes — the hardest coordination pattern','Sprint through at maximum possible speed: 6 × 10 metres full recovery between','Cool down: 3 minutes easy walking'],
+    tips:'Light, fast, precise foot contacts only. Arms drive leg speed — pump them hard and high.',
+    target_metric:'Complete all patterns under 20 minutes with zero ladder contacts' },
+
+  // ===== MENTAL =====
+  { id:'ment001',category:'mental',title:'Batting Visualization',skill_level:'beginner',duration_minutes:15,xp_value:65,
+    description:'Mentally rehearse your perfect innings in vivid, multisensory detail. Neuroscience confirms: the brain cannot distinguish between real and vividly imagined practice.',
+    steps:['Close your eyes. Relax every muscle — scan body from head to toe systematically.','Picture yourself walking to the crease with total, earned confidence','Face 10 deliveries in your mind — play each one with perfect technique','Include every sensory detail: bat feel in hands, spikes on grass, crowd sounds, warm air','See each delivery arrive and play your best technically perfect shot','Open your eyes. Carry this mental image vividly and specifically into your next real session.'],
+    tips:'Be vivid, specific, and multi-sensory. The more real it feels, the more real the neural pathways become.',
+    target_metric:'Complete a 10-minute visualization session every single day for 2 weeks' },
+  { id:'ment002',category:'mental',title:'Between-Ball Reset Routine',skill_level:'intermediate',duration_minutes:12,xp_value:80,
+    description:'Master the psychological routine between deliveries. Elite batsmen use this time to RESET completely — not to ruminate on what just happened.',
+    steps:['After ball: look AWAY from the bowler immediately — break eye contact completely','Take ONE deep, slow, deliberate reset breath — fully exhale every bit of tension','Tap bat on ground exactly twice — physical anchor to the present moment only','Scan the field: note any changes to field positions since the last delivery','Look down at the bat handle to physically refocus your gaze and attention','New stance position — fresh psychological start — every single ball is the first ball'],
+    tips:'Make this routine completely AUTOMATIC through 100% consistent practice. Same every time, no exceptions.',
+    target_metric:'Consistent complete routine used in a 20-ball simulation without deviation' },
+  { id:'ment003',category:'mental',title:'Pressure Inoculation',skill_level:'advanced',duration_minutes:20,xp_value:130,
+    description:'Simulate extreme match pressure in training so real matches feel familiar and manageable. This is the method elite athletes use worldwide.',
+    steps:['Set a realistic high-pressure scenario: 5 runs needed from last over, 2 wickets remaining','Real bowler, real fielders, real scorekeeper, and vocal watching spectators','Both teams fully understand the scenario — pressure is at its maximum','Do NOT rush — use your complete between-ball routine as you would in a real match','Assess situation logically before each ball — make a clear plan — execute the plan','Full debrief afterward: what worked? What did you feel? What exactly would you change?'],
+    tips:'Pressure is a privilege given only to those who matter. Actively seek it in every training session.',
+    target_metric:'Complete 6 high-pressure scenario simulations while maintaining full routine' },
+];
+
+// ── Mental Sessions Factory ───────────────────────────────────────
+const MI = {
+  focus:['Find a comfortable seated position and gently close your eyes.','Take three slow, complete breaths to fully settle your nervous system.','Bring all your attention completely to this present moment only.','Notice any thoughts that arise — acknowledge each one and release it.','Narrow your entire focus to a single precise point of concentration.','Maintain this focused state through the remainder of the session.'],
+  confidence:['Sit tall with excellent posture and take three powerful, diaphragmatic breaths.','Recall your single greatest performance moment — relive it with complete detail.','Feel that exact confidence filling every cell of your body right now.','Repeat your most important personal performance affirmation slowly three times.','Visualize yourself performing with complete belief and natural authority.','Step forward carrying this energy directly into your next performance.'],
+  recovery:['Find a quiet space and allow your entire body to fully and deeply relax.','Take five long breaths — deliberately releasing all held tension on every exhale.','Acknowledge frustration without any self-judgment — it is completely natural and valid.','Remind yourself truthfully: every single setback is an essential part of the journey.','Identify one specific clear learning point you can actively take forward today.','Make a firm commitment to showing up tomorrow with completely fresh energy and focus.'],
+  'pre-performance':['Begin with three slow, grounding breaths — inhale through nose, exhale through mouth.','Scan your body completely from head to toe, releasing every point of tension.','Visualize walking to your position with calm, certain, earned authority.','See yourself executing your most important skill perfectly on the very first ball.','Feel the productive excitement and complete physical readiness building within you.','Step forward now with total intention — you have prepared and you are genuinely ready.'],
+  pressure:['Acknowledge the pressure you feel — it means this genuinely matters to you.','Breathe in for 4 slow counts, hold for 2, then exhale fully for 6 counts.','Remember: pressure is only given to those trusted to operate at this level.','Focus completely and exclusively on what you can actually control — your process only.','Commit to your specific process — one ball, one breath, one precise moment at a time.','Step forward now with calm, completely earned confidence built through your preparation.'],
+  visualization:['Close your eyes and progressively relax every single muscle group in your body.','Create an extremely vivid, completely detailed mental image of your performance environment.','See yourself performing your key cricket skill perfectly and with complete ease and flow.','Add full sensory details: sounds, smells, temperature, physical sensations of peak performance.','Watch yourself succeed completely — feel the deep, earned satisfaction entirely in your body.','Open your eyes and carry this sharp, detailed vision directly into your actual performance.'],
+  'match-day-calm':['Take your position and close your eyes gently and with complete deliberateness.','Breathe in slowly for 4 counts, hold briefly, release fully for 4 counts.','Feel your feet completely grounded, your body fully present and stable.','Release ALL thoughts connected to outcomes — they are not yours to hold or control.','Trust your preparation completely and specifically — you have done the necessary work.','Open your eyes now with complete calm and clear, confident readiness to perform.'],
+  'pro-mental':['Enter the deepest available stillness through sustained controlled breathing.','Access your peak mental state deliberately through concentrated, intentional focus.','Engage your elite competitor mindset fully — you have been in this position before.','Visualize your complete performance in vivid detail from confident start to triumphant finish.','Lock in your precise process cues and personal performance triggers with clarity.','Step out now as the athlete you have consistently, deliberately trained yourself to become.'],
+};
+
+function mkM(id,title,cat,dur,xp,premium=false) {
+  const mins=Math.floor(dur/60);
+  const n=Math.max(3,Math.min(6,Math.ceil(dur/90)));
+  const sd=Math.floor(dur/n);
+  const pool=MI[cat]||MI.focus;
+  const steps=pool.slice(0,n).map((instruction,i)=>({ instruction, duration_seconds:i===n-1?dur-sd*(n-1):sd }));
+  return { id,title,category:cat,duration_seconds:dur,xp_value:xp,is_premium:premium,
+    description:`A ${mins}-minute ${cat.replace(/-/g,' ')} session to build your mental game.`,steps };
+}
+
+const MENTAL_SESSIONS = [
+  mkM('m01','Micro Focus Burst','focus',180,35), mkM('m02','Focus Next Ball','focus',240,45),
+  mkM('m03','5-4-3-2-1 Grounding','focus',300,50), mkM('m04','Task Isolation Protocol','focus',300,50),
+  mkM('m05','Laser Focus Activation','focus',360,55), mkM('m06','Deep Focus Anchor','focus',360,60),
+  mkM('m07','Sensory Narrowing','focus',360,60), mkM('m08','Process Over Result','focus',420,65),
+  mkM('m09','Noise Cancellation Focus','focus',420,70), mkM('m10','Single-Point Focus Drill','focus',480,55),
+  mkM('m11','Flow State Trigger','focus',600,75), mkM('m12','Trusting Instinct','focus',420,65),
+  mkM('m20','Morning Positivity Charge','confidence',240,40), mkM('m21','Confidence Countdown','confidence',300,50),
+  mkM('m22','Celebrate Small Wins','confidence',300,50), mkM('m23','Self-Talk Rewrite','confidence',360,55),
+  mkM('m24','Name Your Strength','confidence',300,50), mkM('m25','Affirmation Immersion','confidence',420,60),
+  mkM('m26','Own the Room','confidence',420,65), mkM('m27','Inner Champion','confidence',480,65),
+  mkM('m28','Champion Mindset Simulation','confidence',600,85), mkM('m29','Identity Goal Setting','confidence',540,75),
+  mkM('m30','Reset Button','recovery',240,45), mkM('m31','Self-Compassion Break','recovery',300,50),
+  mkM('m32','Reset After Duck','recovery',300,50), mkM('m33','Bounce-Back Faster','recovery',360,60),
+  mkM('m34','Breathing Through Collapse','recovery',360,65), mkM('m35','Let It Go Protocol','recovery',420,60),
+  mkM('m36','Failure as Feedback','recovery',420,60), mkM('m37','Processing Disappointment','recovery',480,70),
+  mkM('m38','Post-Game Emotional Release','recovery',480,70), mkM('m39','Champions Setback','recovery',480,70),
+  mkM('m40','Full Body Relaxation','recovery',540,65), mkM('m41','Sleep Better Tonight','recovery',480,60),
+  mkM('m50','Pre-Game Activation','pre-performance',300,50), mkM('m51','Nervous Energy Converter','pre-performance',360,55),
+  mkM('m52','Pre-Performance Calm','pre-performance',360,55), mkM('m53','Anchoring Peak State','pre-performance',360,65),
+  mkM('m54','Game Day Activation','pre-performance',420,65), mkM('m55','Embrace the Arena','pre-performance',420,65),
+  mkM('m56','Morning of Big Day','pre-performance',540,75), mkM('m57','Champions Routine','pre-performance',540,75),
+  mkM('m58','Pre-Tournament Mind Lock','pre-performance',600,80),
+  mkM('m60','10-Second Rule','pressure',300,50), mkM('m61','Physiological Sigh','pressure',180,35),
+  mkM('m62','Strategic Pause','pressure',360,60), mkM('m63','Pressure Is Privilege','pressure',420,65),
+  mkM('m64','Handling the Unplayable Ball','pressure',420,70), mkM('m65','Bowling Under Pressure','pressure',420,65),
+  mkM('m66','Decision Clarity Under Pressure','pressure',420,70), mkM('m67','Choke-Proof Preparation','pressure',540,80),
+  mkM('m68','Mental Toughness Builder','pressure',600,85),
+  mkM('m70','Batting Visualization Session','visualization',300,50), mkM('m71','Future-Pacing Success','visualization',420,65),
+  mkM('m72','Fielding Brilliance Rehearsal','visualization',420,65), mkM('m73','Master Skill Replay','visualization',480,70),
+  mkM('m74','Vision Board Visualization','visualization',480,70), mkM('m75','Perfect Performance','visualization',540,75),
+  mkM('m76','Champion Visualization','visualization',600,85),
+  mkM('m77','Elite Endurance Mindset','visualization',720,110,true), mkM('m78','Flow State Architecture','visualization',900,120,true),
+  mkM('m80','4-7-8 Breath Lock','match-day-calm',360,50), mkM('m81','Deep Calm Breathing','match-day-calm',300,50),
+  mkM('m82','Gratitude Before Game','match-day-calm',300,50), mkM('m83','Stillness Practice','match-day-calm',360,55),
+  mkM('m84','Anxiety Dissolve Protocol','match-day-calm',420,65), mkM('m85','Box Breathing Method','match-day-calm',480,65),
+  mkM('m86','Inner Lake','match-day-calm',420,60),
+  mkM('m90','Deliberate Practice Mindset','pro-mental',600,100,true), mkM('m91','Mastery Over Perfection','pro-mental',600,100,true),
+  mkM('m92','Elite Competitor Analysis','pro-mental',720,110,true), mkM('m93','Inner Dialogue Mastery','pro-mental',720,110,true),
+  mkM('m94','Zone of Genius Activation','pro-mental',720,110,true),
+];
+
+// ── Workouts ──────────────────────────────────────────────────────
+function mkW(id,name,level,target,goal,durCat,exercises,durMin,xp) {
+  return {id,name,level,target,goal,duration_category:durCat,exercises,duration_minutes:durMin,xp_value:xp};
+}
+const WORKOUTS = [
+  mkW('wb001','Full Body Beginner Blast','beginner','full-body','build-muscle','10-15',4,12,85),
+  mkW('wb002','Quick Morning Starter','beginner','full-body','lose-weight','<10',4,8,70),
+  mkW('wb003','Chest Beginner Build','beginner','chest','build-muscle','10-15',3,12,70),
+  mkW('wb004','Back Beginner Strengthen','beginner','back','build-muscle','<10',3,8,65),
+  mkW('wb005','Shoulder Beginner Tone','beginner','shoulders','build-muscle','<10',3,8,65),
+  mkW('wb006','Arms Beginner Blast','beginner','arms','build-muscle','10-15',4,12,80),
+  mkW('wb007','Legs Beginner Strength','beginner','legs','build-muscle','10-15',4,12,85),
+  mkW('wb008','Core Beginner Basics','beginner','core','build-muscle','10-15',4,12,80),
+  mkW('wb009','Quick Fat Burn Sprint','beginner','full-body','lose-weight','<10',4,8,70),
+  mkW('wb010','Full Body Fat Burn Beginner','beginner','full-body','lose-weight','15-20',5,18,95),
+  mkW('wb011','Total Toning Beginner','beginner','full-body','build-muscle','15-20',5,18,100),
+  mkW('wb012','10-Minute Full Body Burn','beginner','full-body','lose-weight','10-15',8,10,80),
+  mkW('wb013','Chest Fat Burn Beginner','beginner','chest','lose-weight','10-15',3,12,72),
+  mkW('wb014','Back Fat Burn Beginner','beginner','back','lose-weight','10-15',3,12,70),
+  mkW('wb015','Legs Endurance Beginner','beginner','legs','improve-endurance','15-20',4,18,90),
+  mkW('wb016','Core Fat Burn Beginner','beginner','core','lose-weight','<10',4,8,72),
+  mkW('wb017','Glutes Beginner Tone','beginner','glutes','build-muscle','10-15',4,12,80),
+  mkW('wb018','Full Body Endurance Starter','beginner','full-body','improve-endurance','10-15',4,12,85),
+  mkW('wb019','Arms Fat Burn Beginner','beginner','arms','lose-weight','<10',3,8,68),
+  mkW('wb020','Evening Stretch Beginner','beginner','full-body','improve-endurance','<10',4,8,60),
+  mkW('wi001','Full Body Intermediate Power','intermediate','full-body','build-muscle','20-25',5,22,165),
+  mkW('wi002','Chest Intermediate Build','intermediate','chest','build-muscle','15-20',4,17,140),
+  mkW('wi003','Back Intermediate Strength','intermediate','back','build-muscle','15-20',4,17,135),
+  mkW('wi004','Shoulder Intermediate Sculpt','intermediate','shoulders','build-muscle','15-20',4,17,140),
+  mkW('wi005','Arms Intermediate Pump','intermediate','arms','build-muscle','20-25',5,22,165),
+  mkW('wi006','Legs Intermediate Circuit','intermediate','legs','build-muscle','20-25',5,22,160),
+  mkW('wi007','Core Intermediate Shred','intermediate','core','build-muscle','15-20',5,17,145),
+  mkW('wi008','HIIT Fat Burner Intermediate','intermediate','full-body','lose-weight','10-15',4,12,130),
+  mkW('wi009','Endurance Builder Intermediate','intermediate','full-body','improve-endurance','20-25',5,22,160),
+  mkW('wi010','Chest Intermediate Fat Burn','intermediate','chest','lose-weight','10-15',4,12,128),
+  mkW('wi011','Legs Intermediate Fat Burn','intermediate','legs','lose-weight','15-20',4,17,148),
+  mkW('wi012','Core Intermediate Fat Burn','intermediate','core','lose-weight','10-15',4,12,125),
+  mkW('wi013','Full Body Endurance Circuit','intermediate','full-body','improve-endurance','15-20',5,17,155),
+  mkW('wi014','Upper Body Pump Builder','intermediate','full-body','build-muscle','15-20',6,17,150),
+  mkW('wi015','Core Shred Express','intermediate','core','lose-weight','10-15',7,12,122),
+  mkW('wi016','Full Body Fat Burn Int','intermediate','full-body','lose-weight','20-25',5,22,168),
+  mkW('wi017','Active Recovery Session','intermediate','full-body','improve-endurance','15-20',5,17,120),
+  mkW('wi018','Glutes Intermediate Shaper','intermediate','glutes','build-muscle','15-20',5,17,140),
+  mkW('wi019','Shoulder Intermediate Burn','intermediate','shoulders','lose-weight','15-20',4,17,140),
+  mkW('wi020','Full Body Balance Circuit','intermediate','full-body','improve-endurance','25+',6,27,185),
+  mkW('wa001','Full Body Advanced HIIT','advanced','full-body','lose-weight','25+',6,27,220),
+  mkW('wa002','Chest Advanced Power','advanced','chest','build-muscle','15-20',4,17,178),
+  mkW('wa003','Back Advanced Domination','advanced','back','build-muscle','15-20',4,17,182),
+  mkW('wa004','Shoulder Advanced Burn','advanced','shoulders','build-muscle','15-20',4,17,175),
+  mkW('wa005','Arms Advanced Pump','advanced','arms','build-muscle','20-25',5,22,192),
+  mkW('wa006','Legs Explosive Advanced','advanced','legs','build-muscle','20-25',5,22,190),
+  mkW('wa007','Core Advanced Destroyer','advanced','core','build-muscle','15-20',5,17,175),
+  mkW('wa008','Fat Burn HIIT Advanced','advanced','full-body','lose-weight','20-25',6,22,210),
+  mkW('wa009','Power Strength Advanced','advanced','full-body','build-muscle','20-25',5,22,215),
+  mkW('wa010','Total Body Cardio Advanced','advanced','full-body','improve-endurance','25+',6,27,225),
+  mkW('wa011','Glutes & Hamstrings Advanced','advanced','glutes','lose-weight','20-25',5,22,205),
+  mkW('wa012','Chest & Triceps Advanced','advanced','chest','build-muscle','20-25',5,22,190),
+  mkW('wa013','Leg Day Power Circuit','advanced','legs','build-muscle','20-25',7,22,200),
+  mkW('wa014','Full Body Advanced Athlete','advanced','full-body','build-muscle','25+',6,27,230),
+  mkW('wa015','Mobility & Flexibility Advanced','advanced','full-body','improve-endurance','20-25',5,22,160),
+  mkW('wa016','Back Advanced Fat Burn','advanced','back','lose-weight','15-20',4,17,170),
+  mkW('wa017','Core Advanced Annihilation','advanced','core','improve-endurance','15-20',5,17,185),
+  mkW('wa018','Arms Advanced Strength','advanced','arms','build-muscle','15-20',4,17,175),
+  mkW('wa019','Full Body Athlete Builder','advanced','full-body','build-muscle','25+',8,27,220),
+  mkW('wa020','Chest Advanced Sculptor','advanced','chest','build-muscle','15-20',4,17,165),
+  mkW('wp001','Full Body Pro Endurance','pro','full-body','improve-endurance','25+',6,28,310),
+  mkW('wp002','Chest Pro Supreme','pro','chest','build-muscle','20-25',4,22,270),
+  mkW('wp003','Back Pro Mastery','pro','back','build-muscle','20-25',4,22,280),
+  mkW('wp004','Shoulders Elite Pro','pro','shoulders','build-muscle','20-25',5,22,270),
+  mkW('wp005','Arms Pro Elite','pro','arms','build-muscle','20-25',4,22,275),
+  mkW('wp006','Legs Pro Explosion','pro','legs','build-muscle','25+',5,28,305),
+  mkW('wp007','Core Elite Pro','pro','core','build-muscle','20-25',5,22,260),
+  mkW('wp008','Full Body Power Pro','pro','full-body','build-muscle','25+',6,28,320),
+  mkW('wp009','Explosive Power Pro','pro','full-body','build-muscle','25+',6,28,330),
+  mkW('wp010','Pro Athlete Conditioning','pro','full-body','improve-endurance','25+',7,28,300),
+  mkW('wp011','Chest Pro Explosion','pro','chest','build-muscle','20-25',4,22,285),
+  mkW('wp012','Back Pro Strength','pro','back','build-muscle','20-25',4,22,280),
+  mkW('wp013','Legs Pro Power','pro','legs','build-muscle','25+',5,28,305),
+  mkW('wp014','Core Pro Mastery','pro','core','build-muscle','20-25',4,22,265),
+  mkW('wp015','Arms Pro Domination','pro','arms','build-muscle','25+',5,28,290),
+  mkW('wp016','Back Domination Pro','pro','back','build-muscle','25+',5,28,290),
+  mkW('wp017','Shoulders Pro Power','pro','shoulders','build-muscle','20-25',4,22,275),
+  mkW('wp018','Core Stability Pro','pro','core','improve-endurance','20-25',5,22,270),
+  mkW('wp019','Full Body Pro Fat Burn','pro','full-body','lose-weight','25+',6,28,295),
+  mkW('wp020','Full Body Pro Cardio','pro','full-body','lose-weight','20-25',6,22,288),
+];
+
+function findWorkouts(level, target, goal, durCat) {
+  const m=(w,lv,tg,gl,dc)=>w.level===lv&&(tg==='any'||w.target===tg)&&(gl==='any'||w.goal===gl)&&(dc==='any'||w.duration_category===dc);
+  let r=WORKOUTS.filter(w=>m(w,level,target,goal,durCat)); if(r.length) return r;
+  r=WORKOUTS.filter(w=>m(w,level,target,goal,'any')); if(r.length) return r;
+  r=WORKOUTS.filter(w=>m(w,level,target,'any','any')); if(r.length) return r;
+  r=WORKOUTS.filter(w=>m(w,level,'any','any','any')); if(r.length) return r;
+  const fb={pro:'advanced',advanced:'intermediate',intermediate:'beginner',beginner:'beginner'};
+  r=WORKOUTS.filter(w=>w.level===level||w.level===fb[level]);
+  return r.length?r:[WORKOUTS[0]];
+}
+
+// ── Skill Paths ───────────────────────────────────────────────────
+const SKILL_PATHS = [
+  { id:'batting', title:'Batting Mastery', icon:'bat', desc:'From solid defence to dominant attacking play — the complete batsman blueprint.',
+    color:'from-blue-600 to-indigo-700', textColor:'text-blue-300', borderColor:'border-blue-500/50',
+    accent:'#3b82f6',
+    levels:[
+      { id:'beginner', label:'Club Cricketer', icon:'bat', xpPerDay:80,
+        desc:'Fundamentals, defensive technique, and basic stroke play.',
+        sampleDrills:['Defensive Block Foundation','Cover Drive Mastery','Running Between Wickets'] },
+      { id:'intermediate', label:'District Player', icon:'bat', xpPerDay:120,
+        desc:'Shot expansion, spin play, and core T20 skills.',
+        sampleDrills:['Cut Shot Technique','Sweep Shot vs Spin','Pull Shot Power'] },
+      { id:'advanced', label:'State Performer', icon:'bat', xpPerDay:160,
+        desc:'Power hitting, pressure batting, and match-winning skills.',
+        sampleDrills:['T20 Power Hitting','Ramp Shot over Keeper','Pressure Inoculation'] },
+      { id:'pro', label:'Elite Cricketer', icon:'crown', xpPerDay:200,
+        desc:'Elite refinement, match simulation, and peak performance.',
+        sampleDrills:['Reading Spin from Hand','Between-Ball Reset Routine','Complete Shot Arsenal'] }
+    ] },
+  { id:'bowling', title:'Bowling Excellence', icon:'ball', desc:'Build line and length, develop all variations, and become unplayable.',
+    color:'from-red-600 to-orange-600', textColor:'text-red-300', borderColor:'border-red-500/50',
+    accent:'#ef4444',
+    levels:[
+      { id:'beginner', label:'Club Bowler', icon:'ball', xpPerDay:75,
+        desc:'Correct action, basic control, and seam presentation.',
+        sampleDrills:['Line & Length Precision','Off Spin with Drift','Leg Spin Fundamentals'] },
+      { id:'intermediate', label:'District Bowler', icon:'ball', xpPerDay:115,
+        desc:'Swing bowling, spin variations, and field setting.',
+        sampleDrills:['Outswing Mastery','Inswing Bowling','Googly Disguise'] },
+      { id:'advanced', label:'State Bowler', icon:'ball', xpPerDay:155,
+        desc:'Death bowling, yorkers, and pressure bowling mastery.',
+        sampleDrills:['Yorker Death Bowling','Bouncer Control & Use','Slower Ball Variations'] },
+      { id:'pro', label:'Elite Bowler', icon:'crown', xpPerDay:195,
+        desc:'Complete mastery of swing, seam, spin, and pace variety.',
+        sampleDrills:['Death Bowling Masterclass','Complete Variation Arsenal','Match Simulation'] }
+    ] },
+  { id:'fielding', title:'Fielding Athlete', icon:'navigation', desc:'Become the player every captain wants — quick, accurate, fearless, match-winning.',
+    color:'from-emerald-600 to-teal-600', textColor:'text-emerald-300', borderColor:'border-emerald-500/50',
+    accent:'#10b981',
+    levels:[
+      { id:'beginner', label:'Safe Pair of Hands', icon:'navigation', xpPerDay:65,
+        desc:'Clean stops, basic catching, and safe accurate returns.',
+        sampleDrills:['Ground Fielding Excellence','High Catch Confidence','Throwing Accuracy at Stumps'] },
+      { id:'intermediate', label:'Athletic Fielder', icon:'navigation', xpPerDay:100,
+        desc:'Slip catching, direct hits, and boundary saving.',
+        sampleDrills:['Slip Cordon Reactions','Direct Hit Run Outs','Boundary Diving Saves'] },
+      { id:'advanced', label:'Elite Fielder', icon:'navigation', xpPerDay:140,
+        desc:'Elite boundary work, run-out artistry, and impact fielding.',
+        sampleDrills:['Direct Hit Run Outs','Boundary Diving Saves','Pressure Catches'] },
+      { id:'pro', label:'World-Class Fielder', icon:'crown', xpPerDay:180,
+        desc:'Redefine the standard of fielding excellence.',
+        sampleDrills:['Full Fielding Masterclass','Captaining the Field','Zero Boundaries Conceded'] }
+    ] },
+  { id:'allrounder', title:'All-Rounder Path', icon:'star', desc:'The complete cricketer — contribute meaningfully with bat, ball, and in the field.',
+    color:'from-purple-600 to-pink-600', textColor:'text-purple-300', borderColor:'border-purple-500/50',
+    accent:'#a855f7',
+    levels:[
+      { id:'beginner', label:'Utility Player', icon:'star', xpPerDay:90,
+        desc:'Solid in two disciplines — reliable, consistent contribution.',
+        sampleDrills:['Cover Drive Mastery','Line & Length Precision','Ground Fielding Excellence'] },
+      { id:'intermediate', label:'Impact Player', icon:'💥', xpPerDay:135,
+        desc:'Match-winning contributions in both disciplines.',
+        sampleDrills:['Pull Shot Power','Outswing Mastery','Slip Cordon Reactions'] },
+      { id:'advanced', label:'Key All-Rounder', icon:'star', xpPerDay:175,
+        desc:'Consistently influential in all three disciplines.',
+        sampleDrills:['T20 Power Hitting','Death Bowling Masterclass','Elite Fielding'] },
+      { id:'pro', label:'Complete Cricketer', icon:'crown', xpPerDay:220,
+        desc:'Redefine what an all-rounder brings to the team.',
+        sampleDrills:['Complete Batting Arsenal','Complete Bowling Arsenal','World-Class Fielding'] }
+    ] }
+];
+
+function generateWeekPlan(pathId, levelId) {
+  const path=SKILL_PATHS.find(p=>p.id===pathId);
+  const lv=path?.levels.find(l=>l.id===levelId);
+  if(!path||!lv) return [];
+  const phases=['Foundation','Development','Integration','Performance','Mastery'];
+  return phases.map((phase,wi)=>({
+    week:wi+1, phase, theme:`Week ${wi+1} — ${phase}`,
+    days:Array.from({length:7},(_,di)=>{
+      if(di===6) return { day:7,label:'Sun',isRest:true,activities:[] };
+      const isLight=di===2||di===4;
+      const activities=isLight
+        ?[{type:'mental',id:'m84',title:'Recovery & Reset',duration:'8 min',xp:65},{type:'drill',id:DRILLS.find(d=>d.category==='fitness')?.id||'fit001',title:'Light Conditioning',duration:'15 min',xp:60}]
+        :[{type:'drill',id:path.id==='batting'?'b001':path.id==='bowling'?'w001':'f001',title:lv.sampleDrills[di%lv.sampleDrills.length]||'Skill Session',duration:'20 min',xp:lv.xpPerDay*0.4|0},{type:'fitness',id:'wb001',title:'Cricket Fitness',duration:'20 min',xp:lv.xpPerDay*0.3|0},{type:'mental',id:'m50',title:'Mental Training',duration:'8 min',xp:lv.xpPerDay*0.3|0}];
+      return { day:di+1,label:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][di],isRest:false,activities,totalXP:activities.reduce((s,a)=>s+a.xp,0) };
+    })
+  }));
+}
+
+// Smart schedule generator algorithm
+function generateSmartSchedule(focusArea, trainingDays, intensity, weekMondayStr) {
+  const monday = new Date(weekMondayStr+'T00:00:00');
+  // Choose rest day pattern
+  const restPatterns = {
+    3:[1,3,5,6], 4:[2,4,6], 5:[3,6], 6:[6], 7:[]
+  };
+  const restDays = restPatterns[trainingDays]||[6];
+  const intensityXP = { light:65, moderate:90, intense:120 };
+  const xp = intensityXP[intensity]||90;
+  const sessions=[];
+
+  for(let i=0;i<7;i++){
+    const d=new Date(monday); d.setDate(monday.getDate()+i);
+    const ds=dateStr(d);
+    if(restDays.includes(i)) continue;
+
+    const isHeavy=i%3===0;
+    const drillCat=focusArea==='allrounder'?['batting','bowling','fielding'][i%3]:focusArea;
+    const drillOptions=DRILLS.filter(d=>d.category===drillCat&&d.skill_level==='intermediate');
+    const drillPick=drillOptions[i%drillOptions.length]||DRILLS.find(d=>d.category===drillCat)||DRILLS[0];
+    const mentalOptions=MENTAL_SESSIONS.filter(m=>!m.is_premium);
+    const mentalPick=mentalOptions[i%mentalOptions.length]||MENTAL_SESSIONS[0];
+    const workoutPick=WORKOUTS.find(w=>w.level==='intermediate'&&w.goal===( isHeavy?'build-muscle':'improve-endurance'))||WORKOUTS[0];
+
+    sessions.push({
+      id:'sch_'+Date.now()+'_'+i+'_a',
+      date:ds, time:'07:00',
+      type:'drill', title:drillPick.title,
+      ref_id:drillPick.id,
+      duration_minutes:drillPick.duration_minutes,
+      xp_value:drillPick.xp_value,
+      status:'pending', notes:'', color:SCHED_TYPES.drill.color
+    });
+
+    if(isHeavy){
+      sessions.push({
+        id:'sch_'+Date.now()+'_'+i+'_b',
+        date:ds, time:'17:00',
+        type:'fitness', title:workoutPick.name,
+        ref_id:workoutPick.id,
+        duration_minutes:workoutPick.duration_minutes,
+        xp_value:workoutPick.xp_value,
+        status:'pending', notes:'', color:SCHED_TYPES.fitness.color
+      });
+    }
+
+    sessions.push({
+      id:'sch_'+Date.now()+'_'+i+'_c',
+      date:ds, time:'19:00',
+      type:'mental', title:mentalPick.title,
+      ref_id:mentalPick.id,
+      duration_minutes:Math.floor(mentalPick.duration_seconds/60),
+      xp_value:mentalPick.xp_value,
+      status:'pending', notes:'', color:SCHED_TYPES.mental.color
+    });
+  }
+  return sessions;
+}
+
+// ================================================================
+// SHARED UI COMPONENTS — Professional Design System
+// ================================================================
+
 function Spinner({ cls='' }) {
   return h('div', { className:`flex items-center justify-center py-16 ${cls}` },
     h('div', { className:'w-10 h-10 border-4 border-slate-700 border-t-emerald-500 rounded-full animate-spin' })
@@ -523,10 +1101,12 @@ function Heatmap({ days }) {
   );
 }
 
+// ── Section title helper ──────────────────────────────────────────
 function SectionLabel({ children }) {
   return h('div', { className:'sc-section-label' }, children);
 }
 
+// ── Page header ───────────────────────────────────────────────────
 function PageHeader({ title, subtitle, gradient, onBack, actions }) {
   return h('div',{
     className:'relative overflow-hidden',
@@ -558,7 +1138,7 @@ function PageHeader({ title, subtitle, gradient, onBack, actions }) {
 }
 
 // ================================================================
-// SIDEBAR
+// SIDEBAR — Professional with scroll memory
 // ================================================================
 function Sidebar({ open, onClose, currentPage }) {
   const scrollRef = useRef(null);
@@ -579,6 +1159,7 @@ function Sidebar({ open, onClose, currentPage }) {
     }
   },[open]);
 
+  // Fully SVG-icon driven nav button — zero emojis
   function NavBtn({ label, icon, pg, onClick, badge, isNew }) {
     const active = currentPage===pg;
     return h('button',{
@@ -601,11 +1182,14 @@ function Sidebar({ open, onClose, currentPage }) {
   };
 
   return h(Fragment,null,
+    // Backdrop
     open && h('div',{
       className:'fixed inset-0 z-40',
       style:{background:'rgba(0,0,0,0.7)',backdropFilter:'blur(4px)'},
       onClick:handleClose
     }),
+
+    // Drawer — professional sidebar panel
     h('div',{
       className:'fixed inset-y-0 left-0 z-50 w-72 flex flex-col sidebar-panel',
       style:{
@@ -614,6 +1198,7 @@ function Sidebar({ open, onClose, currentPage }) {
         willChange:'transform',
       }
     },
+      // ── Header ──────────────────────────────────────────────────
       h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',
         padding:'16px 20px',borderBottom:'1px solid rgba(48,54,61,0.9)'}},
         h('div',{style:{display:'flex',alignItems:'center',gap:10}},
@@ -632,6 +1217,8 @@ function Sidebar({ open, onClose, currentPage }) {
           h(Icon,{n:'x',cls:'w-4 h-4'})
         )
       ),
+
+      // ── Level + streak ────────────────────────────────────────
       h('div',{style:{padding:'12px 20px',borderBottom:'1px solid rgba(48,54,61,0.6)',background:'rgba(22,27,34,0.5)'}},
         h(LevelBar,{totalXP:p.total_xp||0}),
         h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:8}},
@@ -642,10 +1229,14 @@ function Sidebar({ open, onClose, currentPage }) {
           )
         )
       ),
+
+      // ── Scrollable nav ────────────────────────────────────────
       h('div',{ref:scrollRef,className:'flex-1 sidebar-scroll',style:{padding:'6px 8px'}},
+
         h(SectionLabel,{},'Premium'),
         h(NavBtn,{label:'AI Head Coach',icon:'cpu',pg:'AICoach',badge:'PRO'}),
         h(NavBtn,{label:'90-Day Program',icon:'diamond',pg:'NinetyDay',badge:'PRO'}),
+
         h(SectionLabel,{},'Training'),
         h(NavBtn,{label:'Home',icon:'home',pg:'Home'}),
         h(NavBtn,{label:'Smart Start',icon:'zap',onClick:handleSmartStart}),
@@ -655,26 +1246,32 @@ function Sidebar({ open, onClose, currentPage }) {
         h(NavBtn,{label:'Fitness Builder',icon:'dumbbell',pg:'Fitness'}),
         h(NavBtn,{label:'AI Workout',icon:'sparkles',pg:'AIWorkout'}),
         h(NavBtn,{label:'Timer',icon:'timer',pg:'Timer'}),
+
         h(SectionLabel,{},'Performance'),
         h(NavBtn,{label:'My Progress',icon:'barChart',pg:'Progress'}),
         h(NavBtn,{label:'Skill Paths',icon:'layers',pg:'SkillPaths'}),
         h(NavBtn,{label:'Leaderboard',icon:'trophy',pg:'Leaderboard'}),
         h(NavBtn,{label:'Goals',icon:'target',pg:'Goals'}),
         h(NavBtn,{label:'My Profile',icon:'user',pg:'Profile'}),
+
         h(SectionLabel,{},'Planning'),
         h(NavBtn,{label:'Training Schedule',icon:'calendar',pg:'Schedule',isNew:true}),
         h(SectionLabel,{},'AI & Analytics'),
-        h(NavBtn,{label:'Video Analysis',icon:'cpu',pg:'VideoAnalysis',isNew:true}),
-        h(NavBtn,{label:'Performance',icon:'chartLine',pg:'Performance',isNew:true}),
-        h(NavBtn,{label:'Match Logger',icon:'list',pg:'MatchLogger',isNew:true}),
-        h(NavBtn,{label:'Reaction Drill',icon:'zap',pg:'ReactionDrill',isNew:true}),
+        h(NavBtn,{label:'Video Analysis',  icon:'cpu',     pg:'VideoAnalysis', isNew:true}),
+        h(NavBtn,{label:'Performance',     icon:'chartLine', pg:'Performance',  isNew:true}),
+        h(NavBtn,{label:'Match Logger',    icon:'list',    pg:'MatchLogger',   isNew:true}),
+        h(NavBtn,{label:'Reaction Drill',  icon:'zap',     pg:'ReactionDrill', isNew:true}),
+
         h(SectionLabel,{},'Cricket Tools'),
         h(NavBtn,{label:'Match Tracker',icon:'list',pg:'MatchTracker'}),
         h(NavBtn,{label:'MiniMatch IQ',icon:'puzzle',pg:'MiniMatch'}),
         h(NavBtn,{label:'Why Did I Get Out?',icon:'helpCircle',pg:'GetOut'}),
         h(NavBtn,{label:'Quizzes',icon:'book',pg:'Quizzes'}),
+
         h(SectionLabel,{},'Account'),
         h(NavBtn,{label:'Settings',icon:'settings',pg:'Settings'}),
+
+        // Dark mode toggle
         h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',
           margin:'8px 8px 4px',padding:'10px 12px',borderRadius:8,
           background:'rgba(22,27,34,0.6)',border:'1px solid rgba(48,54,61,0.9)'}},
@@ -698,7 +1295,7 @@ function Sidebar({ open, onClose, currentPage }) {
 }
 
 // ================================================================
-// BOTTOM NAVIGATION
+// BOTTOM NAVIGATION — Professional sports-app style
 // ================================================================
 function BottomNav({ page }) {
   const items=[
@@ -734,6 +1331,8 @@ function BottomNav({ page }) {
 // ================================================================
 // HOME PAGE
 // ================================================================
+// HOME PAGE — Professional data-forward dashboard
+// ================================================================
 function HomePage() {
   const [progress, setProgress] = useState(()=>DB.getProgress());
   const [xpDays, setXpDays] = useState(()=>DB.getXPLast7Days());
@@ -762,20 +1361,28 @@ function HomePage() {
   const streak = progress.current_streak||0;
 
   const handleCheckIn = () => {
+    // Guard 1: React state (prevents double-tap before re-render)
     if(checkedIn) return;
+    // Guard 2: Live DB check (prevents re-award after navigate-away-and-back)
     const today=new Date().toISOString().slice(0,10);
     const currentProgress=DB.getProgress();
-    if(currentProgress.last_checkin_date===today) { setCheckedIn(true); return; }
+    if(currentProgress.last_checkin_date===today) {
+      setCheckedIn(true);
+      return;
+    }
+    // Award: awardXP internally also guards via last_checkin_date
     awardXP(15,0,'checkin');
     setCheckedIn(true);
   };
 
+  // Smart picks — first uncompleted from each category
   const done = progress.completed_drills||[];
   const doneMental = progress.completed_mental||[];
   const drillPick = DRILLS.find(d=>!done.includes(d.id)&&d.category==='batting')||DRILLS[0];
   const mentalPick = MENTAL_SESSIONS.find(m=>!doneMental.includes(m.id)&&!m.is_premium)||MENTAL_SESSIONS[0];
   const workoutPick = WORKOUTS.find(w=>w.level==='beginner')||WORKOUTS[0];
 
+  // Quick actions — use SVG icon names, no emojis
   const quickActions=[
     {icon:'bat',label:'Drills',pg:'Drills',color:'#2563eb',bg:'rgba(37,99,235,0.12)',border:'rgba(37,99,235,0.25)'},
     {icon:'brain',label:'Mental',pg:'Mental',color:'#7c3aed',bg:'rgba(124,58,237,0.12)',border:'rgba(124,58,237,0.25)'},
@@ -783,6 +1390,7 @@ function HomePage() {
     {icon:'timer',label:'Timer',pg:'Timer',color:'#0d9488',bg:'rgba(13,148,136,0.12)',border:'rgba(13,148,136,0.25)'},
   ];
 
+  // Explore grid — icon names, clean labels
   const exploreTiles=[
     {icon:'layers',label:'Skill Paths',sub:'Structured programs',pg:'SkillPaths'},
     {icon:'calendar',label:'Schedule',sub:'Plan your week',pg:'Schedule'},
@@ -792,6 +1400,7 @@ function HomePage() {
     {icon:'book',label:'Quizzes',sub:'Cricket knowledge',pg:'Quizzes'},
   ];
 
+  // Stat divider helper
   const Stat = ({val,label,color}) => h('div',{
     style:{textAlign:'center',padding:'10px 4px',borderRadius:8,
       background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
@@ -800,15 +1409,20 @@ function HomePage() {
   );
 
   return h('div',{style:{paddingBottom:'calc(5rem + env(safe-area-inset-bottom, 0px))',background:'#0d1117',minHeight:'100dvh'}},
+
+    // ── Hero Section ─────────────────────────────────────────────
     h('div',{style:{
       background:'linear-gradient(160deg,#0a1628 0%,#0d1117 60%)',
       paddingTop:'calc(3.75rem + max(0.75rem,env(safe-area-inset-top)))',
       paddingBottom:'24px',padding:'calc(3.75rem + max(0.75rem,env(safe-area-inset-top))) 20px 24px',
       borderBottom:'1px solid rgba(48,54,61,0.9)',position:'relative',overflow:'hidden'
     }},
+      // Subtle green ambient light
       h('div',{style:{position:'absolute',top:'-60%',right:'-5%',width:280,height:280,
         background:'radial-gradient(circle,rgba(22,163,74,0.07),transparent 70%)',
         borderRadius:'50%',pointerEvents:'none'}}),
+
+      // Greeting row
       h('div',{style:{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:20}},
         h('div',{},
           h('p',{style:{fontSize:12,fontWeight:600,color:'#16a34a',marginBottom:4,letterSpacing:'0.04em',textTransform:'uppercase'}},greeting),
@@ -820,6 +1434,8 @@ function HomePage() {
           streak, ' day streak'
         )
       ),
+
+      // Level card — clean data card design
       h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',
         borderRadius:10,padding:16,marginBottom:16}},
         h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}},
@@ -844,12 +1460,16 @@ function HomePage() {
           h('div',{className:'level-bar-fill',style:{width:`${info.pct}%`}})
         )
       ),
+
+      // 4-stat row
       h('div',{style:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8,marginBottom:16}},
         h(Stat,{val:progress.drills_done||0,label:'Drills',color:'#3b82f6'}),
         h(Stat,{val:progress.mental_done||0,label:'Mental',color:'#8b5cf6'}),
         h(Stat,{val:progress.practice_minutes||0,label:'Minutes',color:'#f97316'}),
         h(Stat,{val:(progress.total_xp||0).toLocaleString(),label:'XP',color:'#16a34a'}),
       ),
+
+      // 7-day chart
       h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',
         borderRadius:10,padding:'14px 16px'}},
         h('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}},
@@ -863,6 +1483,8 @@ function HomePage() {
         h(XPChart,{days:xpDays})
       )
     ),
+
+    // ── Quick Train ───────────────────────────────────────────────
     h('div',{style:{padding:'20px 20px 0'}},
       h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}},
         h('h2',{style:{fontSize:13,fontWeight:700,color:'#8b949e',margin:0,textTransform:'uppercase',letterSpacing:'0.08em'}},'Quick Train')
@@ -883,6 +1505,8 @@ function HomePage() {
         )
       )
     ),
+
+    // ── Daily Check-In ────────────────────────────────────────────
     h('div',{style:{padding:'16px 20px 0'}},
       h('button',{onClick:handleCheckIn,disabled:checkedIn,
         style:{width:'100%',display:'flex',alignItems:'center',gap:14,padding:14,
@@ -907,12 +1531,15 @@ function HomePage() {
           padding:'4px 8px',borderRadius:6,flexShrink:0}},'+15 XP')
       )
     ),
+
+    // ── Smart Start ───────────────────────────────────────────────
     h('div',{id:'smart-start',style:{padding:'20px 20px 0'}},
       h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}},
-        h('h2',{style:{fontSize:13,fontWeight:700,color:'#8b949e',margin:0,textTransform:'uppercase',letterSpacing:'0.08em'}},"Today's Focus"),
+        h('h2',{style:{fontSize:13,fontWeight:700,color:'#8b949e',margin:0,textTransform:'uppercase',letterSpacing:'0.08em'}},'Today\'s Focus'),
         h('span',{style:{fontSize:11,color:'#484f58'}},'AI-selected')
       ),
       h('div',{style:{display:'flex',flexDirection:'column',gap:8}},
+        // Drill pick
         h('button',{onClick:()=>nav('DrillDetail',{id:drillPick.id}),
           style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
             border:'1px solid rgba(37,99,235,0.2)',background:'rgba(37,99,235,0.06)',
@@ -929,6 +1556,7 @@ function HomePage() {
           ),
           h(Icon,{n:'chevR',cls:'w-4 h-4 flex-shrink-0',style:{color:'#374151'}})
         ),
+        // Mental pick
         h('button',{onClick:()=>nav('MentalPlayer',{id:mentalPick.id}),
           style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
             border:'1px solid rgba(124,58,237,0.2)',background:'rgba(124,58,237,0.06)',
@@ -945,6 +1573,7 @@ function HomePage() {
           ),
           h(Icon,{n:'chevR',cls:'w-4 h-4 flex-shrink-0',style:{color:'#374151'}})
         ),
+        // Workout pick
         h('button',{onClick:()=>nav('WorkoutDetail',{id:workoutPick.id}),
           style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
             border:'1px solid rgba(234,88,12,0.2)',background:'rgba(234,88,12,0.06)',
@@ -963,6 +1592,8 @@ function HomePage() {
         )
       )
     ),
+
+    // ── Explore ───────────────────────────────────────────────────
     h('div',{style:{padding:'20px 20px 0'}},
       h('h2',{style:{fontSize:13,fontWeight:700,color:'#8b949e',margin:'0 0 12px',textTransform:'uppercase',letterSpacing:'0.08em'}},'Explore'),
       h('div',{style:{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:8}},
@@ -987,6 +1618,7 @@ function HomePage() {
   );
 }
 
+
 // ================================================================
 // DRILLS PAGE
 // ================================================================
@@ -1007,6 +1639,7 @@ const LVL_BADGE={
 function DrillsPage() {
   const [cat,setCat]=useState('batting');
   const [search,setSearch]=useState('');
+  // Live progress state — refreshes when any XP is awarded
   const [progress,setProgress]=useState(()=>DB.getProgress());
   useEffect(()=>{
     const refresh=()=>setProgress(DB.getProgress());
@@ -1021,6 +1654,8 @@ function DrillsPage() {
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Cricket Drills',subtitle:`${DRILLS.length} professional drills`,
       gradient:`linear-gradient(135deg,${catDef?.from||'#1d4ed8'},${catDef?.to||'#4338ca'})`}),
+
+    // Cat pills
     h('div',{className:'flex gap-2 px-4 py-3 overflow-x-auto scrollbar-hide'},
       DRILL_CATS.map(c=>
         h('button',{key:c.id,onClick:()=>setCat(c.id),
@@ -1032,6 +1667,8 @@ function DrillsPage() {
           ' ', c.label)
       )
     ),
+
+    // Search
     h('div',{className:'px-4 mb-3'},
       h('div',{className:'relative'},
         h(Icon,{n:'search',cls:'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2',style:{color:'#484f58'}}),
@@ -1041,6 +1678,8 @@ function DrillsPage() {
         })
       )
     ),
+
+    // List
     h('div',{className:'px-4 space-y-2.5'},
       filtered.length===0
         ? h(EmptyState,{icon:catDef?.icon||'bat',title:'No drills found',desc:'Try a different search term'})
@@ -1089,7 +1728,7 @@ function DrillsPage() {
 function DrillDetailPage({ params }) {
   const drill=DRILLS.find(d=>d.id===params?.id);
   const [done,setDone]=useState(false);
-  const completing=useRef(false);
+  const completing=useRef(false); // guard against double-tap
   const catDef=DRILL_CATS.find(c=>c.id===drill?.category);
 
   if(!drill) return h('div',{className:'pb-28 flex flex-col items-center justify-center',style:{minHeight:'80vh'}},
@@ -1099,7 +1738,7 @@ function DrillDetailPage({ params }) {
   );
 
   const complete=()=>{
-    if(completing.current) return;
+    if(completing.current) return; // prevent double-tap XP award
     completing.current=true;
     awardXP(drill.xp_value,drill.duration_minutes,'drill','drill',drill.id);
     fireConfetti(); setDone(true);
@@ -1123,7 +1762,9 @@ function DrillDetailPage({ params }) {
       gradient:`linear-gradient(135deg,${catDef?.from||'#1d4ed8'},${catDef?.to||'#4338ca'})`,
       onBack:()=>nav('Drills')
     }),
+
     h('div',{className:'px-4 pt-5 space-y-4'},
+      // Video
       drill.video_id && h('div',{},
         h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-2'},'Video Tutorial'),
         h('div',{style:{position:'relative',aspectRatio:'16/9',background:'#0f172a',borderRadius:'1rem',overflow:'hidden'}},
@@ -1139,9 +1780,13 @@ function DrillDetailPage({ params }) {
           h(Icon,{n:'extLink',cls:'w-3.5 h-3.5'}),'Open in YouTube'
         )
       ),
+
+      // Description
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('p',{className:'text-sm text-slate-300 leading-relaxed'},drill.description)
       ),
+
+      // Steps
       h('div',{},
         h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-3'},`${drill.steps.length} Steps`),
         h('div',{className:'space-y-2'},
@@ -1154,6 +1799,8 @@ function DrillDetailPage({ params }) {
           )
         )
       ),
+
+      // Tip
       drill.tips && h('div',{className:'flex items-start gap-3 p-4 rounded-2xl',style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)'}},
         h(Icon,{n:'sparkles',cls:'w-4 h-4 flex-shrink-0',style:{color:'#16a34a'}}),
         h('div',{},
@@ -1161,6 +1808,8 @@ function DrillDetailPage({ params }) {
           h('p',{className:'text-sm',style:{color:'#6ee7b7'}},drill.tips)
         )
       ),
+
+      // Target
       drill.target_metric && h('div',{className:'flex items-start gap-3 p-4 rounded-2xl',style:{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.25)'}},
         h(Icon,{n:'target',cls:'w-4 h-4 flex-shrink-0',style:{color:'#484f58'}}),
         h('div',{},
@@ -1168,17 +1817,24 @@ function DrillDetailPage({ params }) {
           h('p',{className:'text-sm text-blue-300'},drill.target_metric)
         )
       ),
+
+      // Add to schedule button
       h('button',{
         onClick:()=>{
           const today=new Date().toISOString().slice(0,10);
-          DB.addSession({id:'sch_'+Date.now(),date:today,time:'',type:'drill',title:drill.title,ref_id:drill.id,
-            duration_minutes:drill.duration_minutes,xp_value:drill.xp_value,status:'pending',notes:'',color:SCHED_TYPES.drill.color});
+          DB.addSession({
+            id:'sch_'+Date.now(),date:today,time:'',
+            type:'drill',title:drill.title,ref_id:drill.id,
+            duration_minutes:drill.duration_minutes,xp_value:drill.xp_value,
+            status:'pending',notes:'',color:SCHED_TYPES.drill.color
+          });
           window.dispatchEvent(new CustomEvent('sc_update'));
           alert('Added to today\'s schedule! ✅');
         },
         className:'w-full py-3 rounded-2xl text-sm font-bold text-blue-400 text-center',
         style:{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.25)'}
       }, '📅 Add to Today\'s Schedule'),
+
       h('button',{onClick:complete,className:'btn-primary w-full py-4 text-base font-black'},
         h(Icon,{n:'circleCheck',cls:'w-5 h-5'}),` Mark Complete (+${drill.xp_value} XP)`
       )
@@ -1207,6 +1863,7 @@ function MentalPage() {
   const progress=DB.getProgress();
   const done=progress.completed_mental||[];
   const catDef=MENT_CATS.find(c=>c.id===cat)||MENT_CATS[0];
+
   const filtered=MENTAL_SESSIONS.filter(s=>
     (cat==='all'||s.category===cat)&&
     (search===''||s.title.toLowerCase().includes(search.toLowerCase()))
@@ -1214,7 +1871,8 @@ function MentalPage() {
 
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Mental Training',subtitle:`${MENTAL_SESSIONS.length} guided sessions`,
-      gradient:'linear-gradient(135deg,#6d28d9,#4f46e5)'}),
+      gradient:`linear-gradient(135deg,#6d28d9,#4f46e5)`}),
+
     h('div',{className:'flex gap-2 px-4 py-3 overflow-x-auto scrollbar-hide'},
       MENT_CATS.map(c=>
         h('button',{key:c.id,onClick:()=>setCat(c.id),
@@ -1226,6 +1884,7 @@ function MentalPage() {
           ' ', c.label)
       )
     ),
+
     h('div',{className:'px-4 mb-3'},
       h('div',{className:'relative'},
         h(Icon,{n:'search',cls:'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2',style:{color:'#484f58'}}),
@@ -1235,6 +1894,7 @@ function MentalPage() {
         })
       )
     ),
+
     h('div',{className:'px-4 space-y-2.5'},
       filtered.length===0
         ? h(EmptyState,{icon:'brain',title:'No sessions found',desc:'Try a different category or search term'})
@@ -1275,7 +1935,7 @@ function MentalPage() {
 }
 
 // ================================================================
-// MENTAL PLAYER
+// MENTAL PLAYER — Step-by-step guided session with skip support
 // ================================================================
 function MentalPlayerPage({ params }) {
   const sess=MENTAL_SESSIONS.find(s=>s.id===params?.id);
@@ -1285,11 +1945,13 @@ function MentalPlayerPage({ params }) {
   const [done,setDone]=useState(false);
   const [paused,setPaused]=useState(false);
   const intRef=useRef(null);
-  const awardedRef=useRef(false);
-  const completingRef=useRef(false);
+  const awardedRef=useRef(false); // prevents double-award on complete
+  const completingRef=useRef(false); // prevents double-tap
 
+  // Reset awarded ref when session is restarted
   useEffect(()=>{ if(!started) { awardedRef.current=false; completingRef.current=false; } },[started]);
 
+  // Load new step duration whenever step changes
   useEffect(()=>{
     if(started && sess && !done){
       clearInterval(intRef.current);
@@ -1299,6 +1961,7 @@ function MentalPlayerPage({ params }) {
     return ()=>clearInterval(intRef.current);
   },[step,started,done]);
 
+  // Countdown ticker
   useEffect(()=>{
     if(!started||done||paused) { clearInterval(intRef.current); return; }
     clearInterval(intRef.current);
@@ -1306,7 +1969,12 @@ function MentalPlayerPage({ params }) {
       setTimeLeft(t=>{
         if(t<=1){
           clearInterval(intRef.current);
-          if(step<sess.steps.length-1){ setStep(s=>s+1); } else { finishSession(); }
+          // Auto-advance to next step OR complete
+          if(step<sess.steps.length-1){
+            setStep(s=>s+1);
+          } else {
+            finishSession();
+          }
           return 0;
         }
         return t-1;
@@ -1315,6 +1983,7 @@ function MentalPlayerPage({ params }) {
     return ()=>clearInterval(intRef.current);
   },[started,done,paused,step]);
 
+  // Cleanup on unmount
   useEffect(()=>()=>clearInterval(intRef.current),[]);
 
   const finishSession=()=>{
@@ -1328,18 +1997,30 @@ function MentalPlayerPage({ params }) {
   const goNext=()=>{
     if(completingRef.current) return;
     clearInterval(intRef.current);
-    if(step<sess.steps.length-1){ setStep(s=>s+1); }
-    else { completingRef.current=true; finishSession(); }
+    if(step<sess.steps.length-1){
+      setStep(s=>s+1);
+    } else {
+      completingRef.current=true;
+      finishSession();
+    }
   };
 
   const skipStep=()=>{
     clearInterval(intRef.current);
-    if(step<sess.steps.length-1){ setStep(s=>s+1); }
-    else { completingRef.current=true; finishSession(); }
+    if(step<sess.steps.length-1){
+      setStep(s=>s+1);
+    } else {
+      // Skipping last step still completes the session and awards XP
+      completingRef.current=true;
+      finishSession();
+    }
   };
 
   const goPrev=()=>{
-    if(step>0){ clearInterval(intRef.current); setStep(s=>s-1); }
+    if(step>0){
+      clearInterval(intRef.current);
+      setStep(s=>s-1);
+    }
   };
 
   if(!sess) return h('div',{className:'pb-28 flex flex-col items-center justify-center text-center px-5',style:{minHeight:'80vh'}},
@@ -1362,6 +2043,7 @@ function MentalPlayerPage({ params }) {
 
   const mins=Math.floor(sess.duration_seconds/60);
 
+  // Pre-session preview screen
   if(!started) return h('div',{className:'pb-28'},
     h(PageHeader,{title:sess.title,subtitle:`${mins} min · ${sess.xp_value} XP · ${sess.steps.length} steps`,
       gradient:'linear-gradient(135deg,#6d28d9,#4338ca)',onBack:()=>nav('Mental')}),
@@ -1392,6 +2074,7 @@ function MentalPlayerPage({ params }) {
     )
   );
 
+  // Active guided player
   const cur=sess.steps[step];
   const pct=cur&&cur.duration_seconds>0?timeLeft/cur.duration_seconds:0;
   const R=90, C=2*Math.PI*R;
@@ -1401,6 +2084,8 @@ function MentalPlayerPage({ params }) {
   return h('div',{style:{minHeight:'100vh',background:'linear-gradient(160deg,#0f0824 0%,#1e1040 50%,#0f172a 100%)',
     display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'space-between',
     padding:'max(1.5rem,env(safe-area-inset-top)) 1.5rem max(1.5rem,env(safe-area-inset-bottom))'}},
+
+    // Top bar — session title + overall progress
     h('div',{style:{width:'100%',maxWidth:360,display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem'}},
       h('button',{onClick:()=>nav('Mental'),style:{background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.12)',
         borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'#a78bfa',fontSize:12,fontWeight:600}},
@@ -1413,10 +2098,14 @@ function MentalPlayerPage({ params }) {
         border:'1px solid rgba(109,40,217,0.25)',borderRadius:6,padding:'4px 8px'}},
         `${progressPct}%`)
     ),
+
+    // Progress bar
     h('div',{style:{width:'100%',maxWidth:360,height:3,background:'rgba(109,40,217,0.2)',borderRadius:2,marginBottom:'1.5rem'}},
       h('div',{style:{height:'100%',borderRadius:2,background:'#a855f7',
         width:`${Math.round(((step+(1-pct))/(sess.steps.length))*100)}%`,transition:'width 0.5s ease'}})
     ),
+
+    // Ring timer
     h('div',{style:{position:'relative',width:220,height:220,flexShrink:0}},
       h('svg',{width:220,height:220,viewBox:'0 0 220 220'},
         h('circle',{cx:110,cy:110,r:R,fill:'none',stroke:'rgba(109,40,217,0.15)',strokeWidth:12}),
@@ -1433,10 +2122,15 @@ function MentalPlayerPage({ params }) {
           paused?'PAUSED':'RUNNING')
       )
     ),
+
+    // Step instruction
     h('div',{style:{textAlign:'center',maxWidth:320,flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1.5rem 0'}},
       h('p',{style:{fontSize:'1.05rem',color:'#ddd6fe',lineHeight:1.75,fontWeight:500}},cur?.instruction)
     ),
+
+    // Controls — Prev / Skip / Pause / Next(or Complete)
     h('div',{style:{width:'100%',maxWidth:360,display:'flex',flexDirection:'column',gap:10}},
+      // Primary row: Prev + Next/Complete
       h('div',{style:{display:'flex',gap:10}},
         step>0 && h('button',{onClick:goPrev,
           style:{flex:'0 0 auto',padding:'12px 18px',background:'rgba(255,255,255,0.08)',
@@ -1444,12 +2138,13 @@ function MentalPlayerPage({ params }) {
           h(Icon,{n:'arrowL',cls:'w-4 h-4 inline-block'})),
         h('button',{onClick:goNext,
           style:{flex:1,padding:'13px',background:isLastStep?'#16a34a':'linear-gradient(135deg,#6d28d9,#4338ca)',
-            color:'#fff',borderRadius:10,fontWeight:700,border:'none',cursor:'pointer',fontSize:14}},
+            color:'#fff',borderRadius:10,fontWeight:700,border:'none',cursor:'pointer',fontSize:14,fontWeight:700}},
           isLastStep ? h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',gap:8}},
             h(Icon,{n:'circleCheck',cls:'w-4 h-4'}),'Complete Session')
             : h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',gap:6}},'Next Step ',h(Icon,{n:'chevR',cls:'w-4 h-4'}))
         )
       ),
+      // Secondary row: Skip + Pause
       h('div',{style:{display:'flex',gap:10}},
         h('button',{onClick:skipStep,
           style:{flex:1,padding:'10px',background:'transparent',color:'#6d28d9',borderRadius:10,
@@ -1468,10 +2163,10 @@ function MentalPlayerPage({ params }) {
 // FITNESS BUILDER
 // ================================================================
 const FIT_LEVELS=[
-  {id:'beginner',label:'Beginner',icon:'activity',desc:'New to training or returning after break'},
-  {id:'intermediate',label:'Intermediate',icon:'zap',desc:'Training 3-4x per week consistently'},
-  {id:'advanced',label:'Advanced',icon:'flame',desc:'Training 5-6x with high intensity'},
-  {id:'pro',label:'Pro',icon:'crown',desc:'Elite-level daily training'},
+  {id:'beginner',label:'Beginner',icon:'🌱',desc:'New to training or returning after break'},
+  {id:'intermediate',label:'Intermediate',icon:'⚡',desc:'Training 3-4x per week consistently'},
+  {id:'advanced',label:'Advanced',icon:'🔥',desc:'Training 5-6x with high intensity'},
+  {id:'pro',label:'Pro',icon:'💎',desc:'Elite-level daily training'},
 ];
 const FIT_TARGETS=[
   {id:'full-body',label:'Full Body',icon:'activity'},{id:'chest',label:'Chest',icon:'heart'},
@@ -1528,6 +2223,8 @@ function FitnessPage() {
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Fitness Builder',subtitle:`${WORKOUTS.length} workouts · every combination`,
       gradient:'linear-gradient(135deg,#c2410c,#dc2626)'}),
+
+    // Tabs
     h('div',{className:'flex gap-2 px-4 py-3'},
       [['quick','⚡ Quick Start'],['wizard','🔮 Wizard'],['stats','📊 Stats']].map(([id,label])=>
         h('button',{key:id,onClick:()=>{setTab(id);reset();},
@@ -1536,6 +2233,7 @@ function FitnessPage() {
         },label)
       )
     ),
+
     tab==='quick' && h('div',{className:'px-4 space-y-2.5'},
       h('p',{className:'text-sm text-slate-400 mb-2'},'Jump straight into a recommended workout:'),
       quickPicks.map(w=>h('button',{key:w.id,onClick:()=>nav('WorkoutDetail',{id:w.id}),
@@ -1550,7 +2248,9 @@ function FitnessPage() {
         h(Icon,{n:'chevR',cls:'w-5 h-5',style:{color:'#475569'}})
       ))
     ),
+
     tab==='wizard' && !results && h('div',{className:'px-4'},
+      // Progress dots
       h('div',{className:'flex justify-center gap-2 mb-5'},
         WIZARD.map((_,i)=>h('div',{key:i,className:'h-2 rounded-full transition-all',
           style:{width:i===step?'2rem':'0.5rem',background:i<step?'#10b981':i===step?'#f97316':'rgba(51,65,85,0.5)'}}))
@@ -1575,6 +2275,7 @@ function FitnessPage() {
         h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back'
       )
     ),
+
     tab==='wizard' && results && h('div',{className:'px-4'},
       h('div',{className:'flex items-center justify-between p-4 rounded-2xl mb-4',
         style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)'}},
@@ -1598,6 +2299,7 @@ function FitnessPage() {
         ))
       )
     ),
+
     tab==='stats' && h('div',{className:'px-4 grid grid-cols-2 gap-3'},
       h(StatCard,{label:'Workouts Done',value:progress.workouts_done||0,color:'text-orange-400',icon:'dumbbell'}),
       h(StatCard,{label:'Total Library',value:WORKOUTS.length,color:'text-white',icon:'layers'}),
@@ -1613,7 +2315,7 @@ function FitnessPage() {
 function WorkoutDetailPage({ params }) {
   const w=WORKOUTS.find(wk=>wk.id===params?.id);
   const [done,setDone]=useState(false);
-  const completing=useRef(false);
+  const completing=useRef(false); // double-tap guard
   if(!w) return h('div',{className:'pb-28 flex flex-col items-center justify-center',style:{minHeight:'80vh'}},
     h('div',{style:{width:56,height:56,borderRadius:12,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'dumbbell',cls:'w-7 h-7',style:{color:'#484f58'}})),h('p',{className:'font-bold text-white mb-4'},'Workout not found'),
     h('button',{onClick:()=>nav('Fitness'),className:'btn-primary px-6 py-3'},'Back')
@@ -1677,6 +2379,7 @@ function TimerPage() {
   );
 }
 
+// ── SVG ring helper ───────────────────────────────────────────────
 function Ring({ pct, size=220, stroke=14, color='#10b981', bg='rgba(30,41,59,0.6)', children }) {
   const r=(size-stroke)/2, C=2*Math.PI*r;
   return h('div',{style:{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}},
@@ -1691,27 +2394,35 @@ function Ring({ pct, size=220, stroke=14, color='#10b981', bg='rgba(30,41,59,0.6
   );
 }
 
+// ── STOPWATCH ─────────────────────────────────────────────────────
 function StopwatchMode() {
   const [elapsed,setElapsed]=useState(0);
   const [running,setRunning]=useState(false);
   const [laps,setLaps]=useState([]);
   const intRef=useRef(null);
   const lapStart=useRef(0);
+
   useEffect(()=>{
     if(running) intRef.current=setInterval(()=>setElapsed(e=>e+1),1000);
     else clearInterval(intRef.current);
     return()=>clearInterval(intRef.current);
   },[running]);
+
   const toggle=()=>setRunning(r=>!r);
-  const lap=()=>{ const t=elapsed-lapStart.current; setLaps(l=>[...l,{n:l.length+1,t,total:elapsed}]); lapStart.current=elapsed; };
+  const lap=()=>{
+    const t=elapsed-lapStart.current;
+    setLaps(l=>[...l,{n:l.length+1,t,total:elapsed}]);
+    lapStart.current=elapsed;
+  };
   const reset=()=>{setRunning(false);setElapsed(0);setLaps([]);lapStart.current=0;};
+
   return h('div',{className:'flex flex-col items-center px-5 pt-6'},
     h(Ring,{pct:(elapsed%60)/60,color:'#10b981'},
       h('div',{style:{fontSize:'2.5rem',fontWeight:900,color:'#fff',fontVariantNumeric:'tabular-nums'}},fmtTime(elapsed)),
       h('div',{style:{fontSize:'0.7rem',color:'#94a3b8',fontWeight:700}},`LAP ${laps.length+1}`)
     ),
     h('div',{className:'flex gap-4 mt-6'},
-      h('button',{onClick:reset,style:{width:56,height:56,borderRadius:'50%',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.6)',color:'#94a3b8',cursor:'pointer',fontWeight:800,fontSize:'0.75rem'}},'RST'),
+      h('button',{onClick:reset,style:{width:56,height:56,borderRadius:'50%',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.6)',color:'#94a3b8',cursor:'pointer',fontWeight:800,fontSize:'0.75rem'}},reset&&'RST'||'RST'),
       h('button',{onClick:toggle,style:{width:80,height:80,borderRadius:'50%',background:running?'linear-gradient(135deg,#dc2626,#be123c)':'linear-gradient(135deg,#059669,#0d9488)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:running?'0 8px 32px rgba(220,38,38,0.4)':'0 8px 32px rgba(5,150,105,0.4)'}},
         h(Icon,{n:running?'pause':'play',cls:'w-8 h-8 text-white'})
       ),
@@ -1728,6 +2439,7 @@ function StopwatchMode() {
   );
 }
 
+// ── COUNTDOWN ─────────────────────────────────────────────────────
 function CountdownMode() {
   const [mins,setMins]=useState(5);
   const [secs,setSecs]=useState(0);
@@ -1737,6 +2449,7 @@ function CountdownMode() {
   const [done,setDone]=useState(false);
   const isSetup=!running&&remaining===total&&!done;
   const intRef=useRef(null);
+
   useEffect(()=>{
     if(running){
       intRef.current=setInterval(()=>setRemaining(r=>{
@@ -1746,6 +2459,7 @@ function CountdownMode() {
     } else clearInterval(intRef.current);
     return()=>clearInterval(intRef.current);
   },[running]);
+
   const start=()=>{
     if(!running){const t=mins*60+secs;setTotal(t);setRemaining(t);setDone(false);}
     setRunning(r=>!r);
@@ -1754,6 +2468,7 @@ function CountdownMode() {
   const pct=total>0?remaining/total:0;
   const isLow=remaining<=10&&running;
   const col=isLow?'#ef4444':done?'#f59e0b':'#10b981';
+
   return h('div',{className:'flex flex-col items-center px-5 pt-6'},
     done && h('div',{className:'w-full p-4 mb-4 rounded-2xl text-center',style:{background:'rgba(245,158,11,0.1)',border:'1px solid rgba(245,158,11,0.3)'}},
       h(Icon,{n:'circleCheck',cls:'w-6 h-6',style:{color:'#f59e0b',marginBottom:4}}),h('div',{style:{fontWeight:800,color:'#f59e0b'}},"Time's up! Great work!"),
@@ -1791,6 +2506,7 @@ function CountdownMode() {
   );
 }
 
+// ── INTERVAL ─────────────────────────────────────────────────────
 function IntervalMode() {
   const [workS,setWorkS]=useState(60);
   const [restS,setRestS]=useState(30);
@@ -1803,23 +2519,29 @@ function IntervalMode() {
   const [done,setDone]=useState(false);
   const stRef=useRef({phase:'work',remaining:60,round:1});
   const intRef=useRef(null);
+
   const startIt=()=>{
     stRef.current={phase:'work',remaining:workS,round:1};
     setPhase('work');setRemaining(workS);setRound(1);setCfg(false);setRunning(true);
   };
   const reset=()=>{clearInterval(intRef.current);setRunning(false);setCfg(true);setDone(false);setPhase('work');setRound(1);};
+
   useEffect(()=>{
     if(!running) return;
     intRef.current=setInterval(()=>{
       const st=stRef.current;
       if(st.remaining<=1){
-        if(st.phase==='work'){const n={phase:'rest',remaining:restS,round:st.round};stRef.current=n;setPhase('rest');setRemaining(restS);}
-        else{if(st.round>=rounds){clearInterval(intRef.current);setRunning(false);setDone(true);}
-          else{const n={phase:'work',remaining:workS,round:st.round+1};stRef.current=n;setPhase('work');setRemaining(workS);setRound(r=>r+1);}}
+        if(st.phase==='work'){
+          const n={phase:'rest',remaining:restS,round:st.round};stRef.current=n;setPhase('rest');setRemaining(restS);
+        } else {
+          if(st.round>=rounds){clearInterval(intRef.current);setRunning(false);setDone(true);}
+          else{const n={phase:'work',remaining:workS,round:st.round+1};stRef.current=n;setPhase('work');setRemaining(workS);setRound(r=>r+1);}
+        }
       } else {stRef.current.remaining--;setRemaining(r=>r-1);}
     },1000);
     return()=>clearInterval(intRef.current);
   },[running]);
+
   if(cfg) return h('div',{className:'px-5 pt-6 space-y-3'},
     h('p',{className:'text-sm text-slate-400 text-center mb-2'},'Configure your interval session'),
     [{label:'Work Time',val:workS,set:setWorkS,step:15,min:10,max:600,fmt:true},
@@ -1839,8 +2561,9 @@ function IntervalMode() {
     ),
     h('button',{onClick:startIt,className:'btn-primary w-full py-4 text-base font-black'},'Start Interval Session')
   );
+
   const pct=phase==='work'?remaining/workS:remaining/restS;
-  const col=phase==='work'?'#10b981':'#3b82f6';
+  const col=phase==='work'?'#10b981':phase==='rest'?'#3b82f6':'#f59e0b';
   return h('div',{className:'flex flex-col items-center px-5 pt-6'},
     done
       ? h('div',{className:'text-center py-8'},h('div',{style:{width:56,height:56,borderRadius:14,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-7 h-7',style:{color:'#16a34a'}})),h('div',{className:'text-xl font-black text-white mb-4'},'Session Complete!'),h('button',{onClick:reset,className:'btn-primary px-8 py-3'},'Done'))
@@ -1865,6 +2588,7 @@ function IntervalMode() {
   );
 }
 
+// ── CRICKET PRESETS ───────────────────────────────────────────────
 function CricketPresetsMode() {
   const [active,setActive]=useState(null);
   const presets=[
@@ -1875,19 +2599,23 @@ function CricketPresetsMode() {
     {id:'warmup',icon:'flame',name:'Cricket Warm-Up',desc:'90s drills / 30s rest / 6 rounds',work:90,rest:30,rounds:6,col:'#f97316',grad:'linear-gradient(135deg,#c2410c,#d97706)'},
     {id:'sprint',icon:'zap',name:'Speed Sprints',desc:'10s sprint / 50s rest / 10 rounds',work:10,rest:50,rounds:10,col:'#06b6d4',grad:'linear-gradient(135deg,#0891b2,#0d9488)'},
   ];
+
   if(active){
     const p=presets.find(x=>x.id===active);
     if(!p) return null;
     if(p.rounds===1) return h(SimpleCountdownPreset,{preset:p,onBack:()=>setActive(null)});
     return h(SimpleIntervalPreset,{preset:p,onBack:()=>setActive(null)});
   }
+
   return h('div',{className:'px-5 pt-4'},
     h('p',{className:'text-sm text-slate-400 mb-4'},'Cricket-specific training timers, ready to start:'),
     h('div',{className:'space-y-2.5'},
       presets.map(p=>h('button',{key:p.id,onClick:()=>setActive(p.id),
         className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
         style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{style:{width:44,height:44,borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,background:p.grad}},h(Icon,{n:p.icon||'timer',cls:'w-5 h-5 text-white'})),
+        h('div',{style:{width:44,height:44,borderRadius:8,display:'flex',alignItems:'center',
+          justifyContent:'center',flexShrink:0,background:p.grad}},
+          h(Icon,{n:p.icon||'timer',cls:'w-5 h-5 text-white'})),
         h('div',{className:'flex-1'},h('div',{className:'font-bold text-white text-sm'},p.name),h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},p.desc)),
         h(Icon,{n:'chevR',cls:'w-5 h-5',style:{color:'#475569'}})
       ))
@@ -1957,13 +2685,14 @@ function SimpleIntervalPreset({ preset, onBack }) {
 }
 
 // ================================================================
-// SCHEDULE PAGE
+// SCHEDULE PAGE — Professional Training Planner
+// Deeply integrated: Home / Drills / Mental / Fitness / Skill Paths
 // ================================================================
 function SchedulePage() {
   const [weekStart, setWeekStart] = useState(()=>dateStr(getWeekMonday(new Date())));
   const [selectedDay, setSelectedDay] = useState(()=>new Date().toISOString().slice(0,10));
   const [schedule, setSchedule] = useState(()=>DB.getSchedule());
-  const [view, setView] = useState('week');
+  const [view, setView] = useState('week'); // 'week' | 'add' | 'generate'
   const [addStep, setAddStep] = useState(0);
   const [addType, setAddType] = useState('');
   const [addPick, setAddPick] = useState(null);
@@ -1984,22 +2713,27 @@ function SchedulePage() {
 
   function showNotif(msg) { setNotif(msg); setTimeout(()=>setNotif(''), 3000); }
 
+  // Build week days array
   const monday = new Date(weekStart+'T00:00:00');
   const weekDays = Array.from({length:7},(_,i)=>{
     const d = addDays(monday,i);
     return { date:dateStr(d), label:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i], num:d.getDate() };
   });
 
+  // Sessions for selected day
   const daySessions = (schedule.sessions||[]).filter(s=>s.date===selectedDay)
     .sort((a,b)=>a.time.localeCompare(b.time));
 
+  // Count sessions per day for dots
   function dayCount(date) { return (schedule.sessions||[]).filter(s=>s.date===date).length; }
   function dayDone(date) { return (schedule.sessions||[]).filter(s=>s.date===date&&s.status==='complete').length; }
 
+  // Week summary
   const weekSessions = DB.getSessionsForWeek(weekStart);
   const weekXP = weekSessions.filter(s=>s.status==='pending').reduce((a,s)=>a+s.xp_value,0);
   const weekDoneCount = weekSessions.filter(s=>s.status==='complete').length;
 
+  // ── Complete a session ───────────────────────────────────────
   function completeSession(id) {
     const sess = (schedule.sessions||[]).find(s=>s.id===id);
     if(!sess||sess.status==='complete') return;
@@ -2014,6 +2748,7 @@ function SchedulePage() {
   function deleteSession(id) { DB.deleteSession(id); refresh(); showNotif('Session removed'); }
   function undoSession(id) { DB.updateSession(id,{status:'pending'}); refresh(); }
 
+  // ── Start a session (navigate to the content) ─────────────────
   function startSession(sess) {
     if(sess.type==='drill'&&sess.ref_id) nav('DrillDetail',{id:sess.ref_id});
     else if(sess.type==='mental'&&sess.ref_id) nav('MentalPlayer',{id:sess.ref_id});
@@ -2021,14 +2756,22 @@ function SchedulePage() {
     else nav('Timer');
   }
 
+  // ── Add session flow ──────────────────────────────────────────
   function saveNewSession() {
     if(!addType) return;
     const tc=SCHED_TYPES[addType];
     let title='Custom Session', refId=null, dur=30, xp=50;
     if(addPick){
-      if(addType==='drill'){const d=DRILLS.find(x=>x.id===addPick);if(d){title=d.title;refId=d.id;dur=d.duration_minutes;xp=d.xp_value;}}
-      else if(addType==='mental'){const m=MENTAL_SESSIONS.find(x=>x.id===addPick);if(m){title=m.title;refId=m.id;dur=Math.floor(m.duration_seconds/60);xp=m.xp_value;}}
-      else if(addType==='fitness'){const w=WORKOUTS.find(x=>x.id===addPick);if(w){title=w.name;refId=w.id;dur=w.duration_minutes;xp=w.xp_value;}}
+      if(addType==='drill'){
+        const d=DRILLS.find(x=>x.id===addPick);
+        if(d){title=d.title;refId=d.id;dur=d.duration_minutes;xp=d.xp_value;}
+      } else if(addType==='mental'){
+        const m=MENTAL_SESSIONS.find(x=>x.id===addPick);
+        if(m){title=m.title;refId=m.id;dur=Math.floor(m.duration_seconds/60);xp=m.xp_value;}
+      } else if(addType==='fitness'){
+        const w=WORKOUTS.find(x=>x.id===addPick);
+        if(w){title=w.name;refId=w.id;dur=w.duration_minutes;xp=w.xp_value;}
+      }
     } else if(addType==='match'){title='Match Day';dur=180;xp=200;}
     else if(addType==='rest'){title='Rest & Recovery Day';dur=0;xp=20;}
     DB.addSession({id:'sch_'+Date.now(),date:selectedDay,time:addTime,type:addType,title,ref_id:refId,duration_minutes:dur,xp_value:xp,status:'pending',notes:addNote,color:tc.color});
@@ -2037,11 +2780,13 @@ function SchedulePage() {
     showNotif('Session added! 📅');
   }
 
+  // ── Smart generator ───────────────────────────────────────────
   function runGenerator() {
     const sessions = generateSmartSchedule(genFocus, genDays, genInt, weekStart);
     setGenPreview(sessions); setGenStep(3);
   }
   function confirmGenerate() {
+    // Remove existing pending sessions for this week
     const existing = DB.getSchedule();
     const filtered = (existing.sessions||[]).filter(s=>{
       const wd=DB.getSessionsForWeek(weekStart).map(x=>x.id);
@@ -2053,11 +2798,13 @@ function SchedulePage() {
     showNotif('🤖 Smart schedule generated!');
   }
 
+  // ── Add view ──────────────────────────────────────────────────
   if(view==='add') return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Add Session',subtitle:formatDate(selectedDay),
       gradient:'linear-gradient(135deg,#0f766e,#0d9488)',
       onBack:()=>{ setView('week');setAddStep(0);setAddType('');setAddPick(null);}}),
     h('div',{className:'px-4 pt-5'},
+      // Step indicators
       h('div',{className:'flex gap-2 mb-5'},
         ['Type','Content','Details'].map((s,i)=>h('div',{key:s,className:'flex items-center gap-2'},
           h('div',{className:'w-6 h-6 rounded-full flex items-center justify-center text-xs font-black',
@@ -2067,6 +2814,8 @@ function SchedulePage() {
           i<2 && h('div',{style:{width:'1.5rem',height:'2px',background:addStep>i?'#0d9488':'rgba(51,65,85,0.5)',borderRadius:'1px'}})
         ))
       ),
+
+      // Step 0: Type
       addStep===0 && h('div',{},
         h('h3',{className:'text-base font-black text-white mb-3'},'What type of session?'),
         h('div',{className:'space-y-2'},
@@ -2075,36 +2824,48 @@ function SchedulePage() {
             className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
             style:{background:tc.bg,border:`1px solid ${tc.border}`}
           },
-            h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(0,0,0,0.25)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},h(Icon,{n:tc.icon||'calendar',cls:'w-5 h-5',style:{color:tc.color}})),
+            h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(0,0,0,0.25)',
+              display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+              h(Icon,{n:tc.icon||'calendar',cls:'w-5 h-5',style:{color:tc.color}})),
             h('div',{className:'flex-1'},h('div',{className:'font-bold text-white text-sm'},tc.label)),
             h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
           ))
         )
       ),
+
+      // Step 1: Pick content
       addStep===1 && addType && h('div',{},
-        h('h3',{className:'text-base font-black text-white mb-3'},addType==='drill'?'Choose a drill:':addType==='mental'?'Choose a session:':'Choose a workout:'),
+        h('h3',{className:'text-base font-black text-white mb-3'},
+          addType==='drill'?'Choose a drill:':addType==='mental'?'Choose a session:':'Choose a workout:'),
         h('div',{className:'space-y-2 max-h-80 overflow-y-auto sidebar-scroll pr-1'},
           (addType==='drill'?DRILLS:addType==='mental'?MENTAL_SESSIONS.filter(m=>!m.is_premium):WORKOUTS.slice(0,30))
             .map(item=>{
               const isD=addType==='drill';const isM=addType==='mental';
               const label=isD?item.title:isM?item.title:item.name;
               const meta=isD?`${item.duration_minutes} min`:`${isM?Math.floor(item.duration_seconds/60):item.duration_minutes} min`;
-              const xpv=item.xp_value;
-              return h('button',{key:item.id,onClick:()=>{setAddPick(item.id);setAddStep(2);},
+              const xpv=isD?item.xp_value:isM?item.xp_value:item.xp_value;
+              return h('button',{key:item.id,
+                onClick:()=>{setAddPick(item.id);setAddStep(2);},
                 className:'w-full flex items-center gap-3 p-3 rounded-xl text-left active:scale-[.99] transition-all',
                 style:{background:addPick===item.id?'rgba(15,118,110,0.2)':'rgba(30,41,59,0.6)',
                   border:addPick===item.id?'1px solid rgba(13,148,136,0.5)':'1px solid rgba(51,65,85,0.4)'}
               },
                 h('div',{className:'flex-1'},
                   h('div',{className:'text-sm font-bold text-white'},label),
-                  h('div',{className:'flex items-center gap-2 mt-1'},h('span',{className:'text-xs',style:{color:'#64748b'}},meta),h(XPBadge,{xp:xpv}))
+                  h('div',{className:'flex items-center gap-2 mt-1'},
+                    h('span',{className:'text-xs',style:{color:'#64748b'}},meta),
+                    h(XPBadge,{xp:xpv})
+                  )
                 ),
                 h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
               );
             })
         ),
-        h('button',{onClick:()=>{setAddStep(0);setAddType('');},className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
+        h('button',{onClick:()=>{setAddStep(0);setAddType('');},className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
+          h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
       ),
+
+      // Step 2: Time + Notes
       addStep===2 && h('div',{},
         h('h3',{className:'text-base font-black text-white mb-4'},'Session details'),
         h('div',{className:'space-y-4'},
@@ -2120,67 +2881,102 @@ function SchedulePage() {
               className:'w-full px-4 py-3 rounded-xl text-sm text-white outline-none resize-none',
               style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}})
           ),
-          h('button',{onClick:saveNewSession,className:'btn-primary w-full py-4 text-base font-black'},h(Icon,{n:'plus',cls:'w-5 h-5'}),' Add to Schedule'),
-          h('button',{onClick:()=>{setAddStep(addType==='drill'||addType==='mental'||addType==='fitness'?1:0);},className:'w-full text-center text-sm text-slate-400 font-semibold py-2'},'← Back')
+          h('button',{onClick:saveNewSession,className:'btn-primary w-full py-4 text-base font-black'},
+            h(Icon,{n:'plus',cls:'w-5 h-5'}),' Add to Schedule'
+          ),
+          h('button',{onClick:()=>{setAddStep(addType==='drill'||addType==='mental'||addType==='fitness'?1:0);},
+            className:'w-full text-center text-sm text-slate-400 font-semibold py-2'},'← Back')
         )
       )
     )
   );
 
+  // ── Smart Generator view ──────────────────────────────────────
   if(view==='generate') {
-    const FOCUS=[{id:'batting',label:'Batting',icon:'bat'},{id:'bowling',label:'Bowling',icon:'ball'},{id:'fielding',label:'Fielding',icon:'navigation'},{id:'allrounder',label:'All-Round',icon:'star'}];
-    const INTENSITY=[{id:'light',label:'Light',icon:'activity',desc:'2 sessions/day max'},{id:'moderate',label:'Moderate',icon:'zap',desc:'2-3 sessions/day'},{id:'intense',label:'Intense',icon:'flame',desc:'3 sessions/day'}];
+    const FOCUS=[{id:'batting',label:'Batting',icon:'bat'},{id:'bowling',label:'Bowling',icon:'ball'},
+      {id:'fielding',label:'Fielding',icon:'navigation'},{id:'allrounder',label:'All-Round',icon:'star'}];
+    const INTENSITY=[{id:'light',label:'Light',icon:'activity',desc:'2 sessions/day max'},
+      {id:'moderate',label:'Moderate',icon:'zap',desc:'2-3 sessions/day'},
+      {id:'intense',label:'Intense',icon:'flame',desc:'3 sessions/day'}];
     return h('div',{className:'pb-28'},
       h(PageHeader,{title:'Smart Generator',subtitle:'AI-powered weekly schedule',
         gradient:'linear-gradient(135deg,#4c1d95,#5b21b6)',onBack:()=>{setView('week');setGenStep(0);setGenFocus('');setGenPreview(null);}}),
       h('div',{className:'px-4 pt-5'},
+        // Progress
         h('div',{className:'flex gap-2 mb-5'},
           ['Focus','Days','Intensity','Preview'].map((s,i)=>h('div',{key:s,className:'flex items-center gap-1.5'},
-            h('div',{className:'w-5 h-5 rounded-full flex items-center justify-center',style:{fontSize:'0.65rem',fontWeight:900,background:genStep>=i?'linear-gradient(135deg,#6d28d9,#7c3aed)':'rgba(30,41,59,0.8)',color:genStep>=i?'#fff':'#64748b'}},i+1),
+            h('div',{className:'w-5 h-5 rounded-full flex items-center justify-center',style:{fontSize:'0.65rem',fontWeight:900,
+              background:genStep>=i?'linear-gradient(135deg,#6d28d9,#7c3aed)':'rgba(30,41,59,0.8)',color:genStep>=i?'#fff':'#64748b'}},i+1),
             h('span',{style:{fontSize:'0.7rem',fontWeight:700,color:genStep===i?'#c084fc':'#64748b',whiteSpace:'nowrap'}},s),
             i<3 && h('div',{style:{flex:1,height:'2px',background:genStep>i?'#7c3aed':'rgba(51,65,85,0.5)',borderRadius:'1px',minWidth:'1rem'}})
           ))
         ),
+
         genStep===0 && h('div',{},
           h('h3',{className:'text-base font-black text-white mb-3'},'Which area needs most work?'),
           h('div',{className:'grid grid-cols-2 gap-3'},
             FOCUS.map(f=>h('button',{key:f.id,onClick:()=>{setGenFocus(f.id);setGenStep(1);},
-              style:{display:'flex',flexDirection:'column',alignItems:'center',gap:8,padding:'20px 16px',borderRadius:10,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',cursor:'pointer'}},
-              h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center'}},h(Icon,{n:f.icon,cls:'w-5 h-5',style:{color:'#8b949e'}})),
+              style:{display:'flex',flexDirection:'column',alignItems:'center',gap:8,padding:'20px 16px',
+                borderRadius:10,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',cursor:'pointer'}},
+              h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(48,54,61,0.6)',
+                display:'flex',alignItems:'center',justifyContent:'center'}},
+                h(Icon,{n:f.icon,cls:'w-5 h-5',style:{color:'#8b949e'}})),
               h('span',{style:{fontSize:12,fontWeight:700,color:'#e6edf3'}},f.label)
             ))
           )
         ),
+
         genStep===1 && h('div',{},
           h('h3',{className:'text-base font-black text-white mb-1'},'Days per week?'),
           h('p',{className:'text-xs text-slate-400 mb-4'},'How many days can you train?'),
           h('div',{className:'flex gap-3 flex-wrap'},
             [3,4,5,6,7].map(n=>h('button',{key:n,onClick:()=>{setGenDays(n);setGenStep(2);},
               className:'flex-1 py-4 rounded-2xl font-black text-lg active:scale-95 transition-all',
-              style:{background:genDays===n?'linear-gradient(135deg,#6d28d9,#7c3aed)':'rgba(30,41,59,0.6)',color:'#fff',border:'1px solid rgba(51,65,85,0.5)',minWidth:'50px'}},n)
+              style:{background:genDays===n?'linear-gradient(135deg,#6d28d9,#7c3aed)':'rgba(30,41,59,0.6)',
+                color:'#fff',border:'1px solid rgba(51,65,85,0.5)',minWidth:'50px'}},n)
           )),
           h('button',{onClick:()=>setGenStep(0),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
         ),
+
         genStep===2 && h('div',{},
           h('h3',{className:'text-base font-black text-white mb-3'},'Session intensity?'),
           h('div',{className:'space-y-2'},
             INTENSITY.map(i=>h('button',{key:i.id,onClick:()=>{setGenInt(i.id);runGenerator();},
               className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
               style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
-              h('div',{style:{width:36,height:36,borderRadius:7,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},h(Icon,{n:i.icon||'activity',cls:'w-4 h-4',style:{color:'#8b949e'}})),
+              h('div',{style:{width:36,height:36,borderRadius:7,background:'rgba(48,54,61,0.6)',
+                display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+                h(Icon,{n:i.icon||'activity',cls:'w-4 h-4',style:{color:'#8b949e'}})),
               h('div',{className:'flex-1'},h('div',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},i.label),h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},i.desc)),
               h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#374151'}})
             ))
           ),
           h('button',{onClick:()=>setGenStep(1),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
         ),
+
         genStep===3 && genPreview && h('div',{},
           h('div',{className:'flex items-center justify-between mb-4'},
-            h('div',{},h('h3',{className:'text-base font-black text-white'},'Preview'),h('p',{className:'text-xs text-slate-400'},`${genPreview.length} sessions · ${genPreview.reduce((s,x)=>s+x.xp_value,0)} XP available`)),
+            h('div',{},
+              h('h3',{className:'text-base font-black text-white'},'Preview'),
+              h('p',{className:'text-xs text-slate-400'},`${genPreview.length} sessions · ${genPreview.reduce((s,x)=>s+x.xp_value,0)} XP available`)
+            ),
             h('button',{onClick:()=>setGenStep(2),className:'text-xs text-slate-400 font-semibold'},'Change')
           ),
           h('div',{className:'space-y-2 max-h-72 overflow-y-auto sidebar-scroll pr-1'},
-            genPreview.map((s,i)=>{const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;return h('div',{key:i,style:{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderRadius:8,background:tc.bg,border:`1px solid ${tc.border}`}},h('div',{style:{width:32,height:32,borderRadius:6,background:'rgba(0,0,0,0.2)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})),h('div',{className:'flex-1'},h('div',{className:'text-xs font-bold text-white'},s.title),h('div',{className:'text-xs',style:{color:'rgba(255,255,255,0.5)'}},`${formatDate(s.date)} ${s.time?'· '+s.time:''} · ${s.duration_minutes} min`)),h(XPBadge,{xp:s.xp_value}));})
+            genPreview.map((s,i)=>{
+              const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;
+              return h('div',{key:i,style:{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',
+                borderRadius:8,background:tc.bg,border:`1px solid ${tc.border}`}},
+                h('div',{style:{width:32,height:32,borderRadius:6,background:'rgba(0,0,0,0.2)',
+                  display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+                  h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})),
+                h('div',{className:'flex-1'},
+                  h('div',{className:'text-xs font-bold text-white'},s.title),
+                  h('div',{className:'text-xs',style:{color:'rgba(255,255,255,0.5)'}},`${formatDate(s.date)} ${s.time?'· '+s.time:''} · ${s.duration_minutes} min`)
+                ),
+                h(XPBadge,{xp:s.xp_value})
+              );
+            })
           ),
           h('div',{className:'flex gap-3 mt-4'},
             h('button',{onClick:()=>{setGenStep(0);setGenPreview(null);},className:'btn-secondary flex-1'},'Regenerate'),
@@ -2191,8 +2987,12 @@ function SchedulePage() {
     );
   }
 
+  // ── Main week view ────────────────────────────────────────────
   return h('div',{className:'pb-28'},
-    h('div',{style:{background:'linear-gradient(135deg,#0f766e,#0d9488,#0891b2)',paddingTop:'max(4.5rem,env(safe-area-inset-top))',paddingBottom:'1.25rem',paddingLeft:'1.25rem',paddingRight:'1.25rem',position:'relative',overflow:'hidden'}},
+    // Header
+    h('div',{style:{background:'linear-gradient(135deg,#0f766e,#0d9488,#0891b2)',
+      paddingTop:'max(4.5rem,env(safe-area-inset-top))',paddingBottom:'1.25rem',
+      paddingLeft:'1.25rem',paddingRight:'1.25rem',position:'relative',overflow:'hidden'}},
       h('div',{style:{position:'absolute',top:'-40%',right:'-15%',width:'220px',height:'220px',background:'rgba(255,255,255,0.07)',borderRadius:'50%',pointerEvents:'none'}}),
       h('div',{className:'relative z-10'},
         h('div',{className:'flex items-center justify-between mb-4'},
@@ -2200,35 +3000,67 @@ function SchedulePage() {
             h('h1',{className:'text-xl font-black text-white'},'Schedule'),
             h('p',{style:{color:'rgba(255,255,255,0.65)',fontSize:'0.8125rem'}},`Week of ${new Date(weekStart+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})} – ${new Date(addDays(new Date(weekStart+'T00:00:00'),6)+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}`)
           ),
-          h('button',{onClick:()=>{setView('generate');setGenStep(0);setGenFocus('');setGenPreview(null);},className:'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-white',style:{background:'rgba(255,255,255,0.15)'}},h(Icon,{n:'sparkles',cls:'w-3.5 h-3.5'}),'Smart Plan')
+          h('button',{onClick:()=>{setView('generate');setGenStep(0);setGenFocus('');setGenPreview(null);},
+            className:'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-white',
+            style:{background:'rgba(255,255,255,0.15)'}},
+            h(Icon,{n:'sparkles',cls:'w-3.5 h-3.5'}),'Smart Plan'
+          )
         ),
+        // Week navigator
         h('div',{className:'flex items-center gap-3'},
-          h('button',{onClick:()=>{const d=new Date(weekStart+'T00:00:00');d.setDate(d.getDate()-7);setWeekStart(dateStr(d));},style:{width:34,height:34,borderRadius:'0.625rem',background:'rgba(255,255,255,0.12)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff'}},h(Icon,{n:'arrowL',cls:'w-4 h-4'})),
+          h('button',{onClick:()=>{const d=new Date(weekStart+'T00:00:00');d.setDate(d.getDate()-7);setWeekStart(dateStr(d));},
+            style:{width:34,height:34,borderRadius:'0.625rem',background:'rgba(255,255,255,0.12)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff'}},
+            h(Icon,{n:'arrowL',cls:'w-4 h-4'})
+          ),
           h('div',{className:'flex gap-1.5 flex-1 overflow-x-auto scrollbar-hide'},
             weekDays.map(d=>{
-              const isToday2=isToday(d.date),isSel=d.date===selectedDay,cnt=dayCount(d.date),doneC=dayDone(d.date);
-              return h('button',{key:d.date,onClick:()=>setSelectedDay(d.date),className:'flex-shrink-0 flex flex-col items-center py-2 px-2.5 rounded-xl transition-all',
-                style:{minWidth:'40px',background:isSel?'rgba(255,255,255,0.2)':isToday2?'rgba(255,255,255,0.1)':'rgba(255,255,255,0.04)',border:isToday2?'2px solid rgba(255,255,255,0.4)':'2px solid transparent'}},
+              const isToday2=isToday(d.date);
+              const isSel=d.date===selectedDay;
+              const cnt=dayCount(d.date);
+              const doneC=dayDone(d.date);
+              return h('button',{key:d.date,onClick:()=>setSelectedDay(d.date),
+                className:'flex-shrink-0 flex flex-col items-center py-2 px-2.5 rounded-xl transition-all',
+                style:{minWidth:'40px',background:isSel?'rgba(255,255,255,0.2)':isToday2?'rgba(255,255,255,0.1)':'rgba(255,255,255,0.04)',
+                  border:isToday2?'2px solid rgba(255,255,255,0.4)':'2px solid transparent'}},
                 h('span',{style:{fontSize:'0.65rem',fontWeight:700,color:isSel?'#fff':isToday2?'#fff':'rgba(255,255,255,0.6)'}},d.label),
                 h('span',{style:{fontSize:'1.1rem',fontWeight:900,color:'#fff',margin:'0.1rem 0'}},d.num),
-                cnt>0?h('div',{className:'flex gap-0.5'},Array.from({length:Math.min(cnt,3)}).map((_,i)=>h('div',{key:i,style:{width:5,height:5,borderRadius:'50%',background:i<doneC?'#a7f3d0':'rgba(255,255,255,0.5)'}})))
-                  :h('div',{style:{width:5,height:5,borderRadius:'50%',background:'transparent'}})
+                cnt>0
+                  ? h('div',{className:'flex gap-0.5'},
+                    Array.from({length:Math.min(cnt,3)}).map((_,i)=>h('div',{key:i,style:{width:5,height:5,borderRadius:'50%',background:i<doneC?'#a7f3d0':'rgba(255,255,255,0.5)'}}))
+                  )
+                  : h('div',{style:{width:5,height:5,borderRadius:'50%',background:'transparent'}})
               );
             })
           ),
-          h('button',{onClick:()=>{const d=new Date(weekStart+'T00:00:00');d.setDate(d.getDate()+7);setWeekStart(dateStr(d));},style:{width:34,height:34,borderRadius:'0.625rem',background:'rgba(255,255,255,0.12)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff'}},h(Icon,{n:'chevR',cls:'w-4 h-4'}))
+          h('button',{onClick:()=>{const d=new Date(weekStart+'T00:00:00');d.setDate(d.getDate()+7);setWeekStart(dateStr(d));},
+            style:{width:34,height:34,borderRadius:'0.625rem',background:'rgba(255,255,255,0.12)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff'}},
+            h(Icon,{n:'chevR',cls:'w-4 h-4'})
+          )
         )
       )
     ),
+
+    // Notif
     notif && h('div',{style:{margin:'0.75rem 1rem',padding:'0.75rem 1rem',background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.4)',borderRadius:'0.875rem',fontSize:'0.875rem',fontWeight:700,color:'#34d399'}},notif),
+
+    // Selected day header
     h('div',{className:'px-4 pt-4'},
       h('div',{className:'flex items-center justify-between mb-3'},
         h('div',{},
-          h('h2',{className:'text-base font-black text-white'},isToday(selectedDay)?'Today, '+formatDate(selectedDay).split(',').slice(1).join(',').trim():formatDate(selectedDay)),
-          h('p',{style:{fontSize:'0.75rem',color:'#64748b',marginTop:'0.125rem'}},daySessions.length===0?'No sessions planned':`${daySessions.length} session${daySessions.length!==1?'s':''} · ${daySessions.reduce((s,x)=>s+x.xp_value,0)} XP`)
+          h('h2',{className:'text-base font-black text-white'},
+            isToday(selectedDay)?'Today, '+formatDate(selectedDay).split(',').slice(1).join(',').trim():formatDate(selectedDay)
+          ),
+          h('p',{style:{fontSize:'0.75rem',color:'#64748b',marginTop:'0.125rem'}},
+            daySessions.length===0?'No sessions planned':`${daySessions.length} session${daySessions.length!==1?'s':''} · ${daySessions.reduce((s,x)=>s+x.xp_value,0)} XP`)
         ),
-        h('button',{onClick:()=>{setView('add');setAddStep(0);setAddType('');setAddPick(null);setAddTime('');setAddNote('');},className:'flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold text-white',style:{background:'linear-gradient(135deg,#0f766e,#0d9488)'}},h(Icon,{n:'plus',cls:'w-4 h-4'}),'Add')
+        h('button',{onClick:()=>{setView('add');setAddStep(0);setAddType('');setAddPick(null);setAddTime('');setAddNote('');},
+          className:'flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold text-white',
+          style:{background:'linear-gradient(135deg,#0f766e,#0d9488)'}},
+          h(Icon,{n:'plus',cls:'w-4 h-4'}),'Add'
+        )
       ),
+
+      // Session cards
       daySessions.length===0
         ? h('div',{className:'flex flex-col items-center py-10 text-center',style:{border:'2px dashed rgba(51,65,85,0.5)',borderRadius:'1rem'}},
           h(Icon,{n:'calendar',cls:'w-10 h-10',style:{color:'#484f58'}}),
@@ -2242,43 +3074,75 @@ function SchedulePage() {
         : h('div',{className:'space-y-3'},
           daySessions.map(s=>{
             const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;
-            const isDone=s.status==='complete',isSkipped=s.status==='skipped';
-            return h('div',{key:s.id,className:'rounded-2xl overflow-hidden',
+            const isDone=s.status==='complete';
+            const isSkipped=s.status==='skipped';
+            return h('div',{key:s.id,
+              className:'rounded-2xl overflow-hidden',
               style:{background:isDone?'rgba(16,185,129,0.06)':isSkipped?'rgba(30,41,59,0.3)':tc.bg,
-                border:`1px solid ${isDone?'rgba(16,185,129,0.3)':isSkipped?'rgba(51,65,85,0.3)':tc.border}`,opacity:isSkipped?0.6:1}},
+                border:`1px solid ${isDone?'rgba(16,185,129,0.3)':isSkipped?'rgba(51,65,85,0.3)':tc.border}`,
+                opacity:isSkipped?0.6:1}},
+              // Left accent bar
               h('div',{style:{height:'4px',background:isDone?'#10b981':isSkipped?'#475569':tc.color}}),
               h('div',{className:'p-4'},
+                // Top row
                 h('div',{className:'flex items-start gap-3'},
-                  h('div',{style:{width:44,height:44,borderRadius:'0.875rem',background:isDone?'rgba(16,185,129,0.15)':'rgba(0,0,0,0.2)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+                  h('div',{style:{width:44,height:44,borderRadius:'0.875rem',background:isDone?'rgba(16,185,129,0.15)':'rgba(0,0,0,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.375rem',flexShrink:0}},
                     isDone?h(Icon,{n:'check',cls:'w-4 h-4 text-white'}):h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})
                   ),
                   h('div',{className:'flex-1 min-w-0'},
                     h('div',{className:'flex items-start justify-between gap-2'},
                       h('h3',{style:{fontSize:'0.9375rem',fontWeight:800,color:isSkipped?'#64748b':'#f8fafc',lineHeight:1.3}},s.title),
-                      isDone && h('span',{style:{fontSize:'0.7rem',fontWeight:700,padding:'0.125rem 0.5rem',background:'rgba(22,163,74,0.12)',border:'1px solid rgba(22,163,74,0.25)',borderRadius:4,color:'#4ade80',whiteSpace:'nowrap'}},'Done')
+                      isDone && h('div',{style:{width:18,height:18,borderRadius:4,background:'#16a34a',display:'flex',alignItems:'center',justifyContent:'center'}},h(Icon,{n:'check',cls:'w-2.5 h-2.5 text-white'})),h('span',{style:{fontSize:'0.7rem',fontWeight:700,padding:'0.125rem 0.5rem',background:'rgba(22,163,74,0.12)',border:'1px solid rgba(22,163,74,0.25)',borderRadius:4,color:'#4ade80',whiteSpace:'nowrap'}},'Done')
                     ),
                     h('div',{className:'flex items-center gap-2 mt-1.5 flex-wrap'},
                       s.time && h('span',{style:{fontSize:'0.75rem',color:'#94a3b8',fontWeight:600}},s.time),
-                      s.time && h('span',{style:{color:'#475569'}},'·'),
+                      s.time && h('span',{style:{color:'#475569'}}, '·'),
                       h('span',{style:{fontSize:'0.75rem',color:'#94a3b8'}},`${s.duration_minutes} min`),
                       !isDone && h(XPBadge,{xp:s.xp_value}),
                       s.notes && h('span',{style:{fontSize:'0.7rem',color:'#64748b',fontStyle:'italic'}},s.notes)
                     )
                   )
                 ),
+
+                // Action buttons
                 !isSkipped && h('div',{className:'flex gap-2 mt-3'},
-                  !isDone && h('button',{onClick:()=>startSession(s),className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-black transition-all active:scale-95',style:{background:`linear-gradient(135deg,${tc.color}33,${tc.color}22)`,border:`1px solid ${tc.color}60`,color:'#fff'}},h(Icon,{n:'play',cls:'w-4 h-4'}),'Start'),
-                  !isDone && h('button',{onClick:()=>completeSession(s.id),className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95',style:{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}},h(Icon,{n:'check',cls:'w-4 h-4'}),'Done'),
-                  isDone && h('button',{onClick:()=>undoSession(s.id),className:'flex items-center gap-1 py-2.5 px-3 rounded-xl text-xs font-bold',style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},'Undo'),
-                  !isDone && h('button',{onClick:()=>skipSession(s.id),className:'py-2.5 px-3 rounded-xl text-xs font-bold',style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},'Skip'),
-                  h('button',{onClick:()=>deleteSession(s.id),className:'py-2.5 px-3 rounded-xl',style:{background:'rgba(239,68,68,0.08)',color:'#f87171',border:'1px solid rgba(239,68,68,0.2)'}},h(Icon,{n:'trash',cls:'w-4 h-4'}))
+                  !isDone && h('button',{onClick:()=>startSession(s),
+                    className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-black transition-all active:scale-95',
+                    style:{background:`linear-gradient(135deg,${tc.color}33,${tc.color}22)`,border:`1px solid ${tc.color}60`,color:'#fff'}},
+                    h(Icon,{n:'play',cls:'w-4 h-4'}),'Start'
+                  ),
+                  !isDone && h('button',{onClick:()=>completeSession(s.id),
+                    className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95',
+                    style:{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}},
+                    h(Icon,{n:'check',cls:'w-4 h-4'}),'Done'
+                  ),
+                  isDone && h('button',{onClick:()=>undoSession(s.id),
+                    className:'flex items-center gap-1 py-2.5 px-3 rounded-xl text-xs font-bold',
+                    style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},
+                    'Undo'
+                  ),
+                  !isDone && h('button',{onClick:()=>skipSession(s.id),
+                    className:'py-2.5 px-3 rounded-xl text-xs font-bold',
+                    style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},
+                    'Skip'
+                  ),
+                  h('button',{onClick:()=>deleteSession(s.id),
+                    className:'py-2.5 px-3 rounded-xl',
+                    style:{background:'rgba(239,68,68,0.08)',color:'#f87171',border:'1px solid rgba(239,68,68,0.2)'}},
+                    h(Icon,{n:'trash',cls:'w-4 h-4'})
+                  )
                 ),
-                isSkipped && h('div',{className:'flex items-center justify-between mt-3'},h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},'Skipped'),h('button',{onClick:()=>undoSession(s.id),style:{fontSize:'0.75rem',fontWeight:700,color:'#60a5fa'}},'Restore'))
+                isSkipped && h('div',{className:'flex items-center justify-between mt-3'},
+                  h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},'Skipped'),
+                  h('button',{onClick:()=>undoSession(s.id),style:{fontSize:'0.75rem',fontWeight:700,color:'#60a5fa'}},'Restore')
+                )
               )
             );
           })
         )
     ),
+
+    // Week summary card
     h('div',{className:'mx-4 mt-5 p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.5)',border:'1px solid rgba(51,65,85,0.5)'}},
       h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-3'},'This Week'),
       h('div',{className:'grid grid-cols-3 gap-3 text-center'},
@@ -2287,10 +3151,17 @@ function SchedulePage() {
         h('div',{},h('div',{className:'text-xl font-black',style:{color:'#f59e0b'}},weekXP),h('div',{style:{fontSize:'0.7rem',color:'#64748b',fontWeight:700}},'XP Left'))
       )
     ),
+
+    // Import from Skill Path
     h('div',{className:'px-4 mt-4 mb-2'},
-      h('button',{onClick:()=>nav('SkillPaths'),className:'w-full flex items-center gap-3 p-4 rounded-2xl text-left active:scale-[.99] transition-all',style:{background:'rgba(30,41,59,0.4)',border:'1px solid rgba(51,65,85,0.4)'}},
+      h('button',{onClick:()=>nav('SkillPaths'),
+        className:'w-full flex items-center gap-3 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
+        style:{background:'rgba(30,41,59,0.4)',border:'1px solid rgba(51,65,85,0.4)'}},
         h(Icon,{n:'layers',cls:'w-5 h-5',style:{color:'#8b949e'}}),
-        h('div',{className:'flex-1'},h('div',{className:'text-sm font-bold text-white'},'Import from Skill Path'),h('div',{className:'text-xs text-slate-500'},"Load your active path's weekly plan")),
+        h('div',{className:'flex-1'},
+          h('div',{className:'text-sm font-bold text-white'},'Import from Skill Path'),
+          h('div',{className:'text-xs text-slate-500'},'Load your active path\'s weekly plan')
+        ),
         h(Icon,{n:'chevR',cls:'w-5 h-5',style:{color:'#475569'}})
       )
     )
@@ -2311,15 +3182,19 @@ function SkillPathsPage() {
     const monday = getWeekMonday(new Date());
     let added = 0;
     plan.forEach(week=>{
-      if(week.week!==1) return;
+      if(week.week!==1) return; // import current week only
       week.days.forEach(day=>{
         if(day.isRest) return;
         const d = addDays(monday, day.day-1);
         const ds = dateStr(d);
         day.activities.forEach((act,i)=>{
-          DB.addSession({id:'sch_'+Date.now()+'_'+day.day+'_'+i,date:ds,time:i===0?'07:00':i===1?'17:00':'19:00',
-            type:act.type,title:act.title,ref_id:act.id||null,duration_minutes:parseInt(act.duration)||20,xp_value:act.xp,
-            status:'pending',notes:'From Skill Path',color:SCHED_TYPES[act.type]?.color||'#64748b'});
+          DB.addSession({
+            id:'sch_'+Date.now()+'_'+day.day+'_'+i,
+            date:ds,time:i===0?'07:00':i===1?'17:00':'19:00',
+            type:act.type, title:act.title, ref_id:act.id||null,
+            duration_minutes:parseInt(act.duration)||20, xp_value:act.xp,
+            status:'pending', notes:'From Skill Path', color:SCHED_TYPES[act.type]?.color||'#64748b'
+          });
           added++;
         });
       });
@@ -2329,7 +3204,8 @@ function SkillPathsPage() {
   }
 
   if(!pathId) return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'Skill Paths',subtitle:'Structured programs for every discipline',gradient:'linear-gradient(135deg,#7e22ce,#4f46e5)'}),
+    h(PageHeader,{title:'Skill Paths',subtitle:'Structured programs for every discipline',
+      gradient:'linear-gradient(135deg,#7e22ce,#4f46e5)'}),
     h('div',{className:'px-4 pt-5 space-y-4'},
       SKILL_PATHS.map(path=>{
         const pp=skillProg[path.id]||{};
@@ -2338,12 +3214,16 @@ function SkillPathsPage() {
         return h('button',{key:path.id,onClick:()=>{setPathId(path.id);setLevelId(null);setWeekPlan(null);},
           className:'w-full text-left p-5 rounded-2xl active:scale-[.99] transition-all',
           style:{background:'rgba(30,41,59,0.7)',border:`1px solid ${path.accent}30`}},
+          // Accent top line
           h('div',{style:{height:'3px',background:`linear-gradient(to right,${path.accent},transparent)`,marginBottom:'1rem',borderRadius:'2px'}}),
           h('div',{className:'flex items-center gap-4'},
+            // SVG progress ring
             h('div',{style:{position:'relative',width:56,height:56,flexShrink:0}},
               h('svg',{width:56,height:56,viewBox:'0 0 56 56',style:{position:'absolute',inset:0,transform:'rotate(-90deg)'}},
                 h('circle',{cx:28,cy:28,r:22,fill:'none',stroke:'rgba(51,65,85,0.6)',strokeWidth:4}),
-                h('circle',{cx:28,cy:28,r:22,fill:'none',stroke:path.accent,strokeWidth:4,strokeDasharray:2*Math.PI*22,strokeDashoffset:2*Math.PI*22*(1-pct/100),strokeLinecap:'round',style:{transition:'stroke-dashoffset .6s'}})
+                h('circle',{cx:28,cy:28,r:22,fill:'none',stroke:path.accent,strokeWidth:4,
+                  strokeDasharray:2*Math.PI*22,strokeDashoffset:2*Math.PI*22*(1-pct/100),
+                  strokeLinecap:'round',style:{transition:'stroke-dashoffset .6s'}})
               ),
               h('div',{style:{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}},h(Icon,{n:path.icon||'bat',cls:'w-6 h-6 text-white'}))
             ),
@@ -2375,19 +3255,21 @@ function SkillPathsPage() {
         const pp=skillProg[path.id]||{};
         const unlocked=i===0||(pp[path.levels[i-1].id]);
         const done=pp[lv.id];
-        return h('button',{key:lv.id,onClick:()=>{if(!unlocked)return;setLevelId(lv.id);setWeekPlan(generateWeekPlan(path.id,lv.id));},
+        return h('button',{key:lv.id,
+          onClick:()=>{if(!unlocked)return;setLevelId(lv.id);setWeekPlan(generateWeekPlan(path.id,lv.id));},
           className:'w-full text-left p-5 rounded-2xl transition-all',
           style:{background:done?'rgba(16,185,129,0.08)':unlocked?'rgba(30,41,59,0.7)':'rgba(15,23,42,0.5)',
-            border:`2px solid ${done?'rgba(16,185,129,0.4)':unlocked?`${path.accent}40`:'rgba(51,65,85,0.3)'}`,opacity:unlocked?1:0.5}},
+            border:`2px solid ${done?'rgba(16,185,129,0.4)':unlocked?`${path.accent}40`:'rgba(51,65,85,0.3)'}`,
+            opacity:unlocked?1:0.5}},
           h('div',{className:'flex items-center gap-4'},
-            h('div',{style:{width:52,height:52,borderRadius:'0.875rem',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,background:done?'#10b981':unlocked?path.accent:'rgba(51,65,85,0.5)'}},
-              done?h(Icon,{n:'check',cls:'w-6 h-6 text-white'}):h(Icon,{n:lv.icon||'star',cls:'w-6 h-6 text-white'})
+            h('div',{style:{width:52,height:52,borderRadius:'0.875rem',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.5rem',flexShrink:0,background:done?'#10b981':unlocked?path.accent:'rgba(51,65,85,0.5)'}},
+              done?'✓':lv.icon
             ),
             h('div',{className:'flex-1'},
               h('div',{className:'flex items-center gap-2'},
                 h('h3',{className:'font-black text-white'},lv.label),
                 !unlocked && h(Icon,{n:'lock',cls:'w-3 h-3',style:{color:'#484f58',flexShrink:0}}),
-                done && h('span',{style:{fontSize:'0.7rem',fontWeight:700,color:'#4ade80'}},'Complete')
+                done && h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'check',cls:'w-3 h-3',style:{color:'#4ade80'}}),h('span',{style:{fontSize:'0.7rem',fontWeight:700,color:'#4ade80'}},'Complete'))
               ),
               h('p',{className:'text-xs text-slate-400 mt-0.5'},lv.desc),
               h('div',{className:'flex items-center gap-2 mt-2'},
@@ -2403,15 +3285,30 @@ function SkillPathsPage() {
 
   const lv=path.levels.find(l=>l.id===levelId);
   if(!lv||!weekPlan) return null;
+
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:lv.label,subtitle:path.title,gradient:grad,onBack:()=>setLevelId(null)}),
     h('div',{className:'px-4 pt-5'},
+      // Action row
       h('div',{className:'flex gap-2 mb-5'},
-        h('button',{onClick:()=>importToSchedule(weekPlan),className:'flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white',style:{background:'linear-gradient(135deg,#0f766e,#0d9488)'}},h(Icon,{n:'calendar',cls:'w-4 h-4'}),'Import to Schedule'),
-        h('button',{onClick:()=>{const p=DB.getProgress();if(!p.skill_path_progress)p.skill_path_progress={};if(!p.skill_path_progress[path.id])p.skill_path_progress[path.id]={};p.skill_path_progress[path.id][levelId]=true;DB.saveProgress(p);awardXP(lv.xpPerDay*5,30,'skill_path');setLevelId(null);},
-          className:'flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-bold',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.5)',color:'#94a3b8'}},h(Icon,{n:'check',cls:'w-4 h-4'}),'Mark Done')
+        h('button',{onClick:()=>importToSchedule(weekPlan),
+          className:'flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white',
+          style:{background:'linear-gradient(135deg,#0f766e,#0d9488)'}},
+          h(Icon,{n:'calendar',cls:'w-4 h-4'}),'Import to Schedule'),
+        h('button',{onClick:()=>{
+          const p=DB.getProgress();
+          if(!p.skill_path_progress) p.skill_path_progress={};
+          if(!p.skill_path_progress[path.id]) p.skill_path_progress[path.id]={};
+          p.skill_path_progress[path.id][levelId]=true; DB.saveProgress(p);
+          awardXP(lv.xpPerDay*5,30,'skill_path'); setLevelId(null);
+        },className:'flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-bold',
+          style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.5)',color:'#94a3b8'}
+        },h(Icon,{n:'check',cls:'w-4 h-4'}),'Mark Done')
       ),
-      h('div',{className:'space-y-3'},weekPlan.map(week=>h(WeekAccordion,{key:week.week,week,pathAccent:path.accent})))
+      // Week accordions
+      h('div',{className:'space-y-3'},
+        weekPlan.map(week=>h(WeekAccordion,{key:week.week,week,pathAccent:path.accent}))
+      )
     )
   );
 }
@@ -2419,21 +3316,30 @@ function SkillPathsPage() {
 function WeekAccordion({ week, pathAccent }) {
   const [open,setOpen]=useState(week.week===1);
   return h('div',{className:'rounded-2xl overflow-hidden',style:{border:'1px solid rgba(51,65,85,0.5)'}},
-    h('button',{onClick:()=>setOpen(o=>!o),className:'w-full flex items-center justify-between p-4 text-left',style:{background:'rgba(30,41,59,0.6)'}},
-      h('div',{},h('div',{className:'font-bold text-white text-sm'},week.theme),h('div',{className:'text-xs text-slate-500 mt-0.5'},`${week.days.filter(d=>!d.isRest).length} training days`)),
+    h('button',{onClick:()=>setOpen(o=>!o),
+      className:'w-full flex items-center justify-between p-4 text-left',
+      style:{background:'rgba(30,41,59,0.6)'}},
+      h('div',{},
+        h('div',{className:'font-bold text-white text-sm'},week.theme),
+        h('div',{className:'text-xs text-slate-500 mt-0.5'},`${week.days.filter(d=>!d.isRest).length} training days`)
+      ),
       h(Icon,{n:open?'chevU':'chevD',cls:'w-5 h-5',style:{color:'#64748b'}})
     ),
     open && h('div',{style:{background:'rgba(15,23,42,0.4)',borderTop:'1px solid rgba(51,65,85,0.4)'}},
       week.days.map(day=>h('div',{key:day.day,className:'p-4',style:{borderBottom:'1px solid rgba(51,65,85,0.2)'}},
         h('div',{className:'flex items-center justify-between mb-2'},
           h('span',{style:{fontSize:'0.875rem',fontWeight:800,color:'#fff'}},day.label),
-          day.isRest?h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'heart',cls:'w-3 h-3',style:{color:'#484f58'}}),h('span',{style:{fontSize:'0.65rem',color:'#484f58'}},'Rest'))
-            :h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:pathAccent}},`+${day.totalXP} XP`)
+          day.isRest
+            ? h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'heart',cls:'w-3 h-3',style:{color:'#484f58'}}),h('span',{style:{fontSize:'0.65rem',color:'#484f58'}},'Rest'))
+            : h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:pathAccent}},`+${day.totalXP} XP`)
         ),
         !day.isRest && h('div',{className:'space-y-1.5'},
           day.activities.map((act,i)=>h('div',{key:i,className:'flex items-center gap-2'},
             h(Icon,{n:act.type==='drill'?'bat':act.type==='mental'?'brain':'dumbbell',cls:'w-3.5 h-3.5',style:{color:'#484f58'}}),
-            h('div',{className:'flex-1'},h('div',{style:{fontSize:'0.75rem',fontWeight:700,color:'#cbd5e1'}},act.title),h('div',{style:{fontSize:'0.7rem',color:'#64748b'}},`${act.duration} · +${act.xp} XP`))
+            h('div',{className:'flex-1'},
+              h('div',{style:{fontSize:'0.75rem',fontWeight:700,color:'#cbd5e1'}},act.title),
+              h('div',{style:{fontSize:'0.7rem',color:'#64748b'}},`${act.duration} · +${act.xp} XP`)
+            )
           ))
         )
       ))
@@ -2448,50 +3354,83 @@ function ProgressPage() {
   const [progress,setProgress]=useState(()=>DB.getProgress());
   const [xpDays,setXpDays]=useState(()=>DB.getXPLast7Days());
   const [hmap,setHmap]=useState(()=>DB.getActivityHeatmap());
-  const refresh=useCallback(()=>{setProgress(DB.getProgress());setXpDays(DB.getXPLast7Days());setHmap(DB.getActivityHeatmap());},[]);
-  useEffect(()=>{window.addEventListener('sc_update',refresh);window.addEventListener('focus',refresh);return()=>{window.removeEventListener('sc_update',refresh);window.removeEventListener('focus',refresh);};},[refresh]);
+
+  const refresh=useCallback(()=>{
+    setProgress(DB.getProgress());setXpDays(DB.getXPLast7Days());setHmap(DB.getActivityHeatmap());
+  },[]);
+  useEffect(()=>{
+    window.addEventListener('sc_update',refresh);window.addEventListener('focus',refresh);
+    return()=>{window.removeEventListener('sc_update',refresh);window.removeEventListener('focus',refresh);};
+  },[refresh]);
+
   const info=getLevelInfo(progress.total_xp||0);
   const badges=progress.badges||[];
-  const schedStats=(DB.getSchedule().sessions||[]).filter(s=>s.status==='complete').length;
+  const schedStats={
+    done:(DB.getSchedule().sessions||[]).filter(s=>s.status==='complete').length,
+    total:(DB.getSchedule().sessions||[]).length
+  };
 
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'My Progress',subtitle:'Your complete training stats',gradient:'linear-gradient(135deg,#064e3b,#065f46)'}),
     h('div',{className:'px-4 pt-5 space-y-5'},
+      // Level card
       h('div',{className:'p-5 rounded-2xl',style:{background:'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(13,148,136,0.06))',border:'1px solid rgba(16,185,129,0.3)'}},
         h('div',{className:'flex items-center justify-between mb-4'},
           h('div',{},h('div',{className:'text-2xl font-black text-white'},`Level ${info.level}`),h('div',{style:{color:'#34d399',fontWeight:700,fontSize:'0.875rem'}},info.name)),
           h('div',{className:'text-right'},h('div',{className:'text-xl font-black text-white'},`${(progress.total_xp||0).toLocaleString()} XP`),info.next&&h('div',{style:{fontSize:'0.75rem',color:'#64748b'}},`${info.xpToNext.toLocaleString()} to next level`))
         ),
         h(LevelBar,{totalXP:progress.total_xp||0}),
-        h('div',{className:'flex justify-between text-xs mt-2',style:{color:'#475569'}},h('span',{},`Lv.${info.level}: ${info.min.toLocaleString()}`),info.next&&h('span',{},`Lv.${info.level+1}: ${info.next.min.toLocaleString()}`))
+        h('div',{className:'flex justify-between text-xs mt-2',style:{color:'#475569'}},
+          h('span',{},`Lv.${info.level}: ${info.min.toLocaleString()}`),
+          info.next&&h('span',{},`Lv.${info.level+1}: ${info.next.min.toLocaleString()}`)
+        )
       ),
+      // Stats grid
       h('div',{className:'grid grid-cols-2 gap-3'},
-        [{label:'Drills Done',val:progress.drills_done||0,color:'text-blue-400',icon:'target'},{label:'Mental Sessions',val:progress.mental_done||0,color:'text-purple-400',icon:'brain'},
-         {label:'Workouts',val:progress.workouts_done||0,color:'text-orange-400',icon:'dumbbell'},{label:'Practice Mins',val:progress.practice_minutes||0,color:'text-teal-400',icon:'clock'},
-         {label:'Best Streak',val:`${progress.longest_streak||0}d`,color:'text-red-400',icon:'flame'},{label:'Scheduled Done',val:(DB.getSchedule().sessions||[]).filter(s=>s.status==='complete').length,color:'text-emerald-400',icon:'calendar'},
+        [{label:'Drills Done',val:progress.drills_done||0,color:'text-blue-400',icon:'target'},
+         {label:'Mental Sessions',val:progress.mental_done||0,color:'text-purple-400',icon:'brain'},
+         {label:'Workouts',val:progress.workouts_done||0,color:'text-orange-400',icon:'dumbbell'},
+         {label:'Practice Mins',val:progress.practice_minutes||0,color:'text-teal-400',icon:'clock'},
+         {label:'Best Streak',val:`${progress.longest_streak||0}d`,color:'text-red-400',icon:'flame'},
+         {label:'Scheduled Done',val:schedStats.done,color:'text-emerald-400',icon:'calendar'},
         ].map(s=>h(StatCard,{key:s.label,...s}))
       ),
+      // 7-day chart
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{className:'flex justify-between items-center mb-3'},h('span',{className:'text-sm font-bold text-white'},'7-Day XP'),h('span',{style:{fontSize:'0.75rem',fontWeight:700,color:'#34d399'}},`${xpDays.reduce((s,d)=>s+d.xp,0)} total`)),
+        h('div',{className:'flex justify-between items-center mb-3'},
+          h('span',{className:'text-sm font-bold text-white'},'7-Day XP'),
+          h('span',{style:{fontSize:'0.75rem',fontWeight:700,color:'#34d399'}},`${xpDays.reduce((s,d)=>s+d.xp,0)} total`)
+        ),
         h(XPChart,{days:xpDays})
       ),
+      // Heatmap
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{className:'flex justify-between items-center mb-3'},h('span',{className:'text-sm font-bold text-white'},'30-Day Activity'),h('div',{className:'flex items-center gap-1.5'},[0,1,2,3,4].map(l=>h('div',{key:l,className:`heatmap-cell heatmap-${l}`,style:{width:12,height:12}})))),
+        h('div',{className:'flex justify-between items-center mb-3'},
+          h('span',{className:'text-sm font-bold text-white'},'30-Day Activity'),
+          h('div',{className:'flex items-center gap-1.5'},[0,1,2,3,4].map(l=>h('div',{key:l,className:`heatmap-cell heatmap-${l}`,style:{width:12,height:12}})))
+        ),
         h(Heatmap,{days:hmap})
       ),
+      // Badges
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{className:'flex justify-between items-center mb-4'},h('div',{style:{display:'flex',alignItems:'center',gap:8}},h(Icon,{n:'award',cls:'w-4 h-4',style:{color:'#8b949e'}}),h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Badges')),h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},`${badges.length} of ${Object.keys(BADGE_DEFS).length}`)),
+        h('div',{className:'flex justify-between items-center mb-4'},
+          h('div',{style:{display:'flex',alignItems:'center',gap:8}},h(Icon,{n:'award',cls:'w-4 h-4',style:{color:'#8b949e'}}),h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Badges')),
+          h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},`${badges.length} of ${Object.keys(BADGE_DEFS).length}`)
+        ),
         h('div',{className:'grid grid-cols-3 gap-2.5'},
           Object.entries(BADGE_DEFS).map(([id,def])=>{
             const earned=badges.includes(id);
             return h('div',{key:id,className:'flex flex-col items-center gap-1.5 p-3 rounded-xl text-center',
-              style:{background:earned?'rgba(16,185,129,0.08)':'rgba(15,23,42,0.4)',border:`1px solid ${earned?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.3)'}`,opacity:earned?1:0.4}},
+              style:{background:earned?'rgba(16,185,129,0.08)':'rgba(15,23,42,0.4)',
+                border:`1px solid ${earned?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.3)'}`,
+                opacity:earned?1:0.4}},
               h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',width:'100%'}},earned?h(Icon,{n:def.icon,cls:'w-6 h-6',style:{color:'#e6edf3'}}):h(Icon,{n:'lock',cls:'w-5 h-5',style:{color:'#484f58'}})),
               h('span',{style:{fontSize:'0.65rem',fontWeight:800,color:earned?'#f8fafc':'#64748b'}},def.label)
             );
           })
         )
       ),
+      // Skill path progress
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('div',{style:{display:'flex',alignItems:'center',gap:8,marginBottom:16}},h(Icon,{n:'layers',cls:'w-4 h-4',style:{color:'#8b949e'}}),h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Skill Paths')),
         SKILL_PATHS.map(path=>{
@@ -2499,8 +3438,13 @@ function ProgressPage() {
           const done=Object.values(pp).filter(Boolean).length;
           const pct=done/path.levels.length*100;
           return h('div',{key:path.id,className:'mb-3 last:mb-0'},
-            h('div',{className:'flex justify-between text-xs mb-1.5'},h('div',{style:{display:'flex',alignItems:'center',gap:6}},h(Icon,{n:path.icon||'bat',cls:'w-3.5 h-3.5',style:{color:'#8b949e'}}),h('span',{style:{color:'#8b949e',fontWeight:600,fontSize:13}},path.title)),h('span',{style:{color:path.accent,fontWeight:800}},`${done}/${path.levels.length}`)),
-            h('div',{style:{height:'6px',background:'rgba(51,65,85,0.6)',borderRadius:'9999px',overflow:'hidden'}},h('div',{style:{width:`${pct}%`,height:'100%',background:path.accent,borderRadius:'9999px',transition:'width .6s'}}))
+            h('div',{className:'flex justify-between text-xs mb-1.5'},
+              h('div',{style:{display:'flex',alignItems:'center',gap:6}},h(Icon,{n:path.icon||'bat',cls:'w-3.5 h-3.5',style:{color:'#8b949e'}}),h('span',{style:{color:'#8b949e',fontWeight:600,fontSize:13}},path.title)),
+              h('span',{style:{color:path.accent,fontWeight:800}},`${done}/${path.levels.length}`)
+            ),
+            h('div',{style:{height:'6px',background:'rgba(51,65,85,0.6)',borderRadius:'9999px',overflow:'hidden'}},
+              h('div',{style:{width:`${pct}%`,height:'100%',background:path.accent,borderRadius:'9999px',transition:'width .6s'}})
+            )
           );
         })
       )
@@ -2525,46 +3469,84 @@ function ThirtyDayPage() {
   const today=new Date().toISOString().slice(0,10);
   const doneCnt=Object.keys(completed).length;
   const pct=Math.round(doneCnt/30*100);
-  useEffect(()=>{const refresh=()=>setProgress(DB.getProgress());window.addEventListener('sc_update',refresh);return()=>window.removeEventListener('sc_update',refresh);},[]);
+
+  useEffect(()=>{
+    const refresh=()=>setProgress(DB.getProgress());
+    window.addEventListener('sc_update',refresh);
+    return ()=>window.removeEventListener('sc_update',refresh);
+  },[]);
+
   const markDay=day=>{
+    // Guard: already completed
     if(completed[day.day]) return;
+    // Guard: live DB check to prevent race conditions
     const currentP=DB.getProgress();
-    if(currentP.thirtyDay_completed?.[day.day]){setProgress(currentP);return;}
+    if(currentP.thirtyDay_completed?.[day.day]) {
+      setProgress(currentP);
+      return;
+    }
     const p=DB.getProgress();
-    if(!p.thirtyDay_completed)p.thirtyDay_completed={};
+    if(!p.thirtyDay_completed) p.thirtyDay_completed={};
     p.thirtyDay_completed[day.day]=today;
     DB.saveProgress(p);
     awardXP(day.xp,15,'30day');
     setProgress(DB.getProgress());
   };
+
   const phases=['Foundation','Development','Integration','Performance'];
+
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'30-Day Challenge',subtitle:'Build the habit. Transform your game.',gradient:'linear-gradient(135deg,#d97706,#b45309)'}),
     h('div',{className:'px-4 pt-5 space-y-5'},
+      // Progress summary
       h('div',{className:'p-5 rounded-2xl',style:{background:'rgba(217,119,6,0.1)',border:'1px solid rgba(217,119,6,0.3)'}},
         h('div',{className:'flex items-center justify-between mb-3'},
-          h('div',{},h('div',{className:'text-2xl font-black text-white'},`Day ${doneCnt} / 30`),h('div',{style:{color:'#fbbf24',fontWeight:700,fontSize:'0.875rem'}},doneCnt===30?'🏆 Challenge Complete!':doneCnt===0?'Begin your journey':'Keep going — great work!')),
+          h('div',{},
+            h('div',{className:'text-2xl font-black text-white'},`Day ${doneCnt} / 30`),
+            h('div',{style:{color:'#fbbf24',fontWeight:700,fontSize:'0.875rem'}},
+              doneCnt===30?'🏆 Challenge Complete!':doneCnt===0?'Begin your journey':'Keep going — great work!')
+          ),
           h('div',{style:{width:56,height:56,borderRadius:'50%',border:'4px solid #f59e0b',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:900,color:'#f59e0b',fontSize:'0.875rem'}},`${pct}%`)
         ),
-        h('div',{style:{height:'8px',background:'rgba(51,65,85,0.6)',borderRadius:'9999px',overflow:'hidden'}},h('div',{style:{width:`${pct}%`,height:'100%',background:'linear-gradient(to right,#f59e0b,#d97706)',borderRadius:'9999px',transition:'width .6s'}}))
+        h('div',{style:{height:'8px',background:'rgba(51,65,85,0.6)',borderRadius:'9999px',overflow:'hidden'}},
+          h('div',{style:{width:`${pct}%`,height:'100%',background:'linear-gradient(to right,#f59e0b,#d97706)',borderRadius:'9999px',transition:'width .6s'}})
+        )
       ),
+      // Phases
       phases.map((phase,pi)=>{
         const pDays=DAY30.filter(d=>d.phase===phase);
         return h('div',{key:phase},
-          h('div',{className:'flex items-center gap-2 mb-3'},h('div',{style:{width:8,height:8,borderRadius:'50%',background:'#f59e0b'}}),h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:'#f59e0b',textTransform:'uppercase',letterSpacing:'0.1em'}},`Week ${pi+1} — ${phase}`)),
+          h('div',{className:'flex items-center gap-2 mb-3'},
+            h('div',{style:{width:8,height:8,borderRadius:'50%',background:'#f59e0b'}}),
+            h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:'#f59e0b',textTransform:'uppercase',letterSpacing:'0.1em'}},`Week ${pi+1} — ${phase}`)
+          ),
           h('div',{className:'grid grid-cols-7 gap-1.5'},
             pDays.map(d=>{
-              const isDone=!!completed[d.day],isNext=!isDone&&Object.keys(completed).length===d.day-1;
+              const isDone=!!completed[d.day];
+              const isNext=!isDone&&Object.keys(completed).length===d.day-1;
               return h('button',{key:d.day,onClick:()=>markDay(d),disabled:isDone,title:`Day ${d.day}: ${d.title}`,
                 className:'flex flex-col items-center justify-center py-2 rounded-xl active:scale-95 transition-all',
-                style:{aspectRatio:'1',background:isDone?'#10b981':isNext?'rgba(245,158,11,0.15)':d.type==='rest'?'rgba(15,23,42,0.5)':'rgba(30,41,59,0.6)',border:isNext?'2px solid #f59e0b':isDone?'2px solid #059669':'2px solid rgba(51,65,85,0.4)'}},
-                h('span',{style:{fontSize:'0.75rem',fontWeight:900,color:isDone?'#fff':isNext?'#f59e0b':d.type==='rest'?'#64748b':'#94a3b8'}},isDone?'✓':d.type==='rest'?'😴':d.day)
+                style:{aspectRatio:'1',
+                  background:isDone?'#10b981':isNext?'rgba(245,158,11,0.15)':d.type==='rest'?'rgba(15,23,42,0.5)':'rgba(30,41,59,0.6)',
+                  border:isNext?'2px solid #f59e0b':isDone?'2px solid #059669':'2px solid rgba(51,65,85,0.4)'}},
+                h('span',{style:{fontSize:'0.75rem',fontWeight:900,color:isDone?'#fff':isNext?'#f59e0b':d.type==='rest'?'#64748b':'#94a3b8'}},
+                  isDone?'✓':d.type==='rest'?'😴':d.day)
               );
             })
           )
         );
       }),
-      (()=>{const next=DAY30[doneCnt];if(!next||doneCnt===30)return null;return h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(245,158,11,0.3)'}},h('div',{style:{fontSize:'0.7rem',fontWeight:800,color:'#f59e0b',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.5rem'}},`Up Next — Day ${next.day}`),h('div',{className:'font-black text-white text-base mb-1'},next.title),h('div',{style:{fontSize:'0.75rem',color:'#64748b',marginBottom:'1rem'}},`Phase: ${next.phase} · +${next.xp} XP`),h('button',{onClick:()=>markDay(next),className:'btn-primary w-full py-3 text-sm'},`Complete Day ${next.day}`));})()
+      // Next up
+      (() => {
+        const next=DAY30[doneCnt];
+        if(!next||doneCnt===30) return null;
+        return h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(245,158,11,0.3)'}},
+          h('div',{style:{fontSize:'0.7rem',fontWeight:800,color:'#f59e0b',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.5rem'}},`Up Next — Day ${next.day}`),
+          h('div',{className:'font-black text-white text-base mb-1'},next.title),
+          h('div',{style:{fontSize:'0.75rem',color:'#64748b',marginBottom:'1rem'}},`Phase: ${next.phase} · +${next.xp} XP`),
+          h('button',{onClick:()=>markDay(next),className:'btn-primary w-full py-3 text-sm'},`Complete Day ${next.day}`)
+        );
+      })()
     )
   );
 }
@@ -2580,8 +3562,12 @@ function ProfilePage() {
   const info=getLevelInfo(progress.total_xp||0);
   const save=()=>{ DB.setUser(form); setUser(form); setEditing(false); };
   return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'My Profile',subtitle:'Your cricketer identity',gradient:'linear-gradient(135deg,#0f766e,#0d9488)',
-      actions:h('button',{onClick:()=>editing?save():setEditing(true),className:'px-4 py-2 rounded-xl text-white text-sm font-bold',style:{background:'rgba(255,255,255,0.15)'}},editing?'Save':'Edit')}),
+    h(PageHeader,{title:'My Profile',subtitle:'Your cricketer identity',
+      gradient:'linear-gradient(135deg,#0f766e,#0d9488)',
+      actions:h('button',{onClick:()=>editing?save():setEditing(true),
+        className:'px-4 py-2 rounded-xl text-white text-sm font-bold',
+        style:{background:'rgba(255,255,255,0.15)'}},editing?'Save':'Edit')
+    }),
     h('div',{className:'px-4 pt-5 space-y-4'},
       h('div',{className:'flex items-center gap-4 p-5 rounded-2xl',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('div',{style:{width:80,height:80,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,background:'linear-gradient(135deg,#16a34a,#0d9488)'}},h(Icon,{n:'bat',cls:'w-10 h-10 text-white'})),
@@ -2594,13 +3580,25 @@ function ProfilePage() {
       ),
       editing && h('div',{className:'space-y-3'},
         [{key:'name',label:'Full Name',ph:'Your name'},{key:'role',label:'Playing Role',ph:'Batsman, Bowler...'},{key:'team',label:'Team / Club',ph:'Your team'},{key:'country',label:'Country',ph:'Your country'}].map(f=>
-          h('div',{key:f.key},h('label',{className:'text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1.5'},f.label),h('input',{type:'text',placeholder:f.ph,value:form[f.key]||'',onChange:e=>setForm({...form,[f.key]:e.target.value}),className:'w-full px-4 py-3 rounded-xl text-sm text-white outline-none',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.6)'}}))
+          h('div',{key:f.key},
+            h('label',{className:'text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1.5'},f.label),
+            h('input',{type:'text',placeholder:f.ph,value:form[f.key]||'',onChange:e=>setForm({...form,[f.key]:e.target.value}),
+              className:'w-full px-4 py-3 rounded-xl text-sm text-white outline-none',
+              style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.6)'}}
+            )
+          )
         ),
-        h('div',{className:'flex gap-3'},h('button',{onClick:save,className:'btn-primary flex-1'},'Save'),h('button',{onClick:()=>setEditing(false),className:'btn-secondary flex-1'},'Cancel'))
+        h('div',{className:'flex gap-3'},
+          h('button',{onClick:save,className:'btn-primary flex-1'},'Save'),
+          h('button',{onClick:()=>setEditing(false),className:'btn-secondary flex-1'},'Cancel')
+        )
       ),
       !editing && h('div',{className:'grid grid-cols-2 gap-3'},
         [{label:'Role',val:user.role||'Not set'},{label:'Team',val:user.team||'Not set'},{label:'Country',val:user.country||'Not set'},{label:'Total XP',val:(progress.total_xp||0).toLocaleString()}].map(s=>
-          h('div',{key:s.label,className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},h('div',{className:'text-xs text-slate-500 uppercase font-bold tracking-wider'},s.label),h('div',{className:'font-bold text-white text-sm mt-1'},s.val))
+          h('div',{key:s.label,className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
+            h('div',{className:'text-xs text-slate-500 uppercase font-bold tracking-wider'},s.label),
+            h('div',{className:'font-bold text-white text-sm mt-1'},s.val)
+          )
         )
       )
     )
@@ -2622,9 +3620,14 @@ function SettingsPage() {
       msg && h('div',{className:'p-3 rounded-xl text-sm font-semibold text-center',style:{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}},msg),
       h('div',{className:'flex items-center justify-between p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('div',{},h('div',{className:'font-bold text-white text-sm'},'Dark Mode'),h('div',{className:'text-xs text-slate-500'},'Easy on the eyes')),
-        h('button',{onClick:toggle,style:{width:48,height:24,borderRadius:'9999px',background:dark?'#10b981':'#475569',position:'relative',border:'none',cursor:'pointer'}},h('div',{style:{width:20,height:20,borderRadius:'50%',background:'#fff',position:'absolute',top:2,left:2,transition:'transform .2s',transform:dark?'translateX(24px)':'translateX(0)',boxShadow:'0 2px 4px rgba(0,0,0,0.3)'}}))
+        h('button',{onClick:toggle,style:{width:48,height:24,borderRadius:'9999px',background:dark?'#10b981':'#475569',position:'relative',border:'none',cursor:'pointer'}},
+          h('div',{style:{width:20,height:20,borderRadius:'50%',background:'#fff',position:'absolute',top:2,left:2,transition:'transform .2s',transform:dark?'translateX(24px)':'translateX(0)',boxShadow:'0 2px 4px rgba(0,0,0,0.3)'}})
+        )
       ),
-      h('button',{onClick:clearAll,className:'w-full p-4 rounded-2xl text-left',style:{background:'rgba(239,68,68,0.06)',border:'1px solid rgba(239,68,68,0.3)'}},h('div',{className:'font-bold text-red-400 text-sm'},'Reset All Progress'),h('div',{className:'text-xs text-slate-500'},'Clears XP, drills, workouts, and schedule data'))
+      h('button',{onClick:clearAll,className:'w-full p-4 rounded-2xl text-left',style:{background:'rgba(239,68,68,0.06)',border:'1px solid rgba(239,68,68,0.3)'}},
+        h('div',{className:'font-bold text-red-400 text-sm'},'Reset All Progress'),
+        h('div',{className:'text-xs text-slate-500'},'Clears XP, drills, workouts, and schedule data')
+      )
     )
   );
 }
@@ -2638,13 +3641,21 @@ function LeaderboardPage() {
     {n:'Ben S.',lv:7,xp:27300,streak:19,flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
     {n:'You',lv:info.level,xp:progress.total_xp||0,streak:progress.current_streak||0,isYou:true}
   ].sort((a,b)=>b.xp-a.xp).map((e,i)=>({...e,rank:i+1}));
+
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Leaderboard',subtitle:'Top SmartCrick athletes worldwide',gradient:'linear-gradient(135deg,#b45309,#92400e)'}),
     h('div',{className:'px-4 pt-5 space-y-2.5'},
-      entries.map(e=>h('div',{key:e.rank,className:'flex items-center gap-4 p-4 rounded-2xl',style:{background:e.isYou?'rgba(16,185,129,0.08)':'rgba(30,41,59,0.6)',border:`1px solid ${e.isYou?'rgba(16,185,129,0.3)':'rgba(51,65,85,0.5)'}`}},
-        h('div',{style:{width:32,height:32,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.75rem',fontWeight:900,background:e.rank<=3?'linear-gradient(135deg,#f59e0b,#d97706)':'rgba(30,41,59,0.8)',color:e.rank<=3?'#fff':'#94a3b8'}},`#${e.rank}`),
+      entries.map(e=>h('div',{key:e.rank,className:'flex items-center gap-4 p-4 rounded-2xl',
+        style:{background:e.isYou?'rgba(16,185,129,0.08)':'rgba(30,41,59,0.6)',
+          border:`1px solid ${e.isYou?'rgba(16,185,129,0.3)':'rgba(51,65,85,0.5)'}`}},
+        h('div',{style:{width:32,height:32,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.75rem',fontWeight:900,
+          background:e.rank<=3?'linear-gradient(135deg,#f59e0b,#d97706)':'rgba(30,41,59,0.8)',
+          color:e.rank<=3?'#fff':'#94a3b8'}},`#${e.rank}`),
         h('div',{style:{fontSize:16,lineHeight:1}},e.flag||''),
-        h('div',{className:'flex-1'},h('div',{style:{fontWeight:800,fontSize:'0.875rem',color:e.isYou?'#34d399':'#f8fafc'}},e.isYou?`${e.n} (You)`:e.n),h('div',{style:{fontSize:'0.75rem',color:'#64748b'}},`Level ${e.lv} · ${e.xp.toLocaleString()} XP`)),
+        h('div',{className:'flex-1'},
+          h('div',{style:{fontWeight:800,fontSize:'0.875rem',color:e.isYou?'#34d399':'#f8fafc'}},e.isYou?`${e.n} (You)`:e.n),
+          h('div',{style:{fontSize:'0.75rem',color:'#64748b'}},`Level ${e.lv} · ${e.xp.toLocaleString()} XP`)
+        ),
         h('div',{style:{fontSize:'0.75rem',fontWeight:800,color:'#fb923c'}},h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'flame',cls:'w-3.5 h-3.5',style:{color:'#fb923c'}}),`${e.streak}d`))
       ))
     )
@@ -2654,639 +3665,40 @@ function LeaderboardPage() {
 function GoalsPage() {
   const [goals,setGoals]=useState(()=>DB.getGoals());
   const [newGoal,setNewGoal]=useState('');
-  const add=()=>{if(!newGoal.trim())return;const g=[...goals,{id:Date.now(),text:newGoal.trim(),done:false,date:new Date().toISOString().slice(0,10)}];DB.saveGoals(g);setGoals(g);setNewGoal('');};
-  const toggle=id=>{const g=goals.map(x=>x.id===id?{...x,done:!x.done}:x);DB.saveGoals(g);setGoals(g);if(!goals.find(x=>x.id===id)?.done)awardXP(25,0,'goal');};
+  const add=()=>{
+    if(!newGoal.trim()) return;
+    const g=[...goals,{id:Date.now(),text:newGoal.trim(),done:false,date:new Date().toISOString().slice(0,10)}];
+    DB.saveGoals(g);setGoals(g);setNewGoal('');
+  };
+  const toggle=id=>{
+    const g=goals.map(x=>x.id===id?{...x,done:!x.done}:x);
+    DB.saveGoals(g);setGoals(g);
+    if(!goals.find(x=>x.id===id)?.done) awardXP(25,0,'goal');
+  };
   const del=id=>{ const g=goals.filter(x=>x.id!==id); DB.saveGoals(g); setGoals(g); };
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Goals',subtitle:'Set and track your training targets',gradient:'linear-gradient(135deg,#15803d,#16a34a)'}),
     h('div',{className:'px-4 pt-5 space-y-4'},
       h('div',{className:'flex gap-2'},
-        h('input',{type:'text',placeholder:'Add a training goal...',value:newGoal,onChange:e=>setNewGoal(e.target.value),onKeyDown:e=>e.key==='Enter'&&add(),className:'flex-1 px-4 py-3 rounded-xl text-sm text-white outline-none',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.6)'}}),
+        h('input',{type:'text',placeholder:'Add a training goal...',value:newGoal,onChange:e=>setNewGoal(e.target.value),
+          onKeyDown:e=>e.key==='Enter'&&add(),
+          className:'flex-1 px-4 py-3 rounded-xl text-sm text-white outline-none',
+          style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.6)'}}),
         h('button',{onClick:add,className:'btn-primary px-4 py-3 rounded-xl'},h(Icon,{n:'plus',cls:'w-5 h-5'}))
       ),
       goals.length===0 && h(EmptyState,{icon:'target',title:'No goals yet',desc:'Add your first cricket training goal to stay focused and track progress'}),
-      goals.map(g=>h('div',{key:g.id,className:'flex items-center gap-3 p-4 rounded-2xl',style:{background:g.done?'rgba(16,185,129,0.06)':'rgba(30,41,59,0.6)',border:`1px solid ${g.done?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.5)'}`}},
-        h('button',{onClick:()=>toggle(g.id),style:{width:28,height:28,borderRadius:'50%',border:`2px solid ${g.done?'#10b981':'rgba(51,65,85,0.8)'}`,background:g.done?'#10b981':'transparent',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,cursor:'pointer'}},g.done&&h(Icon,{n:'check',cls:'w-4 h-4 text-white'})),
+      goals.map(g=>h('div',{key:g.id,className:'flex items-center gap-3 p-4 rounded-2xl',
+        style:{background:g.done?'rgba(16,185,129,0.06)':'rgba(30,41,59,0.6)',
+          border:`1px solid ${g.done?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.5)'}`}},
+        h('button',{onClick:()=>toggle(g.id),style:{width:28,height:28,borderRadius:'50%',border:`2px solid ${g.done?'#10b981':'rgba(51,65,85,0.8)'}`,background:g.done?'#10b981':'transparent',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,cursor:'pointer'}},
+          g.done && h(Icon,{n:'check',cls:'w-4 h-4 text-white'})
+        ),
         h('span',{style:{flex:1,fontSize:'0.875rem',color:g.done?'#64748b':'#f8fafc',fontWeight:600,textDecoration:g.done?'line-through':'none'}},g.text),
         h('button',{onClick:()=>del(g.id),style:{color:'#ef4444',background:'none',border:'none',cursor:'pointer',padding:'0.25rem'}},h(Icon,{n:'x',cls:'w-4 h-4'}))
       ))
     )
   );
 }
-
-// ================================================================
-// VIDEO ANALYSIS PAGE
-// ================================================================
-function VideoAnalysisPage() {
-  const [tab, setTab] = useState('upload');
-  const [shotType, setShotType] = useState(null);
-  const [analyzing, setAnalyzing] = useState(false);
-  const [result, setResult] = useState(null);
-  const [fileSelected, setFileSelected] = useState(false);
-
-  const SHOTS = ['Cover Drive','Pull Shot','Cut Shot','Sweep','Defensive Block','Hook','Flick','Square Cut'];
-  const METRICS = [
-    {label:'Bat Speed',val:'34.2 m/s',color:'#3b82f6',pct:78},
-    {label:'Elbow Position',val:'Good',color:'#10b981',pct:85},
-    {label:'Weight Transfer',val:'Early',color:'#f59e0b',pct:62},
-    {label:'Follow Through',val:'High',color:'#10b981',pct:91},
-    {label:'Head Position',val:'Stable',color:'#10b981',pct:88},
-    {label:'Foot Movement',val:'Correct',color:'#10b981',pct:80},
-  ];
-  const FEEDBACK = [
-    {icon:'circleCheck',color:'#10b981',text:'Front elbow is correctly elevated throughout the swing'},
-    {icon:'alertTriangle',color:'#f59e0b',text:'Weight transfer initiates slightly early — wait for the ball'},
-    {icon:'circleCheck',color:'#10b981',text:'Follow-through is high and complete — excellent form'},
-    {icon:'info',color:'#3b82f6',text:'Try widening stance by 3-4 cm for improved base stability'},
-  ];
-
-  const runAnalysis = () => {
-    if (!shotType) return;
-    setAnalyzing(true);
-    setResult(null);
-    setTimeout(() => { setAnalyzing(false); setResult(true); }, 2200);
-  };
-
-  const ScoreRing = ({score, label, color}) => {
-    const R=36, C=2*Math.PI*R;
-    return h('div', {style:{textAlign:'center'}},
-      h('div', {style:{position:'relative',width:88,height:88,margin:'0 auto 6px'}},
-        h('svg',{width:88,height:88,viewBox:'0 0 88 88',style:{position:'absolute',inset:0,transform:'rotate(-90deg)'}},
-          h('circle',{cx:44,cy:44,r:R,fill:'none',stroke:'rgba(48,54,61,0.6)',strokeWidth:8}),
-          h('circle',{cx:44,cy:44,r:R,fill:'none',stroke:color,strokeWidth:8,strokeLinecap:'round',
-            strokeDasharray:C,strokeDashoffset:C*(1-score/100)})
-        ),
-        h('div',{style:{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}},
-          h('span',{style:{fontSize:18,fontWeight:900,color:'#e6edf3',fontVariantNumeric:'tabular-nums'}},score)
-        )
-      ),
-      h('div',{style:{fontSize:11,fontWeight:700,color:'#8b949e'}},label)
-    );
-  };
-
-  return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'Video Analysis',subtitle:'AI-powered batting technique review',gradient:'linear-gradient(135deg,#1d4ed8,#4338ca)'}),
-    h('div',{className:'flex gap-2 px-4 py-3'},
-      [['upload','Upload Video'],['live','Live Camera'],['library','Analysis Library']].map(([id,label])=>
-        h('button',{key:id,onClick:()=>setTab(id),
-          className:'flex-1 py-2 rounded-xl text-xs font-black transition-all',
-          style:tab===id?{background:'linear-gradient(135deg,#1d4ed8,#4338ca)',color:'#fff'}:{background:'rgba(22,27,34,0.9)',color:'#8b949e',border:'1px solid rgba(48,54,61,0.9)'}
-        },label)
-      )
-    ),
-    tab==='upload'&&h('div',{className:'px-4 space-y-4'},
-      // Upload zone
-      h('div',{style:{border:'2px dashed rgba(59,130,246,0.4)',borderRadius:12,padding:'28px 20px',textAlign:'center',background:'rgba(59,130,246,0.04)',cursor:'pointer'},
-        onClick:()=>setFileSelected(true)},
-        h(Icon,{n:'video',cls:'w-10 h-10',style:{color:'#3b82f6',margin:'0 auto 12px'}}),
-        h('div',{style:{fontSize:14,fontWeight:700,color:'#e6edf3',marginBottom:6}},fileSelected?'video_batting_practice.mp4':'Tap to upload batting video'),
-        h('div',{style:{fontSize:12,color:'#484f58'}},fileSelected?'HD · 00:45 · Ready to analyze':'MP4, MOV — up to 3 minutes')
-      ),
-      // Shot type selector
-      h('div',{},
-        h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:10}},'Select Shot Type'),
-        h('div',{style:{display:'flex',flexWrap:'wrap',gap:8}},
-          SHOTS.map(s=>h('button',{key:s,onClick:()=>setShotType(s),
-            style:{padding:'7px 14px',borderRadius:20,fontSize:12,fontWeight:600,cursor:'pointer',
-              background:shotType===s?'rgba(59,130,246,0.2)':'rgba(22,27,34,0.9)',
-              border:`1px solid ${shotType===s?'rgba(59,130,246,0.6)':'rgba(48,54,61,0.9)'}`,
-              color:shotType===s?'#60a5fa':'#8b949e'}},s))
-        )
-      ),
-      // Analyze button
-      h('button',{onClick:runAnalysis,disabled:!fileSelected||!shotType||analyzing,
-        className:'btn-primary py-4 text-base font-black',
-        style:{opacity:(!fileSelected||!shotType)?0.45:1}},
-        analyzing?h('div',{style:{display:'flex',alignItems:'center',gap:8}},
-          h('div',{className:'spinner',style:{width:20,height:20,borderWidth:2}}),'Analyzing technique...'):
-          h('div',{style:{display:'flex',alignItems:'center',gap:8}},h(Icon,{n:'cpu',cls:'w-5 h-5'}),'Analyze Technique')
-      ),
-      // Results
-      result&&h('div',{className:'space-y-4'},
-        h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:12,padding:16}},
-          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:16}},'Overall Scores'),
-          h('div',{style:{display:'flex',justifyContent:'space-around',flexWrap:'wrap',gap:12}},
-            h(ScoreRing,{score:84,label:'Technique',color:'#3b82f6'}),
-            h(ScoreRing,{score:91,label:'Form',color:'#10b981'}),
-            h(ScoreRing,{score:76,label:'Power',color:'#f59e0b'}),
-            h(ScoreRing,{score:88,label:'Balance',color:'#a855f7'})
-          )
-        ),
-        h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:12,padding:16}},
-          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:14}},'Metric Breakdown'),
-          h('div',{style:{display:'flex',flexDirection:'column',gap:12}},
-            METRICS.map(m=>h('div',{key:m.label},
-              h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:4}},
-                h('span',{style:{fontSize:12,fontWeight:600,color:'#8b949e'}},m.label),
-                h('span',{style:{fontSize:12,fontWeight:800,color:m.color}},m.val)
-              ),
-              h('div',{style:{height:5,background:'rgba(48,54,61,0.6)',borderRadius:4,overflow:'hidden'}},
-                h('div',{style:{height:'100%',width:`${m.pct}%`,background:m.color,borderRadius:4,transition:'width 0.6s'}})
-              )
-            ))
-          )
-        ),
-        h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:12,padding:16}},
-          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:12}},'AI Coaching Feedback'),
-          FEEDBACK.map((f,i)=>h('div',{key:i,className:'analysis-feedback-item'},
-            h(Icon,{n:f.icon,cls:'w-4 h-4 flex-shrink-0 mt-0.5',style:{color:f.color}}),
-            h('p',{style:{fontSize:13,color:'#8b949e',lineHeight:1.5}},f.text)
-          ))
-        ),
-        h('button',{onClick:()=>{awardXP(40,0,'video_analysis');setResult(null);setFileSelected(false);setShotType(null);},
-          className:'btn-primary py-3',style:{background:'linear-gradient(135deg,#1d4ed8,#4338ca)'}},
-          h(Icon,{n:'circleCheck',cls:'w-5 h-5'}),' Save Analysis (+40 XP)')
-      )
-    ),
-    tab==='live'&&h('div',{className:'px-4'},
-      h('div',{style:{border:'2px dashed rgba(59,130,246,0.4)',borderRadius:12,padding:'40px 20px',textAlign:'center',background:'rgba(59,130,246,0.04)'}},
-        h(Icon,{n:'video',cls:'w-12 h-12',style:{color:'#3b82f6',margin:'0 auto 14px'}}),
-        h('div',{style:{fontSize:15,fontWeight:700,color:'#e6edf3',marginBottom:8}},'Live Camera Analysis'),
-        h('div',{style:{fontSize:13,color:'#484f58',marginBottom:20,lineHeight:1.6}},'Real-time AI feedback as you bat — requires camera permission'),
-        h('button',{onClick:()=>{},className:'btn-primary',style:{width:'auto',padding:'12px 32px',background:'linear-gradient(135deg,#1d4ed8,#4338ca)'}},
-          h(Icon,{n:'video',cls:'w-4 h-4'}),' Enable Camera')
-      )
-    ),
-    tab==='library'&&h('div',{className:'px-4'},
-      h(EmptyState,{icon:'barChart',title:'No Analyses Yet',desc:'Upload a batting video to generate your first AI technique analysis. Your library builds over time.',
-        action:{label:'Upload Video',fn:()=>setTab('upload')}})
-    )
-  );
-}
-
-// ================================================================
-// PERFORMANCE PAGE
-// ================================================================
-function PerformancePage() {
-  const [chartTab, setChartTab] = useState('weekly');
-  const [progress] = useState(()=>DB.getProgress());
-  const xpDays = DB.getXPLast7Days();
-  const hmap = DB.getActivityHeatmap();
-
-  const BAT_METRICS = [
-    {label:'Average',val:'34.2',sub:'Last 10 innings',color:'#3b82f6'},
-    {label:'Strike Rate',val:'128',sub:'T20 format',color:'#10b981'},
-    {label:'High Score',val:'87*',sub:'vs District XI',color:'#f59e0b'},
-    {label:'50s / 100s',val:'3 / 0',sub:'This season',color:'#a855f7'},
-  ];
-  const BOWL_METRICS = [
-    {label:'Wickets',val:'12',sub:'This season',color:'#ef4444'},
-    {label:'Economy',val:'6.4',sub:'T20 average',color:'#10b981'},
-    {label:'Best Figures',val:'3/18',sub:'vs North Club',color:'#f59e0b'},
-    {label:'Average',val:'22.3',sub:'Per wicket',color:'#3b82f6'},
-  ];
-  const RADAR_VALS = [
-    {label:'Batting',val:72},{label:'Bowling',val:58},{label:'Fielding',val:81},
-    {label:'Fitness',val:65},{label:'Mental',val:77},{label:'Tactical',val:69},
-  ];
-
-  // Simple radar chart using SVG
-  const RadarChart = () => {
-    const cx=100, cy=100, r=70, n=RADAR_VALS.length;
-    const pts = RADAR_VALS.map((v,i)=>{
-      const angle=(i/n)*Math.PI*2 - Math.PI/2;
-      const pct=v.val/100;
-      return {x:cx+Math.cos(angle)*r*pct, y:cy+Math.sin(angle)*r*pct, label:v.label, val:v.val, ax:cx+Math.cos(angle)*r*1.25, ay:cy+Math.sin(angle)*r*1.25};
-    });
-    const polygon = pts.map(p=>`${p.x},${p.y}`).join(' ');
-    return h('div',{style:{display:'flex',flexDirection:'column',alignItems:'center'}},
-      h('svg',{width:200,height:200,viewBox:'0 0 200 200'},
-        [0.2,0.4,0.6,0.8,1].map(s=>h('polygon',{key:s,points:RADAR_VALS.map((_,i)=>{const a=(i/n)*Math.PI*2-Math.PI/2;return `${cx+Math.cos(a)*r*s},${cy+Math.sin(a)*r*s}`}).join(' '),fill:'none',stroke:'rgba(48,54,61,0.5)',strokeWidth:1})),
-        RADAR_VALS.map((_,i)=>{ const a=(i/n)*Math.PI*2-Math.PI/2; return h('line',{key:i,x1:cx,y1:cy,x2:cx+Math.cos(a)*r,y2:cy+Math.sin(a)*r,stroke:'rgba(48,54,61,0.4)',strokeWidth:1}); }),
-        h('polygon',{points:polygon,fill:'rgba(59,130,246,0.2)',stroke:'#3b82f6',strokeWidth:2}),
-        pts.map((p,i)=>h('text',{key:i,x:p.ax,y:p.ay,fill:'#8b949e',fontSize:9,fontWeight:700,textAnchor:'middle',dominantBaseline:'middle'},p.label))
-      ),
-      h('div',{style:{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:6,marginTop:4,width:'100%'}},
-        RADAR_VALS.map(v=>h('div',{key:v.label,style:{textAlign:'center',padding:'6px 4px',background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:6}},
-          h('div',{style:{fontSize:14,fontWeight:800,color:'#3b82f6',fontVariantNumeric:'tabular-nums'}},v.val),
-          h('div',{style:{fontSize:10,fontWeight:600,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.05em'}},v.label)
-        ))
-      )
-    );
-  };
-
-  return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'Performance',subtitle:'Your cricket analytics dashboard',gradient:'linear-gradient(135deg,#064e3b,#0d9488)'}),
-    h('div',{className:'px-4 pt-4 space-y-5'},
-      // Tab strip
-      h('div',{className:'chart-tab-row'},
-        [['weekly','Weekly'],['batting','Batting'],['bowling','Bowling'],['overall','Overall']].map(([id,label])=>
-          h('button',{key:id,onClick:()=>setChartTab(id),className:`chart-tab${chartTab===id?' active':''}`},label)
-        )
-      ),
-      // Weekly XP chart
-      chartTab==='weekly'&&h('div',{className:'space-y-4'},
-        h('div',{className:'chart-container'},
-          h('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}},
-            h('span',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},'7-Day XP'),
-            h('span',{style:{fontSize:11,fontWeight:700,color:'#10b981'}},`${xpDays.reduce((s,d)=>s+d.xp,0)} total`)
-          ),
-          h(XPChart,{days:xpDays})
-        ),
-        h('div',{className:'chart-container'},
-          h('div',{style:{marginBottom:12}},h('span',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},'30-Day Activity')),
-          h(Heatmap,{days:hmap})
-        ),
-        h('div',{style:{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:10}},
-          h(StatCard,{label:'Total XP',value:(progress.total_xp||0).toLocaleString(),color:'text-emerald-400',icon:'zap'}),
-          h(StatCard,{label:'Best Streak',value:`${progress.longest_streak||0}d`,color:'text-red-400',icon:'flame'}),
-          h(StatCard,{label:'Drills Done',value:progress.drills_done||0,color:'text-blue-400',icon:'bat'}),
-          h(StatCard,{label:'Mental Sessions',value:progress.mental_done||0,color:'text-purple-400',icon:'brain'})
-        )
-      ),
-      // Batting tab
-      chartTab==='batting'&&h('div',{className:'space-y-4'},
-        h('div',{style:{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:10}},
-          BAT_METRICS.map(m=>h('div',{key:m.label,style:{padding:14,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10}},
-            h('div',{style:{fontSize:10,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:6}},m.label),
-            h('div',{style:{fontSize:22,fontWeight:900,color:m.color,fontVariantNumeric:'tabular-nums',lineHeight:1}},m.val),
-            h('div',{style:{fontSize:10,color:'#484f58',marginTop:4}},m.sub)
-          ))
-        ),
-        h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:12,padding:16}},
-          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:12}},'Shot Distribution'),
-          [['Cover Drive',38,'#3b82f6'],['Pull',22,'#ef4444'],['Cut',18,'#f59e0b'],['Sweep',12,'#a855f7'],['Other',10,'#64748b']].map(([shot,pct,col])=>
-            h('div',{key:shot,style:{marginBottom:10}},
-              h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:3}},
-                h('span',{style:{fontSize:12,fontWeight:600,color:'#8b949e'}},shot),
-                h('span',{style:{fontSize:12,fontWeight:800,color:col}},`${pct}%`)
-              ),
-              h('div',{style:{height:5,background:'rgba(48,54,61,0.6)',borderRadius:4,overflow:'hidden'}},
-                h('div',{style:{height:'100%',width:`${pct}%`,background:col,borderRadius:4}})
-              )
-            )
-          )
-        )
-      ),
-      // Bowling tab
-      chartTab==='bowling'&&h('div',{className:'space-y-4'},
-        h('div',{style:{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:10}},
-          BOWL_METRICS.map(m=>h('div',{key:m.label,style:{padding:14,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10}},
-            h('div',{style:{fontSize:10,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:6}},m.label),
-            h('div',{style:{fontSize:22,fontWeight:900,color:m.color,fontVariantNumeric:'tabular-nums',lineHeight:1}},m.val),
-            h('div',{style:{fontSize:10,color:'#484f58',marginTop:4}},m.sub)
-          ))
-        ),
-        h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:12,padding:16}},
-          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:12}},'Wicket Types'),
-          [['Bowled',33,'#ef4444'],['Caught',42,'#3b82f6'],['LBW',17,'#f59e0b'],['Other',8,'#64748b']].map(([type,pct,col])=>
-            h('div',{key:type,style:{marginBottom:10}},
-              h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:3}},
-                h('span',{style:{fontSize:12,fontWeight:600,color:'#8b949e'}},type),
-                h('span',{style:{fontSize:12,fontWeight:800,color:col}},`${pct}%`)
-              ),
-              h('div',{style:{height:5,background:'rgba(48,54,61,0.6)',borderRadius:4,overflow:'hidden'}},
-                h('div',{style:{height:'100%',width:`${pct}%`,background:col,borderRadius:4}})
-              )
-            )
-          )
-        )
-      ),
-      // Overall radar
-      chartTab==='overall'&&h('div',{className:'space-y-4'},
-        h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:12,padding:16}},
-          h('p',{style:{fontSize:13,fontWeight:700,color:'#e6edf3',marginBottom:16,textAlign:'center'}},'Attribute Radar'),
-          h(RadarChart)
-        ),
-        h('button',{onClick:()=>{awardXP(20,0,'performance_review');alert('Performance logged! +20 XP');},
-          className:'btn-primary py-3',style:{background:'linear-gradient(135deg,#064e3b,#0d9488)'}},
-          h(Icon,{n:'barChart',cls:'w-5 h-5'}),' Log This Week\'s Performance (+20 XP)')
-      )
-    )
-  );
-}
-
-// ================================================================
-// MATCH LOGGER PAGE
-// ================================================================
-function MatchLoggerPage() {
-  const [view, setView] = useState('log'); // 'log' | 'history'
-  const [innings, setInnings] = useState('batting');
-  const [balls, setBalls] = useState([]);
-  const [runs, setRuns] = useState(0);
-  const [wickets, setWickets] = useState(0);
-  const [overs, setOvers] = useState(0);
-  const [saved, setSaved] = useState(()=>{
-    try{return JSON.parse(localStorage.getItem('sc_match_log')||'[]');}catch{return [];}
-  });
-
-  const OUTCOMES = [
-    {val:'0',label:'Dot',color:'rgba(139,148,158,0.12)',textColor:'#8b949e',border:'rgba(139,148,158,0.3)'},
-    {val:'1',label:'1 Run',color:'rgba(59,130,246,0.12)',textColor:'#60a5fa',border:'rgba(59,130,246,0.3)'},
-    {val:'2',label:'2 Runs',color:'rgba(59,130,246,0.18)',textColor:'#60a5fa',border:'rgba(59,130,246,0.4)'},
-    {val:'3',label:'3 Runs',color:'rgba(59,130,246,0.24)',textColor:'#60a5fa',border:'rgba(59,130,246,0.5)'},
-    {val:'4',label:'Four',color:'rgba(22,163,74,0.18)',textColor:'#4ade80',border:'rgba(22,163,74,0.4)'},
-    {val:'6',label:'Six',color:'rgba(217,119,6,0.18)',textColor:'#fbbf24',border:'rgba(217,119,6,0.4)'},
-    {val:'W',label:'Wicket',color:'rgba(239,68,68,0.18)',textColor:'#f87171',border:'rgba(239,68,68,0.4)'},
-    {val:'WD',label:'Wide',color:'rgba(109,40,217,0.12)',textColor:'#a78bfa',border:'rgba(109,40,217,0.3)'},
-    {val:'NB',label:'No Ball',color:'rgba(168,85,247,0.12)',textColor:'#c084fc',border:'rgba(168,85,247,0.3)'},
-  ];
-
-  const addBall = (val) => {
-    const numVal = val==='W'?0:val==='WD'||val==='NB'?1:parseInt(val)||0;
-    const newRuns = runs + numVal;
-    let newWickets = wickets;
-    let ballCount = balls.filter(b=>b!=='WD'&&b!=='NB').length;
-    if(val==='W') newWickets = Math.min(10, wickets+1);
-    const newBalls = [...balls, val];
-    const validBalls = newBalls.filter(b=>b!=='WD'&&b!=='NB').length;
-    setRuns(newRuns);
-    setWickets(newWickets);
-    setBalls(newBalls);
-    setOvers(Math.floor(validBalls/6) + (validBalls%6)/10);
-  };
-
-  const undo = () => {
-    if(!balls.length) return;
-    const last = balls[balls.length-1];
-    const numVal = last==='W'?0:last==='WD'||last==='NB'?1:parseInt(last)||0;
-    setBalls(balls.slice(0,-1));
-    setRuns(Math.max(0,runs-numVal));
-    if(last==='W') setWickets(Math.max(0,wickets-1));
-  };
-
-  const saveInnings = () => {
-    if(!balls.length) return;
-    const validBalls = balls.filter(b=>b!=='WD'&&b!=='NB').length;
-    const entry = {
-      id: Date.now(),
-      date: new Date().toISOString().slice(0,10),
-      innings, runs, wickets,
-      balls: validBalls,
-      wides: balls.filter(b=>b==='WD').length,
-      noBalls: balls.filter(b=>b==='NB').length,
-      deliveries: balls,
-    };
-    const newSaved = [entry, ...saved].slice(0,20);
-    localStorage.setItem('sc_match_log', JSON.stringify(newSaved));
-    setSaved(newSaved);
-    awardXP(innings==='batting'?50:40, 0, 'match_log');
-    fireConfetti();
-    setBalls([]); setRuns(0); setWickets(0); setOvers(0);
-    setView('history');
-  };
-
-  const currentOver = balls.filter(b=>b!=='WD'&&b!=='NB');
-  const currentOverBalls = currentOver.slice(-Math.max(0, currentOver.length%6||6));
-  const validBallCount = balls.filter(b=>b!=='WD'&&b!=='NB').length;
-  const oversStr = `${Math.floor(validBallCount/6)}.${validBallCount%6}`;
-
-  return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'Match Logger',subtitle:'Ball-by-ball match tracking',gradient:'linear-gradient(135deg,#b45309,#d97706)'}),
-    h('div',{className:'flex gap-2 px-4 py-3'},
-      [['log','🏏 Log'],['history','📋 History']].map(([id,label])=>
-        h('button',{key:id,onClick:()=>setView(id),className:'flex-1 py-2 rounded-xl text-xs font-black transition-all',
-          style:view===id?{background:'linear-gradient(135deg,#b45309,#d97706)',color:'#fff'}:{background:'rgba(22,27,34,0.9)',color:'#8b949e',border:'1px solid rgba(48,54,61,0.9)'}},label)
-      )
-    ),
-    view==='log'&&h('div',{className:'px-4 space-y-4'},
-      // Innings toggle
-      h('div',{style:{display:'flex',gap:8}},
-        [['batting','🏏 Batting'],['bowling','⚾ Bowling']].map(([id,label])=>
-          h('button',{key:id,onClick:()=>setInnings(id),className:'flex-1 py-2.5 rounded-xl text-sm font-bold transition-all',
-            style:innings===id?{background:'rgba(217,119,6,0.2)',border:'1px solid rgba(217,119,6,0.5)',color:'#fbbf24'}:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',color:'#8b949e'}},label)
-        )
-      ),
-      // Score display
-      h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:12,padding:20,textAlign:'center'}},
-        h('div',{style:{fontSize:48,fontWeight:900,color:'#e6edf3',fontVariantNumeric:'tabular-nums',lineHeight:1,letterSpacing:'-2px'}},
-          innings==='batting'?`${runs}/${wickets}`:`${wickets}/${runs}`
-        ),
-        h('div',{style:{fontSize:16,color:'#8b949e',marginTop:6,fontWeight:600}},`(${oversStr} overs)`),
-        // Current over balls
-        currentOverBalls.length>0&&h('div',{style:{display:'flex',justifyContent:'center',gap:6,marginTop:14,flexWrap:'wrap'}},
-          currentOverBalls.map((b,i)=>{
-            const o=OUTCOMES.find(x=>x.val===b)||OUTCOMES[0];
-            return h('div',{key:i,style:{width:32,height:32,borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:800,background:o.color,border:`1px solid ${o.border}`,color:o.textColor}},b);
-          })
-        )
-      ),
-      // Outcome buttons
-      h('div',{style:{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}},
-        OUTCOMES.map(o=>h('button',{key:o.val,onClick:()=>addBall(o.val),
-          style:{padding:'14px 8px',borderRadius:10,border:`1px solid ${o.border}`,background:o.color,cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',gap:4}},
-          h('div',{style:{fontSize:18,fontWeight:900,color:o.textColor}},o.val),
-          h('div',{style:{fontSize:10,fontWeight:600,color:o.textColor,opacity:0.8}},o.label)
-        ))
-      ),
-      // Action buttons
-      h('div',{style:{display:'flex',gap:10}},
-        h('button',{onClick:undo,disabled:!balls.length,
-          style:{flex:1,padding:'12px',borderRadius:10,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',color:'#8b949e',fontWeight:700,cursor:balls.length?'pointer':'not-allowed',opacity:balls.length?1:0.4}},
-          h(Icon,{n:'arrowL',cls:'w-4 h-4 inline-block'}),' Undo'),
-        h('button',{onClick:saveInnings,disabled:!balls.length,
-          className:'btn-primary',style:{flex:2,opacity:balls.length?1:0.4}},
-          h(Icon,{n:'circleCheck',cls:'w-4 h-4'}),' Save Innings (+XP)')
-      )
-    ),
-    view==='history'&&h('div',{className:'px-4 space-y-3'},
-      saved.length===0
-        ?h(EmptyState,{icon:'list',title:'No matches logged yet',desc:'Log your first innings to build your match history',action:{label:'Start Logging',fn:()=>setView('log')}})
-        :saved.map(entry=>h('div',{key:entry.id,style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:12,padding:16}},
-          h('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10}},
-            h('div',{},
-              h('div',{style:{fontSize:14,fontWeight:700,color:'#e6edf3',textTransform:'capitalize'}},entry.innings+' Innings'),
-              h('div',{style:{fontSize:12,color:'#484f58',marginTop:2}},entry.date)
-            ),
-            h('div',{style:{textAlign:'right'}},
-              h('div',{style:{fontSize:22,fontWeight:900,color:entry.innings==='batting'?'#4ade80':'#f87171',fontVariantNumeric:'tabular-nums'}},
-                entry.innings==='batting'?`${entry.runs}/${entry.wickets}`:`${entry.wickets}/${entry.runs}`),
-              h('div',{style:{fontSize:11,color:'#484f58'}},`(${Math.floor(entry.balls/6)}.${entry.balls%6} ov)`)
-            )
-          ),
-          h('div',{style:{display:'flex',gap:8,flexWrap:'wrap'}},
-            h('span',{style:{fontSize:11,padding:'3px 8px',borderRadius:4,background:'rgba(59,130,246,0.1)',border:'1px solid rgba(59,130,246,0.25)',color:'#60a5fa'}},`${entry.balls} balls`),
-            entry.wides>0&&h('span',{style:{fontSize:11,padding:'3px 8px',borderRadius:4,background:'rgba(109,40,217,0.1)',border:'1px solid rgba(109,40,217,0.25)',color:'#a78bfa'}},`${entry.wides}wd`),
-            entry.noBalls>0&&h('span',{style:{fontSize:11,padding:'3px 8px',borderRadius:4,background:'rgba(168,85,247,0.1)',border:'1px solid rgba(168,85,247,0.25)',color:'#c084fc'}},`${entry.noBalls}nb`)
-          )
-        ))
-    )
-  );
-}
-
-// ================================================================
-// REACTION DRILL PAGE
-// ================================================================
-function ReactionDrillPage() {
-  const [gameState, setGameState] = useState('idle'); // idle | wait | react | result | done
-  const [difficulty, setDifficulty] = useState('medium');
-  const [round, setRound] = useState(0);
-  const [times, setTimes] = useState([]);
-  const [startTime, setStartTime] = useState(null);
-  const [lastTime, setLastTime] = useState(null);
-  const [signalColor, setSignalColor] = useState('#484f58');
-  const [drillType, setDrillType] = useState('simple'); // simple | color | direction
-  const [signal, setSignal] = useState(null);
-  const timerRef = useRef(null);
-  const TOTAL_ROUNDS = 5;
-  const DELAYS = {easy:[800,1200],medium:[600,1000],hard:[400,700],pro:[200,500]};
-
-  const startRound = () => {
-    setGameState('wait');
-    setSignalColor('#484f58');
-    setSignal(null);
-    const [minD, maxD] = DELAYS[difficulty];
-    const delay = minD + Math.random()*(maxD-minD);
-    timerRef.current = setTimeout(()=>{
-      if(drillType==='color') {
-        const colors=['#10b981','#3b82f6','#ef4444','#f59e0b'];
-        setSignalColor(colors[Math.floor(Math.random()*colors.length)]);
-        setSignal(colors[Math.floor(Math.random()*colors.length)]);
-      } else if(drillType==='direction') {
-        const dirs=['↑','↓','←','→'];
-        setSignal(dirs[Math.floor(Math.random()*dirs.length)]);
-        setSignalColor('#10b981');
-      } else {
-        setSignalColor('#10b981');
-        setSignal('TAP!');
-      }
-      setStartTime(Date.now());
-      setGameState('react');
-    }, delay);
-  };
-
-  const handleTap = () => {
-    if(gameState==='react') {
-      const reaction = Date.now() - startTime;
-      const newTimes = [...times, reaction];
-      setTimes(newTimes);
-      setLastTime(reaction);
-      setSignalColor('#484f58');
-      setSignal(null);
-      if(newTimes.length >= TOTAL_ROUNDS) {
-        setGameState('done');
-        const avg = Math.round(newTimes.reduce((a,b)=>a+b,0)/newTimes.length);
-        awardXP(difficulty==='pro'?80:difficulty==='hard'?60:difficulty==='medium'?45:30, 0, 'reaction_drill');
-        fireConfetti();
-      } else {
-        setRound(r=>r+1);
-        setGameState('result');
-      }
-    } else if(gameState==='wait') {
-      clearTimeout(timerRef.current);
-      setGameState('idle');
-      alert('Too early! Wait for the signal.');
-    }
-  };
-
-  const reset = () => {
-    clearTimeout(timerRef.current);
-    setGameState('idle'); setRound(0); setTimes([]); setLastTime(null); setSignalColor('#484f58'); setSignal(null);
-  };
-
-  const avg = times.length ? Math.round(times.reduce((a,b)=>a+b,0)/times.length) : 0;
-  const best = times.length ? Math.min(...times) : 0;
-
-  const getRating = (ms) => {
-    if(ms<200) return {label:'Elite',color:'#f59e0b'};
-    if(ms<280) return {label:'Pro',color:'#10b981'};
-    if(ms<350) return {label:'Good',color:'#3b82f6'};
-    if(ms<450) return {label:'Average',color:'#8b949e'};
-    return {label:'Keep Training',color:'#484f58'};
-  };
-
-  const DIFF_COLORS = {easy:'#10b981',medium:'#3b82f6',hard:'#f97316',pro:'#a855f7'};
-
-  return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'Reaction Drill',subtitle:'Train explosive reflex speed',gradient:'linear-gradient(135deg,#0891b2,#0d9488)'}),
-    h('div',{className:'px-4 pt-4 space-y-4'},
-      // Config row
-      gameState==='idle'&&h('div',{className:'space-y-3'},
-        h('div',{},
-          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:8}},'Difficulty'),
-          h('div',{style:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:6}},
-            ['easy','medium','hard','pro'].map(d=>h('button',{key:d,onClick:()=>setDifficulty(d),
-              style:{padding:'10px 4px',borderRadius:8,fontSize:11,fontWeight:800,textTransform:'uppercase',letterSpacing:'0.04em',cursor:'pointer',
-                background:difficulty===d?`rgba(${d==='easy'?'16,163,74':d==='medium'?'59,130,246':d==='hard'?'249,115,22':'168,85,247'},0.2)`:'rgba(22,27,34,0.9)',
-                border:`1px solid ${difficulty===d?DIFF_COLORS[d]:'rgba(48,54,61,0.9)'}`,
-                color:difficulty===d?DIFF_COLORS[d]:'#8b949e'}},d))
-          )
-        ),
-        h('div',{},
-          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:8}},'Drill Type'),
-          h('div',{style:{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:6}},
-            [['simple','Simple React'],['color','Color Match'],['direction','Direction']].map(([id,label])=>
-              h('button',{key:id,onClick:()=>setDrillType(id),
-                style:{padding:'10px 6px',borderRadius:8,fontSize:11,fontWeight:700,cursor:'pointer',textAlign:'center',
-                  background:drillType===id?'rgba(13,148,136,0.2)':'rgba(22,27,34,0.9)',
-                  border:`1px solid ${drillType===id?'rgba(13,148,136,0.6)':'rgba(48,54,61,0.9)'}`,
-                  color:drillType===id?'#2dd4bf':'#8b949e'}},label)
-            )
-          )
-        ),
-        h('div',{style:{padding:12,background:'rgba(13,148,136,0.06)',border:'1px solid rgba(13,148,136,0.2)',borderRadius:10}},
-          h('p',{style:{fontSize:12,color:'#5eead4',fontWeight:600,lineHeight:1.5}},
-            drillType==='simple'?'Watch for the green signal — tap as fast as you can!':
-            drillType==='color'?'Tap when you see GREEN. Ignore other colors!':
-            'Tap when you see an arrow. Direction trains anticipation!')
-        )
-      ),
-      // Main tap zone
-      h('div',{className:'reaction-tap-zone',
-        style:{height:260,background:gameState==='react'?`${signalColor}22`:'rgba(22,27,34,0.9)',
-          border:`2px solid ${gameState==='react'?signalColor:'rgba(48,54,61,0.9)'}`,cursor:'pointer'},
-        onClick:handleTap},
-        gameState==='idle'&&h('div',{style:{textAlign:'center'}},
-          h('div',{style:{width:72,height:72,borderRadius:'50%',background:'rgba(13,148,136,0.12)',border:'2px solid rgba(13,148,136,0.3)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 16px'}},
-            h(Icon,{n:'zap',cls:'w-8 h-8',style:{color:'#0d9488'}})),
-          h('div',{style:{fontSize:16,fontWeight:800,color:'#e6edf3',marginBottom:6}},'Tap to Start'),
-          h('div',{style:{fontSize:12,color:'#484f58'}},`${TOTAL_ROUNDS} rounds · ${difficulty} mode`)
-        ),
-        gameState==='wait'&&h('div',{style:{textAlign:'center'}},
-          h('div',{style:{width:72,height:72,borderRadius:'50%',background:'rgba(48,54,61,0.6)',border:'2px dashed rgba(48,54,61,0.9)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 14px'}},
-            h('div',{style:{width:16,height:16,borderRadius:'50%',background:'#484f58',animation:'pulse 1s infinite'}})),
-          h('div',{style:{fontSize:15,fontWeight:700,color:'#484f58'}}),'Wait for it...'
-        ),
-        gameState==='react'&&h('div',{style:{textAlign:'center'}},
-          h('div',{style:{fontSize:signal&&signal.length<=2?80:32,fontWeight:900,color:signalColor,lineHeight:1,marginBottom:8,filter:`drop-shadow(0 0 24px ${signalColor}80)`}},signal||'GO!'),
-          h('div',{style:{fontSize:13,color:signalColor,fontWeight:700}},drillType==='color'?'Tap GREEN only!':'TAP NOW!')
-        ),
-        gameState==='result'&&h('div',{style:{textAlign:'center'}},
-          h('div',{style:{fontSize:36,fontWeight:900,color:'#10b981',fontVariantNumeric:'tabular-nums',marginBottom:6}},`${lastTime}ms`),
-          h('div',{style:{fontSize:14,fontWeight:700,color:getRating(lastTime).color}},getRating(lastTime).label),
-          h('div',{style:{fontSize:12,color:'#484f58',marginTop:8}},`Round ${round} of ${TOTAL_ROUNDS}`),
-          h('button',{onClick:startRound,className:'btn-primary',style:{width:'auto',padding:'10px 28px',marginTop:12,background:'linear-gradient(135deg,#0891b2,#0d9488)'}},
-            'Next Round')
-        ),
-        gameState==='done'&&h('div',{style:{textAlign:'center',padding:'0 16px'}},
-          h('div',{style:{fontSize:14,fontWeight:800,color:'#e6edf3',marginBottom:12}},'Session Complete!'),
-          h('div',{style:{display:'flex',justifyContent:'center',gap:24,marginBottom:16}},
-            h('div',{style:{textAlign:'center'}},
-              h('div',{style:{fontSize:28,fontWeight:900,color:'#10b981',fontVariantNumeric:'tabular-nums'}},`${avg}ms`),
-              h('div',{style:{fontSize:11,color:'#484f58',fontWeight:700}},`AVG (${getRating(avg).label})`)
-            ),
-            h('div',{style:{textAlign:'center'}},
-              h('div',{style:{fontSize:28,fontWeight:900,color:'#f59e0b',fontVariantNumeric:'tabular-nums'}},`${best}ms`),
-              h('div',{style:{fontSize:11,color:'#484f58',fontWeight:700}},'BEST')
-            )
-          )
-        )
-      ),
-      // Start button when idle
-      gameState==='idle'&&h('button',{onClick:startRound,
-        className:'btn-primary py-4 text-base font-black',style:{background:'linear-gradient(135deg,#0891b2,#0d9488)'}},
-        h(Icon,{n:'zap',cls:'w-5 h-5'}),' Start Reaction Drill'
-      ),
-      // Reset when done
-      (gameState==='done'||gameState==='result')&&h('button',{onClick:reset,className:'btn-secondary'},'Reset'),
-      // Best times display
-      times.length>0&&gameState!=='done'&&h('div',{style:{display:'flex',gap:6,flexWrap:'wrap'}},
-        times.map((t,i)=>h('div',{key:i,style:{padding:'4px 10px',borderRadius:6,background:'rgba(13,148,136,0.1)',border:'1px solid rgba(13,148,136,0.2)',fontSize:11,fontWeight:700,color:'#2dd4bf',fontVariantNumeric:'tabular-nums'}},`${t}ms`))
-      ),
-      // Info card
-      gameState==='idle'&&h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:14}},
-        h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:8}},'Reaction Time Benchmarks'),
-        [['<200ms','Elite (International)',DIFF_COLORS.pro],['200–280ms','Pro Level',DIFF_COLORS.easy],['280–350ms','Club Cricketer','#3b82f6'],['350ms+','Developing','#484f58']].map(([range,label,col])=>
-          h('div',{key:range,style:{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:'1px solid rgba(48,54,61,0.4)'}},
-            h('span',{style:{fontSize:11,color:'#484f58'}},range),
-            h('span',{style:{fontSize:11,fontWeight:700,color:col}},label)
-          )
-        )
-      )
-    )
-  );
-}
-
 
 // ================================================================
 // STUB PAGES
@@ -3328,6 +3740,7 @@ function AppRoot() {
   },[dark]);
 
   useEffect(()=>{
+    // Open source startup hooks — safe, guarded, silent if not loaded
     if(typeof applyChartDefaults==='function') applyChartDefaults();
     if(typeof migrateLSToPouchDB==='function') migrateLSToPouchDB();
     if(!window.location.hash||window.location.hash==='#'||window.location.hash==='#/') {
@@ -3366,6 +3779,7 @@ function AppRoot() {
       case 'MiniMatch': return h(MiniMatchPage);
       case 'GetOut': return h(GetOutPage);
       case 'Quizzes': return h(QuizzesPage);
+      // ── Open source integration pages ──────────────
       case 'VideoAnalysis': return h(VideoAnalysisPage);
       case 'Performance':   return h(PerformancePage);
       case 'MatchLogger':   return h(MatchLoggerPage);
@@ -3375,6 +3789,7 @@ function AppRoot() {
   }
 
   return h(ThemeCtx.Provider,{value:theme},
+    // Top bar
     !isFS && h('div',{
       style:{position:'fixed',top:0,left:0,right:0,zIndex:30,display:'flex',alignItems:'center',gap:'0.75rem',
         paddingLeft:'1rem',paddingRight:'1rem',paddingBottom:'0.75rem',
@@ -3387,17 +3802,23 @@ function AppRoot() {
         h(Icon,{n:'menu',cls:'w-5 h-5',style:{color:'#94a3b8'}})
       ),
       h('div',{style:{display:'flex',alignItems:'center',gap:8}},
-        h(Icon,{n:'bat',cls:'w-4 h-4',style:{color:'#16a34a'}}),
-        h('span',{style:{fontSize:14,fontWeight:800,color:'#e6edf3',letterSpacing:'0.02em'}},'SMARTCRICK')
-      ),
+          h(Icon,{n:'bat',cls:'w-4 h-4',style:{color:'#16a34a'}}),
+          h('span',{style:{fontSize:14,fontWeight:800,color:'#e6edf3',letterSpacing:'0.02em'}},
+            'SMARTCRICK')
+        ),
       h('div',{style:{flex:1}}),
-      (()=>{ const s=DB.getProgress().current_streak||0; if(!s) return null;
+      (() => {
+        const s=DB.getProgress().current_streak||0;
+        if(!s) return null;
         return h('div',{style:{display:'flex',alignItems:'center',gap:4,fontSize:'0.75rem',fontWeight:800,color:'#fb923c',background:'rgba(249,115,22,0.08)',border:'1px solid rgba(249,115,22,0.2)',padding:'4px 10px',borderRadius:6}},
-          h(Icon,{n:'flame',cls:'w-3.5 h-3.5'}),s,'d'); })()
+            h(Icon,{n:'flame',cls:'w-3.5 h-3.5'}),s,'d');
+      })()
     ),
 
     h(Sidebar,{open:sidebarOpen,onClose:()=>setSidebarOpen(false),currentPage:page}),
+
     h('main',{style:{minHeight:'100dvh',background:dark?'#020617':'#f8fafc'}},renderPage()),
+
     !isFS && h(BottomNav,{page})
   );
 }
