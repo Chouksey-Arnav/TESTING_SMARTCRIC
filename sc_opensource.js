@@ -10,7 +10,6 @@
 window.SC = window.SC || {};
 
 // ── PouchDB ──────────────────────────────────────────────────────
-// Keys that DB.set() will sync to PouchDB
 window.SC_SYNC_KEYS = [
   'sc_progress', 'sc_xp_log', 'sc_user',
   'sc_goals',    'sc_schedule', 'sc_theme'
@@ -61,7 +60,7 @@ window.migrateLSToPouchDB = async function () {
       if (!raw) continue;
       var docId = 'sc::' + key;
       try {
-        await db.get(docId); // already exists, skip
+        await db.get(docId);
       } catch (e) {
         if (e && e.name === 'not_found') {
           await db.put({
@@ -87,8 +86,6 @@ SC.mascot = {
   _currentState: null,
   _speechEl:     null,
 
-  // ── CC0 Lottie JSON paths (/lottie/ folder in repo root) ──────
-  // Download instructions in LOTTIE_SOURCING.md
   ANIMATIONS: {
     default:     '/lottie/mascot-idle.json',
     celebrating: '/lottie/mascot-celebrate.json',
@@ -98,7 +95,6 @@ SC.mascot = {
     sleepy:      '/lottie/mascot-sleepy.json',
   },
 
-  // Inline SVG paths for CSS fallback (mirrors app.js IC dict)
   _ICONS: {
     default:     '<path d="M3 21l3.5-3.5"/><path d="M5.5 19.5L16 9a2 2 0 0 0 0-2.83L14.83 5A2 2 0 0 0 12 5L2.5 16l-1 1 1 4z"/><circle cx="20" cy="4" r="1"/>',
     celebrating: '<path d="M6 9a6 6 0 0 0 12 0V3H6z"/><path d="M10 14.66V21.978"/><path d="M14 14.66V21.978"/><path d="M4 22h16"/>',
@@ -113,7 +109,6 @@ SC.mascot = {
     focused: '#0d9488', tired: '#8b5cf6', sleepy: '#64748b',
   },
 
-  // ── State machine ─────────────────────────────────────────────
   computeState: function (progress, schedule, xpLog) {
     var now   = Date.now();
     var today = new Date().toISOString().slice(0, 10);
@@ -127,7 +122,6 @@ SC.mascot = {
 
     var streak = progress.current_streak || 0;
 
-    // 1. Celebrating — big streak milestone or high XP last 24h
     var recentXP = xpLog.filter(function (e) {
       return e.date === today || e.date === yesterday;
     }).reduce(function (s, e) { return s + e.xp; }, 0);
@@ -135,20 +129,17 @@ SC.mascot = {
       return 'celebrating';
     }
 
-    // 2. Pumped — match within 3 days
     var sessions = (schedule && schedule.sessions) || [];
     var upcomingMatch = sessions.find(function (s) {
       return s.type === 'match' && s.date >= today && s.date <= in3Days && s.status !== 'complete';
     });
     if (upcomingMatch) return 'pumped';
 
-    // 3. Sleepy — no training in 48h (but has started before)
     var recentActivity = xpLog.filter(function (e) { return e.date >= twoDaysAgo; });
     if (recentActivity.length === 0 && (progress.drills_done || 0) > 0) {
       return 'sleepy';
     }
 
-    // 4. Tired — last 5 XP entries all same source category
     var last5 = xpLog.slice(-5).map(function (e) { return e.source; });
     if (last5.length >= 5) {
       var allSame = last5.every(function (s) { return s === last5[0]; });
@@ -157,34 +148,25 @@ SC.mascot = {
       }
     }
 
-    // 5. Focused — active user
     if ((progress.drills_done || 0) > 0) return 'focused';
-
-    // 6. Default — new user
     return 'default';
   },
 
-  // ── Load a state (Lottie or CSS fallback) ────────────────────
   loadState: function (state) {
     var self = this;
     if (!this._container) return;
-
-    // Already showing this state
     if (state === this._currentState && this._anim) return;
 
-    // Crossfade: opacity → 0 → new anim → opacity → 1
     var container = this._container;
     container.style.transition = 'opacity 0.28s ease';
     container.style.opacity = '0';
 
     var doLoad = function () {
-      // Destroy previous Lottie
       if (self._anim) {
         try { self._anim.destroy(); } catch (e) {}
         self._anim = null;
       }
 
-      // Try Lottie
       if (typeof lottie !== 'undefined') {
         var src = self.ANIMATIONS[state] || self.ANIMATIONS['default'];
         try {
@@ -206,24 +188,20 @@ SC.mascot = {
           container.style.opacity = '1';
         }
       } else {
-        // No Lottie at all
         self._cssfall(container, state);
         container.style.opacity = '1';
       }
 
       self._currentState = state;
-      // Fallback opacity restore if config_ready never fires
       setTimeout(function () { container.style.opacity = '1'; }, 500);
     };
 
-    setTimeout(doLoad, 290); // wait for fade-out
+    setTimeout(doLoad, 290);
   },
 
-  // CSS fallback — polished pulsing ring with SVG icon
   _cssfall: function (container, state) {
     var color  = this._COLORS[state] || '#16a34a';
     var icon   = this._ICONS[state] || this._ICONS['default'];
-    var animName = 'mascotPulse_' + state;
     container.innerHTML =
       '<div class="mascot-css-ring mascot-css-ring--' + state + '" style="border-color:' + color + '40;background:' + color + '12;">' +
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="' + color + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="46" height="46">' +
@@ -232,7 +210,6 @@ SC.mascot = {
       '</div>';
   },
 
-  // Tap interaction — play a short segment if Lottie is loaded
   onTap: function () {
     if (this._anim) {
       try {
@@ -243,261 +220,89 @@ SC.mascot = {
 };
 
 // ================================================================
-// SC.gsap — GSAP Entrance Orchestrator + ScrollTrigger + Hover
+// SC.gsap — GSAP Entrance Orchestrator
 // ================================================================
 SC.gsap = {
-
-  isAvailable: function () {
-    return typeof gsap !== 'undefined';
-  },
-
-  // Register ScrollTrigger plugin (called once at init)
+  isAvailable: function () { return typeof gsap !== 'undefined'; },
   _registerPlugins: function () {
     if (this.isAvailable() && typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
     }
   },
-
-  // ── Main entrance timeline for HomePage ──────────────────────
-  // Returns a cleanup function to call on unmount
   animateHomeEntrance: function (els) {
     var self = this;
     if (!this.isAvailable()) {
-      // No GSAP — make sure everything is visible
       Object.values(els).forEach(function (el) {
         if (el && el.style) { el.style.opacity = '1'; el.style.transform = 'none'; }
       });
       return function () {};
     }
-
     var mm = gsap.matchMedia();
-
-    // ── Full animations (no reduced-motion preference) ──────────
     mm.add('(prefers-reduced-motion: no-preference)', function () {
       var tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-
-      // Mascot — bouncy entrance, first to appear
-      if (els.mascot) {
-        tl.fromTo(els.mascot,
-          { scale: 0.72, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.52, ease: 'back.out(1.8)' },
-          0.0
-        );
-      }
-
-      // Greeting block
-      if (els.greeting) {
-        tl.fromTo(els.greeting,
-          { y: 18, opacity: 0 },
-          { y: 0,  opacity: 1, duration: 0.32 },
-          0.15
-        );
-      }
-
-      // Streak badge slides from right
-      if (els.streak) {
-        tl.fromTo(els.streak,
-          { x: 18, opacity: 0 },
-          { x: 0,  opacity: 1, duration: 0.26 },
-          0.26
-        );
-      }
-
-      // Level / XP hero card
-      if (els.heroCard) {
-        tl.fromTo(els.heroCard,
-          { scale: 0.965, opacity: 0 },
-          { scale: 1,     opacity: 1, duration: 0.46 },
-          0.34
-        );
-      }
-
-      // XP progress bar fill (scaleX from left)
-      if (els.xpBar) {
-        tl.fromTo(els.xpBar,
-          { scaleX: 0, transformOrigin: 'left center' },
-          { scaleX: 1, duration: 0.72, ease: 'power2.out' },
-          0.44
-        );
-      }
-
-      // 4 stat cards cascade
-      if (els.statGrid) {
-        var statCards = Array.from(els.statGrid.children || []);
-        if (statCards.length) {
-          tl.fromTo(statCards,
-            { y: 12, opacity: 0 },
-            { y: 0,  opacity: 1, duration: 0.32, stagger: 0.08 },
-            0.54
-          );
-        }
-      }
-
-      // 7-day chart bars rise from bottom
-      if (els.chartSection) {
-        var bars = Array.from(els.chartSection.querySelectorAll('[data-gsap-bar]'));
-        if (bars.length) {
-          gsap.set(bars, { transformOrigin: 'bottom center' });
-          tl.fromTo(bars,
-            { scaleY: 0, opacity: 0 },
-            { scaleY: 1, opacity: 1, duration: 0.42, stagger: 0.05, ease: 'power2.out' },
-            0.64
-          );
-        } else {
-          tl.fromTo(els.chartSection,
-            { y: 10, opacity: 0 },
-            { y: 0,  opacity: 1, duration: 0.36 },
-            0.64
-          );
-        }
-      }
-
-      // Quick-Train tiles cascade
-      if (els.quickTrain) {
-        var qtiles = Array.from(els.quickTrain.children || []);
-        if (qtiles.length) {
-          tl.fromTo(qtiles,
-            { y: 10, opacity: 0 },
-            { y: 0,  opacity: 1, duration: 0.3, stagger: 0.06 },
-            0.74
-          );
-        }
-      }
-
-      // Daily Check-In slide up
-      if (els.checkIn) {
-        tl.fromTo(els.checkIn,
-          { y: 9, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.26 },
-          0.86
-        );
-      }
-
-      // Today's Focus cards
-      if (els.focus) {
-        var fcards = Array.from(els.focus.querySelectorAll('[data-focus-card]'));
-        var target = fcards.length ? fcards : (els.focus.children ? Array.from(els.focus.children) : [els.focus]);
-        tl.fromTo(target,
-          { y: 10, opacity: 0 },
-          { y: 0,  opacity: 1, duration: 0.3, stagger: 0.07 },
-          0.94
-        );
-      }
-
-      // Explore tiles fade last
-      if (els.explore) {
-        var etiles = Array.from(els.explore.children || []);
-        if (etiles.length) {
-          tl.fromTo(etiles,
-            { opacity: 0, y: 6 },
-            { opacity: 1, y: 0, duration: 0.28, stagger: 0.04 },
-            1.04
-          );
-        }
-      }
-
+      if (els.mascot) tl.fromTo(els.mascot,{ scale:0.72,opacity:0 },{ scale:1,opacity:1,duration:0.52,ease:'back.out(1.8)' },0.0);
+      if (els.greeting) tl.fromTo(els.greeting,{ y:18,opacity:0 },{ y:0,opacity:1,duration:0.32 },0.15);
+      if (els.streak) tl.fromTo(els.streak,{ x:18,opacity:0 },{ x:0,opacity:1,duration:0.26 },0.26);
+      if (els.heroCard) tl.fromTo(els.heroCard,{ scale:0.965,opacity:0 },{ scale:1,opacity:1,duration:0.46 },0.34);
+      if (els.xpBar) tl.fromTo(els.xpBar,{ scaleX:0,transformOrigin:'left center' },{ scaleX:1,duration:0.72,ease:'power2.out' },0.44);
+      if (els.statGrid) { var statCards=Array.from(els.statGrid.children||[]); if(statCards.length) tl.fromTo(statCards,{ y:12,opacity:0 },{ y:0,opacity:1,duration:0.32,stagger:0.08 },0.54); }
+      if (els.chartSection) tl.fromTo(els.chartSection,{ y:10,opacity:0 },{ y:0,opacity:1,duration:0.36 },0.64);
+      if (els.quickTrain) { var qtiles=Array.from(els.quickTrain.children||[]); if(qtiles.length) tl.fromTo(qtiles,{ y:10,opacity:0 },{ y:0,opacity:1,duration:0.3,stagger:0.06 },0.74); }
+      if (els.checkIn) tl.fromTo(els.checkIn,{ y:9,opacity:0 },{ y:0,opacity:1,duration:0.26 },0.86);
       return function () { tl.kill(); };
     });
-
-    // ── Reduced motion — just show everything ───────────────────
     mm.add('(prefers-reduced-motion: reduce)', function () {
-      var allEls = Object.values(els).filter(function (el) {
-        return el && (el.nodeType === 1 || el instanceof Element);
-      });
-      gsap.set(allEls, { opacity: 1, y: 0, x: 0, scale: 1 });
+      var allEls = Object.values(els).filter(function (el) { return el && (el.nodeType===1||el instanceof Element); });
+      gsap.set(allEls, { opacity:1,y:0,x:0,scale:1 });
     });
-
     return function () { try { mm.revert(); } catch (e) {} };
   },
-
-  // ── XP number count-up tween ─────────────────────────────────
   countUp: function (element, targetValue, duration) {
     if (!this.isAvailable() || !element) return;
     duration = duration || 0.72;
     var obj = { val: 0 };
-    gsap.to(obj, {
-      val: targetValue,
-      duration: duration,
-      ease: 'power2.out',
-      onUpdate: function () {
-        element.textContent = Math.round(obj.val).toLocaleString();
-      }
-    });
+    gsap.to(obj, { val:targetValue, duration:duration, ease:'power2.out', onUpdate:function(){ element.textContent=Math.round(obj.val).toLocaleString(); } });
   },
-
-  // ── Level-up celebration ──────────────────────────────────────
   levelUpCelebration: function (heroCardEl) {
     if (!this.isAvailable() || !heroCardEl) return;
     gsap.timeline()
-      .to(heroCardEl, {
-        scale: 1.07,
-        boxShadow: '0 0 48px rgba(22,163,74,0.55)',
-        duration: 0.3,
-        ease: 'power2.out'
-      })
-      .to(heroCardEl, {
-        scale: 1,
-        boxShadow: '0 0 0px rgba(22,163,74,0)',
-        duration: 0.95,
-        ease: 'elastic.out(1, 0.48)'
-      });
+      .to(heroCardEl, { scale:1.07, boxShadow:'0 0 48px rgba(22,163,74,0.55)', duration:0.3, ease:'power2.out' })
+      .to(heroCardEl, { scale:1, boxShadow:'0 0 0px rgba(22,163,74,0)', duration:0.95, ease:'elastic.out(1, 0.48)' });
   },
-
-  // ── ScrollTrigger: section headers fade in as they enter view ─
   setupScrollTriggers: function (els) {
     if (!this.isAvailable() || typeof ScrollTrigger === 'undefined') return;
-
     var headers = els.sectionHeaders || [];
     headers.forEach(function (el) {
       if (!el) return;
-      gsap.fromTo(el,
-        { y: 10, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.38, ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 92%',
-            toggleActions: 'play none none none',
-          }
-        }
-      );
+      gsap.fromTo(el, { y:10,opacity:0 }, { y:0,opacity:1,duration:0.38,ease:'power2.out',
+        scrollTrigger:{ trigger:el, start:'top 92%', toggleActions:'play none none none' } });
     });
   },
-
-  // ── Hover effects on Quick-Train tiles (desktop) ─────────────
   addHoverEffects: function (tiles) {
     if (!this.isAvailable()) return;
-    // Only run on non-touch devices
     if (window.matchMedia('(hover: none)').matches) return;
-
     Array.from(tiles).forEach(function (tile) {
-      tile.addEventListener('mouseenter', function () {
-        gsap.to(tile, { scale: 1.045, y: -2, duration: 0.18, ease: 'power2.out' });
-      });
-      tile.addEventListener('mouseleave', function () {
-        gsap.to(tile, { scale: 1, y: 0, duration: 0.18, ease: 'power2.out' });
-      });
+      tile.addEventListener('mouseenter', function () { gsap.to(tile, { scale:1.045,y:-2,duration:0.18,ease:'power2.out' }); });
+      tile.addEventListener('mouseleave', function () { gsap.to(tile, { scale:1,y:0,duration:0.18,ease:'power2.out' }); });
     });
   },
 };
 
-// Register GSAP plugins immediately (GSAP is already loaded at this point)
 SC.gsap._registerPlugins();
 
 // ================================================================
-// SC.breathe — Lottie breathing circle (Sprint 2)
+// SC.breathe — Breathing Circle Controller
 // ================================================================
 SC.breathe = {
   _anim: null,
   PATTERNS: {
-    box:       { inhale: 4,   holdIn: 4, exhale: 4,   holdOut: 4, name: 'Box Breathing' },
-    '4-7-8':   { inhale: 4,   holdIn: 7, exhale: 8,   holdOut: 0, name: '4-7-8 Breathing' },
-    coherence: { inhale: 5.5, holdIn: 0, exhale: 5.5, holdOut: 0, name: 'Coherence Breathing' },
-    fire:      { inhale: 0.5, holdIn: 0, exhale: 0.5, holdOut: 0, name: 'Fire Breath' },
-    resonance: { inhale: 6,   holdIn: 0, exhale: 6,   holdOut: 0, name: 'Resonance Breathing' },
-    rhythmic:  { inhale: 4,   holdIn: 0, exhale: 4,   holdOut: 0, name: 'Rhythmic Breathing' },
+    box:       { inhale:4, holdIn:4, exhale:4, holdOut:4, name:'Box Breathing' },
+    '4-7-8':   { inhale:4, holdIn:7, exhale:8, holdOut:0, name:'4-7-8 Breathing' },
+    coherence: { inhale:5.5, holdIn:0, exhale:5.5, holdOut:0, name:'Coherence Breathing' },
+    fire:      { inhale:0.5, holdIn:0, exhale:0.5, holdOut:0, name:'Fire Breath' },
+    resonance: { inhale:6, holdIn:0, exhale:6, holdOut:0, name:'Resonance Breathing' },
+    rhythmic:  { inhale:4, holdIn:0, exhale:4, holdOut:0, name:'Rhythmic Breathing' },
   },
-  // Full implementation in Sprint 2
   init:  function () { return false; },
   load:  function () {},
   start: function () {},
@@ -505,7 +310,7 @@ SC.breathe = {
 };
 
 // ================================================================
-// SC.ambience — Howler.js soundscapes (Sprint 2)
+// SC.ambience — Howler.js Soundscapes
 // ================================================================
 SC.ambience = {
   _howl:    null,
@@ -517,7 +322,6 @@ SC.ambience = {
     campfire: '/audio/campfire-loop.mp3',
     cricket:  '/audio/cricket-field-loop.mp3',
   },
-  // Full implementation in Sprint 2
   play:      function () {},
   stop:      function () {},
   setVolume: function () {},
@@ -526,11 +330,10 @@ SC.ambience = {
 };
 
 // ================================================================
-// SC.charts — Chart.js wrappers (Sprint 3)
+// SC.charts — Chart.js Wrappers
 // ================================================================
 SC.charts = {
   _instances: new Map(),
-  // Full implementation in Sprint 3
   renderSparkline:    function () {},
   renderRadar:        function () {},
   renderPerformance:  function () {},
@@ -538,18 +341,17 @@ SC.charts = {
 };
 
 // ================================================================
-// SC.webDrills — YouTube Data API (Sprint 3)
+// SC.webDrills — YouTube Data API
 // ================================================================
 SC.webDrills = {
   BACKEND_URL: 'https://smartcrick-backend-kgya.vercel.app',
   _cache: {},
-  // Full implementation in Sprint 3
-  search:    function () { return Promise.resolve([]); },
+  search:      function () { return Promise.resolve([]); },
   importDrill: function () {},
-  computeXP: function () { return 50; },
+  computeXP:   function () { return 50; },
 };
 
-// ── Signal ready ────────────────────────────────────────────────
+// ── Signal ready ─────────────────────────────────────────────────
 window.SC_READY = true;
 console.log('[SC] Integration layer v1.0 — GSAP + Lottie ready');
 
