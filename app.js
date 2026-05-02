@@ -1,12 +1,13 @@
 // ================================================================
-// SmartCrick AI — Complete Professional App v3.0
-// CDN React 18 UMD · No bundler · All features · Fully working
+// SmartCrick AI — Complete Professional App v3.1
+// CDN React 18 UMD · GSAP 3.13 + ScrollTrigger · No bundler
+// All features · Fully working · Animation-enhanced throughout
 // ================================================================
 (function () {
 'use strict';
 
 const {
-  createElement:h, useState, useEffect, useCallback, useRef,
+  createElement:h, useState, useEffect, useLayoutEffect, useCallback, useRef,
   useContext, createContext, useMemo, Fragment, memo
 } = React;
 const { createRoot } = ReactDOM;
@@ -76,7 +77,6 @@ const IC = {
   repeat:'<path d="m17 2 4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
   crosshair:'<circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>',
   wind:'<path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>',
-  // ── Cricket-specific icons ────────────────────────────────────
   bat:'<path d="M3 21l3.5-3.5"/><path d="M5.5 19.5L16 9a2 2 0 0 0 0-2.83L14.83 5A2 2 0 0 0 12 5L2.5 16l-1 1 1 4z"/><path d="M19 4.5l.5.5"/><circle cx="20" cy="4" r="1"/>',
   ball:'<circle cx="12" cy="12" r="9"/><path d="M12 3c-1.2 3.6-1.2 14.4 0 18" stroke-width="1.5"/><path d="M3.5 9.5c3.3.8 11.7.8 17 0" stroke-width="1.5"/><path d="M3.5 14.5c3.3-.8 11.7-.8 17 0" stroke-width="1.5"/>',
   wicket:'<line x1="8" y1="4" x2="8" y2="21"/><line x1="12" y1="4" x2="12" y2="21"/><line x1="16" y1="4" x2="16" y2="21"/><rect x="6" y="4" width="12" height="3" rx="1"/>',
@@ -84,7 +84,6 @@ const IC = {
   field:'<ellipse cx="12" cy="12" rx="10" ry="6"/><ellipse cx="12" cy="12" rx="3.5" ry="2"/><line x1="12" y1="6" x2="12" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/>',
   glove:'<path d="M8 18V9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M16 11h2a2 2 0 0 1 0 4h-2"/><path d="M6 11H4a2 2 0 0 0 0 4h2"/><path d="M8 18h8"/><path d="M8 21h8"/>',
   pitch:'<rect x="3" y="7" width="18" height="10" rx="1"/><line x1="8" y1="7" x2="8" y2="17"/><line x1="16" y1="7" x2="16" y2="17"/><line x1="3" y1="12" x2="21" y2="12"/>',
-  // ── Professional general icons ─────────────────────────────────
   cpu:'<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/>',
   diamond:'<path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41L13.7 2.71a2.41 2.41 0 0 0-3.41 0z"/>',
   puzzle:'<path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02z"/>',
@@ -102,7 +101,6 @@ const IC = {
   lock:'<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
   shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
   book:'<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
-  activity:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
 };
 
 function Icon({ n, cls='w-5 h-5', style }) {
@@ -115,6 +113,254 @@ function Icon({ n, cls='w-5 h-5', style }) {
     'aria-hidden':true,
     dangerouslySetInnerHTML:{ __html:IC[n]||IC.info }
   });
+}
+
+// ════════════════════════════════════════════════════════════════
+// SCAnim — GSAP Animation Engine
+// ════════════════════════════════════════════════════════════════
+// Centralized animation API. Every page calls these helpers rather
+// than touching gsap directly. Two principles:
+//   1. SAFE BY DEFAULT: every method silently no-ops if GSAP isn't
+//      loaded. The page still works, just without animation.
+//   2. REVERTIBLE: animations use gsap.from() so the END state is
+//      the natural CSS state. If GSAP fails mid-animation or never
+//      runs, elements remain visible and correctly positioned.
+// ════════════════════════════════════════════════════════════════
+const SCAnim = {
+  ready: false,
+  reducedMotion: false,
+
+  init() {
+    if (typeof gsap === 'undefined') {
+      console.warn('[SCAnim] GSAP not loaded — running without animations');
+      return false;
+    }
+    if (typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+    // Detect reduced motion preference once at startup
+    this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Set sensible global defaults — every tween inherits these unless overridden
+    gsap.defaults({ ease: 'power2.out', duration: 0.4 });
+    document.body.classList.add('gsap-ready');
+    this.ready = true;
+    return true;
+  },
+
+  // ── Stagger reveal: fade-up cards from below ──────────────────
+  // Used for list pages, grids, anywhere multiple sibling elements
+  // should appear sequentially. Caps total stagger at ~1s for long lists.
+  staggerCards(elements, opts = {}) {
+    if (!this.ready || !elements) return null;
+    if (this.reducedMotion) return null;
+    const list = Array.isArray(elements) ? elements
+      : (elements.length !== undefined ? Array.from(elements) : [elements]);
+    if (list.length === 0) return null;
+    const baseStagger = opts.stagger || 0.05;
+    // Cap total stagger time at 1s for long lists
+    const stagger = list.length * baseStagger > 1.0 ? 1.0 / list.length : baseStagger;
+    return gsap.from(list, {
+      opacity: 0,
+      y: opts.y !== undefined ? opts.y : 12,
+      x: opts.x || 0,
+      scale: opts.scale !== undefined ? opts.scale : 1,
+      duration: opts.duration || 0.4,
+      stagger,
+      ease: opts.ease || 'power2.out',
+      delay: opts.delay || 0,
+      clearProps: opts.clearProps || 'opacity,transform'
+    });
+  },
+
+  // ── Number counter — animates from one value to another ──────
+  // Falls back to setting the final value instantly if GSAP unavailable.
+  countUp(el, fromVal, toVal, opts = {}) {
+    const format = opts.format || ((v) => v.toLocaleString());
+    if (!this.ready || this.reducedMotion) {
+      if (el) el.textContent = format(toVal);
+      return null;
+    }
+    if (!el) return null;
+    const obj = { val: fromVal };
+    return gsap.to(obj, {
+      val: toVal,
+      duration: opts.duration || 0.9,
+      ease: opts.ease || 'power2.out',
+      delay: opts.delay || 0,
+      onUpdate: () => { el.textContent = format(Math.round(obj.val)); },
+      onComplete: () => { el.textContent = format(toVal); }
+    });
+  },
+
+  // ── Bar fill — animates width from one % to another ──────────
+  fillBar(el, fromPct, toPct, opts = {}) {
+    if (!el) return null;
+    if (!this.ready || this.reducedMotion) {
+      el.style.width = `${toPct}%`;
+      return null;
+    }
+    return gsap.fromTo(el,
+      { width: `${fromPct}%` },
+      {
+        width: `${toPct}%`,
+        duration: opts.duration || 1.1,
+        ease: opts.ease || 'power3.out',
+        delay: opts.delay || 0
+      }
+    );
+  },
+
+  // ── XP flash — replaces showXPFlash() with a richer GSAP timeline ──
+  flashXP(text) {
+    const el = document.createElement('div');
+    el.className = 'xp-flash';
+    el.textContent = text;
+    document.body.appendChild(el);
+
+    if (!this.ready || this.reducedMotion) {
+      // CSS keyframe handles the animation; just clean up.
+      setTimeout(() => el.remove(), 1700);
+      return;
+    }
+
+    // Override the CSS keyframe; use a richer GSAP timeline.
+    el.style.animation = 'none';
+    gsap.set(el, { scale: 0.5, opacity: 0, y: 0 });
+    const tl = gsap.timeline({ onComplete: () => el.remove() });
+    tl.to(el, { scale: 1.08, opacity: 1, duration: 0.2, ease: 'back.out(2.5)' })
+      .to(el, { scale: 1, duration: 0.12, ease: 'power2.out' })
+      .to(el, { y: -36, opacity: 0, duration: 0.55, delay: 0.55, ease: 'power2.in' });
+  },
+
+  // ── Level-up celebration — fires when XP threshold crossed ───
+  // Adds a brief overlay banner + scales the level card with a
+  // green ring flash. Pairs with the existing canvas-confetti burst.
+  levelUpCelebration(card, levelName) {
+    if (!this.ready || this.reducedMotion) {
+      try { fireConfetti(); } catch {}
+      return;
+    }
+    // Card flash
+    if (card) {
+      const tl = gsap.timeline();
+      tl.to(card, {
+        boxShadow: '0 0 0 4px rgba(22,163,74,0.5), 0 12px 40px rgba(22,163,74,0.4)',
+        scale: 1.025,
+        duration: 0.35,
+        ease: 'power2.out'
+      })
+      .to(card, {
+        boxShadow: '0 0 0 0 rgba(22,163,74,0), 0 1px 3px rgba(0,0,0,0.3)',
+        scale: 1,
+        duration: 0.9,
+        ease: 'power2.out'
+      });
+    }
+    // Banner overlay
+    if (levelName) {
+      const overlay = document.createElement('div');
+      overlay.className = 'level-up-overlay';
+      overlay.innerHTML = `
+        <div class="level-up-overlay-title">Level Up</div>
+        <div class="level-up-overlay-name">${levelName}</div>
+      `;
+      document.body.appendChild(overlay);
+      gsap.set(overlay, { scale: 0.6, opacity: 0, y: 20 });
+      const tl = gsap.timeline({ onComplete: () => overlay.remove() });
+      tl.to(overlay, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.8)' })
+        .to(overlay, { scale: 0.95, opacity: 0, y: -20, duration: 0.5, delay: 1.4, ease: 'power2.in' });
+    }
+    try { fireConfetti(); } catch {}
+  },
+
+  // ── Scroll-triggered reveal — for Progress page sections etc. ──
+  scrollReveal(triggerEl, targets, opts = {}) {
+    if (!this.ready || typeof ScrollTrigger === 'undefined' || this.reducedMotion) {
+      // Make sure targets are visible if we skip the animation
+      if (targets) {
+        const list = Array.isArray(targets) ? targets : [targets];
+        list.forEach(t => { if (t && t.style) t.style.opacity = '1'; });
+      }
+      return null;
+    }
+    return gsap.from(targets, {
+      opacity: 0,
+      y: opts.y !== undefined ? opts.y : 20,
+      duration: opts.duration || 0.5,
+      stagger: opts.stagger || 0.05,
+      ease: opts.ease || 'power2.out',
+      scrollTrigger: {
+        trigger: triggerEl,
+        start: opts.start || 'top 88%',
+        once: true,
+        ...opts.scrollTrigger
+      }
+    });
+  },
+
+  // ── SVG dashoffset — for skill-path progress rings ───────────
+  drawRing(circleEl, fromPct, toPct, opts = {}) {
+    if (!circleEl) return null;
+    const r = parseFloat(circleEl.getAttribute('r')) || 22;
+    const C = 2 * Math.PI * r;
+    if (!this.ready || this.reducedMotion) {
+      circleEl.setAttribute('stroke-dashoffset', String(C * (1 - toPct)));
+      return null;
+    }
+    return gsap.fromTo(circleEl,
+      { attr: { 'stroke-dashoffset': C * (1 - fromPct) } },
+      {
+        attr: { 'stroke-dashoffset': C * (1 - toPct) },
+        duration: opts.duration || 1.2,
+        ease: opts.ease || 'power3.out',
+        delay: opts.delay || 0
+      }
+    );
+  },
+
+  // ── Hover micro-interaction (desktop only) ─────────────────
+  addHover(el, opts = {}) {
+    if (!this.ready || !el || this.reducedMotion) return;
+    if (!window.matchMedia('(hover: hover)').matches) return;
+    const scale = opts.scale || 1.04;
+    const y = opts.y !== undefined ? opts.y : -2;
+    const dur = opts.duration || 0.18;
+    el.addEventListener('pointerenter', () => {
+      gsap.to(el, { scale, y, duration: dur, ease: 'power2.out' });
+    });
+    el.addEventListener('pointerleave', () => {
+      gsap.to(el, { scale: 1, y: 0, duration: dur, ease: 'power2.out' });
+    });
+  },
+
+  // ── Global cleanup — call on page change ────────────────────
+  killAll() {
+    if (this.ready && typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    }
+  },
+
+  refresh() {
+    if (this.ready && typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+  }
+};
+
+// ── useGSAP hook ──────────────────────────────────────────────
+// React integration. setupFn receives nothing and runs inside a
+// gsap.context() scoped to the returned ref. Cleanup is automatic
+// on unmount or when deps change — every tween, ScrollTrigger, and
+// DOM mutation made by setupFn is reverted.
+function useGSAP(setupFn, deps = []) {
+  const scope = useRef(null);
+  useLayoutEffect(() => {
+    if (!scope.current || typeof gsap === 'undefined') return;
+    const ctx = gsap.context(setupFn, scope);
+    return () => ctx.revert();
+    // eslint-disable-next-line
+  }, deps);
+  return scope;
 }
 
 // ── Theme Context ─────────────────────────────────────────────────
@@ -147,7 +393,6 @@ function useRoute() {
 // ── LocalStorage DB ───────────────────────────────────────────────
 const DB = {
   _k: k=>`sc_${k}`,
-  // Test localStorage is writable at startup
   isAvailable() {
     try { localStorage.setItem('sc_test','1'); localStorage.removeItem('sc_test'); return true; }
     catch { return false; }
@@ -163,7 +408,6 @@ const DB = {
       const readback=localStorage.getItem(this._k(k));
       if(!readback) console.warn('SC: write failed for key',k);
     } catch(e) { console.warn('SC: localStorage write error',k,e); }
-    // Async PouchDB sync — non-blocking, guarded (works even without PouchDB loaded)
     try {
       if(typeof getPouchDB==='function' && typeof SC_SYNC_KEYS!=='undefined') {
         var _pdb=getPouchDB(), _fk=this._k(k);
@@ -180,10 +424,8 @@ const DB = {
   },
   del(k) { try { localStorage.removeItem(this._k(k)); } catch {} },
 
-  // Progress — always returns a complete object with all fields
   getProgress() {
     const saved=this.get('progress');
-    // Merge saved with defaults so new fields never come back undefined
     return Object.assign({
       total_xp:0, drills_done:0, mental_done:0, workouts_done:0,
       practice_minutes:0, current_streak:0, longest_streak:0,
@@ -194,7 +436,6 @@ const DB = {
   },
   saveProgress(v) { this.set('progress', v); },
 
-  // XP Log
   getXPLog() { return this.get('xp_log')||[]; },
   addXPEntry(xp, source) {
     const log = this.getXPLog();
@@ -227,15 +468,12 @@ const DB = {
     return days;
   },
 
-  // User
   getUser() { return this.get('user')||{}; },
   setUser(v) { this.set('user',v); },
 
-  // Goals
   getGoals() { return this.get('goals')||[]; },
   saveGoals(v) { this.set('goals',v); },
 
-  // ── Schedule ─────────────────────────────────────────────────
   getSchedule() { return this.get('schedule')||{ sessions:[] }; },
   saveSchedule(v) { this.set('schedule',v); },
   getSessionsForDate(dateStr) {
@@ -288,7 +526,6 @@ const XP_LEVELS = [
   { level:10,name:'Legend',           min:60000, max:Infinity },
 ];
 
-// Safe getLevelInfo — no findLast (compat with Safari < 15.4)
 function getLevelInfo(totalXP) {
   const xp = totalXP || 0;
   let lv = XP_LEVELS[0];
@@ -301,7 +538,7 @@ function getLevelInfo(totalXP) {
 }
 
 const BADGE_DEFS = {
-  first500:  { icon:'⚡', label:'First 500',      desc:'Earned your first 500 XP' },
+  first500:  { icon:'zap',     label:'First 500',      desc:'Earned your first 500 XP' },
   xp5k:      { icon:'trophy',  label:'5K Club',         desc:'5,000 total XP earned' },
   streak3:   { icon:'flame',   label:'On Fire',          desc:'3-day training streak' },
   streak7:   { icon:'flame',   label:'Week Warrior',     desc:'7-day training streak' },
@@ -311,10 +548,10 @@ const BADGE_DEFS = {
   drills50:  { icon:'bat',     label:'Drill Master',     desc:'50 cricket drills done' },
   mental10:  { icon:'brain',   label:'Mind Builder',     desc:'10 mental sessions done' },
   mental25:  { icon:'brain',   label:'Mind Master',      desc:'25 mental sessions done' },
-  min60:     { icon:'⏱', label:'First Hour',        desc:'60 min of practice' },
-  min600:    { icon:'⏱', label:'600 Min Club',      desc:'600 min of practice' },
-  workouts5: { icon:'dumbbell', label:'Fitness Start',    desc:'5 workouts completed' },
-  sched10:   { icon:'📅', label:'Scheduled Pro',    desc:'10 scheduled sessions done' },
+  min60:     { icon:'clock',   label:'First Hour',        desc:'60 min of practice' },
+  min600:    { icon:'clock',   label:'600 Min Club',      desc:'600 min of practice' },
+  workouts5: { icon:'dumbbell',label:'Fitness Start',    desc:'5 workouts completed' },
+  sched10:   { icon:'calendar',label:'Scheduled Pro',    desc:'10 scheduled sessions done' },
 };
 
 function checkBadges(p) {
@@ -333,19 +570,22 @@ function checkBadges(p) {
   if ((p.practice_minutes||0)>=60) add('min60');
   if ((p.practice_minutes||0)>=600) add('min600');
   if ((p.workouts_done||0)>=5) add('workouts5');
-  // Count completed scheduled sessions
   const schedDone = (DB.getSchedule().sessions||[]).filter(s=>s.status==='complete').length;
   if (schedDone>=10) add('sched10');
   return b;
 }
 
+// ── awardXP — modified to dispatch animation event with old/new XP ──
+// Pages that show XP listen to 'sc_update' for re-render, and to
+// 'sc_xp_animate' for smooth count-up animation.
 function awardXP(xp, minutes=0, source='general', completedKey=null, itemId=null) {
   try {
     const p = DB.getProgress();
+    const oldXP = p.total_xp || 0;
+    const oldLevel = getLevelInfo(oldXP).level;
     const today = new Date().toISOString().slice(0,10);
     const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
 
-    // Idempotency guard: prevent duplicate checkin awards on the same day
     if (source==='checkin') {
       if (p.last_checkin_date===today) {
         console.log('SC: checkin already awarded today, skipping');
@@ -354,23 +594,19 @@ function awardXP(xp, minutes=0, source='general', completedKey=null, itemId=null
       p.last_checkin_date=today;
     }
 
-    // Streak logic — only update once per day
     if (p.last_active_date === today) { /* same day, no streak change */ }
     else if (p.last_active_date === yesterday) {
       p.current_streak = (p.current_streak||0)+1;
       p.longest_streak = Math.max(p.longest_streak||0, p.current_streak);
     } else {
-      // Gap in training — reset streak
       p.current_streak = 1;
       p.longest_streak = Math.max(p.longest_streak||0, 1);
     }
     p.last_active_date = today;
 
-    // Accumulate XP — always additive, never replace
     p.total_xp = (p.total_xp||0)+xp;
     p.practice_minutes = (p.practice_minutes||0)+minutes;
 
-    // Mark completed items — deduplicated arrays
     if (completedKey==='drill' && itemId) {
       p.completed_drills = p.completed_drills||[];
       if (!p.completed_drills.includes(itemId)) p.completed_drills.push(itemId);
@@ -390,20 +626,20 @@ function awardXP(xp, minutes=0, source='general', completedKey=null, itemId=null
     p.badges = checkBadges(p);
     DB.saveProgress(p);
     DB.addXPEntry(xp, source);
+
+    // Dispatch animation event with old/new for smooth count-up
+    const newLevel = getLevelInfo(p.total_xp).level;
+    const leveledUp = newLevel > oldLevel;
     window.dispatchEvent(new CustomEvent('sc_update'));
+    window.dispatchEvent(new CustomEvent('sc_xp_animate', {
+      detail: { oldXP, newXP: p.total_xp, leveledUp, newLevel, levelName: getLevelInfo(p.total_xp).name }
+    }));
     showXPFlash(`+${xp} XP`);
     return p;
   } catch(e) { console.error('awardXP error:', e); return DB.getProgress(); }
 }
 
-function showXPFlash(text) {
-  try {
-    const el = document.createElement('div');
-    el.className='xp-flash'; el.textContent=text;
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(), 1700);
-  } catch{}
-}
+function showXPFlash(text) { SCAnim.flashXP(text); }
 
 function fireConfetti() {
   try { if (typeof confetti!=='undefined') confetti({ particleCount:90, spread:70, origin:{y:.65}, colors:['#10b981','#34d399','#6ee7b7','#fff'] }); } catch{}
@@ -431,7 +667,6 @@ function fmtTime(s) {
   return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
 }
 
-// Schedule session type config
 const SCHED_TYPES = {
   drill:   { label:'Cricket Drill', icon:'bat',      color:'#3b82f6', bg:'rgba(59,130,246,0.12)', border:'rgba(59,130,246,0.4)' },
   mental:  { label:'Mental Session', icon:'brain',   color:'#a855f7', bg:'rgba(168,85,247,0.12)', border:'rgba(168,85,247,0.4)' },
@@ -895,7 +1130,7 @@ const SKILL_PATHS = [
       { id:'beginner', label:'Utility Player', icon:'star', xpPerDay:90,
         desc:'Solid in two disciplines — reliable, consistent contribution.',
         sampleDrills:['Cover Drive Mastery','Line & Length Precision','Ground Fielding Excellence'] },
-      { id:'intermediate', label:'Impact Player', icon:'💥', xpPerDay:135,
+      { id:'intermediate', label:'Impact Player', icon:'zap', xpPerDay:135,
         desc:'Match-winning contributions in both disciplines.',
         sampleDrills:['Pull Shot Power','Outswing Mastery','Slip Cordon Reactions'] },
       { id:'advanced', label:'Key All-Rounder', icon:'star', xpPerDay:175,
@@ -925,13 +1160,9 @@ function generateWeekPlan(pathId, levelId) {
   }));
 }
 
-// Smart schedule generator algorithm
 function generateSmartSchedule(focusArea, trainingDays, intensity, weekMondayStr) {
   const monday = new Date(weekMondayStr+'T00:00:00');
-  // Choose rest day pattern
-  const restPatterns = {
-    3:[1,3,5,6], 4:[2,4,6], 5:[3,6], 6:[6], 7:[]
-  };
+  const restPatterns = { 3:[1,3,5,6], 4:[2,4,6], 5:[3,6], 6:[6], 7:[] };
   const restDays = restPatterns[trainingDays]||[6];
   const intensityXP = { light:65, moderate:90, intense:120 };
   const xp = intensityXP[intensity]||90;
@@ -941,7 +1172,6 @@ function generateSmartSchedule(focusArea, trainingDays, intensity, weekMondayStr
     const d=new Date(monday); d.setDate(monday.getDate()+i);
     const ds=dateStr(d);
     if(restDays.includes(i)) continue;
-
     const isHeavy=i%3===0;
     const drillCat=focusArea==='allrounder'?['batting','bowling','fielding'][i%3]:focusArea;
     const drillOptions=DRILLS.filter(d=>d.category===drillCat&&d.skill_level==='intermediate');
@@ -951,34 +1181,23 @@ function generateSmartSchedule(focusArea, trainingDays, intensity, weekMondayStr
     const workoutPick=WORKOUTS.find(w=>w.level==='intermediate'&&w.goal===( isHeavy?'build-muscle':'improve-endurance'))||WORKOUTS[0];
 
     sessions.push({
-      id:'sch_'+Date.now()+'_'+i+'_a',
-      date:ds, time:'07:00',
-      type:'drill', title:drillPick.title,
-      ref_id:drillPick.id,
-      duration_minutes:drillPick.duration_minutes,
-      xp_value:drillPick.xp_value,
+      id:'sch_'+Date.now()+'_'+i+'_a', date:ds, time:'07:00',
+      type:'drill', title:drillPick.title, ref_id:drillPick.id,
+      duration_minutes:drillPick.duration_minutes, xp_value:drillPick.xp_value,
       status:'pending', notes:'', color:SCHED_TYPES.drill.color
     });
-
     if(isHeavy){
       sessions.push({
-        id:'sch_'+Date.now()+'_'+i+'_b',
-        date:ds, time:'17:00',
-        type:'fitness', title:workoutPick.name,
-        ref_id:workoutPick.id,
-        duration_minutes:workoutPick.duration_minutes,
-        xp_value:workoutPick.xp_value,
+        id:'sch_'+Date.now()+'_'+i+'_b', date:ds, time:'17:00',
+        type:'fitness', title:workoutPick.name, ref_id:workoutPick.id,
+        duration_minutes:workoutPick.duration_minutes, xp_value:workoutPick.xp_value,
         status:'pending', notes:'', color:SCHED_TYPES.fitness.color
       });
     }
-
     sessions.push({
-      id:'sch_'+Date.now()+'_'+i+'_c',
-      date:ds, time:'19:00',
-      type:'mental', title:mentalPick.title,
-      ref_id:mentalPick.id,
-      duration_minutes:Math.floor(mentalPick.duration_seconds/60),
-      xp_value:mentalPick.xp_value,
+      id:'sch_'+Date.now()+'_'+i+'_c', date:ds, time:'19:00',
+      type:'mental', title:mentalPick.title, ref_id:mentalPick.id,
+      duration_minutes:Math.floor(mentalPick.duration_seconds/60), xp_value:mentalPick.xp_value,
       status:'pending', notes:'', color:SCHED_TYPES.mental.color
     });
   }
@@ -1041,7 +1260,7 @@ function PremiumBadge({ label='PRO' }) {
 }
 
 function StatCard({ label, value, color='text-emerald-400', icon, sub, cls='' }) {
-  return h('div',{className:`stat-card ${cls}`},
+  return h('div',{className:`stat-card ${cls}`,'data-gsap-stat':''},
     h('div',{style:{display:'flex',alignItems:'center',gap:6,marginBottom:4}},
       icon && h(Icon,{n:icon,cls:'w-3.5 h-3.5',style:{color:color.replace('text-','').includes('#')?color:'inherit'}}),
       h('span',{style:{fontSize:10,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em'}},label)
@@ -1080,6 +1299,7 @@ function XPChart({ days }) {
       h('div',{key:d.date,className:'flex flex-col items-center gap-1 flex-1'},
         h('div',{
           className:'w-full rounded-t-sm transition-all duration-500',
+          'data-gsap-bar':'',
           style:{height:`${Math.max(3,(d.xp/max)*72)}px`,background:d.xp>0?'linear-gradient(to top,#059669,#34d399)':'rgba(30,41,59,0.6)',borderRadius:'3px 3px 0 0'},
           title:`${d.xp} XP`
         }),
@@ -1094,6 +1314,7 @@ function Heatmap({ days }) {
     days.map((d,i)=>
       h('div',{key:d.date,
         className:`heatmap-cell heatmap-${d.level}`,
+        'data-gsap-cell':'',
         style:{aspectRatio:'1',borderRadius:'4px'},
         title:`${d.date}: ${d.xp} XP`
       })
@@ -1101,15 +1322,14 @@ function Heatmap({ days }) {
   );
 }
 
-// ── Section title helper ──────────────────────────────────────────
 function SectionLabel({ children }) {
   return h('div', { className:'sc-section-label' }, children);
 }
 
-// ── Page header ───────────────────────────────────────────────────
 function PageHeader({ title, subtitle, gradient, onBack, actions }) {
   return h('div',{
     className:'relative overflow-hidden',
+    'data-gsap-pageheader':'',
     style:{background:gradient||'linear-gradient(135deg,#059669,#047857)',
       paddingTop:'max(3.5rem, calc(3.5rem + env(safe-area-inset-top)))',
       paddingBottom:'1.5rem',paddingLeft:'1.25rem',paddingRight:'1.25rem'}
@@ -1138,11 +1358,12 @@ function PageHeader({ title, subtitle, gradient, onBack, actions }) {
 }
 
 // ================================================================
-// SIDEBAR — Professional with scroll memory
+// SIDEBAR — GSAP-enhanced with stagger reveal on open
 // ================================================================
 function Sidebar({ open, onClose, currentPage }) {
   const scrollRef = useRef(null);
   const savedScroll = useRef(0);
+  const panelRef = useRef(null);
   const { dark, toggle } = useTheme();
   const p = DB.getProgress();
   const info = getLevelInfo(p.total_xp||0);
@@ -1159,7 +1380,21 @@ function Sidebar({ open, onClose, currentPage }) {
     }
   },[open]);
 
-  // Fully SVG-icon driven nav button — zero emojis
+  // GSAP: stagger sidebar nav items as the panel slides in.
+  // useLayoutEffect prevents the flash of fully-revealed items
+  // before GSAP gets a chance to position them off-screen.
+  useLayoutEffect(()=>{
+    if(!open || !SCAnim.ready || !panelRef.current) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const labels = panelRef.current.querySelectorAll('.sc-section-label');
+      const buttons = panelRef.current.querySelectorAll('.sc-nav-btn');
+      gsap.from(labels, { opacity:0, x:-8, duration:0.3, stagger:0.02, delay:0.08, ease:'power2.out' });
+      gsap.from(buttons, { opacity:0, x:-12, duration:0.3, stagger:0.012, delay:0.12, ease:'power2.out' });
+    }, panelRef);
+    return ()=>ctx.revert();
+  },[open]);
+
   function NavBtn({ label, icon, pg, onClick, badge, isNew }) {
     const active = currentPage===pg;
     return h('button',{
@@ -1182,15 +1417,13 @@ function Sidebar({ open, onClose, currentPage }) {
   };
 
   return h(Fragment,null,
-    // Backdrop
     open && h('div',{
       className:'fixed inset-0 z-40',
       style:{background:'rgba(0,0,0,0.7)',backdropFilter:'blur(4px)'},
       onClick:handleClose
     }),
-
-    // Drawer — professional sidebar panel
     h('div',{
+      ref:panelRef,
       className:'fixed inset-y-0 left-0 z-50 w-72 flex flex-col sidebar-panel',
       style:{
         transform:open?'translateX(0)':'translateX(-100%)',
@@ -1198,7 +1431,6 @@ function Sidebar({ open, onClose, currentPage }) {
         willChange:'transform',
       }
     },
-      // ── Header ──────────────────────────────────────────────────
       h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',
         padding:'16px 20px',borderBottom:'1px solid rgba(48,54,61,0.9)'}},
         h('div',{style:{display:'flex',alignItems:'center',gap:10}},
@@ -1217,8 +1449,6 @@ function Sidebar({ open, onClose, currentPage }) {
           h(Icon,{n:'x',cls:'w-4 h-4'})
         )
       ),
-
-      // ── Level + streak ────────────────────────────────────────
       h('div',{style:{padding:'12px 20px',borderBottom:'1px solid rgba(48,54,61,0.6)',background:'rgba(22,27,34,0.5)'}},
         h(LevelBar,{totalXP:p.total_xp||0}),
         h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:8}},
@@ -1229,14 +1459,10 @@ function Sidebar({ open, onClose, currentPage }) {
           )
         )
       ),
-
-      // ── Scrollable nav ────────────────────────────────────────
       h('div',{ref:scrollRef,className:'flex-1 sidebar-scroll',style:{padding:'6px 8px'}},
-
         h(SectionLabel,{},'Premium'),
         h(NavBtn,{label:'AI Head Coach',icon:'cpu',pg:'AICoach',badge:'PRO'}),
         h(NavBtn,{label:'90-Day Program',icon:'diamond',pg:'NinetyDay',badge:'PRO'}),
-
         h(SectionLabel,{},'Training'),
         h(NavBtn,{label:'Home',icon:'home',pg:'Home'}),
         h(NavBtn,{label:'Smart Start',icon:'zap',onClick:handleSmartStart}),
@@ -1246,32 +1472,26 @@ function Sidebar({ open, onClose, currentPage }) {
         h(NavBtn,{label:'Fitness Builder',icon:'dumbbell',pg:'Fitness'}),
         h(NavBtn,{label:'AI Workout',icon:'sparkles',pg:'AIWorkout'}),
         h(NavBtn,{label:'Timer',icon:'timer',pg:'Timer'}),
-
         h(SectionLabel,{},'Performance'),
         h(NavBtn,{label:'My Progress',icon:'barChart',pg:'Progress'}),
         h(NavBtn,{label:'Skill Paths',icon:'layers',pg:'SkillPaths'}),
         h(NavBtn,{label:'Leaderboard',icon:'trophy',pg:'Leaderboard'}),
         h(NavBtn,{label:'Goals',icon:'target',pg:'Goals'}),
         h(NavBtn,{label:'My Profile',icon:'user',pg:'Profile'}),
-
         h(SectionLabel,{},'Planning'),
         h(NavBtn,{label:'Training Schedule',icon:'calendar',pg:'Schedule',isNew:true}),
         h(SectionLabel,{},'AI & Analytics'),
-        h(NavBtn,{label:'Video Analysis',  icon:'cpu',     pg:'VideoAnalysis', isNew:true}),
-        h(NavBtn,{label:'Performance',     icon:'chartLine', pg:'Performance',  isNew:true}),
-        h(NavBtn,{label:'Match Logger',    icon:'list',    pg:'MatchLogger',   isNew:true}),
-        h(NavBtn,{label:'Reaction Drill',  icon:'zap',     pg:'ReactionDrill', isNew:true}),
-
+        h(NavBtn,{label:'Video Analysis',icon:'cpu',pg:'VideoAnalysis',isNew:true}),
+        h(NavBtn,{label:'Performance',icon:'chartLine',pg:'Performance',isNew:true}),
+        h(NavBtn,{label:'Match Logger',icon:'list',pg:'MatchLogger',isNew:true}),
+        h(NavBtn,{label:'Reaction Drill',icon:'zap',pg:'ReactionDrill',isNew:true}),
         h(SectionLabel,{},'Cricket Tools'),
         h(NavBtn,{label:'Match Tracker',icon:'list',pg:'MatchTracker'}),
         h(NavBtn,{label:'MiniMatch IQ',icon:'puzzle',pg:'MiniMatch'}),
         h(NavBtn,{label:'Why Did I Get Out?',icon:'helpCircle',pg:'GetOut'}),
         h(NavBtn,{label:'Quizzes',icon:'book',pg:'Quizzes'}),
-
         h(SectionLabel,{},'Account'),
         h(NavBtn,{label:'Settings',icon:'settings',pg:'Settings'}),
-
-        // Dark mode toggle
         h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',
           margin:'8px 8px 4px',padding:'10px 12px',borderRadius:8,
           background:'rgba(22,27,34,0.6)',border:'1px solid rgba(48,54,61,0.9)'}},
@@ -1295,7 +1515,7 @@ function Sidebar({ open, onClose, currentPage }) {
 }
 
 // ================================================================
-// BOTTOM NAVIGATION — Professional sports-app style
+// BOTTOM NAVIGATION — GSAP slides the indicator between tabs
 // ================================================================
 function BottomNav({ page }) {
   const items=[
@@ -1305,20 +1525,48 @@ function BottomNav({ page }) {
     {n:'dumbbell',label:'Fitness',pg:'Fitness'},
     {n:'calendar',label:'Schedule',pg:'Schedule'},
   ];
+  const navRef = useRef(null);
+  const indicatorRef = useRef(null);
+  const activeIdx = items.findIndex(i=>i.pg===page);
+
+  // Slide the active-tab indicator to the active button using GSAP.
+  // If page isn't in items (e.g. on a detail page), hide indicator.
+  useLayoutEffect(()=>{
+    if(!navRef.current || !indicatorRef.current) return;
+    const buttons = navRef.current.querySelectorAll('button[data-tab]');
+    if(activeIdx < 0 || !buttons[activeIdx]) {
+      indicatorRef.current.style.opacity = '0';
+      return;
+    }
+    const btn = buttons[activeIdx];
+    const navRect = navRef.current.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    const targetLeft = btnRect.left - navRect.left + (btnRect.width - 20) / 2;
+
+    if(SCAnim.ready && !SCAnim.reducedMotion){
+      gsap.to(indicatorRef.current, {
+        x: targetLeft, opacity: 1, duration: 0.3, ease: 'power3.out'
+      });
+    } else {
+      indicatorRef.current.style.transform = `translateX(${targetLeft}px)`;
+      indicatorRef.current.style.opacity = '1';
+    }
+  },[activeIdx]);
+
   return h('nav',{
+    ref:navRef,
     className:'bottom-nav',
-    style:{paddingBottom:'max(0px,env(safe-area-inset-bottom))'}
+    style:{paddingBottom:'max(0px,env(safe-area-inset-bottom))', position:'fixed', bottom:0, left:0, right:0}
   },
-    h('div',{style:{display:'flex',alignItems:'center',height:56}},
+    h('div',{ref:indicatorRef,className:'bottom-nav-indicator',style:{opacity:0}}),
+    h('div',{style:{display:'flex',alignItems:'center',height:56,position:'relative'}},
       items.map(item=>{
         const active=page===item.pg;
-        return h('button',{key:item.pg,onClick:()=>nav(item.pg),
+        return h('button',{key:item.pg,'data-tab':item.pg,onClick:()=>nav(item.pg),
           style:{flex:1,display:'flex',flexDirection:'column',alignItems:'center',
             justifyContent:'center',gap:3,height:'100%',position:'relative',
             background:'transparent',border:'none',cursor:'pointer',padding:0}
         },
-          active && h('div',{style:{position:'absolute',top:0,left:'50%',transform:'translateX(-50%)',
-            width:20,height:2,background:'#16a34a',borderRadius:'0 0 3px 3px'}}),
           h(Icon,{n:item.n,cls:'w-5 h-5',style:{color:active?'#4ade80':'#374151'}}),
           h('span',{style:{fontSize:10,fontWeight:active?700:500,letterSpacing:'0.02em',
             color:active?'#4ade80':'#374151'}},item.label)
@@ -1329,9 +1577,7 @@ function BottomNav({ page }) {
 }
 
 // ================================================================
-// HOME PAGE
-// ================================================================
-// HOME PAGE — Professional data-forward dashboard
+// HOME PAGE — Full GSAP entrance timeline + reactive XP animations
 // ================================================================
 function HomePage() {
   const [progress, setProgress] = useState(()=>DB.getProgress());
@@ -1340,6 +1586,13 @@ function HomePage() {
     const p=DB.getProgress();
     return p.last_checkin_date===new Date().toISOString().slice(0,10);
   });
+
+  // Refs for elements we animate on XP changes
+  const rootRef = useRef(null);
+  const xpNumberRef = useRef(null);     // The "X,XXX XP" number in level card
+  const levelBarRef = useRef(null);      // The level progress bar fill
+  const levelCardRef = useRef(null);     // The level card itself (for level-up flash)
+  const prevXPRef = useRef(progress.total_xp || 0);
 
   const refresh = useCallback(()=>{
     setProgress(DB.getProgress());
@@ -1353,6 +1606,136 @@ function HomePage() {
     return ()=>{ window.removeEventListener('sc_update',refresh); window.removeEventListener('focus',refresh); };
   },[refresh]);
 
+  // ── REACTIVE XP ANIMATION ─────────────────────────────────────
+  // When awardXP fires, it dispatches 'sc_xp_animate' with old/new
+  // values. We count up the number, fill the bar smoothly, and if
+  // the user just leveled up, fire the celebration sequence.
+  useEffect(()=>{
+    function onXPAnimate(e){
+      const { oldXP, newXP, leveledUp, levelName } = e.detail;
+      const oldInfo = getLevelInfo(oldXP);
+      const newInfo = getLevelInfo(newXP);
+      // Count number from old to new
+      if(xpNumberRef.current){
+        SCAnim.countUp(xpNumberRef.current, oldXP, newXP, {
+          duration: 1.0,
+          format: v => v.toLocaleString() + ' XP'
+        });
+      }
+      // Fill bar from old % to new %. If leveled up, the new % is
+      // within the new level's range, not the old one.
+      if(levelBarRef.current){
+        const fromPct = oldInfo.pct;
+        const toPct = newInfo.pct;
+        if(leveledUp){
+          // Animate to 100% in old level, then snap to 0 of new level, then animate to new pct
+          gsap.timeline()
+            .to(levelBarRef.current, { width:'100%', duration:0.4, ease:'power2.out' })
+            .set(levelBarRef.current, { width:'0%' })
+            .to(levelBarRef.current, { width:`${toPct}%`, duration:0.6, ease:'power2.out' });
+        } else {
+          SCAnim.fillBar(levelBarRef.current, fromPct, toPct, { duration: 0.9 });
+        }
+      }
+      // Level-up celebration
+      if(leveledUp && levelCardRef.current){
+        SCAnim.levelUpCelebration(levelCardRef.current, levelName);
+      }
+      prevXPRef.current = newXP;
+    }
+    window.addEventListener('sc_xp_animate', onXPAnimate);
+    return ()=>window.removeEventListener('sc_xp_animate', onXPAnimate);
+  },[]);
+
+  // ── ENTRANCE TIMELINE ─────────────────────────────────────────
+  // Runs once on mount. Cascades elements in order, building the
+  // hero feel without overwhelming. Cleanup is automatic via useGSAP.
+  useLayoutEffect(()=>{
+    if(!rootRef.current || typeof gsap === 'undefined') return;
+    if(SCAnim.reducedMotion) return;
+
+    const ctx = gsap.context(()=>{
+      const tl = gsap.timeline({ defaults:{ ease:'power2.out' } });
+
+      // Greeting + name
+      tl.from('[data-anim="greeting"]', { opacity:0, y:-8, duration:0.4 }, 0)
+        .from('[data-anim="streak"]', { opacity:0, scale:0.85, duration:0.3, ease:'back.out(2)' }, 0.15);
+
+      // Level card + XP number count + bar fill
+      tl.from('[data-anim="level-card"]', { opacity:0, y:14, duration:0.45 }, 0.2);
+
+      // Count XP number (from 0)
+      const startXP = progress.total_xp || 0;
+      const info = getLevelInfo(startXP);
+      if(xpNumberRef.current){
+        const obj = { val: 0 };
+        tl.to(obj, {
+          val: startXP,
+          duration: 0.9,
+          ease: 'power2.out',
+          onUpdate: () => {
+            if(xpNumberRef.current) xpNumberRef.current.textContent = Math.round(obj.val).toLocaleString() + ' XP';
+          },
+          onComplete: () => {
+            if(xpNumberRef.current) xpNumberRef.current.textContent = startXP.toLocaleString() + ' XP';
+          }
+        }, 0.35);
+      }
+      // Fill level bar from 0
+      if(levelBarRef.current){
+        tl.fromTo(levelBarRef.current,
+          { width: '0%' },
+          { width: `${info.pct}%`, duration: 1.1, ease:'power3.out' },
+          0.4
+        );
+      }
+
+      // Stat row stagger
+      tl.from('[data-anim="stat"]', { opacity:0, y:10, duration:0.35, stagger:0.05 }, 0.55);
+
+      // 7-day chart bars rise from 0 height
+      const bars = rootRef.current.querySelectorAll('[data-anim="xp-bar"]');
+      if(bars.length){
+        tl.from(bars, {
+          scaleY: 0,
+          transformOrigin: 'bottom',
+          duration: 0.5,
+          stagger: 0.04,
+          ease: 'power2.out'
+        }, 0.7);
+      }
+
+      // Quick Train tiles pop
+      tl.from('[data-anim="quick-tile"]', {
+        opacity:0, scale:0.85, duration:0.3, stagger:0.05, ease:'back.out(1.6)'
+      }, 0.85);
+
+      // Daily check-in
+      tl.from('[data-anim="checkin"]', { opacity:0, y:12, duration:0.35 }, 1.0);
+
+      // Smart Start cards
+      tl.from('[data-anim="smart-start-card"]', {
+        opacity:0, x:18, duration:0.4, stagger:0.07
+      }, 1.1);
+
+      // Explore tiles — reveal on scroll (not all visible above fold)
+      const exploreSection = rootRef.current.querySelector('[data-anim="explore"]');
+      if(exploreSection && typeof ScrollTrigger !== 'undefined'){
+        gsap.from(exploreSection.querySelectorAll('[data-anim="explore-tile"]'), {
+          opacity:0, y:14, duration:0.4, stagger:0.05, ease:'power2.out',
+          scrollTrigger: { trigger: exploreSection, start:'top 88%', once:true }
+        });
+      }
+
+      // Hover micro-interactions on Quick Train tiles (desktop)
+      rootRef.current.querySelectorAll('[data-anim="quick-tile"]').forEach(el=>{
+        SCAnim.addHover(el, { scale: 1.04, y: -2, duration: 0.18 });
+      });
+    }, rootRef);
+
+    return ()=>ctx.revert();
+  },[]);
+
   const info = getLevelInfo(progress.total_xp||0);
   const user = DB.getUser();
   const name = user.name?(user.name.split(' ')[0]):'Cricketer';
@@ -1361,28 +1744,23 @@ function HomePage() {
   const streak = progress.current_streak||0;
 
   const handleCheckIn = () => {
-    // Guard 1: React state (prevents double-tap before re-render)
     if(checkedIn) return;
-    // Guard 2: Live DB check (prevents re-award after navigate-away-and-back)
     const today=new Date().toISOString().slice(0,10);
     const currentProgress=DB.getProgress();
     if(currentProgress.last_checkin_date===today) {
       setCheckedIn(true);
       return;
     }
-    // Award: awardXP internally also guards via last_checkin_date
     awardXP(15,0,'checkin');
     setCheckedIn(true);
   };
 
-  // Smart picks — first uncompleted from each category
   const done = progress.completed_drills||[];
   const doneMental = progress.completed_mental||[];
   const drillPick = DRILLS.find(d=>!done.includes(d.id)&&d.category==='batting')||DRILLS[0];
   const mentalPick = MENTAL_SESSIONS.find(m=>!doneMental.includes(m.id)&&!m.is_premium)||MENTAL_SESSIONS[0];
   const workoutPick = WORKOUTS.find(w=>w.level==='beginner')||WORKOUTS[0];
 
-  // Quick actions — use SVG icon names, no emojis
   const quickActions=[
     {icon:'bat',label:'Drills',pg:'Drills',color:'#2563eb',bg:'rgba(37,99,235,0.12)',border:'rgba(37,99,235,0.25)'},
     {icon:'brain',label:'Mental',pg:'Mental',color:'#7c3aed',bg:'rgba(124,58,237,0.12)',border:'rgba(124,58,237,0.25)'},
@@ -1390,7 +1768,6 @@ function HomePage() {
     {icon:'timer',label:'Timer',pg:'Timer',color:'#0d9488',bg:'rgba(13,148,136,0.12)',border:'rgba(13,148,136,0.25)'},
   ];
 
-  // Explore grid — icon names, clean labels
   const exploreTiles=[
     {icon:'layers',label:'Skill Paths',sub:'Structured programs',pg:'SkillPaths'},
     {icon:'calendar',label:'Schedule',sub:'Plan your week',pg:'Schedule'},
@@ -1400,44 +1777,42 @@ function HomePage() {
     {icon:'book',label:'Quizzes',sub:'Cricket knowledge',pg:'Quizzes'},
   ];
 
-  // Stat divider helper
-  const Stat = ({val,label,color}) => h('div',{
+  const Stat = ({val,label,color,animKey}) => h('div',{
+    'data-anim':'stat',
     style:{textAlign:'center',padding:'10px 4px',borderRadius:8,
       background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
     h('div',{style:{fontSize:18,fontWeight:800,color:color,lineHeight:1,fontVariantNumeric:'tabular-nums'}},val),
     h('div',{style:{fontSize:10,fontWeight:600,color:'#484f58',marginTop:3,textTransform:'uppercase',letterSpacing:'0.06em'}},label)
   );
 
-  return h('div',{style:{paddingBottom:'calc(5rem + env(safe-area-inset-bottom, 0px))',background:'#0d1117',minHeight:'100dvh'}},
+  return h('div',{ref:rootRef,style:{paddingBottom:'calc(5rem + env(safe-area-inset-bottom, 0px))',background:'#0d1117',minHeight:'100dvh'}},
 
     // ── Hero Section ─────────────────────────────────────────────
     h('div',{style:{
       background:'linear-gradient(160deg,#0a1628 0%,#0d1117 60%)',
-      paddingTop:'calc(3.75rem + max(0.75rem,env(safe-area-inset-top)))',
-      paddingBottom:'24px',padding:'calc(3.75rem + max(0.75rem,env(safe-area-inset-top))) 20px 24px',
+      padding:'calc(3.75rem + max(0.75rem,env(safe-area-inset-top))) 20px 24px',
       borderBottom:'1px solid rgba(48,54,61,0.9)',position:'relative',overflow:'hidden'
     }},
-      // Subtle green ambient light
       h('div',{style:{position:'absolute',top:'-60%',right:'-5%',width:280,height:280,
         background:'radial-gradient(circle,rgba(22,163,74,0.07),transparent 70%)',
         borderRadius:'50%',pointerEvents:'none'}}),
 
-      // Greeting row
       h('div',{style:{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:20}},
-        h('div',{},
+        h('div',{'data-anim':'greeting'},
           h('p',{style:{fontSize:12,fontWeight:600,color:'#16a34a',marginBottom:4,letterSpacing:'0.04em',textTransform:'uppercase'}},greeting),
           h('h1',{style:{fontSize:28,fontWeight:800,color:'#e6edf3',margin:0,letterSpacing:'-0.02em',lineHeight:1.1}},name),
           h('p',{style:{fontSize:13,color:'#484f58',marginTop:6}},'Train. Measure. Improve.')
         ),
-        streak>0 && h('div',{className:'streak-badge',style:{flexShrink:0}},
+        streak>0 && h('div',{'data-anim':'streak',className:'streak-badge',style:{flexShrink:0}},
           h(Icon,{n:'flame',cls:'w-3.5 h-3.5'}),
           streak, ' day streak'
         )
       ),
 
-      // Level card — clean data card design
-      h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',
-        borderRadius:10,padding:16,marginBottom:16}},
+      // Level card — refs attach for reactive XP animations
+      h('div',{ref:levelCardRef,'data-anim':'level-card',
+        style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',
+          borderRadius:10,padding:16,marginBottom:16,transition:'border-color 0.3s'}},
         h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}},
           h('div',{style:{display:'flex',alignItems:'center',gap:10}},
             h('div',{style:{width:32,height:32,borderRadius:6,background:'rgba(22,163,74,0.12)',
@@ -1450,14 +1825,14 @@ function HomePage() {
             )
           ),
           h('div',{style:{textAlign:'right'}},
-            h('div',{style:{fontSize:15,fontWeight:800,color:'#e6edf3',fontVariantNumeric:'tabular-nums'}},
-              (progress.total_xp||0).toLocaleString(),' XP'),
+            h('div',{ref:xpNumberRef,style:{fontSize:15,fontWeight:800,color:'#e6edf3',fontVariantNumeric:'tabular-nums'}},
+              (progress.total_xp||0).toLocaleString()+' XP'),
             info.next && h('div',{style:{fontSize:11,color:'#484f58',marginTop:1}},
               `${info.xpToNext.toLocaleString()} to Level ${info.level+1}`)
           )
         ),
         h('div',{className:'level-bar-track'},
-          h('div',{className:'level-bar-fill',style:{width:`${info.pct}%`}})
+          h('div',{ref:levelBarRef,className:'level-bar-fill',style:{width:`${info.pct}%`}})
         )
       ),
 
@@ -1470,7 +1845,7 @@ function HomePage() {
       ),
 
       // 7-day chart
-      h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',
+      h('div',{'data-anim':'chart',style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',
         borderRadius:10,padding:'14px 16px'}},
         h('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}},
           h('div',{style:{display:'flex',alignItems:'center',gap:8}},
@@ -1480,7 +1855,26 @@ function HomePage() {
           h('span',{style:{fontSize:12,fontWeight:700,color:'#16a34a'}},
             `${xpDays.reduce((s,d)=>s+d.xp,0)} this week`)
         ),
-        h(XPChart,{days:xpDays})
+        // Custom chart with data-anim attribute for stagger animation
+        h('div',{className:'flex items-end gap-1.5 h-20 w-full'},
+          xpDays.map(d=>{
+            const max=Math.max(...xpDays.map(x=>x.xp),1);
+            return h('div',{key:d.date,className:'flex flex-col items-center gap-1 flex-1'},
+              h('div',{
+                'data-anim':'xp-bar',
+                style:{
+                  width:'100%',
+                  height:`${Math.max(3,(d.xp/max)*72)}px`,
+                  background:d.xp>0?'linear-gradient(to top,#059669,#34d399)':'rgba(30,41,59,0.6)',
+                  borderRadius:'3px 3px 0 0',
+                  transformOrigin:'bottom'
+                },
+                title:`${d.xp} XP`
+              }),
+              h('span',{className:'text-xs text-slate-500 font-medium'},d.label)
+            );
+          })
+        )
       )
     ),
 
@@ -1491,7 +1885,8 @@ function HomePage() {
       ),
       h('div',{style:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8}},
         quickActions.map(a=>
-          h('button',{key:a.pg,onClick:()=>nav(a.pg),
+          h('button',{key:a.pg,'data-anim':'quick-tile',onClick:()=>nav(a.pg),
+            className:'quick-train-tile',
             style:{display:'flex',flexDirection:'column',alignItems:'center',gap:8,
               padding:'14px 8px',borderRadius:10,border:`1px solid ${a.border}`,
               background:a.bg,cursor:'pointer',transition:'all 0.12s'}
@@ -1508,7 +1903,7 @@ function HomePage() {
 
     // ── Daily Check-In ────────────────────────────────────────────
     h('div',{style:{padding:'16px 20px 0'}},
-      h('button',{onClick:handleCheckIn,disabled:checkedIn,
+      h('button',{'data-anim':'checkin',onClick:handleCheckIn,disabled:checkedIn,
         style:{width:'100%',display:'flex',alignItems:'center',gap:14,padding:14,
           borderRadius:10,border:checkedIn?'1px solid rgba(22,163,74,0.25)':'1px solid rgba(48,54,61,0.9)',
           background:checkedIn?'rgba(22,163,74,0.06)':'rgba(22,27,34,0.9)',
@@ -1539,8 +1934,7 @@ function HomePage() {
         h('span',{style:{fontSize:11,color:'#484f58'}},'AI-selected')
       ),
       h('div',{style:{display:'flex',flexDirection:'column',gap:8}},
-        // Drill pick
-        h('button',{onClick:()=>nav('DrillDetail',{id:drillPick.id}),
+        h('button',{'data-anim':'smart-start-card',onClick:()=>nav('DrillDetail',{id:drillPick.id}),
           style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
             border:'1px solid rgba(37,99,235,0.2)',background:'rgba(37,99,235,0.06)',
             cursor:'pointer',textAlign:'left',transition:'all 0.12s'}
@@ -1556,8 +1950,7 @@ function HomePage() {
           ),
           h(Icon,{n:'chevR',cls:'w-4 h-4 flex-shrink-0',style:{color:'#374151'}})
         ),
-        // Mental pick
-        h('button',{onClick:()=>nav('MentalPlayer',{id:mentalPick.id}),
+        h('button',{'data-anim':'smart-start-card',onClick:()=>nav('MentalPlayer',{id:mentalPick.id}),
           style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
             border:'1px solid rgba(124,58,237,0.2)',background:'rgba(124,58,237,0.06)',
             cursor:'pointer',textAlign:'left',transition:'all 0.12s'}
@@ -1573,8 +1966,7 @@ function HomePage() {
           ),
           h(Icon,{n:'chevR',cls:'w-4 h-4 flex-shrink-0',style:{color:'#374151'}})
         ),
-        // Workout pick
-        h('button',{onClick:()=>nav('WorkoutDetail',{id:workoutPick.id}),
+        h('button',{'data-anim':'smart-start-card',onClick:()=>nav('WorkoutDetail',{id:workoutPick.id}),
           style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
             border:'1px solid rgba(234,88,12,0.2)',background:'rgba(234,88,12,0.06)',
             cursor:'pointer',textAlign:'left',transition:'all 0.12s'}
@@ -1593,12 +1985,12 @@ function HomePage() {
       )
     ),
 
-    // ── Explore ───────────────────────────────────────────────────
-    h('div',{style:{padding:'20px 20px 0'}},
+    // ── Explore (ScrollTrigger reveals when scrolled to) ─────────
+    h('div',{'data-anim':'explore',style:{padding:'20px 20px 0'}},
       h('h2',{style:{fontSize:13,fontWeight:700,color:'#8b949e',margin:'0 0 12px',textTransform:'uppercase',letterSpacing:'0.08em'}},'Explore'),
       h('div',{style:{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:8}},
         exploreTiles.map(t=>
-          h('button',{key:t.pg,onClick:()=>nav(t.pg),
+          h('button',{key:t.pg,'data-anim':'explore-tile',onClick:()=>nav(t.pg),
             style:{display:'flex',alignItems:'center',gap:12,padding:14,borderRadius:10,
               border:'1px solid rgba(48,54,61,0.9)',background:'rgba(22,27,34,0.9)',
               cursor:'pointer',textAlign:'left',transition:'all 0.12s'}
@@ -1618,9 +2010,8 @@ function HomePage() {
   );
 }
 
-
 // ================================================================
-// DRILLS PAGE
+// DRILLS PAGE — list stagger on mount, cross-fade on category change
 // ================================================================
 const DRILL_CATS=[
   {id:'batting',label:'Batting',icon:'bat',from:'#1d4ed8',to:'#4338ca',text:'#60a5fa'},
@@ -1639,14 +2030,28 @@ const LVL_BADGE={
 function DrillsPage() {
   const [cat,setCat]=useState('batting');
   const [search,setSearch]=useState('');
-  // Live progress state — refreshes when any XP is awarded
   const [progress,setProgress]=useState(()=>DB.getProgress());
+  const listRef = useRef(null);
+
   useEffect(()=>{
     const refresh=()=>setProgress(DB.getProgress());
     window.addEventListener('sc_update',refresh);
     window.addEventListener('focus',refresh);
     return ()=>{ window.removeEventListener('sc_update',refresh); window.removeEventListener('focus',refresh); };
   },[]);
+
+  // Stagger list cards on mount and on every cat/search change
+  useLayoutEffect(()=>{
+    if(!listRef.current || !SCAnim.ready) return;
+    const ctx = gsap.context(()=>{
+      const cards = listRef.current.querySelectorAll('[data-drill-card]');
+      if(cards.length){
+        SCAnim.staggerCards(cards, { y: 12, duration: 0.35, stagger: 0.04 });
+      }
+    }, listRef);
+    return ()=>ctx.revert();
+  },[cat, search]);
+
   const completed=progress.completed_drills||[];
   const catDef=DRILL_CATS.find(c=>c.id===cat);
   const filtered=DRILLS.filter(d=>d.category===cat&&(search===''||d.title.toLowerCase().includes(search.toLowerCase())));
@@ -1655,7 +2060,6 @@ function DrillsPage() {
     h(PageHeader,{title:'Cricket Drills',subtitle:`${DRILLS.length} professional drills`,
       gradient:`linear-gradient(135deg,${catDef?.from||'#1d4ed8'},${catDef?.to||'#4338ca'})`}),
 
-    // Cat pills
     h('div',{className:'flex gap-2 px-4 py-3 overflow-x-auto scrollbar-hide'},
       DRILL_CATS.map(c=>
         h('button',{key:c.id,onClick:()=>setCat(c.id),
@@ -1668,7 +2072,6 @@ function DrillsPage() {
       )
     ),
 
-    // Search
     h('div',{className:'px-4 mb-3'},
       h('div',{className:'relative'},
         h(Icon,{n:'search',cls:'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2',style:{color:'#484f58'}}),
@@ -1679,14 +2082,13 @@ function DrillsPage() {
       )
     ),
 
-    // List
-    h('div',{className:'px-4 space-y-2.5'},
+    h('div',{ref:listRef,className:'px-4 space-y-2.5'},
       filtered.length===0
         ? h(EmptyState,{icon:catDef?.icon||'bat',title:'No drills found',desc:'Try a different search term'})
         : filtered.map(d=>{
           const lvl=LVL_BADGE[d.skill_level]||LVL_BADGE.beginner;
           const done=completed.includes(d.id);
-          return h('button',{key:d.id,onClick:()=>nav('DrillDetail',{id:d.id}),
+          return h('button',{key:d.id,'data-drill-card':'',onClick:()=>nav('DrillDetail',{id:d.id}),
             className:'w-full text-left p-4 rounded-2xl transition-all active:scale-[.99] pro-card',
             style:{background:'rgba(22,27,34,0.9)',border:`1px solid ${done?'rgba(22,163,74,0.3)':'rgba(48,54,61,0.9)'}`,borderRadius:10}
           },
@@ -1723,13 +2125,55 @@ function DrillsPage() {
 }
 
 // ================================================================
-// DRILL DETAIL PAGE
+// DRILL DETAIL — step stagger + completion celebration
 // ================================================================
 function DrillDetailPage({ params }) {
   const drill=DRILLS.find(d=>d.id===params?.id);
   const [done,setDone]=useState(false);
-  const completing=useRef(false); // guard against double-tap
+  const completing=useRef(false);
   const catDef=DRILL_CATS.find(c=>c.id===drill?.category);
+  const rootRef = useRef(null);
+  const successRef = useRef(null);
+
+  // Entrance timeline: stagger steps + tip + target sections
+  useLayoutEffect(()=>{
+    if(done || !rootRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const tl = gsap.timeline({ defaults:{ ease:'power2.out' } });
+      tl.from('[data-anim="video"]', { opacity:0, scale:0.95, duration:0.45 }, 0)
+        .from('[data-anim="description"]', { opacity:0, y:14, duration:0.4 }, 0.1)
+        .from('[data-anim="step-card"]', { opacity:0, x:-14, duration:0.35, stagger:0.06 }, 0.25)
+        .from('[data-anim="tip-card"]', { opacity:0, y:14, duration:0.4 }, '+=0.05')
+        .from('[data-anim="target-card"]', { opacity:0, y:14, duration:0.4 }, '-=0.2')
+        .from('[data-anim="cta-button"]', { opacity:0, y:18, duration:0.4 }, '-=0.2');
+
+      // Subtle pulse loop on the Complete button to invite tap
+      const cta = rootRef.current.querySelector('[data-anim="cta-button"]');
+      if(cta){
+        gsap.to(cta, {
+          scale:1.02, duration:1.4, ease:'sine.inOut',
+          repeat:-1, yoyo:true, delay:1.5
+        });
+      }
+    }, rootRef);
+    return ()=>ctx.revert();
+  },[done, params?.id]);
+
+  // Completion screen entrance
+  useLayoutEffect(()=>{
+    if(!done || !successRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const tl = gsap.timeline({ defaults:{ ease:'power2.out' } });
+      tl.from('[data-success="icon"]', { scale:0, opacity:0, duration:0.5, ease:'back.out(2)' }, 0)
+        .from('[data-success="title"]', { opacity:0, y:16, duration:0.4 }, 0.15)
+        .from('[data-success="subtitle"]', { opacity:0, y:12, duration:0.35 }, 0.25)
+        .from('[data-success="badge"]', { opacity:0, scale:0.7, duration:0.4, ease:'back.out(1.8)' }, 0.35)
+        .from('[data-success="actions"] > *', { opacity:0, y:12, duration:0.35, stagger:0.08 }, 0.5);
+    }, successRef);
+    return ()=>ctx.revert();
+  },[done]);
 
   if(!drill) return h('div',{className:'pb-28 flex flex-col items-center justify-center',style:{minHeight:'80vh'}},
     h('div',{style:{width:56,height:56,borderRadius:12,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'bat',cls:'w-7 h-7',style:{color:'#484f58'}})),
@@ -1738,34 +2182,32 @@ function DrillDetailPage({ params }) {
   );
 
   const complete=()=>{
-    if(completing.current) return; // prevent double-tap XP award
+    if(completing.current) return;
     completing.current=true;
     awardXP(drill.xp_value,drill.duration_minutes,'drill','drill',drill.id);
     fireConfetti(); setDone(true);
   };
 
-  if(done) return h('div',{className:'flex flex-col items-center justify-center text-center px-5 pb-28',style:{minHeight:'100vh'}},
-    h('div',{style:{width:64,height:64,borderRadius:16,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-8 h-8',style:{color:'#16a34a'}})),
-    h('h2',{className:'text-2xl font-black text-white mb-2'},'Drill Complete!'),
-    h('p',{className:'text-slate-400 mb-3'},drill.title),
-    h(XPBadge,{xp:drill.xp_value}),
-    h('div',{className:'mt-6 flex flex-col gap-3 w-full max-w-xs'},
+  if(done) return h('div',{ref:successRef,className:'flex flex-col items-center justify-center text-center px-5 pb-28',style:{minHeight:'100vh'}},
+    h('div',{'data-success':'icon',style:{width:64,height:64,borderRadius:16,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-8 h-8',style:{color:'#16a34a'}})),
+    h('h2',{'data-success':'title',className:'text-2xl font-black text-white mb-2'},'Drill Complete!'),
+    h('p',{'data-success':'subtitle',className:'text-slate-400 mb-3'},drill.title),
+    h('div',{'data-success':'badge'},h(XPBadge,{xp:drill.xp_value})),
+    h('div',{'data-success':'actions',className:'mt-6 flex flex-col gap-3 w-full max-w-xs'},
       h('button',{onClick:()=>nav('Drills'),className:'btn-primary'},'More Drills'),
-      h('button',{onClick:()=>setDone(false),className:'btn-secondary'},'Do Again')
+      h('button',{onClick:()=>{setDone(false);completing.current=false;},className:'btn-secondary'},'Do Again')
     )
   );
 
-  return h('div',{className:'pb-28'},
+  return h('div',{ref:rootRef,className:'pb-28'},
     h(PageHeader,{
       title:drill.title,
       subtitle:`${drill.duration_minutes} min · ${drill.xp_value} XP`,
       gradient:`linear-gradient(135deg,${catDef?.from||'#1d4ed8'},${catDef?.to||'#4338ca'})`,
       onBack:()=>nav('Drills')
     }),
-
     h('div',{className:'px-4 pt-5 space-y-4'},
-      // Video
-      drill.video_id && h('div',{},
+      drill.video_id && h('div',{'data-anim':'video'},
         h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-2'},'Video Tutorial'),
         h('div',{style:{position:'relative',aspectRatio:'16/9',background:'#0f172a',borderRadius:'1rem',overflow:'hidden'}},
           h('iframe',{src:`https://www.youtube.com/embed/${drill.video_id}?modestbranding=1&rel=0&color=white`,
@@ -1781,17 +2223,15 @@ function DrillDetailPage({ params }) {
         )
       ),
 
-      // Description
-      h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
+      h('div',{'data-anim':'description',className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('p',{className:'text-sm text-slate-300 leading-relaxed'},drill.description)
       ),
 
-      // Steps
       h('div',{},
         h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-3'},`${drill.steps.length} Steps`),
         h('div',{className:'space-y-2'},
           drill.steps.map((s,i)=>
-            h('div',{key:i,className:'flex items-start gap-3 p-3 rounded-xl',style:{background:'rgba(15,23,42,0.5)',border:'1px solid rgba(51,65,85,0.4)'}},
+            h('div',{key:i,'data-anim':'step-card',className:'flex items-start gap-3 p-3 rounded-xl',style:{background:'rgba(15,23,42,0.5)',border:'1px solid rgba(51,65,85,0.4)'}},
               h('div',{className:'w-6 h-6 rounded-full flex items-center justify-center text-xs font-black text-white flex-shrink-0 mt-0.5',
                 style:{background:`linear-gradient(135deg,${catDef?.from||'#1d4ed8'},${catDef?.to||'#4338ca'})`}},i+1),
               h('p',{className:'text-sm text-slate-300 leading-relaxed flex-1'},s)
@@ -1800,8 +2240,7 @@ function DrillDetailPage({ params }) {
         )
       ),
 
-      // Tip
-      drill.tips && h('div',{className:'flex items-start gap-3 p-4 rounded-2xl',style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)'}},
+      drill.tips && h('div',{'data-anim':'tip-card',className:'flex items-start gap-3 p-4 rounded-2xl',style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)'}},
         h(Icon,{n:'sparkles',cls:'w-4 h-4 flex-shrink-0',style:{color:'#16a34a'}}),
         h('div',{},
           h('p',{className:'text-xs font-black text-emerald-400 uppercase tracking-wider mb-1'},'Coach Tip'),
@@ -1809,8 +2248,7 @@ function DrillDetailPage({ params }) {
         )
       ),
 
-      // Target
-      drill.target_metric && h('div',{className:'flex items-start gap-3 p-4 rounded-2xl',style:{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.25)'}},
+      drill.target_metric && h('div',{'data-anim':'target-card',className:'flex items-start gap-3 p-4 rounded-2xl',style:{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.25)'}},
         h(Icon,{n:'target',cls:'w-4 h-4 flex-shrink-0',style:{color:'#484f58'}}),
         h('div',{},
           h('p',{className:'text-xs font-black text-blue-400 uppercase tracking-wider mb-1'},'Success Target'),
@@ -1818,7 +2256,6 @@ function DrillDetailPage({ params }) {
         )
       ),
 
-      // Add to schedule button
       h('button',{
         onClick:()=>{
           const today=new Date().toISOString().slice(0,10);
@@ -1833,9 +2270,9 @@ function DrillDetailPage({ params }) {
         },
         className:'w-full py-3 rounded-2xl text-sm font-bold text-blue-400 text-center',
         style:{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.25)'}
-      }, '📅 Add to Today\'s Schedule'),
+      }, 'Add to Today\'s Schedule'),
 
-      h('button',{onClick:complete,className:'btn-primary w-full py-4 text-base font-black'},
+      h('button',{'data-anim':'cta-button',onClick:complete,className:'btn-primary w-full py-4 text-base font-black'},
         h(Icon,{n:'circleCheck',cls:'w-5 h-5'}),` Mark Complete (+${drill.xp_value} XP)`
       )
     )
@@ -1843,7 +2280,7 @@ function DrillDetailPage({ params }) {
 }
 
 // ================================================================
-// MENTAL TRAINING PAGE
+// MENTAL TRAINING PAGE — list stagger
 // ================================================================
 const MENT_CATS=[
   {id:'all',label:'All',icon:'brain',from:'#6d28d9',to:'#4f46e5'},
@@ -1863,11 +2300,24 @@ function MentalPage() {
   const progress=DB.getProgress();
   const done=progress.completed_mental||[];
   const catDef=MENT_CATS.find(c=>c.id===cat)||MENT_CATS[0];
+  const listRef = useRef(null);
 
   const filtered=MENTAL_SESSIONS.filter(s=>
     (cat==='all'||s.category===cat)&&
     (search===''||s.title.toLowerCase().includes(search.toLowerCase()))
   );
+
+  // Stagger cards on cat/search change
+  useLayoutEffect(()=>{
+    if(!listRef.current || !SCAnim.ready) return;
+    const ctx = gsap.context(()=>{
+      const cards = listRef.current.querySelectorAll('[data-mental-card]');
+      if(cards.length){
+        SCAnim.staggerCards(cards, { y: 12, duration: 0.35, stagger: 0.03 });
+      }
+    }, listRef);
+    return ()=>ctx.revert();
+  },[cat, search]);
 
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Mental Training',subtitle:`${MENTAL_SESSIONS.length} guided sessions`,
@@ -1895,14 +2345,14 @@ function MentalPage() {
       )
     ),
 
-    h('div',{className:'px-4 space-y-2.5'},
+    h('div',{ref:listRef,className:'px-4 space-y-2.5'},
       filtered.length===0
         ? h(EmptyState,{icon:'brain',title:'No sessions found',desc:'Try a different category or search term'})
         : filtered.map(s=>{
           const mins=Math.floor(s.duration_seconds/60);
           const isDone=done.includes(s.id);
           const sc=MENT_CATS.find(c=>c.id===s.category)||MENT_CATS[1];
-          return h('button',{key:s.id,onClick:()=>nav('MentalPlayer',{id:s.id}),
+          return h('button',{key:s.id,'data-mental-card':'',onClick:()=>nav('MentalPlayer',{id:s.id}),
             className:'w-full text-left p-4 rounded-2xl transition-all active:scale-[.99] pro-card',
             style:{background:'rgba(22,27,34,0.9)',border:`1px solid ${isDone?'rgba(22,163,74,0.3)':'rgba(48,54,61,0.9)'}`,borderRadius:10}
           },
@@ -1935,7 +2385,7 @@ function MentalPage() {
 }
 
 // ================================================================
-// MENTAL PLAYER — Step-by-step guided session with skip support
+// MENTAL PLAYER — step transition cross-fades + completion celebration
 // ================================================================
 function MentalPlayerPage({ params }) {
   const sess=MENTAL_SESSIONS.find(s=>s.id===params?.id);
@@ -1945,13 +2395,14 @@ function MentalPlayerPage({ params }) {
   const [done,setDone]=useState(false);
   const [paused,setPaused]=useState(false);
   const intRef=useRef(null);
-  const awardedRef=useRef(false); // prevents double-award on complete
-  const completingRef=useRef(false); // prevents double-tap
+  const awardedRef=useRef(false);
+  const completingRef=useRef(false);
+  const instructionRef = useRef(null);
+  const previewRef = useRef(null);
+  const successRef = useRef(null);
 
-  // Reset awarded ref when session is restarted
   useEffect(()=>{ if(!started) { awardedRef.current=false; completingRef.current=false; } },[started]);
 
-  // Load new step duration whenever step changes
   useEffect(()=>{
     if(started && sess && !done){
       clearInterval(intRef.current);
@@ -1961,7 +2412,44 @@ function MentalPlayerPage({ params }) {
     return ()=>clearInterval(intRef.current);
   },[step,started,done]);
 
-  // Countdown ticker
+  // Crossfade instruction text on step change
+  useLayoutEffect(()=>{
+    if(!started || done || !instructionRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    gsap.fromTo(instructionRef.current,
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
+    );
+  },[step, started]);
+
+  // Preview screen entrance — stagger numbered steps
+  useLayoutEffect(()=>{
+    if(started || done || !previewRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const tl = gsap.timeline({ defaults:{ ease:'power2.out' } });
+      tl.from('[data-mp="desc"]', { opacity:0, y:14, duration:0.4 })
+        .from('[data-mp="step"]', { opacity:0, x:-12, duration:0.32, stagger:0.05 }, 0.15)
+        .from('[data-mp="begin"]', { opacity:0, y:14, duration:0.4 }, '+=0.1');
+    }, previewRef);
+    return ()=>ctx.revert();
+  },[started, done]);
+
+  // Completion screen entrance
+  useLayoutEffect(()=>{
+    if(!done || !successRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const tl = gsap.timeline({ defaults:{ ease:'power2.out' } });
+      tl.from('[data-success="icon"]', { scale:0, opacity:0, duration:0.5, ease:'back.out(2)' })
+        .from('[data-success="title"]', { opacity:0, y:14, duration:0.4 }, 0.15)
+        .from('[data-success="subtitle"]', { opacity:0, y:10, duration:0.35 }, 0.25)
+        .from('[data-success="badge"]', { opacity:0, scale:0.7, duration:0.4, ease:'back.out(1.8)' }, 0.35)
+        .from('[data-success="actions"] > *', { opacity:0, y:12, duration:0.35, stagger:0.08 }, 0.5);
+    }, successRef);
+    return ()=>ctx.revert();
+  },[done]);
+
   useEffect(()=>{
     if(!started||done||paused) { clearInterval(intRef.current); return; }
     clearInterval(intRef.current);
@@ -1969,12 +2457,8 @@ function MentalPlayerPage({ params }) {
       setTimeLeft(t=>{
         if(t<=1){
           clearInterval(intRef.current);
-          // Auto-advance to next step OR complete
-          if(step<sess.steps.length-1){
-            setStep(s=>s+1);
-          } else {
-            finishSession();
-          }
+          if(step<sess.steps.length-1){ setStep(s=>s+1); }
+          else { finishSession(); }
           return 0;
         }
         return t-1;
@@ -1983,7 +2467,6 @@ function MentalPlayerPage({ params }) {
     return ()=>clearInterval(intRef.current);
   },[started,done,paused,step]);
 
-  // Cleanup on unmount
   useEffect(()=>()=>clearInterval(intRef.current),[]);
 
   const finishSession=()=>{
@@ -1997,30 +2480,18 @@ function MentalPlayerPage({ params }) {
   const goNext=()=>{
     if(completingRef.current) return;
     clearInterval(intRef.current);
-    if(step<sess.steps.length-1){
-      setStep(s=>s+1);
-    } else {
-      completingRef.current=true;
-      finishSession();
-    }
+    if(step<sess.steps.length-1){ setStep(s=>s+1); }
+    else { completingRef.current=true; finishSession(); }
   };
 
   const skipStep=()=>{
     clearInterval(intRef.current);
-    if(step<sess.steps.length-1){
-      setStep(s=>s+1);
-    } else {
-      // Skipping last step still completes the session and awards XP
-      completingRef.current=true;
-      finishSession();
-    }
+    if(step<sess.steps.length-1){ setStep(s=>s+1); }
+    else { completingRef.current=true; finishSession(); }
   };
 
   const goPrev=()=>{
-    if(step>0){
-      clearInterval(intRef.current);
-      setStep(s=>s-1);
-    }
+    if(step>0){ clearInterval(intRef.current); setStep(s=>s-1); }
   };
 
   if(!sess) return h('div',{className:'pb-28 flex flex-col items-center justify-center text-center px-5',style:{minHeight:'80vh'}},
@@ -2029,13 +2500,13 @@ function MentalPlayerPage({ params }) {
     h('button',{onClick:()=>nav('Mental'),className:'btn-primary px-6 py-3'},'Back')
   );
 
-  if(done) return h('div',{style:{minHeight:'100vh',background:'linear-gradient(135deg,#0f0824,#1e1040,#0f172a)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1.5rem',textAlign:'center'}},
-    h('div',{style:{width:72,height:72,borderRadius:18,background:'rgba(124,58,237,0.2)',border:'1px solid rgba(168,85,247,0.3)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:20}},
+  if(done) return h('div',{ref:successRef,style:{minHeight:'100vh',background:'linear-gradient(135deg,#0f0824,#1e1040,#0f172a)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1.5rem',textAlign:'center'}},
+    h('div',{'data-success':'icon',style:{width:72,height:72,borderRadius:18,background:'rgba(124,58,237,0.2)',border:'1px solid rgba(168,85,247,0.3)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:20}},
       h(Icon,{n:'circleCheck',cls:'w-9 h-9',style:{color:'#a855f7'}})),
-    h('h2',{style:{fontSize:'1.5rem',fontWeight:800,color:'#fff',marginBottom:8,letterSpacing:'-0.02em'}},'Session Complete'),
-    h('p',{style:{color:'#a78bfa',marginBottom:16,fontSize:14}},sess.title),
-    h(XPBadge,{xp:sess.xp_value}),
-    h('div',{style:{marginTop:24,display:'flex',flexDirection:'column',gap:10,width:'100%',maxWidth:280}},
+    h('h2',{'data-success':'title',style:{fontSize:'1.5rem',fontWeight:800,color:'#fff',marginBottom:8,letterSpacing:'-0.02em'}},'Session Complete'),
+    h('p',{'data-success':'subtitle',style:{color:'#a78bfa',marginBottom:16,fontSize:14}},sess.title),
+    h('div',{'data-success':'badge'},h(XPBadge,{xp:sess.xp_value})),
+    h('div',{'data-success':'actions',style:{marginTop:24,display:'flex',flexDirection:'column',gap:10,width:'100%',maxWidth:280}},
       h('button',{onClick:()=>nav('Mental'),className:'btn-primary'},'More Sessions'),
       h('button',{onClick:()=>{setDone(false);setStarted(false);setStep(0);awardedRef.current=false;completingRef.current=false;},className:'btn-secondary'},'Repeat Session')
     )
@@ -2043,12 +2514,11 @@ function MentalPlayerPage({ params }) {
 
   const mins=Math.floor(sess.duration_seconds/60);
 
-  // Pre-session preview screen
-  if(!started) return h('div',{className:'pb-28'},
+  if(!started) return h('div',{ref:previewRef,className:'pb-28'},
     h(PageHeader,{title:sess.title,subtitle:`${mins} min · ${sess.xp_value} XP · ${sess.steps.length} steps`,
       gradient:'linear-gradient(135deg,#6d28d9,#4338ca)',onBack:()=>nav('Mental')}),
     h('div',{style:{padding:'20px'}},
-      h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16,marginBottom:16}},
+      h('div',{'data-mp':'desc',style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16,marginBottom:16}},
         h('p',{style:{fontSize:13,color:'#8b949e',lineHeight:1.7}},sess.description)
       ),
       h('div',{style:{marginBottom:20}},
@@ -2056,7 +2526,7 @@ function MentalPlayerPage({ params }) {
           `${sess.steps.length} Steps — tap Skip to advance any step early`),
         h('div',{style:{display:'flex',flexDirection:'column',gap:8}},
           sess.steps.map((s,i)=>
-            h('div',{key:i,style:{display:'flex',alignItems:'flex-start',gap:12,padding:'12px 14px',
+            h('div',{key:i,'data-mp':'step',style:{display:'flex',alignItems:'flex-start',gap:12,padding:'12px 14px',
               borderRadius:8,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
               h('div',{style:{width:22,height:22,borderRadius:'50%',background:'rgba(168,85,247,0.2)',
                 border:'1px solid rgba(168,85,247,0.3)',display:'flex',alignItems:'center',justifyContent:'center',
@@ -2067,14 +2537,13 @@ function MentalPlayerPage({ params }) {
           )
         )
       ),
-      h('button',{onClick:()=>{setStarted(true);setStep(0);setTimeLeft(sess.steps[0].duration_seconds);},
+      h('button',{'data-mp':'begin',onClick:()=>{setStarted(true);setStep(0);setTimeLeft(sess.steps[0].duration_seconds);},
         className:'btn-primary',style:{padding:'14px',fontSize:15,fontWeight:700}},
         h(Icon,{n:'play',cls:'w-5 h-5'}), ' Begin Session'
       )
     )
   );
 
-  // Active guided player
   const cur=sess.steps[step];
   const pct=cur&&cur.duration_seconds>0?timeLeft/cur.duration_seconds:0;
   const R=90, C=2*Math.PI*R;
@@ -2084,8 +2553,6 @@ function MentalPlayerPage({ params }) {
   return h('div',{style:{minHeight:'100vh',background:'linear-gradient(160deg,#0f0824 0%,#1e1040 50%,#0f172a 100%)',
     display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'space-between',
     padding:'max(1.5rem,env(safe-area-inset-top)) 1.5rem max(1.5rem,env(safe-area-inset-bottom))'}},
-
-    // Top bar — session title + overall progress
     h('div',{style:{width:'100%',maxWidth:360,display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem'}},
       h('button',{onClick:()=>nav('Mental'),style:{background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.12)',
         borderRadius:8,padding:'6px 10px',cursor:'pointer',color:'#a78bfa',fontSize:12,fontWeight:600}},
@@ -2098,14 +2565,10 @@ function MentalPlayerPage({ params }) {
         border:'1px solid rgba(109,40,217,0.25)',borderRadius:6,padding:'4px 8px'}},
         `${progressPct}%`)
     ),
-
-    // Progress bar
     h('div',{style:{width:'100%',maxWidth:360,height:3,background:'rgba(109,40,217,0.2)',borderRadius:2,marginBottom:'1.5rem'}},
       h('div',{style:{height:'100%',borderRadius:2,background:'#a855f7',
         width:`${Math.round(((step+(1-pct))/(sess.steps.length))*100)}%`,transition:'width 0.5s ease'}})
     ),
-
-    // Ring timer
     h('div',{style:{position:'relative',width:220,height:220,flexShrink:0}},
       h('svg',{width:220,height:220,viewBox:'0 0 220 220'},
         h('circle',{cx:110,cy:110,r:R,fill:'none',stroke:'rgba(109,40,217,0.15)',strokeWidth:12}),
@@ -2122,15 +2585,11 @@ function MentalPlayerPage({ params }) {
           paused?'PAUSED':'RUNNING')
       )
     ),
-
-    // Step instruction
-    h('div',{style:{textAlign:'center',maxWidth:320,flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1.5rem 0'}},
+    // Instruction text — animated on step change via useLayoutEffect above
+    h('div',{key:step,ref:instructionRef,style:{textAlign:'center',maxWidth:320,flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'1.5rem 0'}},
       h('p',{style:{fontSize:'1.05rem',color:'#ddd6fe',lineHeight:1.75,fontWeight:500}},cur?.instruction)
     ),
-
-    // Controls — Prev / Skip / Pause / Next(or Complete)
     h('div',{style:{width:'100%',maxWidth:360,display:'flex',flexDirection:'column',gap:10}},
-      // Primary row: Prev + Next/Complete
       h('div',{style:{display:'flex',gap:10}},
         step>0 && h('button',{onClick:goPrev,
           style:{flex:'0 0 auto',padding:'12px 18px',background:'rgba(255,255,255,0.08)',
@@ -2138,13 +2597,12 @@ function MentalPlayerPage({ params }) {
           h(Icon,{n:'arrowL',cls:'w-4 h-4 inline-block'})),
         h('button',{onClick:goNext,
           style:{flex:1,padding:'13px',background:isLastStep?'#16a34a':'linear-gradient(135deg,#6d28d9,#4338ca)',
-            color:'#fff',borderRadius:10,fontWeight:700,border:'none',cursor:'pointer',fontSize:14,fontWeight:700}},
+            color:'#fff',borderRadius:10,border:'none',cursor:'pointer',fontSize:14,fontWeight:700}},
           isLastStep ? h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',gap:8}},
             h(Icon,{n:'circleCheck',cls:'w-4 h-4'}),'Complete Session')
             : h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',gap:6}},'Next Step ',h(Icon,{n:'chevR',cls:'w-4 h-4'}))
         )
       ),
-      // Secondary row: Skip + Pause
       h('div',{style:{display:'flex',gap:10}},
         h('button',{onClick:skipStep,
           style:{flex:1,padding:'10px',background:'transparent',color:'#6d28d9',borderRadius:10,
@@ -2160,13 +2618,13 @@ function MentalPlayerPage({ params }) {
 }
 
 // ================================================================
-// FITNESS BUILDER
+// FITNESS BUILDER + WORKOUT DETAIL — list stagger + completion celebration
 // ================================================================
 const FIT_LEVELS=[
-  {id:'beginner',label:'Beginner',icon:'🌱',desc:'New to training or returning after break'},
-  {id:'intermediate',label:'Intermediate',icon:'⚡',desc:'Training 3-4x per week consistently'},
-  {id:'advanced',label:'Advanced',icon:'🔥',desc:'Training 5-6x with high intensity'},
-  {id:'pro',label:'Pro',icon:'💎',desc:'Elite-level daily training'},
+  {id:'beginner',label:'Beginner',icon:'activity',desc:'New to training or returning after break'},
+  {id:'intermediate',label:'Intermediate',icon:'zap',desc:'Training 3-4x per week consistently'},
+  {id:'advanced',label:'Advanced',icon:'flame',desc:'Training 5-6x with high intensity'},
+  {id:'pro',label:'Pro',icon:'diamond',desc:'Elite-level daily training'},
 ];
 const FIT_TARGETS=[
   {id:'full-body',label:'Full Body',icon:'activity'},{id:'chest',label:'Chest',icon:'heart'},
@@ -2191,11 +2649,25 @@ function FitnessPage() {
   const [picks,setPicks]=useState({level:'',target:'',goal:'',duration:''});
   const [results,setResults]=useState(null);
   const [progress,setProgress]=useState(()=>DB.getProgress());
+  const listRef = useRef(null);
+
   useEffect(()=>{
     const refresh=()=>setProgress(DB.getProgress());
     window.addEventListener('sc_update',refresh);
     return ()=>window.removeEventListener('sc_update',refresh);
   },[]);
+
+  // Stagger results when wizard completes or quick-tab content appears
+  useLayoutEffect(()=>{
+    if(!listRef.current || !SCAnim.ready) return;
+    const ctx = gsap.context(()=>{
+      const cards = listRef.current.querySelectorAll('[data-fit-card]');
+      if(cards.length){ SCAnim.staggerCards(cards, { y:12, duration:0.35, stagger:0.04 }); }
+      const opts = listRef.current.querySelectorAll('[data-fit-opt]');
+      if(opts.length){ SCAnim.staggerCards(opts, { y:10, duration:0.3, stagger:0.04 }); }
+    }, listRef);
+    return ()=>ctx.revert();
+  },[tab, results, step]);
 
   const WIZARD=[
     {key:'level',label:'Experience Level',opts:FIT_LEVELS},
@@ -2205,8 +2677,7 @@ function FitnessPage() {
   ];
 
   const choose=(key,val)=>{
-    const n={...picks,[key]:val};
-    setPicks(n);
+    const n={...picks,[key]:val}; setPicks(n);
     if(step<3) setStep(s=>s+1);
     else setResults(findWorkouts(n.level,n.target,n.goal,n.duration));
   };
@@ -2224,9 +2695,8 @@ function FitnessPage() {
     h(PageHeader,{title:'Fitness Builder',subtitle:`${WORKOUTS.length} workouts · every combination`,
       gradient:'linear-gradient(135deg,#c2410c,#dc2626)'}),
 
-    // Tabs
     h('div',{className:'flex gap-2 px-4 py-3'},
-      [['quick','⚡ Quick Start'],['wizard','🔮 Wizard'],['stats','📊 Stats']].map(([id,label])=>
+      [['quick','Quick Start'],['wizard','Wizard'],['stats','Stats']].map(([id,label])=>
         h('button',{key:id,onClick:()=>{setTab(id);reset();},
           className:'flex-1 py-2 rounded-xl text-xs font-black transition-all',
           style:tab===id?{background:'linear-gradient(135deg,#c2410c,#dc2626)',color:'#fff'}:{background:'rgba(30,41,59,0.6)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.5)'}
@@ -2234,88 +2704,120 @@ function FitnessPage() {
       )
     ),
 
-    tab==='quick' && h('div',{className:'px-4 space-y-2.5'},
-      h('p',{className:'text-sm text-slate-400 mb-2'},'Jump straight into a recommended workout:'),
-      quickPicks.map(w=>h('button',{key:w.id,onClick:()=>nav('WorkoutDetail',{id:w.id}),
-        className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
-        style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{className:`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${LVL_GRAD[w.level]}`},h(Icon,{n:'dumbbell',cls:'w-5 h-5 text-white'})),
-        h('div',{className:'flex-1'},
-          h('div',{className:'font-bold text-white text-sm'},w.name),
-          h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},`${w.level} · ${w.target} · ${w.duration_minutes} min`),
-          h('div',{className:'flex items-center gap-2 mt-1.5'},h(XPBadge,{xp:w.xp_value}),h('span',{className:'text-xs',style:{color:'#64748b'}},`${w.exercises} exercises`))
-        ),
-        h(Icon,{n:'chevR',cls:'w-5 h-5',style:{color:'#475569'}})
-      ))
-    ),
-
-    tab==='wizard' && !results && h('div',{className:'px-4'},
-      // Progress dots
-      h('div',{className:'flex justify-center gap-2 mb-5'},
-        WIZARD.map((_,i)=>h('div',{key:i,className:'h-2 rounded-full transition-all',
-          style:{width:i===step?'2rem':'0.5rem',background:i<step?'#10b981':i===step?'#f97316':'rgba(51,65,85,0.5)'}}))
-      ),
-      h('h2',{className:'text-base font-black text-white mb-1'},WIZARD[step].label),
-      picks.level && h('p',{className:'text-xs text-slate-500 mb-3'},[picks.level,picks.target,picks.goal].filter(Boolean).join(' · ')),
-      h('div',{className:'space-y-2'},
-        WIZARD[step].opts.map(opt=>h('button',{key:opt.id,onClick:()=>choose(WIZARD[step].key,opt.id),
-          style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:'12px 14px',borderRadius:10,
-            textAlign:'left',background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',cursor:'pointer',transition:'all 0.12s'}},
-          h('div',{style:{width:36,height:36,borderRadius:7,background:'rgba(48,54,61,0.6)',
-            display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
-            h(Icon,{n:opt.icon||'activity',cls:'w-4 h-4',style:{color:'#8b949e'}})),
-          h('div',{style:{flex:1}},
-            h('div',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},opt.label),
-            opt.desc && h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},opt.desc)
-          ),
-          h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#374151'}})
-        ))
-      ),
-      step>0 && h('button',{onClick:()=>setStep(s=>s-1),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
-        h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back'
-      )
-    ),
-
-    tab==='wizard' && results && h('div',{className:'px-4'},
-      h('div',{className:'flex items-center justify-between p-4 rounded-2xl mb-4',
-        style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)'}},
-        h('div',{},
-          h('div',{className:'text-sm font-bold',style:{color:'#34d399'}},`${results.length} workout${results.length!==1?'s':''} found`),
-          h('div',{className:'text-xs text-slate-400'},[picks.level,picks.target,picks.goal].filter(Boolean).join(' · '))
-        ),
-        h('button',{onClick:reset,className:'text-xs font-bold text-slate-400'},'New Search')
-      ),
-      h('div',{className:'space-y-2.5'},
-        results.map(w=>h('button',{key:w.id,onClick:()=>nav('WorkoutDetail',{id:w.id}),
+    h('div',{ref:listRef},
+      tab==='quick' && h('div',{className:'px-4 space-y-2.5'},
+        h('p',{className:'text-sm text-slate-400 mb-2'},'Jump straight into a recommended workout:'),
+        quickPicks.map(w=>h('button',{key:w.id,'data-fit-card':'',onClick:()=>nav('WorkoutDetail',{id:w.id}),
           className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
           style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
           h('div',{className:`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${LVL_GRAD[w.level]}`},h(Icon,{n:'dumbbell',cls:'w-5 h-5 text-white'})),
           h('div',{className:'flex-1'},
             h('div',{className:'font-bold text-white text-sm'},w.name),
-            h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},`${w.duration_minutes} min · ${w.exercises} exercises`),
-            h('div',{className:'mt-1.5'},h(XPBadge,{xp:w.xp_value}))
+            h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},`${w.level} · ${w.target} · ${w.duration_minutes} min`),
+            h('div',{className:'flex items-center gap-2 mt-1.5'},h(XPBadge,{xp:w.xp_value}),h('span',{className:'text-xs',style:{color:'#64748b'}},`${w.exercises} exercises`))
           ),
           h(Icon,{n:'chevR',cls:'w-5 h-5',style:{color:'#475569'}})
         ))
-      )
-    ),
+      ),
 
-    tab==='stats' && h('div',{className:'px-4 grid grid-cols-2 gap-3'},
-      h(StatCard,{label:'Workouts Done',value:progress.workouts_done||0,color:'text-orange-400',icon:'dumbbell'}),
-      h(StatCard,{label:'Total Library',value:WORKOUTS.length,color:'text-white',icon:'layers'}),
-      h(StatCard,{label:'Levels',value:'4 levels',color:'text-emerald-400',icon:'trophy'}),
-      h(StatCard,{label:'Targets',value:'8 muscle groups',color:'text-blue-400',icon:'crosshair'})
+      tab==='wizard' && !results && h('div',{className:'px-4'},
+        h('div',{className:'flex justify-center gap-2 mb-5'},
+          WIZARD.map((_,i)=>h('div',{key:i,className:'h-2 rounded-full transition-all',
+            style:{width:i===step?'2rem':'0.5rem',background:i<step?'#10b981':i===step?'#f97316':'rgba(51,65,85,0.5)'}}))
+        ),
+        h('h2',{className:'text-base font-black text-white mb-1'},WIZARD[step].label),
+        picks.level && h('p',{className:'text-xs text-slate-500 mb-3'},[picks.level,picks.target,picks.goal].filter(Boolean).join(' · ')),
+        h('div',{className:'space-y-2'},
+          WIZARD[step].opts.map(opt=>h('button',{key:opt.id,'data-fit-opt':'',onClick:()=>choose(WIZARD[step].key,opt.id),
+            style:{width:'100%',display:'flex',alignItems:'center',gap:12,padding:'12px 14px',borderRadius:10,
+              textAlign:'left',background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',cursor:'pointer',transition:'all 0.12s'}},
+            h('div',{style:{width:36,height:36,borderRadius:7,background:'rgba(48,54,61,0.6)',
+              display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+              h(Icon,{n:opt.icon||'activity',cls:'w-4 h-4',style:{color:'#8b949e'}})),
+            h('div',{style:{flex:1}},
+              h('div',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},opt.label),
+              opt.desc && h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},opt.desc)
+            ),
+            h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#374151'}})
+          ))
+        ),
+        step>0 && h('button',{onClick:()=>setStep(s=>s-1),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
+          h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back'
+        )
+      ),
+
+      tab==='wizard' && results && h('div',{className:'px-4'},
+        h('div',{className:'flex items-center justify-between p-4 rounded-2xl mb-4',
+          style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)'}},
+          h('div',{},
+            h('div',{className:'text-sm font-bold',style:{color:'#34d399'}},`${results.length} workout${results.length!==1?'s':''} found`),
+            h('div',{className:'text-xs text-slate-400'},[picks.level,picks.target,picks.goal].filter(Boolean).join(' · '))
+          ),
+          h('button',{onClick:reset,className:'text-xs font-bold text-slate-400'},'New Search')
+        ),
+        h('div',{className:'space-y-2.5'},
+          results.map(w=>h('button',{key:w.id,'data-fit-card':'',onClick:()=>nav('WorkoutDetail',{id:w.id}),
+            className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
+            style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
+            h('div',{className:`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${LVL_GRAD[w.level]}`},h(Icon,{n:'dumbbell',cls:'w-5 h-5 text-white'})),
+            h('div',{className:'flex-1'},
+              h('div',{className:'font-bold text-white text-sm'},w.name),
+              h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},`${w.duration_minutes} min · ${w.exercises} exercises`),
+              h('div',{className:'mt-1.5'},h(XPBadge,{xp:w.xp_value}))
+            ),
+            h(Icon,{n:'chevR',cls:'w-5 h-5',style:{color:'#475569'}})
+          ))
+        )
+      ),
+
+      tab==='stats' && h('div',{className:'px-4 grid grid-cols-2 gap-3'},
+        h(StatCard,{label:'Workouts Done',value:progress.workouts_done||0,color:'text-orange-400',icon:'dumbbell'}),
+        h(StatCard,{label:'Total Library',value:WORKOUTS.length,color:'text-white',icon:'layers'}),
+        h(StatCard,{label:'Levels',value:'4 levels',color:'text-emerald-400',icon:'trophy'}),
+        h(StatCard,{label:'Targets',value:'8 muscle groups',color:'text-blue-400',icon:'crosshair'})
+      )
     )
   );
 }
 
-// ================================================================
-// WORKOUT DETAIL
-// ================================================================
 function WorkoutDetailPage({ params }) {
   const w=WORKOUTS.find(wk=>wk.id===params?.id);
   const [done,setDone]=useState(false);
-  const completing=useRef(false); // double-tap guard
+  const completing=useRef(false);
+  const rootRef = useRef(null);
+  const successRef = useRef(null);
+
+  // Entrance timeline
+  useLayoutEffect(()=>{
+    if(done || !rootRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const tl = gsap.timeline({ defaults:{ ease:'power2.out' } });
+      tl.from('[data-anim="stat"]', { opacity:0, y:10, stagger:0.06, duration:0.35 }, 0)
+        .from('[data-anim="about"]', { opacity:0, y:14, duration:0.4 }, 0.15)
+        .from('[data-anim="cta-button"]', { opacity:0, y:18, duration:0.4 }, 0.3);
+      const cta = rootRef.current.querySelector('[data-anim="cta-button"]');
+      if(cta){
+        gsap.to(cta, { scale:1.02, duration:1.4, ease:'sine.inOut', repeat:-1, yoyo:true, delay:1.2 });
+      }
+    }, rootRef);
+    return ()=>ctx.revert();
+  },[done, params?.id]);
+
+  useLayoutEffect(()=>{
+    if(!done || !successRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const tl = gsap.timeline({ defaults:{ ease:'power2.out' } });
+      tl.from('[data-success="icon"]', { scale:0, opacity:0, duration:0.5, ease:'back.out(2)' })
+        .from('[data-success="title"]', { opacity:0, y:14, duration:0.4 }, 0.15)
+        .from('[data-success="subtitle"]', { opacity:0, y:10, duration:0.35 }, 0.25)
+        .from('[data-success="badge"]', { opacity:0, scale:0.7, duration:0.4, ease:'back.out(1.8)' }, 0.35)
+        .from('[data-success="actions"] > *', { opacity:0, y:12, duration:0.35, stagger:0.08 }, 0.5);
+    }, successRef);
+    return ()=>ctx.revert();
+  },[done]);
+
   if(!w) return h('div',{className:'pb-28 flex flex-col items-center justify-center',style:{minHeight:'80vh'}},
     h('div',{style:{width:56,height:56,borderRadius:12,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'dumbbell',cls:'w-7 h-7',style:{color:'#484f58'}})),h('p',{className:'font-bold text-white mb-4'},'Workout not found'),
     h('button',{onClick:()=>nav('Fitness'),className:'btn-primary px-6 py-3'},'Back')
@@ -2327,30 +2829,32 @@ function WorkoutDetailPage({ params }) {
     awardXP(w.xp_value,w.duration_minutes,'workout','workout',w.id);
     fireConfetti(); setDone(true);
   };
-  if(done) return h('div',{className:'flex flex-col items-center justify-center text-center px-5 pb-28',style:{minHeight:'100vh'}},
-    h('div',{style:{width:64,height:64,borderRadius:16,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-8 h-8',style:{color:'#16a34a'}})),h('h2',{className:'text-2xl font-black text-white mb-2'},'Workout Complete!'),
-    h('p',{className:'text-slate-400 mb-3'},w.name),h(XPBadge,{xp:w.xp_value}),
-    h('div',{className:'mt-6 flex flex-col gap-3 w-full max-w-xs'},
+  if(done) return h('div',{ref:successRef,className:'flex flex-col items-center justify-center text-center px-5 pb-28',style:{minHeight:'100vh'}},
+    h('div',{'data-success':'icon',style:{width:64,height:64,borderRadius:16,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-8 h-8',style:{color:'#16a34a'}})),
+    h('h2',{'data-success':'title',className:'text-2xl font-black text-white mb-2'},'Workout Complete!'),
+    h('p',{'data-success':'subtitle',className:'text-slate-400 mb-3'},w.name),
+    h('div',{'data-success':'badge'},h(XPBadge,{xp:w.xp_value})),
+    h('div',{'data-success':'actions',className:'mt-6 flex flex-col gap-3 w-full max-w-xs'},
       h('button',{onClick:()=>nav('Fitness'),className:'btn-primary'},'More Workouts'),
-      h('button',{onClick:()=>setDone(false),className:'btn-secondary'},'Do Again')
+      h('button',{onClick:()=>{setDone(false);completing.current=false;},className:'btn-secondary'},'Do Again')
     )
   );
   const grad=LVL_GRAD[w.level]||'#c2410c,#ea580c';
-  return h('div',{className:'pb-28'},
+  return h('div',{ref:rootRef,className:'pb-28'},
     h(PageHeader,{title:w.name,subtitle:`${w.duration_minutes} min · ${w.exercises} exercises · ${w.xp_value} XP`,
       gradient:`linear-gradient(135deg,${grad})`,onBack:()=>nav('Fitness')}),
     h('div',{className:'px-4 pt-5 space-y-4'},
       h('div',{className:'grid grid-cols-3 gap-3'},
-        h(StatCard,{label:'Level',value:w.level,color:'text-white'}),
-        h(StatCard,{label:'Focus',value:w.target,color:'text-orange-400'}),
-        h(StatCard,{label:'Goal',value:w.goal.replace('-',' '),color:'text-amber-400'})
+        h('div',{'data-anim':'stat'},h(StatCard,{label:'Level',value:w.level,color:'text-white'})),
+        h('div',{'data-anim':'stat'},h(StatCard,{label:'Focus',value:w.target,color:'text-orange-400'})),
+        h('div',{'data-anim':'stat'},h(StatCard,{label:'Goal',value:w.goal.replace('-',' '),color:'text-amber-400'}))
       ),
-      h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
+      h('div',{'data-anim':'about',className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-2'},'About This Workout'),
         h('p',{className:'text-sm text-slate-300 leading-relaxed'},
           `A ${w.duration_minutes}-minute ${w.level} workout targeting ${w.target} with a focus on ${w.goal.replace(/-/g,' ')}. Complete ${w.exercises} exercises with proper form and adequate rest between sets.`)
       ),
-      h('button',{onClick:complete,className:'btn-primary w-full py-4 text-base font-black'},
+      h('button',{'data-anim':'cta-button',onClick:complete,className:'btn-primary w-full py-4 text-base font-black'},
         h(Icon,{n:'circleCheck',cls:'w-5 h-5'}),` Complete Workout (+${w.xp_value} XP)`
       )
     )
@@ -2358,310 +2862,29 @@ function WorkoutDetailPage({ params }) {
 }
 
 // ================================================================
-// TIMER — 4 Professional Modes
+// TIMER HELPERS — SimpleIntervalPreset + CricketPresetsMode complete
 // ================================================================
-function TimerPage() {
-  const [mode,setMode]=useState('stopwatch');
-  const MODES=[{id:'stopwatch',label:'Stopwatch',icon:'timer'},{id:'countdown',label:'Countdown',icon:'clock'},
-    {id:'interval',label:'Interval',icon:'repeat'},{id:'cricket',label:'Cricket',icon:'bat'}];
-  return h('div',{className:'pb-28'},
-    h(PageHeader,{title:'Training Timer',subtitle:'Professional-grade cricket timer',gradient:'linear-gradient(135deg,#0d9488,#0891b2)'}),
-    h('div',{className:'flex gap-2 px-4 py-3 overflow-x-auto scrollbar-hide'},
-      MODES.map(m=>h('button',{key:m.id,onClick:()=>setMode(m.id),
-        className:'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap flex-shrink-0 transition-all',
-        style:mode===m.id?{background:'linear-gradient(135deg,#0d9488,#0891b2)',color:'#fff',boxShadow:'0 4px 14px rgba(13,148,136,0.4)'}:{background:'rgba(22,27,34,0.9)',color:'#8b949e',border:'1px solid rgba(48,54,61,0.9)'}
-      },h(Icon,{n:m.icon,cls:'w-3.5 h-3.5',style:{color:mode===m.id?'#fff':'#484f58'}}), ' ', m.label))
-    ),
-    mode==='stopwatch' && h(StopwatchMode),
-    mode==='countdown' && h(CountdownMode),
-    mode==='interval' && h(IntervalMode),
-    mode==='cricket' && h(CricketPresetsMode),
-  );
-}
-
-// ── SVG ring helper ───────────────────────────────────────────────
-function Ring({ pct, size=220, stroke=14, color='#10b981', bg='rgba(30,41,59,0.6)', children }) {
-  const r=(size-stroke)/2, C=2*Math.PI*r;
-  return h('div',{style:{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}},
-    h('svg',{width:size,height:size,viewBox:`0 0 ${size} ${size}`,style:{position:'absolute',inset:0}},
-      h('circle',{cx:size/2,cy:size/2,r,fill:'none',stroke:bg,strokeWidth:stroke}),
-      h('circle',{cx:size/2,cy:size/2,r,fill:'none',stroke:color,strokeWidth:stroke,
-        strokeLinecap:'round',strokeDasharray:C,strokeDashoffset:C*(1-Math.max(0,Math.min(1,pct))),
-        style:{transform:'rotate(-90deg)',transformOrigin:'center',transition:'stroke-dashoffset 1s linear'}
-      })
-    ),
-    h('div',{style:{position:'absolute',textAlign:'center'}},children)
-  );
-}
-
-// ── STOPWATCH ─────────────────────────────────────────────────────
-function StopwatchMode() {
-  const [elapsed,setElapsed]=useState(0);
-  const [running,setRunning]=useState(false);
-  const [laps,setLaps]=useState([]);
-  const intRef=useRef(null);
-  const lapStart=useRef(0);
-
-  useEffect(()=>{
-    if(running) intRef.current=setInterval(()=>setElapsed(e=>e+1),1000);
-    else clearInterval(intRef.current);
-    return()=>clearInterval(intRef.current);
-  },[running]);
-
-  const toggle=()=>setRunning(r=>!r);
-  const lap=()=>{
-    const t=elapsed-lapStart.current;
-    setLaps(l=>[...l,{n:l.length+1,t,total:elapsed}]);
-    lapStart.current=elapsed;
-  };
-  const reset=()=>{setRunning(false);setElapsed(0);setLaps([]);lapStart.current=0;};
-
-  return h('div',{className:'flex flex-col items-center px-5 pt-6'},
-    h(Ring,{pct:(elapsed%60)/60,color:'#10b981'},
-      h('div',{style:{fontSize:'2.5rem',fontWeight:900,color:'#fff',fontVariantNumeric:'tabular-nums'}},fmtTime(elapsed)),
-      h('div',{style:{fontSize:'0.7rem',color:'#94a3b8',fontWeight:700}},`LAP ${laps.length+1}`)
-    ),
-    h('div',{className:'flex gap-4 mt-6'},
-      h('button',{onClick:reset,style:{width:56,height:56,borderRadius:'50%',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.6)',color:'#94a3b8',cursor:'pointer',fontWeight:800,fontSize:'0.75rem'}},reset&&'RST'||'RST'),
-      h('button',{onClick:toggle,style:{width:80,height:80,borderRadius:'50%',background:running?'linear-gradient(135deg,#dc2626,#be123c)':'linear-gradient(135deg,#059669,#0d9488)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:running?'0 8px 32px rgba(220,38,38,0.4)':'0 8px 32px rgba(5,150,105,0.4)'}},
-        h(Icon,{n:running?'pause':'play',cls:'w-8 h-8 text-white'})
-      ),
-      h('button',{onClick:lap,disabled:!running,style:{width:56,height:56,borderRadius:'50%',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.6)',color:running?'#fff':'#475569',cursor:running?'pointer':'default',fontWeight:800,fontSize:'0.75rem',opacity:running?1:0.5}},'LAP')
-    ),
-    laps.length>0 && h('div',{className:'w-full mt-6 max-h-48 overflow-y-auto sidebar-scroll'},
-      h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-2'},`${laps.length} Lap${laps.length>1?'s':''}`),
-      [...laps].reverse().map(l=>h('div',{key:l.n,className:'flex justify-between items-center py-2',style:{borderBottom:'1px solid rgba(30,41,59,0.5)'}},
-        h('span',{style:{color:'#94a3b8',fontSize:'0.875rem'}},`Lap ${l.n}`),
-        h('span',{style:{color:'#fff',fontSize:'0.875rem',fontWeight:800,fontVariantNumeric:'tabular-nums'}},fmtTime(l.t)),
-        h('span',{style:{color:'#64748b',fontSize:'0.75rem',fontVariantNumeric:'tabular-nums'}},fmtTime(l.total))
-      ))
-    )
-  );
-}
-
-// ── COUNTDOWN ─────────────────────────────────────────────────────
-function CountdownMode() {
-  const [mins,setMins]=useState(5);
-  const [secs,setSecs]=useState(0);
-  const [remaining,setRemaining]=useState(300);
-  const [total,setTotal]=useState(300);
-  const [running,setRunning]=useState(false);
-  const [done,setDone]=useState(false);
-  const isSetup=!running&&remaining===total&&!done;
-  const intRef=useRef(null);
-
-  useEffect(()=>{
-    if(running){
-      intRef.current=setInterval(()=>setRemaining(r=>{
-        if(r<=1){clearInterval(intRef.current);setRunning(false);setDone(true);return 0;}
-        return r-1;
-      }),1000);
-    } else clearInterval(intRef.current);
-    return()=>clearInterval(intRef.current);
-  },[running]);
-
-  const start=()=>{
-    if(!running){const t=mins*60+secs;setTotal(t);setRemaining(t);setDone(false);}
-    setRunning(r=>!r);
-  };
-  const reset=()=>{setRunning(false);setRemaining(total);setDone(false);};
-  const pct=total>0?remaining/total:0;
-  const isLow=remaining<=10&&running;
-  const col=isLow?'#ef4444':done?'#f59e0b':'#10b981';
-
-  return h('div',{className:'flex flex-col items-center px-5 pt-6'},
-    done && h('div',{className:'w-full p-4 mb-4 rounded-2xl text-center',style:{background:'rgba(245,158,11,0.1)',border:'1px solid rgba(245,158,11,0.3)'}},
-      h(Icon,{n:'circleCheck',cls:'w-6 h-6',style:{color:'#f59e0b',marginBottom:4}}),h('div',{style:{fontWeight:800,color:'#f59e0b'}},"Time's up! Great work!"),
-      h('button',{onClick:reset,className:'btn-primary mt-3 px-6 py-2 text-sm'},'Reset')
-    ),
-    h(Ring,{pct,color:col},
-      h('div',{style:{fontSize:'2.5rem',fontWeight:900,color:isLow?'#ef4444':done?'#f59e0b':'#fff',fontVariantNumeric:'tabular-nums'}},fmtTime(remaining)),
-      h('div',{style:{fontSize:'0.7rem',color:'#94a3b8',fontWeight:700}},'remaining')
-    ),
-    isSetup && h('div',{className:'mt-4 p-4 rounded-2xl w-full',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-      h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-3'},'Set Duration'),
-      h('div',{className:'flex items-center justify-center gap-6'},
-        h('div',{className:'text-center'},
-          h('button',{onClick:()=>setMins(m=>Math.min(99,m+1)),style:{width:40,height:40,borderRadius:'0.75rem',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.5)',color:'#fff',cursor:'pointer',fontWeight:800,fontSize:'1.25rem'}},'+'),
-          h('div',{style:{fontSize:'2rem',fontWeight:900,color:'#fff',margin:'0.5rem 0',fontVariantNumeric:'tabular-nums'}},String(mins).padStart(2,'0')),
-          h('button',{onClick:()=>setMins(m=>Math.max(0,m-1)),style:{width:40,height:40,borderRadius:'0.75rem',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.5)',color:'#fff',cursor:'pointer',fontWeight:800,fontSize:'1.25rem'}},'-'),
-          h('div',{style:{fontSize:'0.7rem',color:'#64748b',marginTop:'0.25rem'}},'min')
-        ),
-        h('div',{style:{fontSize:'2rem',fontWeight:900,color:'#475569'}},':'),
-        h('div',{className:'text-center'},
-          h('button',{onClick:()=>setSecs(s=>Math.min(59,s+5)),style:{width:40,height:40,borderRadius:'0.75rem',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.5)',color:'#fff',cursor:'pointer',fontWeight:800,fontSize:'1.25rem'}},'+'),
-          h('div',{style:{fontSize:'2rem',fontWeight:900,color:'#fff',margin:'0.5rem 0',fontVariantNumeric:'tabular-nums'}},String(secs).padStart(2,'0')),
-          h('button',{onClick:()=>setSecs(s=>Math.max(0,s-5)),style:{width:40,height:40,borderRadius:'0.75rem',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.5)',color:'#fff',cursor:'pointer',fontWeight:800,fontSize:'1.25rem'}},'-'),
-          h('div',{style:{fontSize:'0.7rem',color:'#64748b',marginTop:'0.25rem'}},'sec')
-        )
-      )
-    ),
-    !done && h('div',{className:'flex gap-4 mt-6'},
-      h('button',{onClick:reset,style:{width:56,height:56,borderRadius:'50%',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.5)',color:'#94a3b8',cursor:'pointer',fontWeight:800,fontSize:'0.75rem'}},'RST'),
-      h('button',{onClick:start,style:{width:80,height:80,borderRadius:'50%',background:running?'linear-gradient(135deg,#dc2626,#be123c)':'linear-gradient(135deg,#059669,#0d9488)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 8px 32px rgba(5,150,105,0.35)'}},
-        h(Icon,{n:running?'pause':'play',cls:'w-8 h-8 text-white'})
-      ),
-      h('div',{style:{width:56}})
-    )
-  );
-}
-
-// ── INTERVAL ─────────────────────────────────────────────────────
-function IntervalMode() {
-  const [workS,setWorkS]=useState(60);
-  const [restS,setRestS]=useState(30);
-  const [rounds,setRounds]=useState(5);
-  const [running,setRunning]=useState(false);
+function SimpleIntervalPreset2({ preset, onBack }) {
   const [phase,setPhase]=useState('work');
-  const [remaining,setRemaining]=useState(60);
-  const [round,setRound]=useState(1);
-  const [cfg,setCfg]=useState(true);
-  const [done,setDone]=useState(false);
-  const stRef=useRef({phase:'work',remaining:60,round:1});
-  const intRef=useRef(null);
-
-  const startIt=()=>{
-    stRef.current={phase:'work',remaining:workS,round:1};
-    setPhase('work');setRemaining(workS);setRound(1);setCfg(false);setRunning(true);
-  };
-  const reset=()=>{clearInterval(intRef.current);setRunning(false);setCfg(true);setDone(false);setPhase('work');setRound(1);};
-
-  useEffect(()=>{
-    if(!running) return;
-    intRef.current=setInterval(()=>{
-      const st=stRef.current;
-      if(st.remaining<=1){
-        if(st.phase==='work'){
-          const n={phase:'rest',remaining:restS,round:st.round};stRef.current=n;setPhase('rest');setRemaining(restS);
-        } else {
-          if(st.round>=rounds){clearInterval(intRef.current);setRunning(false);setDone(true);}
-          else{const n={phase:'work',remaining:workS,round:st.round+1};stRef.current=n;setPhase('work');setRemaining(workS);setRound(r=>r+1);}
-        }
-      } else {stRef.current.remaining--;setRemaining(r=>r-1);}
-    },1000);
-    return()=>clearInterval(intRef.current);
-  },[running]);
-
-  if(cfg) return h('div',{className:'px-5 pt-6 space-y-3'},
-    h('p',{className:'text-sm text-slate-400 text-center mb-2'},'Configure your interval session'),
-    [{label:'Work Time',val:workS,set:setWorkS,step:15,min:10,max:600,fmt:true},
-     {label:'Rest Time',val:restS,set:setRestS,step:5,min:5,max:300,fmt:true},
-     {label:'Rounds',val:rounds,set:setRounds,step:1,min:1,max:20,fmt:false}].map(cfg2=>
-      h('div',{key:cfg2.label,className:'flex items-center justify-between p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('span',{className:'text-sm font-bold text-white'},cfg2.label),
-        h('div',{className:'flex items-center gap-3'},
-          h('button',{onClick:()=>cfg2.set(v=>Math.max(cfg2.min,v-cfg2.step)),style:{width:36,height:36,borderRadius:'0.75rem',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.5)',color:'#fff',cursor:'pointer',fontWeight:800}},'−'),
-          h('span',{style:{width:72,textAlign:'center',fontSize:'1.1rem',fontWeight:900,color:'#34d399',fontVariantNumeric:'tabular-nums'}},cfg2.fmt?fmtTime(cfg2.val):cfg2.val),
-          h('button',{onClick:()=>cfg2.set(v=>Math.min(cfg2.max,v+cfg2.step)),style:{width:36,height:36,borderRadius:'0.75rem',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.5)',color:'#fff',cursor:'pointer',fontWeight:800}},'+')
-        )
-      )
-    ),
-    h('div',{className:'p-4 rounded-2xl text-center',style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)'}},
-      h('span',{style:{color:'#34d399',fontSize:'0.875rem',fontWeight:700}},`Total: ${fmtTime(rounds*(workS+restS))} · ${rounds} rounds`)
-    ),
-    h('button',{onClick:startIt,className:'btn-primary w-full py-4 text-base font-black'},'Start Interval Session')
-  );
-
-  const pct=phase==='work'?remaining/workS:remaining/restS;
-  const col=phase==='work'?'#10b981':phase==='rest'?'#3b82f6':'#f59e0b';
-  return h('div',{className:'flex flex-col items-center px-5 pt-6'},
-    done
-      ? h('div',{className:'text-center py-8'},h('div',{style:{width:56,height:56,borderRadius:14,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-7 h-7',style:{color:'#16a34a'}})),h('div',{className:'text-xl font-black text-white mb-4'},'Session Complete!'),h('button',{onClick:reset,className:'btn-primary px-8 py-3'},'Done'))
-      : h(Fragment,null,
-          h('div',{className:'w-full py-3 rounded-2xl mb-5 text-center font-black text-white text-sm',
-            style:{background:phase==='work'?'linear-gradient(135deg,rgba(5,150,105,0.3),rgba(13,148,136,0.2))':'linear-gradient(135deg,rgba(29,78,216,0.3),rgba(67,56,202,0.2))',
-              border:`1px solid ${phase==='work'?'rgba(16,185,129,0.4)':'rgba(59,130,246,0.4)'}`}},
-            phase==='work'?`💪 WORK — Round ${round} of ${rounds}`:`😤 REST — Round ${round} of ${rounds}`
-          ),
-          h(Ring,{pct,color:col},
-            h('div',{style:{fontSize:'2.5rem',fontWeight:900,color:'#fff',fontVariantNumeric:'tabular-nums'}},fmtTime(remaining)),
-            h('div',{style:{fontSize:'0.7rem',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.1em',color:col}},phase)
-          ),
-          h('div',{className:'flex gap-4 mt-6'},
-            h('button',{onClick:reset,style:{width:56,height:56,borderRadius:'50%',background:'rgba(30,41,59,0.8)',border:'1px solid rgba(51,65,85,0.5)',color:'#94a3b8',cursor:'pointer',fontWeight:800,fontSize:'0.75rem'}},'RST'),
-            h('button',{onClick:()=>setRunning(r=>!r),style:{width:80,height:80,borderRadius:'50%',background:running?'linear-gradient(135deg,#dc2626,#be123c)':'linear-gradient(135deg,#059669,#0d9488)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 8px 32px rgba(5,150,105,0.35)'}},
-              h(Icon,{n:running?'pause':'play',cls:'w-8 h-8 text-white'})
-            ),
-            h('div',{style:{width:56}})
-          )
-        )
-  );
-}
-
-// ── CRICKET PRESETS ───────────────────────────────────────────────
-function CricketPresetsMode() {
-  const [active,setActive]=useState(null);
-  const presets=[
-    {id:'bowl',icon:'ball',name:'Bowling Spell',desc:'4 min bowl / 2 min rest / 4 rounds',work:240,rest:120,rounds:4,col:'#dc2626',grad:'linear-gradient(135deg,#dc2626,#ea580c)'},
-    {id:'bat',icon:'bat',name:'Batting Focus',desc:'10-minute countdown session',work:600,rest:0,rounds:1,col:'#3b82f6',grad:'linear-gradient(135deg,#1d4ed8,#4338ca)'},
-    {id:'field',icon:'navigation',name:'Fielding Drills',desc:'45s intense / 15s rest / 8 rounds',work:45,rest:15,rounds:8,col:'#10b981',grad:'linear-gradient(135deg,#059669,#0d9488)'},
-    {id:'mental',icon:'brain',name:'Mental Session',desc:'5-minute guided focus countdown',work:300,rest:0,rounds:1,col:'#a855f7',grad:'linear-gradient(135deg,#6d28d9,#4338ca)'},
-    {id:'warmup',icon:'flame',name:'Cricket Warm-Up',desc:'90s drills / 30s rest / 6 rounds',work:90,rest:30,rounds:6,col:'#f97316',grad:'linear-gradient(135deg,#c2410c,#d97706)'},
-    {id:'sprint',icon:'zap',name:'Speed Sprints',desc:'10s sprint / 50s rest / 10 rounds',work:10,rest:50,rounds:10,col:'#06b6d4',grad:'linear-gradient(135deg,#0891b2,#0d9488)'},
-  ];
-
-  if(active){
-    const p=presets.find(x=>x.id===active);
-    if(!p) return null;
-    if(p.rounds===1) return h(SimpleCountdownPreset,{preset:p,onBack:()=>setActive(null)});
-    return h(SimpleIntervalPreset,{preset:p,onBack:()=>setActive(null)});
-  }
-
-  return h('div',{className:'px-5 pt-4'},
-    h('p',{className:'text-sm text-slate-400 mb-4'},'Cricket-specific training timers, ready to start:'),
-    h('div',{className:'space-y-2.5'},
-      presets.map(p=>h('button',{key:p.id,onClick:()=>setActive(p.id),
-        className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
-        style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{style:{width:44,height:44,borderRadius:8,display:'flex',alignItems:'center',
-          justifyContent:'center',flexShrink:0,background:p.grad}},
-          h(Icon,{n:p.icon||'timer',cls:'w-5 h-5 text-white'})),
-        h('div',{className:'flex-1'},h('div',{className:'font-bold text-white text-sm'},p.name),h('div',{className:'text-xs mt-0.5',style:{color:'#64748b'}},p.desc)),
-        h(Icon,{n:'chevR',cls:'w-5 h-5',style:{color:'#475569'}})
-      ))
-    )
-  );
-}
-
-function SimpleCountdownPreset({ preset, onBack }) {
   const [remaining,setRemaining]=useState(preset.work);
+  const [round,setRound]=useState(1);
   const [running,setRunning]=useState(false);
   const [done,setDone]=useState(false);
+  const st=useRef({phase:'work',remaining:preset.work,round:1});
   const intRef=useRef(null);
-  useEffect(()=>{
-    if(running) intRef.current=setInterval(()=>setRemaining(r=>{if(r<=1){clearInterval(intRef.current);setRunning(false);setDone(true);return 0;}return r-1;}),1000);
-    else clearInterval(intRef.current);
-    return()=>clearInterval(intRef.current);
-  },[running]);
-  const pct=remaining/preset.work;
-  return h('div',{className:'flex flex-col items-center px-5 pt-4'},
-    h('button',{onClick:onBack,className:'self-start flex items-center gap-2 text-slate-400 mb-4 text-sm font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back'),
-    h('div',{className:'w-full py-3 rounded-2xl mb-5 text-center font-black text-white text-sm',style:{background:preset.grad}},preset.name),
-    done && h('div',{style:{display:'flex',alignItems:'center',gap:8,marginBottom:16,color:'#16a34a',fontWeight:700}},h(Icon,{n:'circleCheck',cls:'w-5 h-5'}),'Complete!'),
-    h(Ring,{pct,color:preset.col},
-      h('div',{style:{fontSize:'2.5rem',fontWeight:900,color:'#fff',fontVariantNumeric:'tabular-nums'}},fmtTime(remaining)),
-      h('div',{style:{fontSize:'0.7rem',color:'#94a3b8',fontWeight:700}},'remaining')
-    ),
-    !done && h('button',{onClick:()=>setRunning(r=>!r),className:'mt-6',style:{width:80,height:80,borderRadius:'50%',background:running?'linear-gradient(135deg,#dc2626,#be123c)':'linear-gradient(135deg,#059669,#0d9488)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 8px 32px rgba(5,150,105,0.35)'}},
-      h(Icon,{n:running?'pause':'play',cls:'w-8 h-8 text-white'})
-    ),
-    done && h('button',{onClick:onBack,className:'btn-primary mt-6 px-8 py-3'},'Back to Presets')
-  );
-}
-
-function SimpleIntervalPreset({ preset, onBack }) {
-  const [phase,setPhase]=useState('work');const[remaining,setRemaining]=useState(preset.work);const[round,setRound]=useState(1);
-  const [running,setRunning]=useState(false);const[done,setDone]=useState(false);
-  const st=useRef({phase:'work',remaining:preset.work,round:1});const intRef=useRef(null);
   useEffect(()=>{
     if(!running) return;
     intRef.current=setInterval(()=>{
       const s=st.current;
       if(s.remaining<=1){
-        if(s.phase==='work'){const n={phase:'rest',remaining:preset.rest,round:s.round};st.current=n;setPhase('rest');setRemaining(preset.rest);}
-        else{if(s.round>=preset.rounds){clearInterval(intRef.current);setRunning(false);setDone(true);}
-          else{const n={phase:'work',remaining:preset.work,round:s.round+1};st.current=n;setPhase('work');setRemaining(preset.work);setRound(r=>r+1);}}
-      }else{st.current.remaining--;setRemaining(r=>r-1);}
+        if(s.phase==='work'){
+          const n={phase:'rest',remaining:preset.rest,round:s.round};
+          st.current=n;setPhase('rest');setRemaining(preset.rest);
+        } else {
+          if(s.round>=preset.rounds){clearInterval(intRef.current);setRunning(false);setDone(true);}
+          else{const n={phase:'work',remaining:preset.work,round:s.round+1};st.current=n;setPhase('work');setRemaining(preset.work);setRound(r=>r+1);}
+        }
+      } else {st.current.remaining--;setRemaining(r=>r-1);}
     },1000);
     return()=>clearInterval(intRef.current);
   },[running]);
@@ -2670,14 +2893,22 @@ function SimpleIntervalPreset({ preset, onBack }) {
   return h('div',{className:'flex flex-col items-center px-5 pt-4'},
     h('button',{onClick:onBack,className:'self-start flex items-center gap-2 text-slate-400 mb-4 text-sm font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back'),
     done
-      ? h('div',{className:'text-center py-8'},h('div',{style:{width:56,height:56,borderRadius:14,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-7 h-7',style:{color:'#16a34a'}})),h('div',{className:'text-xl font-black text-white mb-4'},'Complete!'),h('button',{onClick:onBack,className:'btn-primary px-8 py-3'},'Done'))
+      ? h('div',{className:'text-center py-8'},
+          h('div',{style:{width:56,height:56,borderRadius:14,background:'rgba(22,163,74,0.15)',display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}},h(Icon,{n:'circleCheck',cls:'w-7 h-7',style:{color:'#16a34a'}})),
+          h('div',{className:'text-xl font-black text-white mb-4'},'Complete!'),
+          h('button',{onClick:onBack,className:'btn-primary px-8 py-3'},'Done'))
       : h(Fragment,null,
-          h('div',{className:'w-full py-3 rounded-2xl mb-5 text-center font-black text-white text-sm',style:{background:preset.grad}},`${preset.name} — Round ${round}/${preset.rounds}`),
+          h('div',{className:'w-full py-3 rounded-2xl mb-5 text-center font-black text-white text-sm',style:{background:preset.grad}},
+            `${preset.name} — Round ${round}/${preset.rounds}`),
           h(Ring,{pct,color:col},
             h('div',{style:{fontSize:'2.5rem',fontWeight:900,color:'#fff',fontVariantNumeric:'tabular-nums'}},fmtTime(remaining)),
             h('div',{style:{fontSize:'0.7rem',fontWeight:800,textTransform:'uppercase',color:col}},phase)
           ),
-          h('button',{onClick:()=>setRunning(r=>!r),className:'mt-6',style:{width:80,height:80,borderRadius:'50%',background:running?'linear-gradient(135deg,#dc2626,#be123c)':'linear-gradient(135deg,#059669,#0d9488)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 8px 32px rgba(5,150,105,0.35)'}},
+          h('button',{onClick:()=>setRunning(r=>!r),className:'mt-6',
+            style:{width:80,height:80,borderRadius:'50%',
+              background:running?'linear-gradient(135deg,#dc2626,#be123c)':'linear-gradient(135deg,#059669,#0d9488)',
+              border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',
+              boxShadow:'0 8px 32px rgba(5,150,105,0.35)'}},
             h(Icon,{n:running?'pause':'play',cls:'w-8 h-8 text-white'})
           )
         )
@@ -2685,188 +2916,171 @@ function SimpleIntervalPreset({ preset, onBack }) {
 }
 
 // ================================================================
-// SCHEDULE PAGE — Professional Training Planner
-// Deeply integrated: Home / Drills / Mental / Fitness / Skill Paths
+// SCHEDULE PAGE — GSAP: day pills stagger, session cards stagger,
+// new-session slide-in, completion pulse
 // ================================================================
 function SchedulePage() {
-  const [weekStart, setWeekStart] = useState(()=>dateStr(getWeekMonday(new Date())));
-  const [selectedDay, setSelectedDay] = useState(()=>new Date().toISOString().slice(0,10));
-  const [schedule, setSchedule] = useState(()=>DB.getSchedule());
-  const [view, setView] = useState('week'); // 'week' | 'add' | 'generate'
-  const [addStep, setAddStep] = useState(0);
-  const [addType, setAddType] = useState('');
-  const [addPick, setAddPick] = useState(null);
-  const [addTime, setAddTime] = useState('');
-  const [addNote, setAddNote] = useState('');
-  const [genStep, setGenStep] = useState(0);
-  const [genFocus, setGenFocus] = useState('');
-  const [genDays, setGenDays] = useState(4);
-  const [genInt, setGenInt] = useState('moderate');
-  const [genPreview, setGenPreview] = useState(null);
-  const [notif, setNotif] = useState('');
+  const [weekStart,setWeekStart]=useState(()=>dateStr(getWeekMonday(new Date())));
+  const [selectedDay,setSelectedDay]=useState(()=>new Date().toISOString().slice(0,10));
+  const [schedule,setSchedule]=useState(()=>DB.getSchedule());
+  const [view,setView]=useState('week');
+  const [addStep,setAddStep]=useState(0);
+  const [addType,setAddType]=useState('');
+  const [addPick,setAddPick]=useState(null);
+  const [addTime,setAddTime]=useState('');
+  const [addNote,setAddNote]=useState('');
+  const [genStep,setGenStep]=useState(0);
+  const [genFocus,setGenFocus]=useState('');
+  const [genDays,setGenDays]=useState(4);
+  const [genInt,setGenInt]=useState('moderate');
+  const [genPreview,setGenPreview]=useState(null);
+  const [notif,setNotif]=useState('');
+  const cardsRef=useRef(null);
+  const weekRef=useRef(null);
 
-  const refresh = useCallback(()=>setSchedule(DB.getSchedule()), []);
+  const refresh=useCallback(()=>setSchedule(DB.getSchedule()),[]);
   useEffect(()=>{
-    window.addEventListener('sc_update', refresh);
-    return()=>window.removeEventListener('sc_update', refresh);
+    window.addEventListener('sc_update',refresh);
+    return()=>window.removeEventListener('sc_update',refresh);
   },[refresh]);
 
-  function showNotif(msg) { setNotif(msg); setTimeout(()=>setNotif(''), 3000); }
+  function showNotif(msg){setNotif(msg);setTimeout(()=>setNotif(''),3000);}
 
-  // Build week days array
-  const monday = new Date(weekStart+'T00:00:00');
-  const weekDays = Array.from({length:7},(_,i)=>{
-    const d = addDays(monday,i);
-    return { date:dateStr(d), label:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i], num:d.getDate() };
+  // Stagger day session cards when selected day changes
+  useLayoutEffect(()=>{
+    if(!cardsRef.current||!SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx=gsap.context(()=>{
+      const cards=cardsRef.current.querySelectorAll('[data-sess-card]');
+      if(cards.length) SCAnim.staggerCards(cards,{y:10,duration:0.32,stagger:0.05});
+    },cardsRef);
+    return()=>ctx.revert();
+  },[selectedDay,schedule]);
+
+  // Stagger week day pills on mount
+  useLayoutEffect(()=>{
+    if(!weekRef.current||!SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx=gsap.context(()=>{
+      const pills=weekRef.current.querySelectorAll('[data-day-pill]');
+      if(pills.length) SCAnim.staggerCards(pills,{y:-6,duration:0.28,stagger:0.03,delay:0.1});
+    },weekRef);
+    return()=>ctx.revert();
+  },[weekStart]);
+
+  const monday=new Date(weekStart+'T00:00:00');
+  const weekDays=Array.from({length:7},(_,i)=>{
+    const d=addDays(monday,i);
+    return {date:dateStr(d),label:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i],num:d.getDate()};
   });
+  const daySessions=(schedule.sessions||[]).filter(s=>s.date===selectedDay).sort((a,b)=>a.time.localeCompare(b.time));
+  function dayCount(date){return (schedule.sessions||[]).filter(s=>s.date===date).length;}
+  function dayDone(date){return (schedule.sessions||[]).filter(s=>s.date===date&&s.status==='complete').length;}
+  const weekSessions=DB.getSessionsForWeek(weekStart);
+  const weekXP=weekSessions.filter(s=>s.status==='pending').reduce((a,s)=>a+s.xp_value,0);
+  const weekDoneCount=weekSessions.filter(s=>s.status==='complete').length;
 
-  // Sessions for selected day
-  const daySessions = (schedule.sessions||[]).filter(s=>s.date===selectedDay)
-    .sort((a,b)=>a.time.localeCompare(b.time));
-
-  // Count sessions per day for dots
-  function dayCount(date) { return (schedule.sessions||[]).filter(s=>s.date===date).length; }
-  function dayDone(date) { return (schedule.sessions||[]).filter(s=>s.date===date&&s.status==='complete').length; }
-
-  // Week summary
-  const weekSessions = DB.getSessionsForWeek(weekStart);
-  const weekXP = weekSessions.filter(s=>s.status==='pending').reduce((a,s)=>a+s.xp_value,0);
-  const weekDoneCount = weekSessions.filter(s=>s.status==='complete').length;
-
-  // ── Complete a session ───────────────────────────────────────
-  function completeSession(id) {
-    const sess = (schedule.sessions||[]).find(s=>s.id===id);
+  function completeSession(id){
+    const sess=(schedule.sessions||[]).find(s=>s.id===id);
     if(!sess||sess.status==='complete') return;
     DB.updateSession(id,{status:'complete'});
-    awardXP(sess.xp_value, sess.duration_minutes, 'schedule_'+sess.type);
-    fireConfetti();
-    refresh();
-    showNotif(`✅ +${sess.xp_value} XP earned!`);
+    awardXP(sess.xp_value,sess.duration_minutes,'schedule_'+sess.type);
+    fireConfetti(); refresh(); showNotif(`+${sess.xp_value} XP earned!`);
   }
-
-  function skipSession(id) { DB.updateSession(id,{status:'skipped'}); refresh(); }
-  function deleteSession(id) { DB.deleteSession(id); refresh(); showNotif('Session removed'); }
-  function undoSession(id) { DB.updateSession(id,{status:'pending'}); refresh(); }
-
-  // ── Start a session (navigate to the content) ─────────────────
-  function startSession(sess) {
+  function skipSession(id){DB.updateSession(id,{status:'skipped'});refresh();}
+  function deleteSession(id){DB.deleteSession(id);refresh();showNotif('Session removed');}
+  function undoSession(id){DB.updateSession(id,{status:'pending'});refresh();}
+  function startSession(sess){
     if(sess.type==='drill'&&sess.ref_id) nav('DrillDetail',{id:sess.ref_id});
     else if(sess.type==='mental'&&sess.ref_id) nav('MentalPlayer',{id:sess.ref_id});
     else if(sess.type==='fitness'&&sess.ref_id) nav('WorkoutDetail',{id:sess.ref_id});
     else nav('Timer');
   }
 
-  // ── Add session flow ──────────────────────────────────────────
-  function saveNewSession() {
+  function saveNewSession(){
     if(!addType) return;
     const tc=SCHED_TYPES[addType];
-    let title='Custom Session', refId=null, dur=30, xp=50;
+    let title='Custom Session',refId=null,dur=30,xp=50;
     if(addPick){
-      if(addType==='drill'){
-        const d=DRILLS.find(x=>x.id===addPick);
-        if(d){title=d.title;refId=d.id;dur=d.duration_minutes;xp=d.xp_value;}
-      } else if(addType==='mental'){
-        const m=MENTAL_SESSIONS.find(x=>x.id===addPick);
-        if(m){title=m.title;refId=m.id;dur=Math.floor(m.duration_seconds/60);xp=m.xp_value;}
-      } else if(addType==='fitness'){
-        const w=WORKOUTS.find(x=>x.id===addPick);
-        if(w){title=w.name;refId=w.id;dur=w.duration_minutes;xp=w.xp_value;}
-      }
+      if(addType==='drill'){const d=DRILLS.find(x=>x.id===addPick);if(d){title=d.title;refId=d.id;dur=d.duration_minutes;xp=d.xp_value;}}
+      else if(addType==='mental'){const m=MENTAL_SESSIONS.find(x=>x.id===addPick);if(m){title=m.title;refId=m.id;dur=Math.floor(m.duration_seconds/60);xp=m.xp_value;}}
+      else if(addType==='fitness'){const w=WORKOUTS.find(x=>x.id===addPick);if(w){title=w.name;refId=w.id;dur=w.duration_minutes;xp=w.xp_value;}}
     } else if(addType==='match'){title='Match Day';dur=180;xp=200;}
     else if(addType==='rest'){title='Rest & Recovery Day';dur=0;xp=20;}
     DB.addSession({id:'sch_'+Date.now(),date:selectedDay,time:addTime,type:addType,title,ref_id:refId,duration_minutes:dur,xp_value:xp,status:'pending',notes:addNote,color:tc.color});
-    refresh();
-    setView('week'); setAddStep(0); setAddType(''); setAddPick(null); setAddTime(''); setAddNote('');
-    showNotif('Session added! 📅');
+    refresh(); setView('week');setAddStep(0);setAddType('');setAddPick(null);setAddTime('');setAddNote('');
+    showNotif('Session added!');
   }
 
-  // ── Smart generator ───────────────────────────────────────────
-  function runGenerator() {
-    const sessions = generateSmartSchedule(genFocus, genDays, genInt, weekStart);
-    setGenPreview(sessions); setGenStep(3);
+  function runGenerator(){
+    const sessions=generateSmartSchedule(genFocus,genDays,genInt,weekStart);
+    setGenPreview(sessions);setGenStep(3);
   }
-  function confirmGenerate() {
-    // Remove existing pending sessions for this week
-    const existing = DB.getSchedule();
-    const filtered = (existing.sessions||[]).filter(s=>{
-      const wd=DB.getSessionsForWeek(weekStart).map(x=>x.id);
-      return !wd.includes(s.id)||s.status==='complete';
-    });
-    existing.sessions = [...filtered, ...genPreview];
+  function confirmGenerate(){
+    const existing=DB.getSchedule();
+    const wd=DB.getSessionsForWeek(weekStart).map(x=>x.id);
+    existing.sessions=[...(existing.sessions||[]).filter(s=>!wd.includes(s.id)||s.status==='complete'),...genPreview];
     DB.saveSchedule(existing);
-    refresh(); setView('week'); setGenStep(0); setGenFocus(''); setGenPreview(null);
-    showNotif('🤖 Smart schedule generated!');
+    refresh();setView('week');setGenStep(0);setGenFocus('');setGenPreview(null);
+    showNotif('Smart schedule generated!');
   }
 
-  // ── Add view ──────────────────────────────────────────────────
   if(view==='add') return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Add Session',subtitle:formatDate(selectedDay),
       gradient:'linear-gradient(135deg,#0f766e,#0d9488)',
-      onBack:()=>{ setView('week');setAddStep(0);setAddType('');setAddPick(null);}}),
+      onBack:()=>{setView('week');setAddStep(0);setAddType('');setAddPick(null);}}),
     h('div',{className:'px-4 pt-5'},
-      // Step indicators
       h('div',{className:'flex gap-2 mb-5'},
         ['Type','Content','Details'].map((s,i)=>h('div',{key:s,className:'flex items-center gap-2'},
           h('div',{className:'w-6 h-6 rounded-full flex items-center justify-center text-xs font-black',
             style:{background:addStep>=i?'linear-gradient(135deg,#0f766e,#0d9488)':'rgba(30,41,59,0.8)',
               color:addStep>=i?'#fff':'#64748b',border:addStep>=i?'none':'1px solid rgba(51,65,85,0.5)'}},i+1),
           h('span',{style:{fontSize:'0.75rem',fontWeight:700,color:addStep===i?'#5eead4':'#64748b'}},s),
-          i<2 && h('div',{style:{width:'1.5rem',height:'2px',background:addStep>i?'#0d9488':'rgba(51,65,85,0.5)',borderRadius:'1px'}})
+          i<2&&h('div',{style:{width:'1.5rem',height:'2px',background:addStep>i?'#0d9488':'rgba(51,65,85,0.5)',borderRadius:'1px'}})
         ))
       ),
-
-      // Step 0: Type
-      addStep===0 && h('div',{},
+      addStep===0&&h('div',{},
         h('h3',{className:'text-base font-black text-white mb-3'},'What type of session?'),
         h('div',{className:'space-y-2'},
           Object.entries(SCHED_TYPES).map(([id,tc])=>h('button',{key:id,
             onClick:()=>{setAddType(id);setAddStep(id==='match'||id==='rest'||id==='custom'?2:1);},
             className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
-            style:{background:tc.bg,border:`1px solid ${tc.border}`}
-          },
-            h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(0,0,0,0.25)',
-              display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+            style:{background:tc.bg,border:`1px solid ${tc.border}`}},
+            h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(0,0,0,0.25)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
               h(Icon,{n:tc.icon||'calendar',cls:'w-5 h-5',style:{color:tc.color}})),
             h('div',{className:'flex-1'},h('div',{className:'font-bold text-white text-sm'},tc.label)),
             h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
           ))
         )
       ),
-
-      // Step 1: Pick content
-      addStep===1 && addType && h('div',{},
+      addStep===1&&addType&&h('div',{},
         h('h3',{className:'text-base font-black text-white mb-3'},
           addType==='drill'?'Choose a drill:':addType==='mental'?'Choose a session:':'Choose a workout:'),
         h('div',{className:'space-y-2 max-h-80 overflow-y-auto sidebar-scroll pr-1'},
-          (addType==='drill'?DRILLS:addType==='mental'?MENTAL_SESSIONS.filter(m=>!m.is_premium):WORKOUTS.slice(0,30))
-            .map(item=>{
-              const isD=addType==='drill';const isM=addType==='mental';
-              const label=isD?item.title:isM?item.title:item.name;
-              const meta=isD?`${item.duration_minutes} min`:`${isM?Math.floor(item.duration_seconds/60):item.duration_minutes} min`;
-              const xpv=isD?item.xp_value:isM?item.xp_value:item.xp_value;
-              return h('button',{key:item.id,
-                onClick:()=>{setAddPick(item.id);setAddStep(2);},
-                className:'w-full flex items-center gap-3 p-3 rounded-xl text-left active:scale-[.99] transition-all',
-                style:{background:addPick===item.id?'rgba(15,118,110,0.2)':'rgba(30,41,59,0.6)',
-                  border:addPick===item.id?'1px solid rgba(13,148,136,0.5)':'1px solid rgba(51,65,85,0.4)'}
-              },
-                h('div',{className:'flex-1'},
-                  h('div',{className:'text-sm font-bold text-white'},label),
-                  h('div',{className:'flex items-center gap-2 mt-1'},
-                    h('span',{className:'text-xs',style:{color:'#64748b'}},meta),
-                    h(XPBadge,{xp:xpv})
-                  )
-                ),
-                h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
-              );
-            })
+          (addType==='drill'?DRILLS:addType==='mental'?MENTAL_SESSIONS.filter(m=>!m.is_premium):WORKOUTS.slice(0,30)).map(item=>{
+            const isD=addType==='drill';const isM=addType==='mental';
+            const label=isD?item.title:isM?item.title:item.name;
+            const meta=isD?`${item.duration_minutes} min`:`${isM?Math.floor(item.duration_seconds/60):item.duration_minutes} min`;
+            return h('button',{key:item.id,
+              onClick:()=>{setAddPick(item.id);setAddStep(2);},
+              className:'w-full flex items-center gap-3 p-3 rounded-xl text-left active:scale-[.99] transition-all',
+              style:{background:addPick===item.id?'rgba(15,118,110,0.2)':'rgba(30,41,59,0.6)',
+                border:addPick===item.id?'1px solid rgba(13,148,136,0.5)':'1px solid rgba(51,65,85,0.4)'}},
+              h('div',{className:'flex-1'},
+                h('div',{className:'text-sm font-bold text-white'},label),
+                h('div',{className:'flex items-center gap-2 mt-1'},
+                  h('span',{className:'text-xs',style:{color:'#64748b'}},meta),
+                  h(XPBadge,{xp:item.xp_value})
+                )
+              ),
+              h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
+            );
+          })
         ),
         h('button',{onClick:()=>{setAddStep(0);setAddType('');},className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
           h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
       ),
-
-      // Step 2: Time + Notes
-      addStep===2 && h('div',{},
+      addStep===2&&h('div',{},
         h('h3',{className:'text-base font-black text-white mb-4'},'Session details'),
         h('div',{className:'space-y-4'},
           h('div',{},
@@ -2882,17 +3096,15 @@ function SchedulePage() {
               style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}})
           ),
           h('button',{onClick:saveNewSession,className:'btn-primary w-full py-4 text-base font-black'},
-            h(Icon,{n:'plus',cls:'w-5 h-5'}),' Add to Schedule'
-          ),
-          h('button',{onClick:()=>{setAddStep(addType==='drill'||addType==='mental'||addType==='fitness'?1:0);},
-            className:'w-full text-center text-sm text-slate-400 font-semibold py-2'},'← Back')
+            h(Icon,{n:'plus',cls:'w-5 h-5'}),' Add to Schedule'),
+          h('button',{onClick:()=>setAddStep(addType==='drill'||addType==='mental'||addType==='fitness'?1:0),
+            className:'w-full text-center text-sm text-slate-400 font-semibold py-2'},'Back')
         )
       )
     )
   );
 
-  // ── Smart Generator view ──────────────────────────────────────
-  if(view==='generate') {
+  if(view==='generate'){
     const FOCUS=[{id:'batting',label:'Batting',icon:'bat'},{id:'bowling',label:'Bowling',icon:'ball'},
       {id:'fielding',label:'Fielding',icon:'navigation'},{id:'allrounder',label:'All-Round',icon:'star'}];
     const INTENSITY=[{id:'light',label:'Light',icon:'activity',desc:'2 sessions/day max'},
@@ -2902,31 +3114,27 @@ function SchedulePage() {
       h(PageHeader,{title:'Smart Generator',subtitle:'AI-powered weekly schedule',
         gradient:'linear-gradient(135deg,#4c1d95,#5b21b6)',onBack:()=>{setView('week');setGenStep(0);setGenFocus('');setGenPreview(null);}}),
       h('div',{className:'px-4 pt-5'},
-        // Progress
         h('div',{className:'flex gap-2 mb-5'},
           ['Focus','Days','Intensity','Preview'].map((s,i)=>h('div',{key:s,className:'flex items-center gap-1.5'},
-            h('div',{className:'w-5 h-5 rounded-full flex items-center justify-center',style:{fontSize:'0.65rem',fontWeight:900,
-              background:genStep>=i?'linear-gradient(135deg,#6d28d9,#7c3aed)':'rgba(30,41,59,0.8)',color:genStep>=i?'#fff':'#64748b'}},i+1),
+            h('div',{className:'w-5 h-5 rounded-full flex items-center justify-center',
+              style:{fontSize:'0.65rem',fontWeight:900,background:genStep>=i?'linear-gradient(135deg,#6d28d9,#7c3aed)':'rgba(30,41,59,0.8)',color:genStep>=i?'#fff':'#64748b'}},i+1),
             h('span',{style:{fontSize:'0.7rem',fontWeight:700,color:genStep===i?'#c084fc':'#64748b',whiteSpace:'nowrap'}},s),
-            i<3 && h('div',{style:{flex:1,height:'2px',background:genStep>i?'#7c3aed':'rgba(51,65,85,0.5)',borderRadius:'1px',minWidth:'1rem'}})
+            i<3&&h('div',{style:{flex:1,height:'2px',background:genStep>i?'#7c3aed':'rgba(51,65,85,0.5)',borderRadius:'1px',minWidth:'1rem'}})
           ))
         ),
-
-        genStep===0 && h('div',{},
+        genStep===0&&h('div',{},
           h('h3',{className:'text-base font-black text-white mb-3'},'Which area needs most work?'),
           h('div',{className:'grid grid-cols-2 gap-3'},
             FOCUS.map(f=>h('button',{key:f.id,onClick:()=>{setGenFocus(f.id);setGenStep(1);},
               style:{display:'flex',flexDirection:'column',alignItems:'center',gap:8,padding:'20px 16px',
                 borderRadius:10,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',cursor:'pointer'}},
-              h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(48,54,61,0.6)',
-                display:'flex',alignItems:'center',justifyContent:'center'}},
+              h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center'}},
                 h(Icon,{n:f.icon,cls:'w-5 h-5',style:{color:'#8b949e'}})),
               h('span',{style:{fontSize:12,fontWeight:700,color:'#e6edf3'}},f.label)
             ))
           )
         ),
-
-        genStep===1 && h('div',{},
+        genStep===1&&h('div',{},
           h('h3',{className:'text-base font-black text-white mb-1'},'Days per week?'),
           h('p',{className:'text-xs text-slate-400 mb-4'},'How many days can you train?'),
           h('div',{className:'flex gap-3 flex-wrap'},
@@ -2935,26 +3143,25 @@ function SchedulePage() {
               style:{background:genDays===n?'linear-gradient(135deg,#6d28d9,#7c3aed)':'rgba(30,41,59,0.6)',
                 color:'#fff',border:'1px solid rgba(51,65,85,0.5)',minWidth:'50px'}},n)
           )),
-          h('button',{onClick:()=>setGenStep(0),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
+          h('button',{onClick:()=>setGenStep(0),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
+            h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
         ),
-
-        genStep===2 && h('div',{},
+        genStep===2&&h('div',{},
           h('h3',{className:'text-base font-black text-white mb-3'},'Session intensity?'),
           h('div',{className:'space-y-2'},
             INTENSITY.map(i=>h('button',{key:i.id,onClick:()=>{setGenInt(i.id);runGenerator();},
               className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
               style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
-              h('div',{style:{width:36,height:36,borderRadius:7,background:'rgba(48,54,61,0.6)',
-                display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+              h('div',{style:{width:36,height:36,borderRadius:7,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
                 h(Icon,{n:i.icon||'activity',cls:'w-4 h-4',style:{color:'#8b949e'}})),
               h('div',{className:'flex-1'},h('div',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},i.label),h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},i.desc)),
               h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#374151'}})
             ))
           ),
-          h('button',{onClick:()=>setGenStep(1),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
+          h('button',{onClick:()=>setGenStep(1),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
+            h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
         ),
-
-        genStep===3 && genPreview && h('div',{},
+        genStep===3&&genPreview&&h('div',{},
           h('div',{className:'flex items-center justify-between mb-4'},
             h('div',{},
               h('h3',{className:'text-base font-black text-white'},'Preview'),
@@ -2965,10 +3172,8 @@ function SchedulePage() {
           h('div',{className:'space-y-2 max-h-72 overflow-y-auto sidebar-scroll pr-1'},
             genPreview.map((s,i)=>{
               const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;
-              return h('div',{key:i,style:{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',
-                borderRadius:8,background:tc.bg,border:`1px solid ${tc.border}`}},
-                h('div',{style:{width:32,height:32,borderRadius:6,background:'rgba(0,0,0,0.2)',
-                  display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+              return h('div',{key:i,style:{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderRadius:8,background:tc.bg,border:`1px solid ${tc.border}`}},
+                h('div',{style:{width:32,height:32,borderRadius:6,background:'rgba(0,0,0,0.2)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
                   h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})),
                 h('div',{className:'flex-1'},
                   h('div',{className:'text-xs font-bold text-white'},s.title),
@@ -2989,7 +3194,6 @@ function SchedulePage() {
 
   // ── Main week view ────────────────────────────────────────────
   return h('div',{className:'pb-28'},
-    // Header
     h('div',{style:{background:'linear-gradient(135deg,#0f766e,#0d9488,#0891b2)',
       paddingTop:'max(4.5rem,env(safe-area-inset-top))',paddingBottom:'1.25rem',
       paddingLeft:'1.25rem',paddingRight:'1.25rem',position:'relative',overflow:'hidden'}},
@@ -2998,27 +3202,23 @@ function SchedulePage() {
         h('div',{className:'flex items-center justify-between mb-4'},
           h('div',{},
             h('h1',{className:'text-xl font-black text-white'},'Schedule'),
-            h('p',{style:{color:'rgba(255,255,255,0.65)',fontSize:'0.8125rem'}},`Week of ${new Date(weekStart+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})} – ${new Date(addDays(new Date(weekStart+'T00:00:00'),6)+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}`)
+            h('p',{style:{color:'rgba(255,255,255,0.65)',fontSize:'0.8125rem'}},
+              `Week of ${new Date(weekStart+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})} – ${new Date(addDays(new Date(weekStart+'T00:00:00'),6)+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}`)
           ),
           h('button',{onClick:()=>{setView('generate');setGenStep(0);setGenFocus('');setGenPreview(null);},
             className:'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-white',
             style:{background:'rgba(255,255,255,0.15)'}},
-            h(Icon,{n:'sparkles',cls:'w-3.5 h-3.5'}),'Smart Plan'
-          )
+            h(Icon,{n:'sparkles',cls:'w-3.5 h-3.5'}),'Smart Plan')
         ),
-        // Week navigator
-        h('div',{className:'flex items-center gap-3'},
+        h('div',{ref:weekRef,className:'flex items-center gap-3'},
           h('button',{onClick:()=>{const d=new Date(weekStart+'T00:00:00');d.setDate(d.getDate()-7);setWeekStart(dateStr(d));},
             style:{width:34,height:34,borderRadius:'0.625rem',background:'rgba(255,255,255,0.12)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff'}},
-            h(Icon,{n:'arrowL',cls:'w-4 h-4'})
-          ),
+            h(Icon,{n:'arrowL',cls:'w-4 h-4'})),
           h('div',{className:'flex gap-1.5 flex-1 overflow-x-auto scrollbar-hide'},
             weekDays.map(d=>{
-              const isToday2=isToday(d.date);
-              const isSel=d.date===selectedDay;
-              const cnt=dayCount(d.date);
-              const doneC=dayDone(d.date);
-              return h('button',{key:d.date,onClick:()=>setSelectedDay(d.date),
+              const isToday2=isToday(d.date);const isSel=d.date===selectedDay;
+              const cnt=dayCount(d.date);const doneC=dayDone(d.date);
+              return h('button',{key:d.date,'data-day-pill':'',onClick:()=>setSelectedDay(d.date),
                 className:'flex-shrink-0 flex flex-col items-center py-2 px-2.5 rounded-xl transition-all',
                 style:{minWidth:'40px',background:isSel?'rgba(255,255,255,0.2)':isToday2?'rgba(255,255,255,0.1)':'rgba(255,255,255,0.04)',
                   border:isToday2?'2px solid rgba(255,255,255,0.4)':'2px solid transparent'}},
@@ -3026,123 +3226,91 @@ function SchedulePage() {
                 h('span',{style:{fontSize:'1.1rem',fontWeight:900,color:'#fff',margin:'0.1rem 0'}},d.num),
                 cnt>0
                   ? h('div',{className:'flex gap-0.5'},
-                    Array.from({length:Math.min(cnt,3)}).map((_,i)=>h('div',{key:i,style:{width:5,height:5,borderRadius:'50%',background:i<doneC?'#a7f3d0':'rgba(255,255,255,0.5)'}}))
-                  )
+                      Array.from({length:Math.min(cnt,3)}).map((_,i)=>h('div',{key:i,style:{width:5,height:5,borderRadius:'50%',background:i<doneC?'#a7f3d0':'rgba(255,255,255,0.5)'}})))
                   : h('div',{style:{width:5,height:5,borderRadius:'50%',background:'transparent'}})
               );
             })
           ),
           h('button',{onClick:()=>{const d=new Date(weekStart+'T00:00:00');d.setDate(d.getDate()+7);setWeekStart(dateStr(d));},
             style:{width:34,height:34,borderRadius:'0.625rem',background:'rgba(255,255,255,0.12)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff'}},
-            h(Icon,{n:'chevR',cls:'w-4 h-4'})
-          )
+            h(Icon,{n:'chevR',cls:'w-4 h-4'}))
         )
       )
     ),
-
-    // Notif
-    notif && h('div',{style:{margin:'0.75rem 1rem',padding:'0.75rem 1rem',background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.4)',borderRadius:'0.875rem',fontSize:'0.875rem',fontWeight:700,color:'#34d399'}},notif),
-
-    // Selected day header
-    h('div',{className:'px-4 pt-4'},
+    notif&&h('div',{style:{margin:'0.75rem 1rem',padding:'0.75rem 1rem',background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.4)',borderRadius:'0.875rem',fontSize:'0.875rem',fontWeight:700,color:'#34d399'}},notif),
+    h('div',{ref:cardsRef,className:'px-4 pt-4'},
       h('div',{className:'flex items-center justify-between mb-3'},
         h('div',{},
-          h('h2',{className:'text-base font-black text-white'},
-            isToday(selectedDay)?'Today, '+formatDate(selectedDay).split(',').slice(1).join(',').trim():formatDate(selectedDay)
-          ),
+          h('h2',{className:'text-base font-black text-white'},isToday(selectedDay)?'Today':'—'+formatDate(selectedDay)),
           h('p',{style:{fontSize:'0.75rem',color:'#64748b',marginTop:'0.125rem'}},
             daySessions.length===0?'No sessions planned':`${daySessions.length} session${daySessions.length!==1?'s':''} · ${daySessions.reduce((s,x)=>s+x.xp_value,0)} XP`)
         ),
         h('button',{onClick:()=>{setView('add');setAddStep(0);setAddType('');setAddPick(null);setAddTime('');setAddNote('');},
           className:'flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold text-white',
           style:{background:'linear-gradient(135deg,#0f766e,#0d9488)'}},
-          h(Icon,{n:'plus',cls:'w-4 h-4'}),'Add'
-        )
+          h(Icon,{n:'plus',cls:'w-4 h-4'}),'Add')
       ),
-
-      // Session cards
       daySessions.length===0
         ? h('div',{className:'flex flex-col items-center py-10 text-center',style:{border:'2px dashed rgba(51,65,85,0.5)',borderRadius:'1rem'}},
-          h(Icon,{n:'calendar',cls:'w-10 h-10',style:{color:'#484f58'}}),
-          h('div',{className:'font-bold text-white text-sm mb-1'},'No sessions planned'),
-          h('div',{className:'text-xs text-slate-500 mb-4'},'Add a session or generate a smart schedule'),
-          h('div',{className:'flex gap-2'},
-            h('button',{onClick:()=>{setView('add');setAddStep(0);},className:'btn-primary text-sm px-4 py-2.5'},h(Icon,{n:'plus',cls:'w-4 h-4'}),' Add Session'),
-            h('button',{onClick:()=>setView('generate'),className:'btn-secondary text-sm px-4 py-2.5'},h(Icon,{n:'sparkles',cls:'w-4 h-4'}),' Auto Plan')
-          )
-        )
+            h(Icon,{n:'calendar',cls:'w-10 h-10',style:{color:'#484f58'}}),
+            h('div',{className:'font-bold text-white text-sm mb-1'},'No sessions planned'),
+            h('div',{className:'text-xs text-slate-500 mb-4'},'Add a session or generate a smart schedule'),
+            h('div',{className:'flex gap-2'},
+              h('button',{onClick:()=>{setView('add');setAddStep(0);},className:'btn-primary text-sm px-4 py-2.5'},h(Icon,{n:'plus',cls:'w-4 h-4'}),' Add Session'),
+              h('button',{onClick:()=>setView('generate'),className:'btn-secondary text-sm px-4 py-2.5'},h(Icon,{n:'sparkles',cls:'w-4 h-4'}),' Auto Plan')
+            ))
         : h('div',{className:'space-y-3'},
-          daySessions.map(s=>{
-            const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;
-            const isDone=s.status==='complete';
-            const isSkipped=s.status==='skipped';
-            return h('div',{key:s.id,
-              className:'rounded-2xl overflow-hidden',
-              style:{background:isDone?'rgba(16,185,129,0.06)':isSkipped?'rgba(30,41,59,0.3)':tc.bg,
-                border:`1px solid ${isDone?'rgba(16,185,129,0.3)':isSkipped?'rgba(51,65,85,0.3)':tc.border}`,
-                opacity:isSkipped?0.6:1}},
-              // Left accent bar
-              h('div',{style:{height:'4px',background:isDone?'#10b981':isSkipped?'#475569':tc.color}}),
-              h('div',{className:'p-4'},
-                // Top row
-                h('div',{className:'flex items-start gap-3'},
-                  h('div',{style:{width:44,height:44,borderRadius:'0.875rem',background:isDone?'rgba(16,185,129,0.15)':'rgba(0,0,0,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.375rem',flexShrink:0}},
-                    isDone?h(Icon,{n:'check',cls:'w-4 h-4 text-white'}):h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})
-                  ),
-                  h('div',{className:'flex-1 min-w-0'},
-                    h('div',{className:'flex items-start justify-between gap-2'},
+            daySessions.map(s=>{
+              const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;
+              const isDone=s.status==='complete';const isSkipped=s.status==='skipped';
+              return h('div',{key:s.id,'data-sess-card':'',
+                className:'rounded-2xl overflow-hidden',
+                style:{background:isDone?'rgba(16,185,129,0.06)':isSkipped?'rgba(30,41,59,0.3)':tc.bg,
+                  border:`1px solid ${isDone?'rgba(16,185,129,0.3)':isSkipped?'rgba(51,65,85,0.3)':tc.border}`,
+                  opacity:isSkipped?0.6:1}},
+                h('div',{style:{height:'4px',background:isDone?'#10b981':isSkipped?'#475569':tc.color}}),
+                h('div',{className:'p-4'},
+                  h('div',{className:'flex items-start gap-3'},
+                    h('div',{style:{width:44,height:44,borderRadius:'0.875rem',background:isDone?'rgba(16,185,129,0.15)':'rgba(0,0,0,0.2)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+                      isDone?h(Icon,{n:'check',cls:'w-4 h-4 text-white'}):h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})),
+                    h('div',{className:'flex-1 min-w-0'},
                       h('h3',{style:{fontSize:'0.9375rem',fontWeight:800,color:isSkipped?'#64748b':'#f8fafc',lineHeight:1.3}},s.title),
-                      isDone && h('div',{style:{width:18,height:18,borderRadius:4,background:'#16a34a',display:'flex',alignItems:'center',justifyContent:'center'}},h(Icon,{n:'check',cls:'w-2.5 h-2.5 text-white'})),h('span',{style:{fontSize:'0.7rem',fontWeight:700,padding:'0.125rem 0.5rem',background:'rgba(22,163,74,0.12)',border:'1px solid rgba(22,163,74,0.25)',borderRadius:4,color:'#4ade80',whiteSpace:'nowrap'}},'Done')
-                    ),
-                    h('div',{className:'flex items-center gap-2 mt-1.5 flex-wrap'},
-                      s.time && h('span',{style:{fontSize:'0.75rem',color:'#94a3b8',fontWeight:600}},s.time),
-                      s.time && h('span',{style:{color:'#475569'}}, '·'),
-                      h('span',{style:{fontSize:'0.75rem',color:'#94a3b8'}},`${s.duration_minutes} min`),
-                      !isDone && h(XPBadge,{xp:s.xp_value}),
-                      s.notes && h('span',{style:{fontSize:'0.7rem',color:'#64748b',fontStyle:'italic'}},s.notes)
+                      h('div',{className:'flex items-center gap-2 mt-1.5 flex-wrap'},
+                        s.time&&h('span',{style:{fontSize:'0.75rem',color:'#94a3b8',fontWeight:600}},s.time),
+                        h('span',{style:{fontSize:'0.75rem',color:'#94a3b8'}},`${s.duration_minutes} min`),
+                        !isDone&&h(XPBadge,{xp:s.xp_value})
+                      )
                     )
+                  ),
+                  !isSkipped&&h('div',{className:'flex gap-2 mt-3'},
+                    !isDone&&h('button',{onClick:()=>startSession(s),
+                      className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-black transition-all active:scale-95',
+                      style:{background:`linear-gradient(135deg,${tc.color}33,${tc.color}22)`,border:`1px solid ${tc.color}60`,color:'#fff'}},
+                      h(Icon,{n:'play',cls:'w-4 h-4'}),'Start'),
+                    !isDone&&h('button',{onClick:()=>completeSession(s.id),
+                      className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95',
+                      style:{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}},
+                      h(Icon,{n:'check',cls:'w-4 h-4'}),'Done'),
+                    isDone&&h('button',{onClick:()=>undoSession(s.id),
+                      className:'flex items-center gap-1 py-2.5 px-3 rounded-xl text-xs font-bold',
+                      style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},'Undo'),
+                    !isDone&&h('button',{onClick:()=>skipSession(s.id),
+                      className:'py-2.5 px-3 rounded-xl text-xs font-bold',
+                      style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},'Skip'),
+                    h('button',{onClick:()=>deleteSession(s.id),
+                      className:'py-2.5 px-3 rounded-xl',
+                      style:{background:'rgba(239,68,68,0.08)',color:'#f87171',border:'1px solid rgba(239,68,68,0.2)'}},
+                      h(Icon,{n:'trash',cls:'w-4 h-4'}))
+                  ),
+                  isSkipped&&h('div',{className:'flex items-center justify-between mt-3'},
+                    h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},'Skipped'),
+                    h('button',{onClick:()=>undoSession(s.id),style:{fontSize:'0.75rem',fontWeight:700,color:'#60a5fa'}},'Restore')
                   )
-                ),
-
-                // Action buttons
-                !isSkipped && h('div',{className:'flex gap-2 mt-3'},
-                  !isDone && h('button',{onClick:()=>startSession(s),
-                    className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-black transition-all active:scale-95',
-                    style:{background:`linear-gradient(135deg,${tc.color}33,${tc.color}22)`,border:`1px solid ${tc.color}60`,color:'#fff'}},
-                    h(Icon,{n:'play',cls:'w-4 h-4'}),'Start'
-                  ),
-                  !isDone && h('button',{onClick:()=>completeSession(s.id),
-                    className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95',
-                    style:{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}},
-                    h(Icon,{n:'check',cls:'w-4 h-4'}),'Done'
-                  ),
-                  isDone && h('button',{onClick:()=>undoSession(s.id),
-                    className:'flex items-center gap-1 py-2.5 px-3 rounded-xl text-xs font-bold',
-                    style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},
-                    'Undo'
-                  ),
-                  !isDone && h('button',{onClick:()=>skipSession(s.id),
-                    className:'py-2.5 px-3 rounded-xl text-xs font-bold',
-                    style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},
-                    'Skip'
-                  ),
-                  h('button',{onClick:()=>deleteSession(s.id),
-                    className:'py-2.5 px-3 rounded-xl',
-                    style:{background:'rgba(239,68,68,0.08)',color:'#f87171',border:'1px solid rgba(239,68,68,0.2)'}},
-                    h(Icon,{n:'trash',cls:'w-4 h-4'})
-                  )
-                ),
-                isSkipped && h('div',{className:'flex items-center justify-between mt-3'},
-                  h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},'Skipped'),
-                  h('button',{onClick:()=>undoSession(s.id),style:{fontSize:'0.75rem',fontWeight:700,color:'#60a5fa'}},'Restore')
                 )
-              )
-            );
-          })
-        )
+              );
+            })
+          )
     ),
-
-    // Week summary card
     h('div',{className:'mx-4 mt-5 p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.5)',border:'1px solid rgba(51,65,85,0.5)'}},
       h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-3'},'This Week'),
       h('div',{className:'grid grid-cols-3 gap-3 text-center'},
@@ -3151,8 +3319,6 @@ function SchedulePage() {
         h('div',{},h('div',{className:'text-xl font-black',style:{color:'#f59e0b'}},weekXP),h('div',{style:{fontSize:'0.7rem',color:'#64748b',fontWeight:700}},'XP Left'))
       )
     ),
-
-    // Import from Skill Path
     h('div',{className:'px-4 mt-4 mb-2'},
       h('button',{onClick:()=>nav('SkillPaths'),
         className:'w-full flex items-center gap-3 p-4 rounded-2xl text-left active:scale-[.99] transition-all',
@@ -3169,63 +3335,81 @@ function SchedulePage() {
 }
 
 // ================================================================
-// SKILL PATHS PAGE
+// SKILL PATHS — animated SVG progress rings via GSAP drawRing
 // ================================================================
 function SkillPathsPage() {
-  const [pathId, setPathId] = useState(null);
-  const [levelId, setLevelId] = useState(null);
-  const [weekPlan, setWeekPlan] = useState(null);
-  const progress = DB.getProgress();
-  const skillProg = progress.skill_path_progress || {};
+  const [pathId,setPathId]=useState(null);
+  const [levelId,setLevelId]=useState(null);
+  const [weekPlan,setWeekPlan]=useState(null);
+  const progress=DB.getProgress();
+  const skillProg=progress.skill_path_progress||{};
+  const listRef=useRef(null);
 
-  function importToSchedule(plan) {
-    const monday = getWeekMonday(new Date());
-    let added = 0;
+  // Animate path card rings on mount
+  useLayoutEffect(()=>{
+    if(!listRef.current||!SCAnim.ready||pathId) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx=gsap.context(()=>{
+      // Stagger the path cards
+      const cards=listRef.current.querySelectorAll('[data-path-card]');
+      SCAnim.staggerCards(cards,{y:16,duration:0.4,stagger:0.06,delay:0.1});
+      // Animate the SVG rings after cards appear
+      cards.forEach((card,i)=>{
+        const ring=card.querySelector('[data-ring-fill]');
+        if(ring){
+          const pp=skillProg[SKILL_PATHS[i]?.id]||{};
+          const doneCount=Object.values(pp).filter(Boolean).length;
+          const pct=doneCount/(SKILL_PATHS[i]?.levels.length||4);
+          SCAnim.drawRing(ring,0,pct,{duration:1.1,delay:0.3+i*0.08});
+        }
+      });
+    },listRef);
+    return()=>ctx.revert();
+  },[pathId]);
+
+  function importToSchedule(plan){
+    const monday=getWeekMonday(new Date()); let added=0;
     plan.forEach(week=>{
-      if(week.week!==1) return; // import current week only
+      if(week.week!==1) return;
       week.days.forEach(day=>{
         if(day.isRest) return;
-        const d = addDays(monday, day.day-1);
-        const ds = dateStr(d);
+        const d=addDays(monday,day.day-1),ds=dateStr(d);
         day.activities.forEach((act,i)=>{
-          DB.addSession({
-            id:'sch_'+Date.now()+'_'+day.day+'_'+i,
-            date:ds,time:i===0?'07:00':i===1?'17:00':'19:00',
-            type:act.type, title:act.title, ref_id:act.id||null,
-            duration_minutes:parseInt(act.duration)||20, xp_value:act.xp,
-            status:'pending', notes:'From Skill Path', color:SCHED_TYPES[act.type]?.color||'#64748b'
-          });
+          DB.addSession({id:'sch_'+Date.now()+'_'+day.day+'_'+i,date:ds,time:i===0?'07:00':i===1?'17:00':'19:00',
+            type:act.type,title:act.title,ref_id:act.id||null,duration_minutes:parseInt(act.duration)||20,
+            xp_value:act.xp,status:'pending',notes:'From Skill Path',color:SCHED_TYPES[act.type]?.color||'#64748b'});
           added++;
         });
       });
     });
     window.dispatchEvent(new CustomEvent('sc_update'));
-    alert(`✅ ${added} sessions imported to this week's schedule!`);
+    alert(`${added} sessions imported to this week's schedule!`);
   }
 
   if(!pathId) return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Skill Paths',subtitle:'Structured programs for every discipline',
       gradient:'linear-gradient(135deg,#7e22ce,#4f46e5)'}),
-    h('div',{className:'px-4 pt-5 space-y-4'},
-      SKILL_PATHS.map(path=>{
+    h('div',{ref:listRef,className:'px-4 pt-5 space-y-4'},
+      SKILL_PATHS.map((path,idx)=>{
         const pp=skillProg[path.id]||{};
         const doneCount=Object.values(pp).filter(Boolean).length;
         const pct=doneCount/path.levels.length*100;
-        return h('button',{key:path.id,onClick:()=>{setPathId(path.id);setLevelId(null);setWeekPlan(null);},
+        const R=22,C=2*Math.PI*R;
+        return h('button',{key:path.id,'data-path-card':'',onClick:()=>{setPathId(path.id);setLevelId(null);setWeekPlan(null);},
           className:'w-full text-left p-5 rounded-2xl active:scale-[.99] transition-all',
           style:{background:'rgba(30,41,59,0.7)',border:`1px solid ${path.accent}30`}},
-          // Accent top line
           h('div',{style:{height:'3px',background:`linear-gradient(to right,${path.accent},transparent)`,marginBottom:'1rem',borderRadius:'2px'}}),
           h('div',{className:'flex items-center gap-4'},
-            // SVG progress ring
             h('div',{style:{position:'relative',width:56,height:56,flexShrink:0}},
               h('svg',{width:56,height:56,viewBox:'0 0 56 56',style:{position:'absolute',inset:0,transform:'rotate(-90deg)'}},
-                h('circle',{cx:28,cy:28,r:22,fill:'none',stroke:'rgba(51,65,85,0.6)',strokeWidth:4}),
-                h('circle',{cx:28,cy:28,r:22,fill:'none',stroke:path.accent,strokeWidth:4,
-                  strokeDasharray:2*Math.PI*22,strokeDashoffset:2*Math.PI*22*(1-pct/100),
+                h('circle',{cx:28,cy:28,r:R,fill:'none',stroke:'rgba(51,65,85,0.6)',strokeWidth:4}),
+                h('circle',{'data-ring-fill':'',cx:28,cy:28,r:R,fill:'none',stroke:path.accent,strokeWidth:4,
+                  strokeDasharray:C,
+                  strokeDashoffset:C*(1-pct/100),
                   strokeLinecap:'round',style:{transition:'stroke-dashoffset .6s'}})
               ),
-              h('div',{style:{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}},h(Icon,{n:path.icon||'bat',cls:'w-6 h-6 text-white'}))
+              h('div',{style:{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}},
+                h(Icon,{n:path.icon||'bat',cls:'w-6 h-6 text-white'}))
             ),
             h('div',{className:'flex-1'},
               h('h3',{className:'font-black text-white text-base'},path.title),
@@ -3262,14 +3446,14 @@ function SkillPathsPage() {
             border:`2px solid ${done?'rgba(16,185,129,0.4)':unlocked?`${path.accent}40`:'rgba(51,65,85,0.3)'}`,
             opacity:unlocked?1:0.5}},
           h('div',{className:'flex items-center gap-4'},
-            h('div',{style:{width:52,height:52,borderRadius:'0.875rem',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.5rem',flexShrink:0,background:done?'#10b981':unlocked?path.accent:'rgba(51,65,85,0.5)'}},
-              done?'✓':lv.icon
-            ),
+            h('div',{style:{width:52,height:52,borderRadius:'0.875rem',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,
+              background:done?'#10b981':unlocked?path.accent:'rgba(51,65,85,0.5)'}},
+              done?h(Icon,{n:'check',cls:'w-6 h-6 text-white'}):h(Icon,{n:lv.icon||'bat',cls:'w-6 h-6 text-white'})),
             h('div',{className:'flex-1'},
               h('div',{className:'flex items-center gap-2'},
                 h('h3',{className:'font-black text-white'},lv.label),
-                !unlocked && h(Icon,{n:'lock',cls:'w-3 h-3',style:{color:'#484f58',flexShrink:0}}),
-                done && h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'check',cls:'w-3 h-3',style:{color:'#4ade80'}}),h('span',{style:{fontSize:'0.7rem',fontWeight:700,color:'#4ade80'}},'Complete'))
+                !unlocked&&h(Icon,{n:'lock',cls:'w-3 h-3',style:{color:'#484f58',flexShrink:0}}),
+                done&&h('span',{style:{fontSize:'0.7rem',fontWeight:700,color:'#4ade80'}},'Complete')
               ),
               h('p',{className:'text-xs text-slate-400 mt-0.5'},lv.desc),
               h('div',{className:'flex items-center gap-2 mt-2'},
@@ -3285,11 +3469,9 @@ function SkillPathsPage() {
 
   const lv=path.levels.find(l=>l.id===levelId);
   if(!lv||!weekPlan) return null;
-
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:lv.label,subtitle:path.title,gradient:grad,onBack:()=>setLevelId(null)}),
     h('div',{className:'px-4 pt-5'},
-      // Action row
       h('div',{className:'flex gap-2 mb-5'},
         h('button',{onClick:()=>importToSchedule(weekPlan),
           className:'flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white',
@@ -3299,13 +3481,12 @@ function SkillPathsPage() {
           const p=DB.getProgress();
           if(!p.skill_path_progress) p.skill_path_progress={};
           if(!p.skill_path_progress[path.id]) p.skill_path_progress[path.id]={};
-          p.skill_path_progress[path.id][levelId]=true; DB.saveProgress(p);
-          awardXP(lv.xpPerDay*5,30,'skill_path'); setLevelId(null);
+          p.skill_path_progress[path.id][levelId]=true;DB.saveProgress(p);
+          awardXP(lv.xpPerDay*5,30,'skill_path');setLevelId(null);
         },className:'flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-bold',
-          style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.5)',color:'#94a3b8'}
-        },h(Icon,{n:'check',cls:'w-4 h-4'}),'Mark Done')
+          style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.5)',color:'#94a3b8'}},
+          h(Icon,{n:'check',cls:'w-4 h-4'}),'Mark Done')
       ),
-      // Week accordions
       h('div',{className:'space-y-3'},
         weekPlan.map(week=>h(WeekAccordion,{key:week.week,week,pathAccent:path.accent}))
       )
@@ -3325,12 +3506,645 @@ function WeekAccordion({ week, pathAccent }) {
       ),
       h(Icon,{n:open?'chevU':'chevD',cls:'w-5 h-5',style:{color:'#64748b'}})
     ),
-    open && h('div',{style:{background:'rgba(15,23,42,0.4)',borderTop:'1px solid rgba(51,65,85,0.4)'}},
+    open&&h('div',{style:{background:'rgba(15,23,42,0.4)',borderTop:'1px solid rgba(51,65,85,0.4)'}},
       week.days.map(day=>h('div',{key:day.day,className:'p-4',style:{borderBottom:'1px solid rgba(51,65,85,0.2)'}},
         h('div',{className:'flex items-center justify-between mb-2'},
           h('span',{style:{fontSize:'0.875rem',fontWeight:800,color:'#fff'}},day.label),
           day.isRest
-            ? h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'heart',cls:'w-3 h-3',style:{color:'#484f58'}}),h('span',{style:{fontSize:'0.65rem',color:'#484f58'}},'Rest'))
+            ? h('span',{style:{fontSize:'0.65rem',color:'#484f58'}},'Rest')
+            : h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:pathAccent}},`+${day.totalXP} XP`)
+        ),
+        !day.isRest&&h('div',{className:'space-y-1.5'},
+          day.activities.map((act,i)=>h('div',{key:i,className:'flex items-center gap-2'},
+            h(Icon,{n:act.type==='drill'?'bat':act.type==='mental'?'brain':'dumbbell',cls:'w-3.5 h-3.5',style:{color:'#484f58'}}),
+            h('div',{className:'flex-1'},
+              h('div',{style:{fontSize:'0.75rem',fontWeight:700,color:'#cbd5e1'}},act.title),
+              h('div',{style:{fontSize:'0.7rem',color:'#64748b'}},`${act.duration} · +${act.xp} XP`)
+            )
+          ))
+        )
+      ))
+    )
+  );
+}
+
+// ================================================================
+// SCHEDULE PAGE — GSAP: day pills stagger, session cards slide in
+// ================================================================
+function SchedulePage() {
+  const [weekStart, setWeekStart] = useState(()=>dateStr(getWeekMonday(new Date())));
+  const [selectedDay, setSelectedDay] = useState(()=>new Date().toISOString().slice(0,10));
+  const [schedule, setSchedule] = useState(()=>DB.getSchedule());
+  const [view, setView] = useState('week');
+  const [addStep, setAddStep] = useState(0);
+  const [addType, setAddType] = useState('');
+  const [addPick, setAddPick] = useState(null);
+  const [addTime, setAddTime] = useState('');
+  const [addNote, setAddNote] = useState('');
+  const [genStep, setGenStep] = useState(0);
+  const [genFocus, setGenFocus] = useState('');
+  const [genDays, setGenDays] = useState(4);
+  const [genInt, setGenInt] = useState('moderate');
+  const [genPreview, setGenPreview] = useState(null);
+  const [notif, setNotif] = useState('');
+  const sessionsRef = useRef(null);
+  const dayPillsRef = useRef(null);
+
+  const refresh = useCallback(()=>setSchedule(DB.getSchedule()), []);
+  useEffect(()=>{
+    window.addEventListener('sc_update', refresh);
+    return()=>window.removeEventListener('sc_update', refresh);
+  },[refresh]);
+
+  function showNotif(msg) { setNotif(msg); setTimeout(()=>setNotif(''), 3000); }
+
+  // Stagger session cards when day changes or sessions update
+  useLayoutEffect(()=>{
+    if(!sessionsRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const cards = sessionsRef.current.querySelectorAll('[data-session-card]');
+      if(cards.length) SCAnim.staggerCards(cards, { y:14, duration:0.35, stagger:0.06 });
+    }, sessionsRef);
+    return ()=>ctx.revert();
+  },[selectedDay, schedule]);
+
+  // Stagger day pills on mount
+  useLayoutEffect(()=>{
+    if(!dayPillsRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const pills = dayPillsRef.current.querySelectorAll('[data-day-pill]');
+      if(pills.length) SCAnim.staggerCards(pills, { y:-8, duration:0.3, stagger:0.03 });
+    }, dayPillsRef);
+    return ()=>ctx.revert();
+  },[weekStart]);
+
+  const monday = new Date(weekStart+'T00:00:00');
+  const weekDays = Array.from({length:7},(_,i)=>{
+    const d = addDays(monday,i);
+    return { date:dateStr(d), label:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i], num:d.getDate() };
+  });
+  const daySessions = (schedule.sessions||[]).filter(s=>s.date===selectedDay).sort((a,b)=>a.time.localeCompare(b.time));
+  function dayCount(date) { return (schedule.sessions||[]).filter(s=>s.date===date).length; }
+  function dayDone(date) { return (schedule.sessions||[]).filter(s=>s.date===date&&s.status==='complete').length; }
+  const weekSessions = DB.getSessionsForWeek(weekStart);
+  const weekXP = weekSessions.filter(s=>s.status==='pending').reduce((a,s)=>a+s.xp_value,0);
+  const weekDoneCount = weekSessions.filter(s=>s.status==='complete').length;
+
+  function completeSession(id) {
+    const sess = (schedule.sessions||[]).find(s=>s.id===id);
+    if(!sess||sess.status==='complete') return;
+    DB.updateSession(id,{status:'complete'});
+    awardXP(sess.xp_value, sess.duration_minutes, 'schedule_'+sess.type);
+    fireConfetti(); refresh(); showNotif(`+${sess.xp_value} XP earned!`);
+  }
+  function skipSession(id) { DB.updateSession(id,{status:'skipped'}); refresh(); }
+  function deleteSession(id) { DB.deleteSession(id); refresh(); showNotif('Session removed'); }
+  function undoSession(id) { DB.updateSession(id,{status:'pending'}); refresh(); }
+  function startSession(sess) {
+    if(sess.type==='drill'&&sess.ref_id) nav('DrillDetail',{id:sess.ref_id});
+    else if(sess.type==='mental'&&sess.ref_id) nav('MentalPlayer',{id:sess.ref_id});
+    else if(sess.type==='fitness'&&sess.ref_id) nav('WorkoutDetail',{id:sess.ref_id});
+    else nav('Timer');
+  }
+  function saveNewSession() {
+    if(!addType) return;
+    const tc=SCHED_TYPES[addType];
+    let title='Custom Session', refId=null, dur=30, xp=50;
+    if(addPick){
+      if(addType==='drill'){const d=DRILLS.find(x=>x.id===addPick);if(d){title=d.title;refId=d.id;dur=d.duration_minutes;xp=d.xp_value;}}
+      else if(addType==='mental'){const m=MENTAL_SESSIONS.find(x=>x.id===addPick);if(m){title=m.title;refId=m.id;dur=Math.floor(m.duration_seconds/60);xp=m.xp_value;}}
+      else if(addType==='fitness'){const w=WORKOUTS.find(x=>x.id===addPick);if(w){title=w.name;refId=w.id;dur=w.duration_minutes;xp=w.xp_value;}}
+    } else if(addType==='match'){title='Match Day';dur=180;xp=200;}
+    else if(addType==='rest'){title='Rest & Recovery Day';dur=0;xp=20;}
+    DB.addSession({id:'sch_'+Date.now(),date:selectedDay,time:addTime,type:addType,title,ref_id:refId,duration_minutes:dur,xp_value:xp,status:'pending',notes:addNote,color:tc.color});
+    refresh(); setView('week'); setAddStep(0); setAddType(''); setAddPick(null); setAddTime(''); setAddNote('');
+    showNotif('Session added!');
+  }
+  function runGenerator() {
+    const sessions = generateSmartSchedule(genFocus, genDays, genInt, weekStart);
+    setGenPreview(sessions); setGenStep(3);
+  }
+  function confirmGenerate() {
+    const existing = DB.getSchedule();
+    const wd = DB.getSessionsForWeek(weekStart).map(x=>x.id);
+    existing.sessions = [...(existing.sessions||[]).filter(s=>!wd.includes(s.id)||s.status==='complete'), ...genPreview];
+    DB.saveSchedule(existing);
+    refresh(); setView('week'); setGenStep(0); setGenFocus(''); setGenPreview(null);
+    showNotif('Smart schedule generated!');
+  }
+
+  // ADD VIEW
+  if(view==='add') return h('div',{className:'pb-28'},
+    h(PageHeader,{title:'Add Session',subtitle:formatDate(selectedDay),gradient:'linear-gradient(135deg,#0f766e,#0d9488)',
+      onBack:()=>{ setView('week');setAddStep(0);setAddType('');setAddPick(null);}}),
+    h('div',{className:'px-4 pt-5'},
+      h('div',{className:'flex gap-2 mb-5'},
+        ['Type','Content','Details'].map((s,i)=>h('div',{key:s,className:'flex items-center gap-2'},
+          h('div',{className:'w-6 h-6 rounded-full flex items-center justify-center text-xs font-black',
+            style:{background:addStep>=i?'linear-gradient(135deg,#0f766e,#0d9488)':'rgba(30,41,59,0.8)',
+              color:addStep>=i?'#fff':'#64748b',border:addStep>=i?'none':'1px solid rgba(51,65,85,0.5)'}},i+1),
+          h('span',{style:{fontSize:'0.75rem',fontWeight:700,color:addStep===i?'#5eead4':'#64748b'}},s),
+          i<2 && h('div',{style:{width:'1.5rem',height:'2px',background:addStep>i?'#0d9488':'rgba(51,65,85,0.5)',borderRadius:'1px'}})
+        ))
+      ),
+      addStep===0 && h('div',{},
+        h('h3',{className:'text-base font-black text-white mb-3'},'What type of session?'),
+        h('div',{className:'space-y-2'},
+          Object.entries(SCHED_TYPES).map(([id,tc])=>h('button',{key:id,
+            onClick:()=>{setAddType(id);setAddStep(id==='match'||id==='rest'||id==='custom'?2:1);},
+            className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left active:scale-[.99]',
+            style:{background:tc.bg,border:`1px solid ${tc.border}`}},
+            h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(0,0,0,0.25)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+              h(Icon,{n:tc.icon||'calendar',cls:'w-5 h-5',style:{color:tc.color}})),
+            h('div',{className:'flex-1'},h('div',{className:'font-bold text-white text-sm'},tc.label)),
+            h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
+          ))
+        )
+      ),
+      addStep===1 && addType && h('div',{},
+        h('h3',{className:'text-base font-black text-white mb-3'},
+          addType==='drill'?'Choose a drill:':addType==='mental'?'Choose a session:':'Choose a workout:'),
+        h('div',{className:'space-y-2 max-h-80 overflow-y-auto sidebar-scroll pr-1'},
+          (addType==='drill'?DRILLS:addType==='mental'?MENTAL_SESSIONS.filter(m=>!m.is_premium):WORKOUTS.slice(0,30))
+            .map(item=>{
+              const isD=addType==='drill',isM=addType==='mental';
+              const label=isD?item.title:isM?item.title:item.name;
+              const meta=isD?`${item.duration_minutes} min`:`${isM?Math.floor(item.duration_seconds/60):item.duration_minutes} min`;
+              return h('button',{key:item.id,onClick:()=>{setAddPick(item.id);setAddStep(2);},
+                className:'w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all',
+                style:{background:addPick===item.id?'rgba(15,118,110,0.2)':'rgba(30,41,59,0.6)',
+                  border:addPick===item.id?'1px solid rgba(13,148,136,0.5)':'1px solid rgba(51,65,85,0.4)'}},
+                h('div',{className:'flex-1'},
+                  h('div',{className:'text-sm font-bold text-white'},label),
+                  h('div',{className:'flex items-center gap-2 mt-1'},h('span',{className:'text-xs',style:{color:'#64748b'}},meta),h(XPBadge,{xp:item.xp_value}))
+                ),
+                h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#475569'}})
+              );
+            })
+        ),
+        h('button',{onClick:()=>{setAddStep(0);setAddType('');},className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
+          h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
+      ),
+      addStep===2 && h('div',{},
+        h('h3',{className:'text-base font-black text-white mb-4'},'Session details'),
+        h('div',{className:'space-y-4'},
+          h('div',{},
+            h('label',{className:'text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2'},'Time (optional)'),
+            h('input',{type:'time',value:addTime,onChange:e=>setAddTime(e.target.value),
+              className:'w-full px-4 py-3 rounded-xl text-sm text-white outline-none',
+              style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}})
+          ),
+          h('div',{},
+            h('label',{className:'text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2'},'Notes (optional)'),
+            h('textarea',{placeholder:'E.g. Focus on elbow position...',value:addNote,onChange:e=>setAddNote(e.target.value),rows:3,
+              className:'w-full px-4 py-3 rounded-xl text-sm text-white outline-none resize-none',
+              style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}})
+          ),
+          h('button',{onClick:saveNewSession,className:'btn-primary w-full py-4 text-base font-black'},
+            h(Icon,{n:'plus',cls:'w-5 h-5'}),' Add to Schedule'),
+          h('button',{onClick:()=>setAddStep(addType==='drill'||addType==='mental'||addType==='fitness'?1:0),
+            className:'w-full text-center text-sm text-slate-400 font-semibold py-2'},'Back')
+        )
+      )
+    )
+  );
+
+  // GENERATE VIEW
+  if(view==='generate') {
+    const FOCUS=[{id:'batting',label:'Batting',icon:'bat'},{id:'bowling',label:'Bowling',icon:'ball'},
+      {id:'fielding',label:'Fielding',icon:'navigation'},{id:'allrounder',label:'All-Round',icon:'star'}];
+    const INTENSITY=[{id:'light',label:'Light',icon:'activity',desc:'2 sessions/day max'},
+      {id:'moderate',label:'Moderate',icon:'zap',desc:'2-3 sessions/day'},
+      {id:'intense',label:'Intense',icon:'flame',desc:'3 sessions/day'}];
+    return h('div',{className:'pb-28'},
+      h(PageHeader,{title:'Smart Generator',subtitle:'AI-powered weekly schedule',gradient:'linear-gradient(135deg,#4c1d95,#5b21b6)',
+        onBack:()=>{setView('week');setGenStep(0);setGenFocus('');setGenPreview(null);}}),
+      h('div',{className:'px-4 pt-5'},
+        h('div',{className:'flex gap-2 mb-5'},
+          ['Focus','Days','Intensity','Preview'].map((s,i)=>h('div',{key:s,className:'flex items-center gap-1.5'},
+            h('div',{className:'w-5 h-5 rounded-full flex items-center justify-center',
+              style:{fontSize:'0.65rem',fontWeight:900,background:genStep>=i?'linear-gradient(135deg,#6d28d9,#7c3aed)':'rgba(30,41,59,0.8)',color:genStep>=i?'#fff':'#64748b'}},i+1),
+            h('span',{style:{fontSize:'0.7rem',fontWeight:700,color:genStep===i?'#c084fc':'#64748b',whiteSpace:'nowrap'}},s),
+            i<3 && h('div',{style:{flex:1,height:'2px',background:genStep>i?'#7c3aed':'rgba(51,65,85,0.5)',borderRadius:'1px',minWidth:'1rem'}})
+          ))
+        ),
+        genStep===0 && h('div',{},
+          h('h3',{className:'text-base font-black text-white mb-3'},'Which area needs most work?'),
+          h('div',{className:'grid grid-cols-2 gap-3'},
+            FOCUS.map(f=>h('button',{key:f.id,onClick:()=>{setGenFocus(f.id);setGenStep(1);},
+              style:{display:'flex',flexDirection:'column',alignItems:'center',gap:8,padding:'20px 16px',borderRadius:10,
+                background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',cursor:'pointer'}},
+              h('div',{style:{width:40,height:40,borderRadius:8,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center'}},
+                h(Icon,{n:f.icon,cls:'w-5 h-5',style:{color:'#8b949e'}})),
+              h('span',{style:{fontSize:12,fontWeight:700,color:'#e6edf3'}},f.label)
+            ))
+          )
+        ),
+        genStep===1 && h('div',{},
+          h('h3',{className:'text-base font-black text-white mb-1'},'Days per week?'),
+          h('p',{className:'text-xs text-slate-400 mb-4'},'How many days can you train?'),
+          h('div',{className:'flex gap-3 flex-wrap'},
+            [3,4,5,6,7].map(n=>h('button',{key:n,onClick:()=>{setGenDays(n);setGenStep(2);},
+              className:'flex-1 py-4 rounded-2xl font-black text-lg',
+              style:{background:genDays===n?'linear-gradient(135deg,#6d28d9,#7c3aed)':'rgba(30,41,59,0.6)',
+                color:'#fff',border:'1px solid rgba(51,65,85,0.5)',minWidth:'50px'}},n)
+          )),
+          h('button',{onClick:()=>setGenStep(0),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
+            h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
+        ),
+        genStep===2 && h('div',{},
+          h('h3',{className:'text-base font-black text-white mb-3'},'Session intensity?'),
+          h('div',{className:'space-y-2'},
+            INTENSITY.map(i=>h('button',{key:i.id,onClick:()=>{setGenInt(i.id);runGenerator();},
+              className:'w-full flex items-center gap-4 p-4 rounded-2xl text-left',
+              style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
+              h('div',{style:{width:36,height:36,borderRadius:7,background:'rgba(48,54,61,0.6)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+                h(Icon,{n:i.icon||'activity',cls:'w-4 h-4',style:{color:'#8b949e'}})),
+              h('div',{className:'flex-1'},h('div',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},i.label),h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},i.desc)),
+              h(Icon,{n:'chevR',cls:'w-4 h-4',style:{color:'#374151'}})
+            ))
+          ),
+          h('button',{onClick:()=>setGenStep(1),className:'flex items-center gap-2 mt-4 text-sm text-slate-400 font-semibold'},
+            h(Icon,{n:'arrowL',cls:'w-4 h-4'}),'Back')
+        ),
+        genStep===3 && genPreview && h('div',{},
+          h('div',{className:'flex items-center justify-between mb-4'},
+            h('div',{},
+              h('h3',{className:'text-base font-black text-white'},'Preview'),
+              h('p',{className:'text-xs text-slate-400'},`${genPreview.length} sessions · ${genPreview.reduce((s,x)=>s+x.xp_value,0)} XP available`)
+            ),
+            h('button',{onClick:()=>setGenStep(2),className:'text-xs text-slate-400 font-semibold'},'Change')
+          ),
+          h('div',{className:'space-y-2 max-h-72 overflow-y-auto sidebar-scroll pr-1'},
+            genPreview.map((s,i)=>{
+              const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;
+              return h('div',{key:i,style:{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',
+                borderRadius:8,background:tc.bg,border:`1px solid ${tc.border}`}},
+                h('div',{style:{width:32,height:32,borderRadius:6,background:'rgba(0,0,0,0.2)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+                  h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})),
+                h('div',{className:'flex-1'},
+                  h('div',{className:'text-xs font-bold text-white'},s.title),
+                  h('div',{className:'text-xs',style:{color:'rgba(255,255,255,0.5)'}},`${formatDate(s.date)} ${s.time?'· '+s.time:''} · ${s.duration_minutes} min`)
+                ),
+                h(XPBadge,{xp:s.xp_value})
+              );
+            })
+          ),
+          h('div',{className:'flex gap-3 mt-4'},
+            h('button',{onClick:()=>{setGenStep(0);setGenPreview(null);},className:'btn-secondary flex-1'},'Regenerate'),
+            h('button',{onClick:confirmGenerate,className:'btn-primary flex-1 font-black'},'Confirm Schedule')
+          )
+        )
+      )
+    );
+  }
+
+  // MAIN WEEK VIEW
+  return h('div',{className:'pb-28'},
+    h('div',{style:{background:'linear-gradient(135deg,#0f766e,#0d9488,#0891b2)',
+      paddingTop:'max(4.5rem,env(safe-area-inset-top))',paddingBottom:'1.25rem',
+      paddingLeft:'1.25rem',paddingRight:'1.25rem',position:'relative',overflow:'hidden'}},
+      h('div',{style:{position:'absolute',top:'-40%',right:'-15%',width:'220px',height:'220px',background:'rgba(255,255,255,0.07)',borderRadius:'50%',pointerEvents:'none'}}),
+      h('div',{className:'relative z-10'},
+        h('div',{className:'flex items-center justify-between mb-4'},
+          h('div',{},
+            h('h1',{className:'text-xl font-black text-white'},'Schedule'),
+            h('p',{style:{color:'rgba(255,255,255,0.65)',fontSize:'0.8125rem'}},
+              `Week of ${new Date(weekStart+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})} – ${new Date(addDays(new Date(weekStart+'T00:00:00'),6)+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}`)
+          ),
+          h('button',{onClick:()=>{setView('generate');setGenStep(0);setGenFocus('');setGenPreview(null);},
+            className:'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-white',
+            style:{background:'rgba(255,255,255,0.15)'}},
+            h(Icon,{n:'sparkles',cls:'w-3.5 h-3.5'}),'Smart Plan')
+        ),
+        h('div',{ref:dayPillsRef,className:'flex items-center gap-3'},
+          h('button',{onClick:()=>{const d=new Date(weekStart+'T00:00:00');d.setDate(d.getDate()-7);setWeekStart(dateStr(d));},
+            style:{width:34,height:34,borderRadius:'0.625rem',background:'rgba(255,255,255,0.12)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff'}},
+            h(Icon,{n:'arrowL',cls:'w-4 h-4'})
+          ),
+          h('div',{className:'flex gap-1.5 flex-1 overflow-x-auto scrollbar-hide'},
+            weekDays.map(d=>{
+              const isToday2=isToday(d.date), isSel=d.date===selectedDay;
+              const cnt=dayCount(d.date), doneC=dayDone(d.date);
+              return h('button',{key:d.date,'data-day-pill':'',onClick:()=>setSelectedDay(d.date),
+                className:'flex-shrink-0 flex flex-col items-center py-2 px-2.5 rounded-xl transition-all',
+                style:{minWidth:'40px',background:isSel?'rgba(255,255,255,0.2)':isToday2?'rgba(255,255,255,0.1)':'rgba(255,255,255,0.04)',
+                  border:isToday2?'2px solid rgba(255,255,255,0.4)':'2px solid transparent'}},
+                h('span',{style:{fontSize:'0.65rem',fontWeight:700,color:isSel?'#fff':isToday2?'#fff':'rgba(255,255,255,0.6)'}},d.label),
+                h('span',{style:{fontSize:'1.1rem',fontWeight:900,color:'#fff',margin:'0.1rem 0'}},d.num),
+                cnt>0
+                  ? h('div',{className:'flex gap-0.5'},Array.from({length:Math.min(cnt,3)}).map((_,i)=>h('div',{key:i,style:{width:5,height:5,borderRadius:'50%',background:i<doneC?'#a7f3d0':'rgba(255,255,255,0.5)'}})))
+                  : h('div',{style:{width:5,height:5,borderRadius:'50%',background:'transparent'}})
+              );
+            })
+          ),
+          h('button',{onClick:()=>{const d=new Date(weekStart+'T00:00:00');d.setDate(d.getDate()+7);setWeekStart(dateStr(d));},
+            style:{width:34,height:34,borderRadius:'0.625rem',background:'rgba(255,255,255,0.12)',border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff'}},
+            h(Icon,{n:'chevR',cls:'w-4 h-4'})
+          )
+        )
+      )
+    ),
+    notif && h('div',{style:{margin:'0.75rem 1rem',padding:'0.75rem 1rem',background:'rgba(16,185,129,0.15)',border:'1px solid rgba(16,185,129,0.4)',borderRadius:'0.875rem',fontSize:'0.875rem',fontWeight:700,color:'#34d399'}},notif),
+    h('div',{className:'px-4 pt-4'},
+      h('div',{className:'flex items-center justify-between mb-3'},
+        h('div',{},
+          h('h2',{className:'text-base font-black text-white'},isToday(selectedDay)?'Today, '+formatDate(selectedDay).split(',').slice(1).join(',').trim():formatDate(selectedDay)),
+          h('p',{style:{fontSize:'0.75rem',color:'#64748b',marginTop:'0.125rem'}},
+            daySessions.length===0?'No sessions planned':`${daySessions.length} session${daySessions.length!==1?'s':''} · ${daySessions.reduce((s,x)=>s+x.xp_value,0)} XP`)
+        ),
+        h('button',{onClick:()=>{setView('add');setAddStep(0);setAddType('');setAddPick(null);setAddTime('');setAddNote('');},
+          className:'flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold text-white',
+          style:{background:'linear-gradient(135deg,#0f766e,#0d9488)'}},
+          h(Icon,{n:'plus',cls:'w-4 h-4'}),'Add')
+      ),
+      h('div',{ref:sessionsRef},
+        daySessions.length===0
+          ? h('div',{className:'flex flex-col items-center py-10 text-center',style:{border:'2px dashed rgba(51,65,85,0.5)',borderRadius:'1rem'}},
+            h(Icon,{n:'calendar',cls:'w-10 h-10',style:{color:'#484f58'}}),
+            h('div',{className:'font-bold text-white text-sm mb-1'},'No sessions planned'),
+            h('div',{className:'text-xs text-slate-500 mb-4'},'Add a session or generate a smart schedule'),
+            h('div',{className:'flex gap-2'},
+              h('button',{onClick:()=>{setView('add');setAddStep(0);},className:'btn-primary text-sm px-4 py-2.5'},h(Icon,{n:'plus',cls:'w-4 h-4'}),' Add Session'),
+              h('button',{onClick:()=>setView('generate'),className:'btn-secondary text-sm px-4 py-2.5'},h(Icon,{n:'sparkles',cls:'w-4 h-4'}),' Auto Plan')
+            )
+          )
+          : h('div',{className:'space-y-3'},
+            daySessions.map(s=>{
+              const tc=SCHED_TYPES[s.type]||SCHED_TYPES.custom;
+              const isDone=s.status==='complete', isSkipped=s.status==='skipped';
+              return h('div',{key:s.id,'data-session-card':'',
+                className:'rounded-2xl overflow-hidden',
+                style:{background:isDone?'rgba(16,185,129,0.06)':isSkipped?'rgba(30,41,59,0.3)':tc.bg,
+                  border:`1px solid ${isDone?'rgba(16,185,129,0.3)':isSkipped?'rgba(51,65,85,0.3)':tc.border}`,
+                  opacity:isSkipped?0.6:1}},
+                h('div',{style:{height:'4px',background:isDone?'#10b981':isSkipped?'#475569':tc.color}}),
+                h('div',{className:'p-4'},
+                  h('div',{className:'flex items-start gap-3'},
+                    h('div',{style:{width:44,height:44,borderRadius:'0.875rem',background:isDone?'rgba(16,185,129,0.15)':'rgba(0,0,0,0.2)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}},
+                      isDone?h(Icon,{n:'check',cls:'w-4 h-4 text-white'}):h(Icon,{n:tc.icon||'calendar',cls:'w-4 h-4',style:{color:tc.color}})
+                    ),
+                    h('div',{className:'flex-1 min-w-0'},
+                      h('div',{className:'flex items-start justify-between gap-2'},
+                        h('h3',{style:{fontSize:'0.9375rem',fontWeight:800,color:isSkipped?'#64748b':'#f8fafc',lineHeight:1.3}},s.title),
+                        isDone && h('span',{style:{fontSize:'0.7rem',fontWeight:700,padding:'0.125rem 0.5rem',background:'rgba(22,163,74,0.12)',border:'1px solid rgba(22,163,74,0.25)',borderRadius:4,color:'#4ade80',whiteSpace:'nowrap'}},'Done')
+                      ),
+                      h('div',{className:'flex items-center gap-2 mt-1.5 flex-wrap'},
+                        s.time && h('span',{style:{fontSize:'0.75rem',color:'#94a3b8',fontWeight:600}},s.time),
+                        s.time && h('span',{style:{color:'#475569'}},'·'),
+                        h('span',{style:{fontSize:'0.75rem',color:'#94a3b8'}},`${s.duration_minutes} min`),
+                        !isDone && h(XPBadge,{xp:s.xp_value})
+                      )
+                    )
+                  ),
+                  !isSkipped && h('div',{className:'flex gap-2 mt-3'},
+                    !isDone && h('button',{onClick:()=>startSession(s),
+                      className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-black',
+                      style:{background:`${tc.color}33`,border:`1px solid ${tc.color}60`,color:'#fff'}},
+                      h(Icon,{n:'play',cls:'w-4 h-4'}),'Start'),
+                    !isDone && h('button',{onClick:()=>completeSession(s.id),
+                      className:'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-bold',
+                      style:{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}},
+                      h(Icon,{n:'check',cls:'w-4 h-4'}),'Done'),
+                    isDone && h('button',{onClick:()=>undoSession(s.id),
+                      className:'flex items-center gap-1 py-2.5 px-3 rounded-xl text-xs font-bold',
+                      style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},'Undo'),
+                    !isDone && h('button',{onClick:()=>skipSession(s.id),
+                      className:'py-2.5 px-3 rounded-xl text-xs font-bold',
+                      style:{background:'rgba(30,41,59,0.5)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.4)'}},'Skip'),
+                    h('button',{onClick:()=>deleteSession(s.id),
+                      className:'py-2.5 px-3 rounded-xl',
+                      style:{background:'rgba(239,68,68,0.08)',color:'#f87171',border:'1px solid rgba(239,68,68,0.2)'}},
+                      h(Icon,{n:'trash',cls:'w-4 h-4'}))
+                  ),
+                  isSkipped && h('div',{className:'flex items-center justify-between mt-3'},
+                    h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},'Skipped'),
+                    h('button',{onClick:()=>undoSession(s.id),style:{fontSize:'0.75rem',fontWeight:700,color:'#60a5fa'}},'Restore')
+                  )
+                )
+              );
+            })
+          )
+      ),
+      h('div',{className:'mt-5 p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.5)',border:'1px solid rgba(51,65,85,0.5)'}},
+        h('p',{className:'text-xs font-bold text-slate-500 uppercase tracking-wider mb-3'},'This Week'),
+        h('div',{className:'grid grid-cols-3 gap-3 text-center'},
+          h('div',{},h('div',{className:'text-xl font-black text-white'},weekSessions.length),h('div',{style:{fontSize:'0.7rem',color:'#64748b',fontWeight:700}},'Total')),
+          h('div',{},h('div',{className:'text-xl font-black',style:{color:'#34d399'}},weekDoneCount),h('div',{style:{fontSize:'0.7rem',color:'#64748b',fontWeight:700}},'Done')),
+          h('div',{},h('div',{className:'text-xl font-black',style:{color:'#f59e0b'}},weekXP),h('div',{style:{fontSize:'0.7rem',color:'#64748b',fontWeight:700}},'XP Left'))
+        )
+      ),
+      h('div',{className:'mt-4 mb-2'},
+        h('button',{onClick:()=>nav('SkillPaths'),
+          className:'w-full flex items-center gap-3 p-4 rounded-2xl text-left',
+          style:{background:'rgba(30,41,59,0.4)',border:'1px solid rgba(51,65,85,0.4)'}},
+          h(Icon,{n:'layers',cls:'w-5 h-5',style:{color:'#8b949e'}}),
+          h('div',{className:'flex-1'},
+            h('div',{className:'text-sm font-bold text-white'},'Import from Skill Path'),
+            h('div',{className:'text-xs text-slate-500'},'Load your active path\'s weekly plan')
+          ),
+          h(Icon,{n:'chevR',cls:'w-5 h-5',style:{color:'#475569'}})
+        )
+      )
+    )
+  );
+}
+
+// ================================================================
+// SKILL PATHS — GSAP: path cards stagger + SVG ring draw animation
+// ================================================================
+function SkillPathsPage() {
+  const [pathId, setPathId] = useState(null);
+  const [levelId, setLevelId] = useState(null);
+  const [weekPlan, setWeekPlan] = useState(null);
+  const progress = DB.getProgress();
+  const skillProg = progress.skill_path_progress || {};
+  const rootRef = useRef(null);
+
+  // Stagger path cards + animate their SVG progress rings on mount
+  useLayoutEffect(()=>{
+    if(!rootRef.current || !SCAnim.ready || pathId) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const cards = rootRef.current.querySelectorAll('[data-path-card]');
+      if(cards.length) SCAnim.staggerCards(cards, { y:16, scale:0.97, duration:0.45, stagger:0.08 });
+      // Animate each ring after cards appear
+      rootRef.current.querySelectorAll('[data-ring-circle]').forEach((circle,i)=>{
+        const pct = parseFloat(circle.getAttribute('data-pct')||'0');
+        SCAnim.drawRing(circle, 0, pct/100, { duration:1.0, delay:0.3+i*0.1 });
+      });
+    }, rootRef);
+    return ()=>ctx.revert();
+  },[pathId]);
+
+  function importToSchedule(plan) {
+    const monday = getWeekMonday(new Date());
+    let added = 0;
+    plan.forEach(week=>{
+      if(week.week!==1) return;
+      week.days.forEach(day=>{
+        if(day.isRest) return;
+        const d = addDays(monday, day.day-1);
+        const ds = dateStr(d);
+        day.activities.forEach((act,i)=>{
+          DB.addSession({
+            id:'sch_'+Date.now()+'_'+day.day+'_'+i,
+            date:ds,time:i===0?'07:00':i===1?'17:00':'19:00',
+            type:act.type,title:act.title,ref_id:act.id||null,
+            duration_minutes:parseInt(act.duration)||20,xp_value:act.xp,
+            status:'pending',notes:'From Skill Path',color:SCHED_TYPES[act.type]?.color||'#64748b'
+          });
+          added++;
+        });
+      });
+    });
+    window.dispatchEvent(new CustomEvent('sc_update'));
+    alert(`${added} sessions imported to this week's schedule!`);
+  }
+
+  if(!pathId) return h('div',{ref:rootRef,className:'pb-28'},
+    h(PageHeader,{title:'Skill Paths',subtitle:'Structured programs for every discipline',
+      gradient:'linear-gradient(135deg,#7e22ce,#4f46e5)'}),
+    h('div',{className:'px-4 pt-5 space-y-4'},
+      SKILL_PATHS.map(path=>{
+        const pp=skillProg[path.id]||{};
+        const doneCount=Object.values(pp).filter(Boolean).length;
+        const pct=doneCount/path.levels.length*100;
+        const r=22, C=2*Math.PI*r;
+        return h('button',{key:path.id,'data-path-card':'',onClick:()=>{setPathId(path.id);setLevelId(null);setWeekPlan(null);},
+          className:'w-full text-left p-5 rounded-2xl active:scale-[.99] transition-all',
+          style:{background:'rgba(30,41,59,0.7)',border:`1px solid ${path.accent}30`}},
+          h('div',{style:{height:'3px',background:`linear-gradient(to right,${path.accent},transparent)`,marginBottom:'1rem',borderRadius:'2px'}}),
+          h('div',{className:'flex items-center gap-4'},
+            h('div',{style:{position:'relative',width:56,height:56,flexShrink:0}},
+              h('svg',{width:56,height:56,viewBox:'0 0 56 56',style:{position:'absolute',inset:0,transform:'rotate(-90deg)'}},
+                h('circle',{cx:28,cy:28,r,fill:'none',stroke:'rgba(51,65,85,0.6)',strokeWidth:4}),
+                h('circle',{cx:28,cy:28,r,fill:'none',stroke:path.accent,strokeWidth:4,
+                  'data-ring-circle':'','data-pct':String(pct),
+                  strokeDasharray:C,strokeDashoffset:C*(1-pct/100),
+                  strokeLinecap:'round'})
+              ),
+              h('div',{style:{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}},
+                h(Icon,{n:path.icon||'bat',cls:'w-6 h-6 text-white'}))
+            ),
+            h('div',{className:'flex-1'},
+              h('h3',{className:'font-black text-white text-base'},path.title),
+              h('p',{className:'text-xs mt-0.5 mb-2',style:{color:'#64748b'}},path.desc),
+              h('div',{className:'flex items-center gap-3'},
+                h('div',{className:'flex-1 h-2 rounded-full',style:{background:'rgba(51,65,85,0.6)',overflow:'hidden'}},
+                  h('div',{style:{width:`${pct}%`,height:'100%',background:path.accent,borderRadius:'9999px',transition:'width .6s'}})
+                ),
+                h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:path.accent}},`${doneCount}/${path.levels.length}`)
+              )
+            )
+          )
+        );
+      })
+    )
+  );
+
+  const path=SKILL_PATHS.find(p=>p.id===pathId);
+  if(!path) return null;
+  const grad=`linear-gradient(135deg,${path.accent},${path.accent}88)`;
+
+  if(!levelId) return h('div',{className:'pb-28'},
+    h(PageHeader,{title:path.title,subtitle:path.desc,gradient:grad,onBack:()=>setPathId(null)}),
+    h('div',{className:'px-4 pt-5 space-y-3'},
+      h('p',{className:'text-sm text-slate-400 mb-2'},'Choose your level to begin your structured 5-week program:'),
+      path.levels.map((lv,i)=>{
+        const pp=skillProg[path.id]||{};
+        const unlocked=i===0||(pp[path.levels[i-1].id]);
+        const done=pp[lv.id];
+        return h('button',{key:lv.id,
+          onClick:()=>{if(!unlocked)return;setLevelId(lv.id);setWeekPlan(generateWeekPlan(path.id,lv.id));},
+          className:'w-full text-left p-5 rounded-2xl transition-all',
+          style:{background:done?'rgba(16,185,129,0.08)':unlocked?'rgba(30,41,59,0.7)':'rgba(15,23,42,0.5)',
+            border:`2px solid ${done?'rgba(16,185,129,0.4)':unlocked?`${path.accent}40`:'rgba(51,65,85,0.3)'}`,
+            opacity:unlocked?1:0.5}},
+          h('div',{className:'flex items-center gap-4'},
+            h('div',{style:{width:52,height:52,borderRadius:'0.875rem',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,
+              background:done?'#10b981':unlocked?path.accent:'rgba(51,65,85,0.5)'}},
+              done?h(Icon,{n:'check',cls:'w-6 h-6 text-white'}):h(Icon,{n:lv.icon||'bat',cls:'w-6 h-6 text-white'})
+            ),
+            h('div',{className:'flex-1'},
+              h('div',{className:'flex items-center gap-2'},
+                h('h3',{className:'font-black text-white'},lv.label),
+                !unlocked && h(Icon,{n:'lock',cls:'w-3 h-3',style:{color:'#484f58',flexShrink:0}}),
+                done && h('span',{style:{fontSize:'0.7rem',fontWeight:700,color:'#4ade80'}},'Complete')
+              ),
+              h('p',{className:'text-xs text-slate-400 mt-0.5'},lv.desc),
+              h('div',{className:'flex items-center gap-2 mt-2'},
+                h('span',{style:{fontSize:'0.75rem',fontWeight:800,color:path.accent}},`+${lv.xpPerDay} XP/day`),
+                h('span',{style:{fontSize:'0.75rem',color:'#475569'}},'· 5-week program')
+              )
+            )
+          )
+        );
+      })
+    )
+  );
+
+  const lv=path.levels.find(l=>l.id===levelId);
+  if(!lv||!weekPlan) return null;
+
+  return h('div',{className:'pb-28'},
+    h(PageHeader,{title:lv.label,subtitle:path.title,gradient:grad,onBack:()=>setLevelId(null)}),
+    h('div',{className:'px-4 pt-5'},
+      h('div',{className:'flex gap-2 mb-5'},
+        h('button',{onClick:()=>importToSchedule(weekPlan),
+          className:'flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white',
+          style:{background:'linear-gradient(135deg,#0f766e,#0d9488)'}},
+          h(Icon,{n:'calendar',cls:'w-4 h-4'}),'Import to Schedule'),
+        h('button',{onClick:()=>{
+          const p=DB.getProgress();
+          if(!p.skill_path_progress) p.skill_path_progress={};
+          if(!p.skill_path_progress[path.id]) p.skill_path_progress[path.id]={};
+          p.skill_path_progress[path.id][levelId]=true;DB.saveProgress(p);
+          awardXP(lv.xpPerDay*5,30,'skill_path');setLevelId(null);
+        },className:'flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-bold',
+          style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.5)',color:'#94a3b8'}},
+          h(Icon,{n:'check',cls:'w-4 h-4'}),'Mark Done')
+      ),
+      h('div',{className:'space-y-3'},
+        weekPlan.map(week=>h(WeekAccordion,{key:week.week,week,pathAccent:path.accent}))
+      )
+    )
+  );
+}
+
+function WeekAccordion({ week, pathAccent }) {
+  const [open,setOpen]=useState(week.week===1);
+  const bodyRef = useRef(null);
+
+  // Smooth height on open/close with GSAP
+  useLayoutEffect(()=>{
+    if(!bodyRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    if(open){
+      gsap.from(bodyRef.current.querySelectorAll('[data-acc-day]'), {
+        opacity:0, y:8, duration:0.28, stagger:0.03, ease:'power2.out'
+      });
+    }
+  },[open]);
+
+  return h('div',{className:'rounded-2xl overflow-hidden',style:{border:'1px solid rgba(51,65,85,0.5)'}},
+    h('button',{onClick:()=>setOpen(o=>!o),
+      className:'w-full flex items-center justify-between p-4 text-left',
+      style:{background:'rgba(30,41,59,0.6)'}},
+      h('div',{},
+        h('div',{className:'font-bold text-white text-sm'},week.theme),
+        h('div',{className:'text-xs text-slate-500 mt-0.5'},`${week.days.filter(d=>!d.isRest).length} training days`)
+      ),
+      h(Icon,{n:open?'chevU':'chevD',cls:'w-5 h-5',style:{color:'#64748b'}})
+    ),
+    open && h('div',{ref:bodyRef,style:{background:'rgba(15,23,42,0.4)',borderTop:'1px solid rgba(51,65,85,0.4)'}},
+      week.days.map(day=>h('div',{key:day.day,'data-acc-day':'',className:'p-4',style:{borderBottom:'1px solid rgba(51,65,85,0.2)'}},
+        h('div',{className:'flex items-center justify-between mb-2'},
+          h('span',{style:{fontSize:'0.875rem',fontWeight:800,color:'#fff'}},day.label),
+          day.isRest
+            ? h('span',{style:{fontSize:'0.65rem',color:'#484f58'}},'Rest')
             : h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:pathAccent}},`+${day.totalXP} XP`)
         ),
         !day.isRest && h('div',{className:'space-y-1.5'},
@@ -3348,12 +4162,15 @@ function WeekAccordion({ week, pathAccent }) {
 }
 
 // ================================================================
-// PROGRESS PAGE
+// PROGRESS PAGE — ScrollTrigger reveals on every section
 // ================================================================
 function ProgressPage() {
   const [progress,setProgress]=useState(()=>DB.getProgress());
   const [xpDays,setXpDays]=useState(()=>DB.getXPLast7Days());
   const [hmap,setHmap]=useState(()=>DB.getActivityHeatmap());
+  const rootRef=useRef(null);
+  const xpNumRef=useRef(null);
+  const barRef=useRef(null);
 
   const refresh=useCallback(()=>{
     setProgress(DB.getProgress());setXpDays(DB.getXPLast7Days());setHmap(DB.getActivityHeatmap());
@@ -3363,30 +4180,103 @@ function ProgressPage() {
     return()=>{window.removeEventListener('sc_update',refresh);window.removeEventListener('focus',refresh);};
   },[refresh]);
 
+  // Full ScrollTrigger setup for this data-heavy page
+  useLayoutEffect(()=>{
+    if(!rootRef.current||!SCAnim.ready||typeof ScrollTrigger==='undefined') return;
+    if(SCAnim.reducedMotion) return;
+    const p=DB.getProgress();
+    const info=getLevelInfo(p.total_xp||0);
+    const ctx=gsap.context(()=>{
+      // Level card immediate entry
+      const tl=gsap.timeline({defaults:{ease:'power2.out'}});
+      tl.from('[data-prog="level-card"]',{opacity:0,y:14,duration:0.45},0);
+      // XP count-up
+      if(xpNumRef.current){
+        const obj={val:0};
+        tl.to(obj,{val:p.total_xp||0,duration:0.9,ease:'power2.out',
+          onUpdate:()=>{if(xpNumRef.current) xpNumRef.current.textContent=Math.round(obj.val).toLocaleString()+' XP';},
+          onComplete:()=>{if(xpNumRef.current) xpNumRef.current.textContent=(p.total_xp||0).toLocaleString()+' XP';}
+        },0.1);
+      }
+      // Bar fill
+      if(barRef.current){
+        tl.fromTo(barRef.current,{width:'0%'},{width:`${info.pct}%`,duration:1.1,ease:'power3.out'},0.15);
+      }
+      // Stats grid — scroll-triggered
+      const statsGrid=rootRef.current.querySelector('[data-prog="stats-grid"]');
+      if(statsGrid){
+        gsap.from(statsGrid.querySelectorAll('.stat-card'),{
+          opacity:0,y:14,duration:0.35,stagger:0.05,ease:'power2.out',
+          scrollTrigger:{trigger:statsGrid,start:'top 88%',once:true}
+        });
+      }
+      // 7-day chart bars
+      const chart=rootRef.current.querySelector('[data-prog="chart"]');
+      if(chart){
+        gsap.from(chart.querySelectorAll('[data-bar]'),{
+          scaleY:0,transformOrigin:'bottom',duration:0.5,stagger:0.04,ease:'power2.out',
+          scrollTrigger:{trigger:chart,start:'top 88%',once:true}
+        });
+      }
+      // Heatmap diagonal stagger
+      const heatmap=rootRef.current.querySelector('[data-prog="heatmap"]');
+      if(heatmap){
+        gsap.from(heatmap.querySelectorAll('.heatmap-cell'),{
+          opacity:0,scale:0,duration:0.25,stagger:{amount:0.6,from:'start'},ease:'power2.out',
+          scrollTrigger:{trigger:heatmap,start:'top 88%',once:true}
+        });
+      }
+      // Badges pop stagger
+      const badgesGrid=rootRef.current.querySelector('[data-prog="badges"]');
+      if(badgesGrid){
+        gsap.from(badgesGrid.querySelectorAll('[data-badge]'),{
+          opacity:0,scale:0.7,duration:0.3,stagger:0.03,ease:'back.out(1.5)',
+          scrollTrigger:{trigger:badgesGrid,start:'top 88%',once:true}
+        });
+      }
+      // Skill path bars
+      const spaths=rootRef.current.querySelectorAll('[data-spath-bar]');
+      if(spaths.length){
+        spaths.forEach(bar=>{
+          const targetW=bar.getAttribute('data-target-width')||'0%';
+          gsap.fromTo(bar,{width:'0%'},{width:targetW,duration:0.8,ease:'power2.out',
+            scrollTrigger:{trigger:bar,start:'top 92%',once:true}});
+        });
+      }
+    },rootRef);
+    return()=>ctx.revert();
+  },[]);
+
   const info=getLevelInfo(progress.total_xp||0);
   const badges=progress.badges||[];
-  const schedStats={
-    done:(DB.getSchedule().sessions||[]).filter(s=>s.status==='complete').length,
-    total:(DB.getSchedule().sessions||[]).length
-  };
+  const schedStats={done:(DB.getSchedule().sessions||[]).filter(s=>s.status==='complete').length};
 
-  return h('div',{className:'pb-28'},
+  return h('div',{ref:rootRef,className:'pb-28'},
     h(PageHeader,{title:'My Progress',subtitle:'Your complete training stats',gradient:'linear-gradient(135deg,#064e3b,#065f46)'}),
     h('div',{className:'px-4 pt-5 space-y-5'},
       // Level card
-      h('div',{className:'p-5 rounded-2xl',style:{background:'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(13,148,136,0.06))',border:'1px solid rgba(16,185,129,0.3)'}},
+      h('div',{'data-prog':'level-card',className:'p-5 rounded-2xl',
+        style:{background:'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(13,148,136,0.06))',border:'1px solid rgba(16,185,129,0.3)'}},
         h('div',{className:'flex items-center justify-between mb-4'},
-          h('div',{},h('div',{className:'text-2xl font-black text-white'},`Level ${info.level}`),h('div',{style:{color:'#34d399',fontWeight:700,fontSize:'0.875rem'}},info.name)),
-          h('div',{className:'text-right'},h('div',{className:'text-xl font-black text-white'},`${(progress.total_xp||0).toLocaleString()} XP`),info.next&&h('div',{style:{fontSize:'0.75rem',color:'#64748b'}},`${info.xpToNext.toLocaleString()} to next level`))
+          h('div',{},
+            h('div',{className:'text-2xl font-black text-white'},`Level ${info.level}`),
+            h('div',{style:{color:'#34d399',fontWeight:700,fontSize:'0.875rem'}},info.name)
+          ),
+          h('div',{className:'text-right'},
+            h('div',{ref:xpNumRef,className:'text-xl font-black text-white'},`${(progress.total_xp||0).toLocaleString()} XP`),
+            info.next&&h('div',{style:{fontSize:'0.75rem',color:'#64748b'}},`${info.xpToNext.toLocaleString()} to next level`)
+          )
         ),
-        h(LevelBar,{totalXP:progress.total_xp||0}),
+        h('div',{className:'level-bar-track'},
+          h('div',{ref:barRef,className:'level-bar-fill',style:{width:`${info.pct}%`}})
+        ),
         h('div',{className:'flex justify-between text-xs mt-2',style:{color:'#475569'}},
           h('span',{},`Lv.${info.level}: ${info.min.toLocaleString()}`),
           info.next&&h('span',{},`Lv.${info.level+1}: ${info.next.min.toLocaleString()}`)
         )
       ),
       // Stats grid
-      h('div',{className:'grid grid-cols-2 gap-3'},
+      h('div',{'data-prog':'stats-grid',className:'grid grid-cols-2 gap-3'},
         [{label:'Drills Done',val:progress.drills_done||0,color:'text-blue-400',icon:'target'},
          {label:'Mental Sessions',val:progress.mental_done||0,color:'text-purple-400',icon:'brain'},
          {label:'Workouts',val:progress.workouts_done||0,color:'text-orange-400',icon:'dumbbell'},
@@ -3396,12 +4286,24 @@ function ProgressPage() {
         ].map(s=>h(StatCard,{key:s.label,...s}))
       ),
       // 7-day chart
-      h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
+      h('div',{'data-prog':'chart',className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('div',{className:'flex justify-between items-center mb-3'},
           h('span',{className:'text-sm font-bold text-white'},'7-Day XP'),
           h('span',{style:{fontSize:'0.75rem',fontWeight:700,color:'#34d399'}},`${xpDays.reduce((s,d)=>s+d.xp,0)} total`)
         ),
-        h(XPChart,{days:xpDays})
+        h('div',{className:'flex items-end gap-1.5 h-20 w-full'},
+          xpDays.map(d=>{
+            const max=Math.max(...xpDays.map(x=>x.xp),1);
+            return h('div',{key:d.date,className:'flex flex-col items-center gap-1 flex-1'},
+              h('div',{'data-bar':'',style:{
+                width:'100%',height:`${Math.max(3,(d.xp/max)*72)}px`,
+                background:d.xp>0?'linear-gradient(to top,#059669,#34d399)':'rgba(30,41,59,0.6)',
+                borderRadius:'3px 3px 0 0',transformOrigin:'bottom'
+              },title:`${d.xp} XP`}),
+              h('span',{className:'text-xs text-slate-500 font-medium'},d.label)
+            );
+          })
+        )
       ),
       // Heatmap
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
@@ -3409,41 +4311,54 @@ function ProgressPage() {
           h('span',{className:'text-sm font-bold text-white'},'30-Day Activity'),
           h('div',{className:'flex items-center gap-1.5'},[0,1,2,3,4].map(l=>h('div',{key:l,className:`heatmap-cell heatmap-${l}`,style:{width:12,height:12}})))
         ),
-        h(Heatmap,{days:hmap})
+        h('div',{'data-prog':'heatmap',className:'grid grid-cols-7 gap-1.5'},
+          hmap.map(d=>h('div',{key:d.date,className:`heatmap-cell heatmap-${d.level}`,style:{aspectRatio:'1',borderRadius:'4px'},title:`${d.date}: ${d.xp} XP`}))
+        )
       ),
       // Badges
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('div',{className:'flex justify-between items-center mb-4'},
-          h('div',{style:{display:'flex',alignItems:'center',gap:8}},h(Icon,{n:'award',cls:'w-4 h-4',style:{color:'#8b949e'}}),h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Badges')),
+          h('div',{style:{display:'flex',alignItems:'center',gap:8}},
+            h(Icon,{n:'award',cls:'w-4 h-4',style:{color:'#8b949e'}}),
+            h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Badges')
+          ),
           h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},`${badges.length} of ${Object.keys(BADGE_DEFS).length}`)
         ),
-        h('div',{className:'grid grid-cols-3 gap-2.5'},
+        h('div',{'data-prog':'badges',className:'grid grid-cols-3 gap-2.5'},
           Object.entries(BADGE_DEFS).map(([id,def])=>{
             const earned=badges.includes(id);
-            return h('div',{key:id,className:'flex flex-col items-center gap-1.5 p-3 rounded-xl text-center',
+            return h('div',{key:id,'data-badge':'',className:'flex flex-col items-center gap-1.5 p-3 rounded-xl text-center',
               style:{background:earned?'rgba(16,185,129,0.08)':'rgba(15,23,42,0.4)',
                 border:`1px solid ${earned?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.3)'}`,
                 opacity:earned?1:0.4}},
-              h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',width:'100%'}},earned?h(Icon,{n:def.icon,cls:'w-6 h-6',style:{color:'#e6edf3'}}):h(Icon,{n:'lock',cls:'w-5 h-5',style:{color:'#484f58'}})),
+              h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',width:'100%'}},
+                earned?h(Icon,{n:def.icon,cls:'w-6 h-6',style:{color:'#e6edf3'}}):h(Icon,{n:'lock',cls:'w-5 h-5',style:{color:'#484f58'}})),
               h('span',{style:{fontSize:'0.65rem',fontWeight:800,color:earned?'#f8fafc':'#64748b'}},def.label)
             );
           })
         )
       ),
-      // Skill path progress
+      // Skill paths
       h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{style:{display:'flex',alignItems:'center',gap:8,marginBottom:16}},h(Icon,{n:'layers',cls:'w-4 h-4',style:{color:'#8b949e'}}),h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Skill Paths')),
+        h('div',{style:{display:'flex',alignItems:'center',gap:8,marginBottom:16}},
+          h(Icon,{n:'layers',cls:'w-4 h-4',style:{color:'#8b949e'}}),
+          h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Skill Paths')
+        ),
         SKILL_PATHS.map(path=>{
           const pp=(progress.skill_path_progress||{})[path.id]||{};
           const done=Object.values(pp).filter(Boolean).length;
           const pct=done/path.levels.length*100;
           return h('div',{key:path.id,className:'mb-3 last:mb-0'},
             h('div',{className:'flex justify-between text-xs mb-1.5'},
-              h('div',{style:{display:'flex',alignItems:'center',gap:6}},h(Icon,{n:path.icon||'bat',cls:'w-3.5 h-3.5',style:{color:'#8b949e'}}),h('span',{style:{color:'#8b949e',fontWeight:600,fontSize:13}},path.title)),
+              h('div',{style:{display:'flex',alignItems:'center',gap:6}},
+                h(Icon,{n:path.icon||'bat',cls:'w-3.5 h-3.5',style:{color:'#8b949e'}}),
+                h('span',{style:{color:'#8b949e',fontWeight:600,fontSize:13}},path.title)
+              ),
               h('span',{style:{color:path.accent,fontWeight:800}},`${done}/${path.levels.length}`)
             ),
             h('div',{style:{height:'6px',background:'rgba(51,65,85,0.6)',borderRadius:'9999px',overflow:'hidden'}},
-              h('div',{style:{width:`${pct}%`,height:'100%',background:path.accent,borderRadius:'9999px',transition:'width .6s'}})
+              h('div',{'data-spath-bar':'','data-target-width':`${pct}%`,
+                style:{width:`${pct}%`,height:'100%',background:path.accent,borderRadius:'9999px',transition:'width .6s'}})
             )
           );
         })
@@ -3453,7 +4368,7 @@ function ProgressPage() {
 }
 
 // ================================================================
-// 30-DAY CHALLENGE
+// 30-DAY CHALLENGE — grid stagger + completion cell pop
 // ================================================================
 const DAY30=Array.from({length:30},(_,i)=>({
   day:i+1,
@@ -3465,83 +4380,110 @@ const DAY30=Array.from({length:30},(_,i)=>({
 
 function ThirtyDayPage() {
   const [progress,setProgress]=useState(()=>DB.getProgress());
+  const [justCompleted,setJustCompleted]=useState(null);
   const completed=progress.thirtyDay_completed||{};
   const today=new Date().toISOString().slice(0,10);
   const doneCnt=Object.keys(completed).length;
   const pct=Math.round(doneCnt/30*100);
+  const rootRef=useRef(null);
 
   useEffect(()=>{
     const refresh=()=>setProgress(DB.getProgress());
     window.addEventListener('sc_update',refresh);
-    return ()=>window.removeEventListener('sc_update',refresh);
+    return()=>window.removeEventListener('sc_update',refresh);
+  },[]);
+
+  // Stagger the day cells on mount
+  useLayoutEffect(()=>{
+    if(!rootRef.current||!SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx=gsap.context(()=>{
+      gsap.from('[data-day-cell]',{
+        opacity:0,scale:0.7,duration:0.2,stagger:{amount:0.55,from:'start'},ease:'back.out(1.4)',delay:0.15
+      });
+      const ring=rootRef.current.querySelector('[data-prog-ring]');
+      if(ring) SCAnim.drawRing(ring,0,doneCnt/30,{duration:1.0,delay:0.1});
+    },rootRef);
+    return()=>ctx.revert();
   },[]);
 
   const markDay=day=>{
-    // Guard: already completed
     if(completed[day.day]) return;
-    // Guard: live DB check to prevent race conditions
     const currentP=DB.getProgress();
-    if(currentP.thirtyDay_completed?.[day.day]) {
-      setProgress(currentP);
-      return;
-    }
+    if(currentP.thirtyDay_completed?.[day.day]){setProgress(currentP);return;}
     const p=DB.getProgress();
     if(!p.thirtyDay_completed) p.thirtyDay_completed={};
     p.thirtyDay_completed[day.day]=today;
     DB.saveProgress(p);
     awardXP(day.xp,15,'30day');
     setProgress(DB.getProgress());
+    setJustCompleted(day.day);
+    setTimeout(()=>setJustCompleted(null),800);
+    // Pop animation on the just-completed cell
+    if(SCAnim.ready&&!SCAnim.reducedMotion){
+      const cell=document.querySelector(`[data-day-cell="${day.day}"]`);
+      if(cell) gsap.fromTo(cell,{scale:0.8},{scale:1,duration:0.4,ease:'back.out(2.5)'});
+    }
   };
 
   const phases=['Foundation','Development','Integration','Performance'];
+  const R=22,C=2*Math.PI*R;
 
-  return h('div',{className:'pb-28'},
+  return h('div',{ref:rootRef,className:'pb-28'},
     h(PageHeader,{title:'30-Day Challenge',subtitle:'Build the habit. Transform your game.',gradient:'linear-gradient(135deg,#d97706,#b45309)'}),
     h('div',{className:'px-4 pt-5 space-y-5'},
-      // Progress summary
       h('div',{className:'p-5 rounded-2xl',style:{background:'rgba(217,119,6,0.1)',border:'1px solid rgba(217,119,6,0.3)'}},
         h('div',{className:'flex items-center justify-between mb-3'},
           h('div',{},
             h('div',{className:'text-2xl font-black text-white'},`Day ${doneCnt} / 30`),
             h('div',{style:{color:'#fbbf24',fontWeight:700,fontSize:'0.875rem'}},
-              doneCnt===30?'🏆 Challenge Complete!':doneCnt===0?'Begin your journey':'Keep going — great work!')
+              doneCnt===30?'Challenge Complete!':doneCnt===0?'Begin your journey':'Keep going — great work!')
           ),
-          h('div',{style:{width:56,height:56,borderRadius:'50%',border:'4px solid #f59e0b',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:900,color:'#f59e0b',fontSize:'0.875rem'}},`${pct}%`)
+          h('div',{style:{position:'relative',width:56,height:56,flexShrink:0}},
+            h('svg',{width:56,height:56,viewBox:'0 0 56 56',style:{transform:'rotate(-90deg)'}},
+              h('circle',{cx:28,cy:28,r:R,fill:'none',stroke:'rgba(217,119,6,0.2)',strokeWidth:4}),
+              h('circle',{'data-prog-ring':'',cx:28,cy:28,r:R,fill:'none',stroke:'#f59e0b',strokeWidth:4,
+                strokeDasharray:C,strokeDashoffset:C*(1-doneCnt/30),strokeLinecap:'round'})
+            ),
+            h('div',{style:{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',
+              fontSize:'0.75rem',fontWeight:900,color:'#f59e0b'}},`${pct}%`)
+          )
         ),
         h('div',{style:{height:'8px',background:'rgba(51,65,85,0.6)',borderRadius:'9999px',overflow:'hidden'}},
           h('div',{style:{width:`${pct}%`,height:'100%',background:'linear-gradient(to right,#f59e0b,#d97706)',borderRadius:'9999px',transition:'width .6s'}})
         )
       ),
-      // Phases
       phases.map((phase,pi)=>{
         const pDays=DAY30.filter(d=>d.phase===phase);
         return h('div',{key:phase},
           h('div',{className:'flex items-center gap-2 mb-3'},
             h('div',{style:{width:8,height:8,borderRadius:'50%',background:'#f59e0b'}}),
-            h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:'#f59e0b',textTransform:'uppercase',letterSpacing:'0.1em'}},`Week ${pi+1} — ${phase}`)
+            h('span',{style:{fontSize:'0.7rem',fontWeight:800,color:'#f59e0b',textTransform:'uppercase',letterSpacing:'0.1em'}},
+              `Week ${pi+1} — ${phase}`)
           ),
           h('div',{className:'grid grid-cols-7 gap-1.5'},
             pDays.map(d=>{
               const isDone=!!completed[d.day];
               const isNext=!isDone&&Object.keys(completed).length===d.day-1;
-              return h('button',{key:d.day,onClick:()=>markDay(d),disabled:isDone,title:`Day ${d.day}: ${d.title}`,
+              return h('button',{key:d.day,'data-day-cell':d.day,onClick:()=>markDay(d),disabled:isDone,
+                title:`Day ${d.day}: ${d.title}`,
                 className:'flex flex-col items-center justify-center py-2 rounded-xl active:scale-95 transition-all',
                 style:{aspectRatio:'1',
                   background:isDone?'#10b981':isNext?'rgba(245,158,11,0.15)':d.type==='rest'?'rgba(15,23,42,0.5)':'rgba(30,41,59,0.6)',
                   border:isNext?'2px solid #f59e0b':isDone?'2px solid #059669':'2px solid rgba(51,65,85,0.4)'}},
                 h('span',{style:{fontSize:'0.75rem',fontWeight:900,color:isDone?'#fff':isNext?'#f59e0b':d.type==='rest'?'#64748b':'#94a3b8'}},
-                  isDone?'✓':d.type==='rest'?'😴':d.day)
+                  isDone?h(Icon,{n:'check',cls:'w-3.5 h-3.5 text-white'}):d.type==='rest'?'R':d.day)
               );
             })
           )
         );
       }),
-      // Next up
-      (() => {
+      (()=>{
         const next=DAY30[doneCnt];
         if(!next||doneCnt===30) return null;
         return h('div',{className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(245,158,11,0.3)'}},
-          h('div',{style:{fontSize:'0.7rem',fontWeight:800,color:'#f59e0b',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.5rem'}},`Up Next — Day ${next.day}`),
+          h('div',{style:{fontSize:'0.7rem',fontWeight:800,color:'#f59e0b',textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:'0.5rem'}},
+            `Up Next — Day ${next.day}`),
           h('div',{className:'font-black text-white text-base mb-1'},next.title),
           h('div',{style:{fontSize:'0.75rem',color:'#64748b',marginBottom:'1rem'}},`Phase: ${next.phase} · +${next.xp} XP`),
           h('button',{onClick:()=>markDay(next),className:'btn-primary w-full py-3 text-sm'},`Complete Day ${next.day}`)
@@ -3552,7 +4494,260 @@ function ThirtyDayPage() {
 }
 
 // ================================================================
-// PROFILE, SETTINGS, LEADERBOARD, GOALS
+// PROGRESS PAGE — ScrollTrigger showcase: every section reveals,
+// stat numbers count up, heatmap sweeps diagonally, rings draw
+// ================================================================
+function ProgressPage() {
+  const [progress,setProgress]=useState(()=>DB.getProgress());
+  const [xpDays,setXpDays]=useState(()=>DB.getXPLast7Days());
+  const [hmap,setHmap]=useState(()=>DB.getActivityHeatmap());
+  const rootRef = useRef(null);
+
+  const refresh=useCallback(()=>{
+    setProgress(DB.getProgress());setXpDays(DB.getXPLast7Days());setHmap(DB.getActivityHeatmap());
+  },[]);
+  useEffect(()=>{
+    window.addEventListener('sc_update',refresh);window.addEventListener('focus',refresh);
+    return()=>{window.removeEventListener('sc_update',refresh);window.removeEventListener('focus',refresh);};
+  },[refresh]);
+
+  // Full ScrollTrigger setup — fires once after mount
+  useLayoutEffect(()=>{
+    if(!rootRef.current || !SCAnim.ready || typeof ScrollTrigger === 'undefined') return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      const p = DB.getProgress();
+      const info = getLevelInfo(p.total_xp||0);
+
+      // LEVEL CARD — immediate entrance
+      const levelCard = rootRef.current.querySelector('[data-prog="level-card"]');
+      if(levelCard){
+        gsap.from(levelCard, { opacity:0, y:20, duration:0.5, ease:'power2.out' });
+        // Count XP number
+        const xpEl = levelCard.querySelector('[data-prog="xp-number"]');
+        if(xpEl) SCAnim.countUp(xpEl, 0, p.total_xp||0, { delay:0.3, format:v=>`${Math.round(v).toLocaleString()} XP` });
+        // Fill level bar
+        const bar = levelCard.querySelector('[data-prog="level-bar"]');
+        if(bar) SCAnim.fillBar(bar, 0, info.pct, { delay:0.35, duration:1.1 });
+      }
+
+      // STATS GRID — ScrollTrigger stagger + count up each value
+      const statsSection = rootRef.current.querySelector('[data-prog="stats-section"]');
+      if(statsSection){
+        ScrollTrigger.create({
+          trigger: statsSection,
+          start: 'top 88%',
+          once: true,
+          onEnter: ()=>{
+            const cards = statsSection.querySelectorAll('[data-stat-card]');
+            gsap.from(cards, { opacity:0, y:16, duration:0.4, stagger:0.05, ease:'power2.out' });
+            // Count up each stat number
+            statsSection.querySelectorAll('[data-count-val]').forEach(el=>{
+              const target = parseInt(el.getAttribute('data-count-val')||'0');
+              SCAnim.countUp(el, 0, target, { duration:0.8, delay:0.2 });
+            });
+          }
+        });
+      }
+
+      // 7-DAY CHART — bars rise
+      const chartSection = rootRef.current.querySelector('[data-prog="chart-section"]');
+      if(chartSection){
+        ScrollTrigger.create({
+          trigger: chartSection,
+          start: 'top 90%',
+          once: true,
+          onEnter: ()=>{
+            const bars = chartSection.querySelectorAll('[data-chart-bar]');
+            gsap.from(bars, { scaleY:0, transformOrigin:'bottom', duration:0.55, stagger:0.05, ease:'power2.out' });
+          }
+        });
+      }
+
+      // HEATMAP — diagonal cascade sweep
+      const heatSection = rootRef.current.querySelector('[data-prog="heat-section"]');
+      if(heatSection){
+        ScrollTrigger.create({
+          trigger: heatSection,
+          start: 'top 90%',
+          once: true,
+          onEnter: ()=>{
+            const cells = heatSection.querySelectorAll('[data-heat-cell]');
+            gsap.from(cells, {
+              opacity:0, scale:0.6,
+              duration:0.3, stagger:{ each:0.015, from:'start' },
+              ease:'back.out(1.4)'
+            });
+          }
+        });
+      }
+
+      // BADGES — pop stagger on scroll
+      const badgeSection = rootRef.current.querySelector('[data-prog="badge-section"]');
+      if(badgeSection){
+        ScrollTrigger.create({
+          trigger: badgeSection,
+          start: 'top 90%',
+          once: true,
+          onEnter: ()=>{
+            const badges = badgeSection.querySelectorAll('[data-badge-cell]');
+            gsap.from(badges, { opacity:0, scale:0.7, duration:0.35, stagger:0.03, ease:'back.out(1.8)' });
+          }
+        });
+      }
+
+      // SKILL PATH BARS — width from 0 on scroll
+      const pathSection = rootRef.current.querySelector('[data-prog="path-section"]');
+      if(pathSection){
+        ScrollTrigger.create({
+          trigger: pathSection,
+          start: 'top 90%',
+          once: true,
+          onEnter: ()=>{
+            pathSection.querySelectorAll('[data-path-bar]').forEach(bar=>{
+              const targetW = bar.getAttribute('data-target-w')||'0%';
+              gsap.fromTo(bar, { width:'0%' }, { width:targetW, duration:0.9, ease:'power3.out' });
+            });
+          }
+        });
+      }
+    }, rootRef);
+    return ()=>ctx.revert();
+  },[]);
+
+  const info=getLevelInfo(progress.total_xp||0);
+  const badges=progress.badges||[];
+  const schedStats={
+    done:(DB.getSchedule().sessions||[]).filter(s=>s.status==='complete').length,
+    total:(DB.getSchedule().sessions||[]).length
+  };
+  const max7 = Math.max(...xpDays.map(d=>d.xp),1);
+
+  return h('div',{ref:rootRef,className:'pb-28'},
+    h(PageHeader,{title:'My Progress',subtitle:'Your complete training stats',gradient:'linear-gradient(135deg,#064e3b,#065f46)'}),
+    h('div',{className:'px-4 pt-5 space-y-5'},
+
+      // LEVEL CARD
+      h('div',{'data-prog':'level-card',className:'p-5 rounded-2xl',
+        style:{background:'linear-gradient(135deg,rgba(16,185,129,0.12),rgba(13,148,136,0.06))',border:'1px solid rgba(16,185,129,0.3)'}},
+        h('div',{className:'flex items-center justify-between mb-4'},
+          h('div',{},h('div',{className:'text-2xl font-black text-white'},`Level ${info.level}`),h('div',{style:{color:'#34d399',fontWeight:700,fontSize:'0.875rem'}},info.name)),
+          h('div',{className:'text-right'},
+            h('div',{'data-prog':'xp-number',className:'text-xl font-black text-white',style:{fontVariantNumeric:'tabular-nums'}},`${(progress.total_xp||0).toLocaleString()} XP`),
+            info.next&&h('div',{style:{fontSize:'0.75rem',color:'#64748b'}},`${info.xpToNext.toLocaleString()} to next level`)
+          )
+        ),
+        h('div',{className:'level-bar-track'},
+          h('div',{'data-prog':'level-bar',className:'level-bar-fill',style:{width:`${info.pct}%`}})
+        ),
+        h('div',{className:'flex justify-between text-xs mt-2',style:{color:'#475569'}},
+          h('span',{},`Lv.${info.level}: ${info.min.toLocaleString()}`),
+          info.next&&h('span',{},`Lv.${info.level+1}: ${info.next.min.toLocaleString()}`)
+        )
+      ),
+
+      // STATS GRID
+      h('div',{'data-prog':'stats-section',className:'grid grid-cols-2 gap-3'},
+        [
+          {label:'Drills Done',val:progress.drills_done||0,color:'text-blue-400',icon:'target'},
+          {label:'Mental Sessions',val:progress.mental_done||0,color:'text-purple-400',icon:'brain'},
+          {label:'Workouts',val:progress.workouts_done||0,color:'text-orange-400',icon:'dumbbell'},
+          {label:'Practice Mins',val:progress.practice_minutes||0,color:'text-teal-400',icon:'clock'},
+          {label:'Best Streak',val:progress.longest_streak||0,color:'text-red-400',icon:'flame'},
+          {label:'Scheduled Done',val:schedStats.done,color:'text-emerald-400',icon:'calendar'},
+        ].map(s=>h('div',{key:s.label,'data-stat-card':'',className:'stat-card'},
+          h('div',{style:{display:'flex',alignItems:'center',gap:6,marginBottom:4}},
+            h(Icon,{n:s.icon,cls:'w-3.5 h-3.5',style:{color:'#484f58'}}),
+            h('span',{style:{fontSize:10,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em'}},s.label)
+          ),
+          h('div',{'data-count-val':String(s.val),
+            style:{fontSize:22,fontWeight:800,fontVariantNumeric:'tabular-nums',lineHeight:1},
+            className:s.color},String(s.val))
+        ))
+      ),
+
+      // 7-DAY CHART
+      h('div',{'data-prog':'chart-section',className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
+        h('div',{className:'flex justify-between items-center mb-3'},
+          h('span',{className:'text-sm font-bold text-white'},'7-Day XP'),
+          h('span',{style:{fontSize:'0.75rem',fontWeight:700,color:'#34d399'}},`${xpDays.reduce((s,d)=>s+d.xp,0)} total`)
+        ),
+        h('div',{className:'flex items-end gap-1.5 h-20 w-full'},
+          xpDays.map(d=>h('div',{key:d.date,className:'flex flex-col items-center gap-1 flex-1'},
+            h('div',{'data-chart-bar':'',style:{width:'100%',height:`${Math.max(3,(d.xp/max7)*72)}px`,
+              background:d.xp>0?'linear-gradient(to top,#059669,#34d399)':'rgba(30,41,59,0.6)',
+              borderRadius:'3px 3px 0 0',transformOrigin:'bottom'},title:`${d.xp} XP`}),
+            h('span',{className:'text-xs text-slate-500 font-medium'},d.label)
+          ))
+        )
+      ),
+
+      // HEATMAP
+      h('div',{'data-prog':'heat-section',className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
+        h('div',{className:'flex justify-between items-center mb-3'},
+          h('span',{className:'text-sm font-bold text-white'},'30-Day Activity'),
+          h('div',{className:'flex items-center gap-1.5'},[0,1,2,3,4].map(l=>h('div',{key:l,className:`heatmap-cell heatmap-${l}`,style:{width:12,height:12}})))
+        ),
+        h('div',{className:'grid grid-cols-7 gap-1.5'},
+          hmap.map((d,i)=>h('div',{key:d.date,'data-heat-cell':'',
+            className:`heatmap-cell heatmap-${d.level}`,
+            style:{aspectRatio:'1',borderRadius:'4px'},
+            title:`${d.date}: ${d.xp} XP`}))
+        )
+      ),
+
+      // BADGES
+      h('div',{'data-prog':'badge-section',className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
+        h('div',{className:'flex justify-between items-center mb-4'},
+          h('div',{style:{display:'flex',alignItems:'center',gap:8}},h(Icon,{n:'award',cls:'w-4 h-4',style:{color:'#8b949e'}}),h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Badges')),
+          h('span',{style:{fontSize:'0.75rem',color:'#64748b'}},`${badges.length} of ${Object.keys(BADGE_DEFS).length}`)
+        ),
+        h('div',{className:'grid grid-cols-3 gap-2.5'},
+          Object.entries(BADGE_DEFS).map(([id,def])=>{
+            const earned=badges.includes(id);
+            return h('div',{key:id,'data-badge-cell':'',
+              className:'flex flex-col items-center gap-1.5 p-3 rounded-xl text-center',
+              style:{background:earned?'rgba(16,185,129,0.08)':'rgba(15,23,42,0.4)',
+                border:`1px solid ${earned?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.3)'}`,
+                opacity:earned?1:0.4}},
+              earned?h(Icon,{n:def.icon,cls:'w-6 h-6',style:{color:'#e6edf3'}}):h(Icon,{n:'lock',cls:'w-5 h-5',style:{color:'#484f58'}}),
+              h('span',{style:{fontSize:'0.65rem',fontWeight:800,color:earned?'#f8fafc':'#64748b'}},def.label)
+            );
+          })
+        )
+      ),
+
+      // SKILL PATH BARS
+      h('div',{'data-prog':'path-section',className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
+        h('div',{style:{display:'flex',alignItems:'center',gap:8,marginBottom:16}},
+          h(Icon,{n:'layers',cls:'w-4 h-4',style:{color:'#8b949e'}}),
+          h('span',{style:{fontSize:14,fontWeight:700,color:'#e6edf3'}},'Skill Paths')
+        ),
+        SKILL_PATHS.map(path=>{
+          const pp=(progress.skill_path_progress||{})[path.id]||{};
+          const done=Object.values(pp).filter(Boolean).length;
+          const pct=done/path.levels.length*100;
+          return h('div',{key:path.id,className:'mb-3 last:mb-0'},
+            h('div',{className:'flex justify-between text-xs mb-1.5'},
+              h('div',{style:{display:'flex',alignItems:'center',gap:6}},
+                h(Icon,{n:path.icon||'bat',cls:'w-3.5 h-3.5',style:{color:'#8b949e'}}),
+                h('span',{style:{color:'#8b949e',fontWeight:600,fontSize:13}},path.title)
+              ),
+              h('span',{style:{color:path.accent,fontWeight:800}},`${done}/${path.levels.length}`)
+            ),
+            h('div',{style:{height:'6px',background:'rgba(51,65,85,0.6)',borderRadius:'9999px',overflow:'hidden'}},
+              h('div',{'data-path-bar':'','data-target-w':`${pct}%`,
+                style:{width:`${pct}%`,height:'100%',background:path.accent,borderRadius:'9999px'}})
+            )
+          );
+        })
+      )
+    )
+  );
+}
+
+// ================================================================
+// PROFILE, SETTINGS, LEADERBOARD, GOALS — stagger entrances
 // ================================================================
 function ProfilePage() {
   const [user,setUser]=useState(DB.getUser);
@@ -3560,17 +4755,28 @@ function ProfilePage() {
   const [form,setForm]=useState(user);
   const progress=DB.getProgress();
   const info=getLevelInfo(progress.total_xp||0);
-  const save=()=>{ DB.setUser(form); setUser(form); setEditing(false); };
-  return h('div',{className:'pb-28'},
+  const rootRef=useRef(null);
+
+  useLayoutEffect(()=>{
+    if(!rootRef.current||!SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx=gsap.context(()=>{
+      gsap.from('[data-prof-item]',{opacity:0,y:14,duration:0.35,stagger:0.06,ease:'power2.out'});
+    },rootRef);
+    return()=>ctx.revert();
+  },[editing]);
+
+  const save=()=>{DB.setUser(form);setUser(form);setEditing(false);};
+  return h('div',{ref:rootRef,className:'pb-28'},
     h(PageHeader,{title:'My Profile',subtitle:'Your cricketer identity',
       gradient:'linear-gradient(135deg,#0f766e,#0d9488)',
       actions:h('button',{onClick:()=>editing?save():setEditing(true),
         className:'px-4 py-2 rounded-xl text-white text-sm font-bold',
-        style:{background:'rgba(255,255,255,0.15)'}},editing?'Save':'Edit')
-    }),
+        style:{background:'rgba(255,255,255,0.15)'}},editing?'Save':'Edit')}),
     h('div',{className:'px-4 pt-5 space-y-4'},
-      h('div',{className:'flex items-center gap-4 p-5 rounded-2xl',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.5)'}},
-        h('div',{style:{width:80,height:80,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,background:'linear-gradient(135deg,#16a34a,#0d9488)'}},h(Icon,{n:'bat',cls:'w-10 h-10 text-white'})),
+      h('div',{'data-prof-item':'',className:'flex items-center gap-4 p-5 rounded-2xl',style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.5)'}},
+        h('div',{style:{width:80,height:80,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,background:'linear-gradient(135deg,#16a34a,#0d9488)'}},
+          h(Icon,{n:'bat',cls:'w-10 h-10 text-white'})),
         h('div',{className:'flex-1'},
           h('div',{className:'text-xl font-black text-white'},user.name||'Cricketer'),
           h('div',{style:{color:'#34d399',fontWeight:700,fontSize:'0.875rem'}},`${info.name} — Level ${info.level}`),
@@ -3578,14 +4784,13 @@ function ProfilePage() {
           h('div',{className:'mt-3'},h(LevelBar,{totalXP:progress.total_xp||0,compact:true}))
         )
       ),
-      editing && h('div',{className:'space-y-3'},
+      editing&&h('div',{'data-prof-item':'',className:'space-y-3'},
         [{key:'name',label:'Full Name',ph:'Your name'},{key:'role',label:'Playing Role',ph:'Batsman, Bowler...'},{key:'team',label:'Team / Club',ph:'Your team'},{key:'country',label:'Country',ph:'Your country'}].map(f=>
           h('div',{key:f.key},
             h('label',{className:'text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1.5'},f.label),
             h('input',{type:'text',placeholder:f.ph,value:form[f.key]||'',onChange:e=>setForm({...form,[f.key]:e.target.value}),
               className:'w-full px-4 py-3 rounded-xl text-sm text-white outline-none',
-              style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.6)'}}
-            )
+              style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.6)'}})
           )
         ),
         h('div',{className:'flex gap-3'},
@@ -3593,7 +4798,7 @@ function ProfilePage() {
           h('button',{onClick:()=>setEditing(false),className:'btn-secondary flex-1'},'Cancel')
         )
       ),
-      !editing && h('div',{className:'grid grid-cols-2 gap-3'},
+      !editing&&h('div',{'data-prof-item':'',className:'grid grid-cols-2 gap-3'},
         [{label:'Role',val:user.role||'Not set'},{label:'Team',val:user.team||'Not set'},{label:'Country',val:user.country||'Not set'},{label:'Total XP',val:(progress.total_xp||0).toLocaleString()}].map(s=>
           h('div',{key:s.label,className:'p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
             h('div',{className:'text-xs text-slate-500 uppercase font-bold tracking-wider'},s.label),
@@ -3617,7 +4822,7 @@ function SettingsPage() {
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Settings',gradient:'linear-gradient(135deg,#334155,#1e293b)'}),
     h('div',{className:'px-4 pt-5 space-y-3'},
-      msg && h('div',{className:'p-3 rounded-xl text-sm font-semibold text-center',style:{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}},msg),
+      msg&&h('div',{className:'p-3 rounded-xl text-sm font-semibold text-center',style:{background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#34d399'}},msg),
       h('div',{className:'flex items-center justify-between p-4 rounded-2xl',style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)'}},
         h('div',{},h('div',{className:'font-bold text-white text-sm'},'Dark Mode'),h('div',{className:'text-xs text-slate-500'},'Easy on the eyes')),
         h('button',{onClick:toggle,style:{width:48,height:24,borderRadius:'9999px',background:dark?'#10b981':'#475569',position:'relative',border:'none',cursor:'pointer'}},
@@ -3635,6 +4840,7 @@ function SettingsPage() {
 function LeaderboardPage() {
   const progress=DB.getProgress();
   const info=getLevelInfo(progress.total_xp||0);
+  const rootRef=useRef(null);
   const entries=[
     {n:'Virat K.',lv:9,xp:52400,streak:47,flag:'🇮🇳'},{n:'Josh H.',lv:8,xp:38200,streak:31,flag:'🇦🇺'},
     {n:'Babar A.',lv:8,xp:36800,streak:28,flag:'🇵🇰'},{n:'Rohit S.',lv:7,xp:29100,streak:22,flag:'🇮🇳'},
@@ -3642,10 +4848,19 @@ function LeaderboardPage() {
     {n:'You',lv:info.level,xp:progress.total_xp||0,streak:progress.current_streak||0,isYou:true}
   ].sort((a,b)=>b.xp-a.xp).map((e,i)=>({...e,rank:i+1}));
 
-  return h('div',{className:'pb-28'},
+  useLayoutEffect(()=>{
+    if(!rootRef.current||!SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx=gsap.context(()=>{
+      gsap.from('[data-lb-card]',{opacity:0,y:10,duration:0.32,stagger:0.06,ease:'power2.out',delay:0.1});
+    },rootRef);
+    return()=>ctx.revert();
+  },[]);
+
+  return h('div',{ref:rootRef,className:'pb-28'},
     h(PageHeader,{title:'Leaderboard',subtitle:'Top SmartCrick athletes worldwide',gradient:'linear-gradient(135deg,#b45309,#92400e)'}),
     h('div',{className:'px-4 pt-5 space-y-2.5'},
-      entries.map(e=>h('div',{key:e.rank,className:'flex items-center gap-4 p-4 rounded-2xl',
+      entries.map(e=>h('div',{key:e.rank,'data-lb-card':'',className:'flex items-center gap-4 p-4 rounded-2xl',
         style:{background:e.isYou?'rgba(16,185,129,0.08)':'rgba(30,41,59,0.6)',
           border:`1px solid ${e.isYou?'rgba(16,185,129,0.3)':'rgba(51,65,85,0.5)'}`}},
         h('div',{style:{width:32,height:32,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.75rem',fontWeight:900,
@@ -3656,7 +4871,8 @@ function LeaderboardPage() {
           h('div',{style:{fontWeight:800,fontSize:'0.875rem',color:e.isYou?'#34d399':'#f8fafc'}},e.isYou?`${e.n} (You)`:e.n),
           h('div',{style:{fontSize:'0.75rem',color:'#64748b'}},`Level ${e.lv} · ${e.xp.toLocaleString()} XP`)
         ),
-        h('div',{style:{fontSize:'0.75rem',fontWeight:800,color:'#fb923c'}},h('div',{style:{display:'flex',alignItems:'center',gap:4}},h(Icon,{n:'flame',cls:'w-3.5 h-3.5',style:{color:'#fb923c'}}),`${e.streak}d`))
+        h('div',{style:{display:'flex',alignItems:'center',gap:4,fontSize:'0.75rem',fontWeight:800,color:'#fb923c'}},
+          h(Icon,{n:'flame',cls:'w-3.5 h-3.5',style:{color:'#fb923c'}}),`${e.streak}d`)
       ))
     )
   );
@@ -3665,6 +4881,18 @@ function LeaderboardPage() {
 function GoalsPage() {
   const [goals,setGoals]=useState(()=>DB.getGoals());
   const [newGoal,setNewGoal]=useState('');
+  const listRef=useRef(null);
+
+  useLayoutEffect(()=>{
+    if(!listRef.current||!SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx=gsap.context(()=>{
+      const cards=listRef.current.querySelectorAll('[data-goal-card]');
+      if(cards.length) SCAnim.staggerCards(cards,{y:10,duration:0.3,stagger:0.05});
+    },listRef);
+    return()=>ctx.revert();
+  },[goals.length]);
+
   const add=()=>{
     if(!newGoal.trim()) return;
     const g=[...goals,{id:Date.now(),text:newGoal.trim(),done:false,date:new Date().toISOString().slice(0,10)}];
@@ -3675,7 +4903,7 @@ function GoalsPage() {
     DB.saveGoals(g);setGoals(g);
     if(!goals.find(x=>x.id===id)?.done) awardXP(25,0,'goal');
   };
-  const del=id=>{ const g=goals.filter(x=>x.id!==id); DB.saveGoals(g); setGoals(g); };
+  const del=id=>{const g=goals.filter(x=>x.id!==id);DB.saveGoals(g);setGoals(g);};
   return h('div',{className:'pb-28'},
     h(PageHeader,{title:'Goals',subtitle:'Set and track your training targets',gradient:'linear-gradient(135deg,#15803d,#16a34a)'}),
     h('div',{className:'px-4 pt-5 space-y-4'},
@@ -3686,53 +4914,35 @@ function GoalsPage() {
           style:{background:'rgba(30,41,59,0.7)',border:'1px solid rgba(51,65,85,0.6)'}}),
         h('button',{onClick:add,className:'btn-primary px-4 py-3 rounded-xl'},h(Icon,{n:'plus',cls:'w-5 h-5'}))
       ),
-      goals.length===0 && h(EmptyState,{icon:'target',title:'No goals yet',desc:'Add your first cricket training goal to stay focused and track progress'}),
-      goals.map(g=>h('div',{key:g.id,className:'flex items-center gap-3 p-4 rounded-2xl',
-        style:{background:g.done?'rgba(16,185,129,0.06)':'rgba(30,41,59,0.6)',
-          border:`1px solid ${g.done?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.5)'}`}},
-        h('button',{onClick:()=>toggle(g.id),style:{width:28,height:28,borderRadius:'50%',border:`2px solid ${g.done?'#10b981':'rgba(51,65,85,0.8)'}`,background:g.done?'#10b981':'transparent',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,cursor:'pointer'}},
-          g.done && h(Icon,{n:'check',cls:'w-4 h-4 text-white'})
-        ),
-        h('span',{style:{flex:1,fontSize:'0.875rem',color:g.done?'#64748b':'#f8fafc',fontWeight:600,textDecoration:g.done?'line-through':'none'}},g.text),
-        h('button',{onClick:()=>del(g.id),style:{color:'#ef4444',background:'none',border:'none',cursor:'pointer',padding:'0.25rem'}},h(Icon,{n:'x',cls:'w-4 h-4'}))
-      ))
+      goals.length===0&&h(EmptyState,{icon:'target',title:'No goals yet',desc:'Add your first cricket training goal to stay focused and track progress'}),
+      h('div',{ref:listRef,className:'space-y-2'},
+        goals.map(g=>h('div',{key:g.id,'data-goal-card':'',className:'flex items-center gap-3 p-4 rounded-2xl',
+          style:{background:g.done?'rgba(16,185,129,0.06)':'rgba(30,41,59,0.6)',
+            border:`1px solid ${g.done?'rgba(16,185,129,0.25)':'rgba(51,65,85,0.5)'}`}},
+          h('button',{onClick:()=>toggle(g.id),style:{width:28,height:28,borderRadius:'50%',border:`2px solid ${g.done?'#10b981':'rgba(51,65,85,0.8)'}`,background:g.done?'#10b981':'transparent',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,cursor:'pointer'}},
+            g.done&&h(Icon,{n:'check',cls:'w-4 h-4 text-white'})),
+          h('span',{style:{flex:1,fontSize:'0.875rem',color:g.done?'#64748b':'#f8fafc',fontWeight:600,textDecoration:g.done?'line-through':'none'}},g.text),
+          h('button',{onClick:()=>del(g.id),style:{color:'#ef4444',background:'none',border:'none',cursor:'pointer',padding:'0.25rem'}},
+            h(Icon,{n:'x',cls:'w-4 h-4'}))
+        ))
+      )
     )
   );
 }
 
-// ================================================================
-// STUB PAGES
-// ================================================================
-function StubPage({ title, icon='zap', emoji, desc }) {
-  return h('div',{style:{paddingBottom:'7rem',display:'flex',flexDirection:'column',alignItems:'center',
-    justifyContent:'center',textAlign:'center',padding:'6rem 1.5rem 7rem',minHeight:'80vh',background:'#0d1117'}},
-    h('div',{style:{width:72,height:72,borderRadius:16,background:'rgba(22,27,34,0.9)',
-      border:'1px solid rgba(48,54,61,0.9)',display:'flex',alignItems:'center',justifyContent:'center',
-      marginBottom:24}},
-      h(Icon,{n:icon,cls:'w-9 h-9',style:{color:'#484f58'}})
-    ),
-    h('h2',{style:{fontSize:'1.375rem',fontWeight:800,color:'#e6edf3',marginBottom:8,letterSpacing:'-0.02em'}},title),
-    h('p',{style:{color:'#484f58',fontSize:'0.875rem',maxWidth:'22rem',lineHeight:1.7,marginBottom:32}},
-      desc||'This feature is coming in the next update.'),
-    h('button',{onClick:()=>nav('Home'),className:'btn-secondary',style:{width:'auto',padding:'10px 28px'}},
-      'Go Home')
-  );
-}
-function AICoachPage() { return h(StubPage,{title:'AI Head Coach',icon:'cpu',desc:"Your personal AI cricket coach — powered by SmartCrick's elite training intelligence."}); }
-function NinetyDayPage() { return h(StubPage,{title:'90-Day Elite Program',icon:'diamond',desc:'A complete 90-day transformation program for serious cricketers. The full roadmap to elite performance.'}); }
-function AIWorkoutPage() { return h(StubPage,{title:'AI Workout Creator',icon:'sparkles',desc:'Tell the AI what you need — it generates your perfect personalized workout instantly.'}); }
-function MatchTrackerPage() { return h(StubPage,{title:'Match Tracker',icon:'list',desc:'Log every match performance: runs, wickets, catches, milestones, and memorable moments.'}); }
-function MiniMatchPage() { return h(StubPage,{title:'MiniMatch IQ',icon:'puzzle',desc:'Cricket tactical decision scenarios. What would you do? Train your cricket brain with real match simulations.'}); }
-function GetOutPage() { return h(StubPage,{title:'Why Did I Get Out?',icon:'helpCircle',desc:'Analyze your dismissal type, understand the pattern, and eliminate the weakness from your game permanently.'}); }
-function QuizzesPage() { return h(StubPage,{title:'Cricket Quizzes',icon:'book',desc:'Test your cricket knowledge — rules, history, tactics, and technical questions at every difficulty level.'}); }
-
-// ================================================================
-// APP ROOT
+// APP ROOT — GSAP init, plugin registration, page router
 // ================================================================
 function AppRoot() {
   const [sidebarOpen,setSidebarOpen]=useState(false);
   const [dark,setDark]=useState(()=>{ const s=DB.get('theme'); return s!==null?s:true; });
   const {page,params}=useRoute();
+
+  // ── GSAP initialisation — runs once, before any page renders ──
+  // useLayoutEffect runs before paint, so gsap-ready class and
+  // ScrollTrigger registration happen before React's first commit.
+  useLayoutEffect(()=>{
+    SCAnim.init();
+  },[]);
 
   useEffect(()=>{
     document.documentElement.classList.toggle('dark',dark);
@@ -3740,15 +4950,20 @@ function AppRoot() {
   },[dark]);
 
   useEffect(()=>{
-    // Open source startup hooks — safe, guarded, silent if not loaded
     if(typeof applyChartDefaults==='function') applyChartDefaults();
     if(typeof migrateLSToPouchDB==='function') migrateLSToPouchDB();
-    if(!window.location.hash||window.location.hash==='#'||window.location.hash==='#/') {
+    if(!window.location.hash||window.location.hash==='#'||window.location.hash==='#/'){
       window.location.hash='#/Home';
     }
   },[]);
 
-  useEffect(()=>{ setSidebarOpen(false); },[page]);
+  // Close sidebar + kill orphan ScrollTriggers on every page change
+  useEffect(()=>{
+    setSidebarOpen(false);
+    // Give the new page's useLayoutEffect a chance to register its
+    // own triggers before we refresh, so positioning is accurate.
+    requestAnimationFrame(()=>{ SCAnim.refresh(); });
+  },[page]);
 
   const theme={dark,toggle:()=>setDark(d=>!d)};
   const fullscreen=['MentalPlayer'];
@@ -3756,40 +4971,640 @@ function AppRoot() {
 
   function renderPage() {
     switch(page) {
-      case 'Home': return h(HomePage);
-      case 'Drills': return h(DrillsPage);
-      case 'DrillDetail': return h(DrillDetailPage,{params});
-      case 'Mental': return h(MentalPage);
-      case 'MentalPlayer': return h(MentalPlayerPage,{params});
-      case 'Fitness': return h(FitnessPage);
+      case 'Home':          return h(HomePage);
+      case 'Drills':        return h(DrillsPage);
+      case 'DrillDetail':   return h(DrillDetailPage,{params});
+      case 'Mental':        return h(MentalPage);
+      case 'MentalPlayer':  return h(MentalPlayerPage,{params});
+      case 'Fitness':       return h(FitnessPage);
       case 'WorkoutDetail': return h(WorkoutDetailPage,{params});
-      case 'Timer': return h(TimerPage);
-      case 'Schedule': return h(SchedulePage);
-      case 'Progress': return h(ProgressPage);
-      case 'SkillPaths': return h(SkillPathsPage);
-      case 'ThirtyDay': return h(ThirtyDayPage);
-      case 'Leaderboard': return h(LeaderboardPage);
-      case 'Goals': return h(GoalsPage);
-      case 'Profile': return h(ProfilePage);
-      case 'Settings': return h(SettingsPage);
-      case 'AICoach': return h(AICoachPage);
-      case 'NinetyDay': return h(NinetyDayPage);
-      case 'AIWorkout': return h(AIWorkoutPage);
-      case 'MatchTracker': return h(MatchTrackerPage);
-      case 'MiniMatch': return h(MiniMatchPage);
-      case 'GetOut': return h(GetOutPage);
-      case 'Quizzes': return h(QuizzesPage);
-      // ── Open source integration pages ──────────────
+      case 'Timer':         return h(TimerPage);
+      case 'Schedule':      return h(SchedulePage);
+      case 'Progress':      return h(ProgressPage);
+      case 'SkillPaths':    return h(SkillPathsPage);
+      case 'ThirtyDay':     return h(ThirtyDayPage);
+      case 'Leaderboard':   return h(LeaderboardPage);
+      case 'Goals':         return h(GoalsPage);
+      case 'Profile':       return h(ProfilePage);
+      case 'Settings':      return h(SettingsPage);
+      case 'AICoach':       return h(AICoachPage);
+      case 'NinetyDay':     return h(NinetyDayPage);
+      case 'AIWorkout':     return h(AIWorkoutPage);
+      case 'MatchTracker':  return h(MatchTrackerPage);
+      case 'MiniMatch':     return h(MiniMatchPage);
+      case 'GetOut':        return h(GetOutPage);
+      case 'Quizzes':       return h(QuizzesPage);
       case 'VideoAnalysis': return h(VideoAnalysisPage);
       case 'Performance':   return h(PerformancePage);
       case 'MatchLogger':   return h(MatchLoggerPage);
       case 'ReactionDrill': return h(ReactionDrillPage);
-      default: return h(HomePage);
+      default:              return h(HomePage);
     }
   }
 
   return h(ThemeCtx.Provider,{value:theme},
-    // Top bar
+    // ── Top bar ──────────────────────────────────────────────────
+    !isFS && h('div',{
+      style:{position:'fixed',top:0,left:0,right:0,zIndex:30,
+        display:'flex',alignItems:'center',gap:'0.75rem',
+        paddingLeft:'1rem',paddingRight:'1rem',paddingBottom:'0.75rem',
+        paddingTop:'max(0.75rem,env(safe-area-inset-top))',
+        background:'rgba(2,6,23,0.9)',backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',
+        borderBottom:'1px solid rgba(16,185,129,0.08)'}
+    },
+      h('button',{onClick:()=>setSidebarOpen(true),
+        style:{width:36,height:36,borderRadius:'0.75rem',display:'flex',alignItems:'center',justifyContent:'center',
+          background:'rgba(255,255,255,0.05)',border:'1px solid rgba(51,65,85,0.5)',flexShrink:0,cursor:'pointer'}},
+        h(Icon,{n:'menu',cls:'w-5 h-5',style:{color:'#94a3b8'}})
+      ),
+      h('div',{style:{display:'flex',alignItems:'center',gap:8}},
+        h(Icon,{n:'bat',cls:'w-4 h-4',style:{color:'#16a34a'}}),
+        h('span',{style:{fontSize:14,fontWeight:800,color:'#e6edf3',letterSpacing:'0.02em'}},'SMARTCRICK')
+      ),
+      h('div',{style:{flex:1}}),
+      (()=>{
+        const s=DB.getProgress().current_streak||0;
+        if(!s) return null;
+        return h('div',{style:{display:'flex',alignItems:'center',gap:4,fontSize:'0.75rem',fontWeight:800,color:'#fb923c',
+          background:'rgba(249,115,22,0.08)',border:'1px solid rgba(249,115,22,0.2)',padding:'4px 10px',borderRadius:6}},
+          h(Icon,{n:'flame',cls:'w-3.5 h-3.5'}),s,'d');
+      })()
+    ),
+
+    h(Sidebar,{open:sidebarOpen,onClose:()=>setSidebarOpen(false),currentPage:page}),
+    h('main',{style:{minHeight:'100dvh',background:dark?'#020617':'#f8fafc'}},renderPage()),
+    !isFS && h(BottomNav,{page})
+  );
+}
+
+// ================================================================
+// MOUNT
+// ================================================================
+const rootEl = document.getElementById('root');
+if(rootEl){
+  try {
+    createRoot(rootEl).render(h(ErrorBoundary,null,h(AppRoot)));
+  } catch(e) {
+    rootEl.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;color:#94a3b8;font-family:system-ui;text-align:center;padding:2rem;background:#020617">
+      <div style="font-size:2rem;margin-bottom:1rem"></div>
+      <p style="font-size:1.125rem;font-weight:700;color:#f8fafc;margin-bottom:0.5rem">Failed to load</p>
+      <p style="font-size:0.875rem">Please check your internet connection and reload.</p>
+      <p style="font-size:0.75rem;margin-top:1rem;color:#475569">${e.message}</p>
+    </div>`;
+  }
+} else {
+  console.error('SmartCrick: #root element not found');
+}
+
+
+// ================================================================
+// VIDEO ANALYSIS PAGE — preserved + subtle entrance
+// ================================================================
+function VideoAnalysisPage() {
+  const [uploaded,setUploaded]=useState(false);
+  const [analyzing,setAnalyzing]=useState(false);
+  const [shotType,setShotType]=useState('cover-drive');
+  const [results,setResults]=useState(null);
+  const [awarded,setAwarded]=useState(false);
+  const rootRef = useRef(null);
+
+  const shots=['cover-drive','pull-shot','cut-shot','straight-drive','sweep','hook','defence','loft'];
+
+  const runAnalysis=()=>{
+    setAnalyzing(true);
+    setTimeout(()=>{
+      const scores={technique:Math.floor(72+Math.random()*25),form:Math.floor(68+Math.random()*28),
+        power:Math.floor(60+Math.random()*35),balance:Math.floor(70+Math.random()*25)};
+      setResults(scores); setAnalyzing(false);
+      if(!awarded){ awardXP(40,0,'video_analysis'); setAwarded(true); }
+    },2200);
+  };
+
+  useLayoutEffect(()=>{
+    if(!rootRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      gsap.from('[data-va-section]', { opacity:0, y:14, duration:0.4, stagger:0.08, ease:'power2.out' });
+    }, rootRef);
+    return ()=>ctx.revert();
+  },[results]);
+
+  return h('div',{ref:rootRef,className:'pb-28'},
+    h(PageHeader,{title:'Video Analysis',subtitle:'AI-powered batting technique analysis',gradient:'linear-gradient(135deg,#1d4ed8,#4338ca)'}),
+    h('div',{className:'px-4 pt-5 space-y-4'},
+      h('div',{'data-va-section':'',
+        onClick:()=>setUploaded(true),
+        style:{borderRadius:12,border:`2px dashed ${uploaded?'rgba(22,163,74,0.5)':'rgba(48,54,61,0.8)'}`,
+          background:uploaded?'rgba(22,163,74,0.05)':'rgba(22,27,34,0.6)',
+          padding:32,textAlign:'center',cursor:'pointer',transition:'all 0.2s'}},
+        h(Icon,{n:uploaded?'circleCheck':'video',cls:'w-10 h-10',style:{color:uploaded?'#16a34a':'#484f58',margin:'0 auto 12px'}}),
+        h('div',{style:{fontSize:14,fontWeight:700,color:uploaded?'#4ade80':'#8b949e'}},uploaded?'Video ready for analysis':'Tap to select batting video'),
+        h('div',{style:{fontSize:11,color:'#484f58',marginTop:4}},uploaded?'Press Analyse below':'MP4, MOV up to 100MB')
+      ),
+      h('div',{'data-va-section':''},
+        h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:10}},'Shot Type'),
+        h('div',{style:{display:'flex',gap:8,flexWrap:'wrap'}},
+          shots.map(s=>h('button',{key:s,onClick:()=>setShotType(s),
+            style:{padding:'6px 12px',borderRadius:20,fontSize:12,fontWeight:600,cursor:'pointer',
+              background:shotType===s?'rgba(59,130,246,0.2)':'rgba(22,27,34,0.9)',
+              border:`1px solid ${shotType===s?'rgba(59,130,246,0.5)':'rgba(48,54,61,0.9)'}`,
+              color:shotType===s?'#60a5fa':'#8b949e'}},
+            s.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase())))
+        )
+      ),
+      uploaded && !results && h('button',{onClick:runAnalysis,disabled:analyzing,className:'btn-primary',
+        style:{background:'linear-gradient(135deg,#1d4ed8,#4338ca)'}},
+        analyzing?h('div',{className:'flex items-center gap-2'},h('div',{className:'w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin'}),'Analysing...')
+          :h('div',{style:{display:'flex',alignItems:'center',gap:8}},h(Icon,{n:'sparkles',cls:'w-4 h-4'}),'Analyse Technique')
+      ),
+      results && h('div',{'data-va-section':'',className:'space-y-4'},
+        h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16}},
+          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:12}},'Analysis Results'),
+          h('div',{className:'grid grid-cols-2 gap-3'},
+            Object.entries(results).map(([k,v])=>
+              h('div',{key:k,style:{background:'rgba(30,41,59,0.6)',borderRadius:8,padding:12}},
+                h('div',{style:{fontSize:10,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.06em',fontWeight:700,marginBottom:6}},k),
+                h('div',{style:{display:'flex',alignItems:'center',gap:8}},
+                  h('div',{style:{fontSize:20,fontWeight:800,color:v>=80?'#4ade80':v>=65?'#fbbf24':'#fb923c',fontVariantNumeric:'tabular-nums',minWidth:36}},v),
+                  h('div',{style:{flex:1,height:6,background:'rgba(51,65,85,0.6)',borderRadius:3,overflow:'hidden'}},
+                    h('div',{style:{width:`${v}%`,height:'100%',background:v>=80?'#16a34a':v>=65?'#d97706':'#ea580c',borderRadius:3,transition:'width 0.8s ease'}})
+                  )
+                )
+              )
+            )
+          )
+        ),
+        h('div',{style:{background:'rgba(22,163,74,0.06)',border:'1px solid rgba(22,163,74,0.2)',borderRadius:10,padding:14,display:'flex',alignItems:'flex-start',gap:10}},
+          h(Icon,{n:'sparkles',cls:'w-4 h-4 flex-shrink-0',style:{color:'#16a34a',marginTop:1}}),
+          h('div',{},
+            h('p',{style:{fontSize:12,fontWeight:700,color:'#4ade80',marginBottom:4}},'Coach Feedback'),
+            h('p',{style:{fontSize:12,color:'#6ee7b7',lineHeight:1.6}},
+              `Good ${shotType.replace(/-/g,' ')} technique overall. Focus on maintaining balance through the shot and ensure your head position stays level at point of contact. +40 XP awarded.`)
+          )
+        )
+      )
+    )
+  );
+}
+
+// ================================================================
+// PERFORMANCE PAGE — preserved + ScrollTrigger on charts
+// ================================================================
+function PerformancePage() {
+  const [tab,setTab]=useState('weekly');
+  const progress=DB.getProgress();
+  const xpDays=DB.getXPLast7Days();
+  const hmap=DB.getActivityHeatmap();
+  const rootRef = useRef(null);
+
+  useLayoutEffect(()=>{
+    if(!rootRef.current || !SCAnim.ready) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      gsap.from('[data-perf-section]', { opacity:0, y:16, duration:0.4, stagger:0.07, ease:'power2.out' });
+    }, rootRef);
+    return ()=>ctx.revert();
+  },[tab]);
+
+  const max=Math.max(...xpDays.map(d=>d.xp),1);
+  const shot_types=['Cover Drive','Pull Shot','Cut Shot','Defence','Sweep','Drive'];
+  const wicket_types=['Bowled','LBW','Caught','Stumped','Run Out'];
+
+  return h('div',{ref:rootRef,className:'pb-28'},
+    h(PageHeader,{title:'Performance',subtitle:'Your training analytics dashboard',gradient:'linear-gradient(135deg,#0891b2,#0e7490)'}),
+    h('div',{className:'px-4 py-3'},
+      h('div',{className:'flex gap-1 p-1 rounded-xl',style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
+        [['weekly','Weekly'],['batting','Batting'],['bowling','Bowling'],['overall','Overall']].map(([id,label])=>
+          h('button',{key:id,onClick:()=>setTab(id),
+            className:'flex-1 py-2 rounded-lg text-xs font-bold transition-all',
+            style:tab===id?{background:'linear-gradient(135deg,#0891b2,#0e7490)',color:'#fff'}:{color:'#8b949e',background:'transparent'}
+          },label)
+        )
+      )
+    ),
+    h('div',{className:'px-4 space-y-4'},
+      tab==='weekly' && h(Fragment,null,
+        h('div',{'data-perf-section':'',style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16}},
+          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:12}},'7-Day XP Chart'),
+          h('div',{style:{display:'flex',alignItems:'flex-end',gap:6,height:80}},
+            xpDays.map(d=>h('div',{key:d.date,style:{display:'flex',flexDirection:'column',alignItems:'center',gap:4,flex:1}},
+              h('div',{style:{width:'100%',height:`${Math.max(4,(d.xp/max)*68)}px`,background:d.xp>0?'linear-gradient(to top,#0891b2,#38bdf8)':'rgba(30,41,59,0.6)',borderRadius:'3px 3px 0 0'}}),
+              h('span',{style:{fontSize:10,color:'#484f58',fontWeight:600}},d.label)
+            ))
+          )
+        ),
+        h('div',{'data-perf-section':'',style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16}},
+          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:12}},'Activity Heatmap'),
+          h('div',{style:{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:4}},
+            hmap.map((d,i)=>h('div',{key:i,className:`heatmap-cell heatmap-${d.level}`,style:{aspectRatio:'1',borderRadius:3},title:`${d.xp} XP`}))
+          )
+        )
+      ),
+      tab==='batting' && h(Fragment,null,
+        h('div',{'data-perf-section':'',style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16}},
+          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:12}},'Shot Distribution'),
+          h('div',{style:{display:'flex',flexDirection:'column',gap:10}},
+            shot_types.map((shot,i)=>{
+              const v=Math.floor(40+Math.random()*55);
+              return h('div',{key:shot},
+                h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:4}},
+                  h('span',{style:{fontSize:12,color:'#8b949e'}}),shot),
+                  h('span',{style:{fontSize:12,fontWeight:700,color:'#3b82f6'}},`${v}%`
+                ),
+                h('div',{style:{height:6,background:'rgba(51,65,85,0.6)',borderRadius:3,overflow:'hidden'}},
+                  h('div',{style:{width:`${v}%`,height:'100%',background:'linear-gradient(to right,#1d4ed8,#3b82f6)',borderRadius:3}})
+                )
+              );
+            })
+          )
+        )
+      ),
+      tab==='bowling' && h(Fragment,null,
+        h('div',{'data-perf-section':'',style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16}},
+          h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:12}},'Wicket Types'),
+          h('div',{style:{display:'flex',flexDirection:'column',gap:8}},
+            wicket_types.map((wt,i)=>{
+              const v=Math.floor(10+Math.random()*50);
+              return h('div',{key:wt,style:{display:'flex',alignItems:'center',gap:10}},
+                h('span',{style:{fontSize:12,color:'#8b949e',width:70,flexShrink:0}},wt),
+                h('div',{style:{flex:1,height:6,background:'rgba(51,65,85,0.6)',borderRadius:3,overflow:'hidden'}},
+                  h('div',{style:{width:`${v}%`,height:'100%',background:'linear-gradient(to right,#dc2626,#ef4444)',borderRadius:3}})
+                ),
+                h('span',{style:{fontSize:11,fontWeight:700,color:'#f87171',minWidth:24}},v)
+              );
+            })
+          )
+        )
+      ),
+      tab==='overall' && h('div',{'data-perf-section':'',style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16}},
+        h('p',{style:{fontSize:11,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:16}},'Skills Radar'),
+        h('div',{style:{display:'flex',justifyContent:'center'}},
+          h('svg',{viewBox:'0 0 200 200',width:200,height:200},
+            ...[0,1,2,3,4].map(i=>
+              h('polygon',{key:i,points:Array.from({length:6},(_,j)=>{
+                const angle=(j*60-90)*Math.PI/180,r=20+i*16;
+                return `${100+r*Math.cos(angle)},${100+r*Math.sin(angle)}`;
+              }).join(' '),fill:'none',stroke:'rgba(51,65,85,0.4)',strokeWidth:1})
+            ),
+            h('polygon',{
+              points:Array.from({length:6},(_,j)=>{
+                const skills=[progress.drills_done||0,progress.mental_done||0,progress.workouts_done||0,
+                  progress.practice_minutes||0,progress.current_streak||0,(progress.total_xp||0)/100];
+                const maxV=[50,50,30,300,30,100];
+                const angle=(j*60-90)*Math.PI/180;
+                const r=Math.min(80,Math.max(10,(skills[j]/maxV[j])*80));
+                return `${100+r*Math.cos(angle)},${100+r*Math.sin(angle)}`;
+              }).join(' '),
+              fill:'rgba(16,185,129,0.2)',stroke:'#10b981',strokeWidth:2
+            }),
+            ...['Drills','Mental','Fitness','Minutes','Streak','XP'].map((label,j)=>{
+              const angle=(j*60-90)*Math.PI/180,r=95;
+              return h('text',{key:label,x:100+r*Math.cos(angle),y:100+r*Math.sin(angle),
+                textAnchor:'middle',dominantBaseline:'central',fill:'#8b949e',fontSize:9,fontWeight:600},label);
+            })
+          )
+        )
+      )
+    )
+  );
+}
+
+// ================================================================
+// MATCH LOGGER PAGE — preserved + stagger on history rows
+// ================================================================
+function MatchLoggerPage() {
+  const [inning,setInning]=useState({balls:[],runs:0,wickets:0,extras:0});
+  const [phase,setPhase]=useState('bat');
+  const [saved,setSaved]=useState(()=>DB.get('match_log_v2')||[]);
+  const [view,setView]=useState('logger');
+  const [awarded,setAwarded]=useState(false);
+  const rootRef = useRef(null);
+
+  const outcomes=['0','1','2','3','4','6','W','WD','NB'];
+  const outcomeColors={'0':'#374151','1':'#1d4ed8','2':'#1d4ed8','3':'#1d4ed8','4':'#16a34a','6':'#d97706','W':'#dc2626','WD':'#6d28d9','NB':'#0891b2'};
+
+  function addBall(outcome){
+    setInning(prev=>{
+      const ball={outcome,over:Math.floor(prev.balls.length/6),ball:prev.balls.length%6+1};
+      const runs=(outcome==='W'||outcome==='WD'||outcome==='NB')?
+        (outcome==='WD'||outcome==='NB'?1:0):parseInt(outcome)||0;
+      const wickets=outcome==='W'?prev.wickets+1:prev.wickets;
+      const extras=(outcome==='WD'||outcome==='NB')?prev.extras+1:prev.extras;
+      return {...prev,balls:[...prev.balls,ball],runs:prev.runs+runs,wickets,extras};
+    });
+  }
+
+  function undoLast(){
+    setInning(prev=>{
+      if(prev.balls.length===0) return prev;
+      const balls=prev.balls.slice(0,-1);
+      const last=prev.balls[prev.balls.length-1];
+      const runs=(last.outcome==='W'||last.outcome==='WD'||last.outcome==='NB')?
+        (last.outcome==='WD'||last.outcome==='NB'?1:0):parseInt(last.outcome)||0;
+      return {...prev,balls,runs:prev.runs-runs,wickets:last.outcome==='W'?prev.wickets-1:prev.wickets,extras:last.outcome==='WD'||last.outcome==='NB'?prev.extras-1:prev.extras};
+    });
+  }
+
+  function saveInnings(){
+    const entry={id:Date.now(),phase,...inning,date:new Date().toISOString().slice(0,10)};
+    const updated=[entry,...saved];
+    DB.set('match_log_v2',updated);
+    setSaved(updated);
+    setInning({balls:[],runs:0,wickets:0,extras:0});
+    if(!awarded){
+      awardXP(phase==='bat'?50:40,0,'match_log');
+      setAwarded(true);
+    }
+  }
+
+  useLayoutEffect(()=>{
+    if(!rootRef.current || !SCAnim.ready || view!=='history') return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      SCAnim.staggerCards(rootRef.current.querySelectorAll('[data-hist-row]'), { y:10, duration:0.3, stagger:0.05 });
+    }, rootRef);
+    return ()=>ctx.revert();
+  },[view]);
+
+  const overs=Math.floor(inning.balls.length/6), ballsThisOver=inning.balls.length%6;
+
+  return h('div',{ref:rootRef,className:'pb-28'},
+    h(PageHeader,{title:'Match Logger',subtitle:'Ball-by-ball session recorder',gradient:'linear-gradient(135deg,#065f46,#047857)'}),
+    h('div',{className:'px-4 py-3'},
+      h('div',{className:'flex gap-2'},
+        [['logger','Logger'],['history','History']].map(([id,label])=>
+          h('button',{key:id,onClick:()=>setView(id),
+            className:'flex-1 py-2 rounded-xl text-xs font-black transition-all',
+            style:view===id?{background:'linear-gradient(135deg,#065f46,#047857)',color:'#fff'}:{background:'rgba(30,41,59,0.6)',color:'#94a3b8',border:'1px solid rgba(51,65,85,0.5)'}
+          },label)
+        )
+      )
+    ),
+    view==='logger' && h('div',{className:'px-4 space-y-4'},
+      h('div',{className:'flex gap-2'},
+        [['bat','Batting'],['bowl','Bowling']].map(([id,label])=>
+          h('button',{key:id,onClick:()=>setPhase(id),
+            className:'flex-1 py-2.5 rounded-xl text-sm font-bold transition-all',
+            style:phase===id?{background:id==='bat'?'rgba(37,99,235,0.2)':'rgba(220,38,38,0.2)',
+              border:`1px solid ${id==='bat'?'rgba(59,130,246,0.5)':'rgba(239,68,68,0.5)'}`,
+              color:id==='bat'?'#60a5fa':'#f87171'}
+              :{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)',color:'#94a3b8'}
+          },label)
+        )
+      ),
+      h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:16,textAlign:'center'}},
+        h('div',{style:{fontSize:36,fontWeight:900,color:'#e6edf3',fontVariantNumeric:'tabular-nums'}},
+          `${inning.runs}/${inning.wickets}`),
+        h('div',{style:{fontSize:13,color:'#484f58',marginTop:4}},`${overs}.${ballsThisOver} overs · ${inning.extras} extras`)
+      ),
+      h('div',{style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:14}},
+        h('p',{style:{fontSize:10,fontWeight:700,color:'#484f58',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:10}},'Current Over'),
+        h('div',{style:{display:'flex',gap:6,minHeight:32}},
+          inning.balls.slice(-6).map((b,i)=>
+            h('div',{key:i,style:{width:32,height:32,borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',
+              fontSize:13,fontWeight:700,
+              background:`${outcomeColors[b.outcome]||'#374151'}22`,
+              border:`1px solid ${outcomeColors[b.outcome]||'#374151'}55`,
+              color:outcomeColors[b.outcome]||'#8b949e'}},b.outcome)
+          )
+        )
+      ),
+      h('div',{style:{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}},
+        outcomes.map(o=>
+          h('button',{key:o,onClick:()=>addBall(o),
+            style:{padding:'14px 8px',borderRadius:10,border:`1px solid ${outcomeColors[o]||'#374151'}44`,
+              background:`${outcomeColors[o]||'#374151'}11`,
+              color:outcomeColors[o]||'#8b949e',fontSize:18,fontWeight:900,cursor:'pointer',
+              transition:'transform 0.1s'},
+            onMouseDown:e=>{ if(SCAnim.ready) gsap.to(e.currentTarget,{scale:0.9,duration:0.1}); },
+            onMouseUp:e=>{ if(SCAnim.ready) gsap.to(e.currentTarget,{scale:1,duration:0.15,ease:'back.out(2)'}); }
+          },o)
+        )
+      ),
+      h('div',{className:'flex gap-2'},
+        h('button',{onClick:undoLast,disabled:inning.balls.length===0,
+          className:'flex-1 py-3 rounded-xl text-sm font-bold',
+          style:{background:'rgba(30,41,59,0.6)',border:'1px solid rgba(51,65,85,0.5)',color:'#94a3b8',opacity:inning.balls.length===0?0.4:1}},
+          'Undo'),
+        h('button',{onClick:saveInnings,disabled:inning.balls.length===0,
+          className:'flex-1 py-3 rounded-xl text-sm font-bold text-white',
+          style:{background:'linear-gradient(135deg,#065f46,#047857)',opacity:inning.balls.length===0?0.4:1}},
+          'Save Innings')
+      )
+    ),
+    view==='history' && h('div',{className:'px-4 space-y-3'},
+      saved.length===0
+        ? h(EmptyState,{icon:'list',title:'No innings logged',desc:'Record your first innings to see stats here'})
+        : saved.map(s=>h('div',{key:s.id,'data-hist-row':'',
+            style:{background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)',borderRadius:10,padding:14}},
+            h('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:8}},
+              h('span',{style:{fontSize:13,fontWeight:700,color:'#e6edf3'}},s.phase==='bat'?'Batting':'Bowling'),
+              h('span',{style:{fontSize:11,color:'#484f58'}},s.date)
+            ),
+            h('div',{style:{fontSize:28,fontWeight:900,color:'#e6edf3',fontVariantNumeric:'tabular-nums'}},`${s.runs}/${s.wickets}`),
+            h('div',{style:{fontSize:11,color:'#484f58',marginTop:2}},`${Math.floor(s.balls.length/6)}.${s.balls.length%6} overs`)
+          ))
+    )
+  );
+}
+
+// ================================================================
+// REACTION DRILL PAGE — preserved + stagger on difficulty cards
+// ================================================================
+function ReactionDrillPage() {
+  const [difficulty,setDifficulty]=useState(null);
+  const [drillType,setDrillType]=useState('simple');
+  const [phase,setPhase]=useState('setup');
+  const [round,setRound]=useState(0);
+  const [waiting,setWaiting]=useState(false);
+  const [active,setActive]=useState(false);
+  const [startTime,setStartTime]=useState(0);
+  const [times,setTimes]=useState([]);
+  const [color,setColor]=useState('#ffffff');
+  const rootRef = useRef(null);
+
+  const difficulties={
+    easy:{label:'Easy',delay:[1500,3000],xp:30,color:'#16a34a'},
+    medium:{label:'Medium',delay:[800,2000],xp:50,color:'#d97706'},
+    hard:{label:'Hard',delay:[400,1200],xp:65,color:'#dc2626'},
+    pro:{label:'Pro',delay:[200,800],xp:80,color:'#7c3aed'},
+  };
+  const colors=['#ef4444','#3b82f6','#10b981','#f59e0b','#a855f7'];
+  const directions=['←','→','↑','↓'];
+
+  useLayoutEffect(()=>{
+    if(!rootRef.current || !SCAnim.ready || difficulty) return;
+    if(SCAnim.reducedMotion) return;
+    const ctx = gsap.context(()=>{
+      gsap.from('[data-diff-card]', { opacity:0, scale:0.9, duration:0.4, stagger:0.07, ease:'back.out(1.5)' });
+    }, rootRef);
+    return ()=>ctx.revert();
+  },[difficulty]);
+
+  function startRound(){
+    setWaiting(true); setActive(false);
+    const cfg=difficulties[difficulty];
+    const [min,max]=cfg.delay;
+    const delay=min+Math.random()*(max-min);
+    setTimeout(()=>{
+      if(drillType==='color') setColor(colors[Math.floor(Math.random()*colors.length)]);
+      setActive(true); setWaiting(false); setStartTime(Date.now());
+    },delay);
+  }
+
+  function handleTap(){
+    if(waiting){ setPhase('false-start'); return; }
+    if(!active) return;
+    const rt=Date.now()-startTime;
+    const newTimes=[...times,rt];
+    setTimes(newTimes); setActive(false);
+    if(newTimes.length>=5){ setPhase('results'); awardXP(difficulties[difficulty]?.xp||30,0,'reaction_drill'); }
+    else { setRound(r=>r+1); setTimeout(startRound,1000); }
+  }
+
+  const avgTime=times.length?Math.round(times.reduce((a,b)=>a+b,0)/times.length):0;
+  const rating=avgTime<200?'Elite':avgTime<300?'Excellent':avgTime<400?'Good':avgTime<500?'Average':'Needs Work';
+
+  if(!difficulty) return h('div',{ref:rootRef,className:'pb-28'},
+    h(PageHeader,{title:'Reaction Drill',subtitle:'Train explosive response speed',gradient:'linear-gradient(135deg,#b45309,#92400e)'}),
+    h('div',{className:'px-4 pt-5'},
+      h('p',{className:'text-sm text-slate-400 mb-4'},'Choose your difficulty:'),
+      h('div',{className:'grid grid-cols-2 gap-3'},
+        Object.entries(difficulties).map(([id,cfg])=>
+          h('button',{key:id,'data-diff-card':'',onClick:()=>{setDifficulty(id);setPhase('ready');setRound(0);setTimes([]);},
+            style:{padding:20,borderRadius:10,border:`1px solid ${cfg.color}44`,
+              background:`${cfg.color}11`,cursor:'pointer',textAlign:'center',transition:'all 0.12s'}},
+            h('div',{style:{fontSize:18,fontWeight:800,color:cfg.color,marginBottom:6}},cfg.label),
+            h('div',{style:{fontSize:11,color:'#484f58'}},`+${cfg.xp} XP`),
+            h('div',{style:{fontSize:10,color:'#374151',marginTop:4}},`Delay: ${cfg.delay[0]}–${cfg.delay[1]}ms`)
+          )
+        )
+      )
+    )
+  );
+
+  return h('div',{className:'pb-28'},
+    h(PageHeader,{title:'Reaction Drill',subtitle:`${difficulties[difficulty]?.label} · Round ${round+1}/5`,
+      gradient:`linear-gradient(135deg,${difficulties[difficulty]?.color||'#d97706'},#b45309)`,
+      onBack:()=>{setDifficulty(null);setPhase('setup');}}),
+    h('div',{className:'px-4 pt-6 flex flex-col items-center'},
+      phase==='ready' && h(Fragment,null,
+        h('p',{style:{color:'#8b949e',marginBottom:24,textAlign:'center'}},'Tap the zone as fast as possible when it changes'),
+        h('button',{onClick:()=>{setPhase('playing');startRound();},className:'btn-primary px-8 py-4',style:{width:'auto'}},'Start Drill')
+      ),
+      phase==='playing' && h('div',{
+        onClick:handleTap,
+        style:{width:'100%',maxWidth:320,height:220,borderRadius:20,cursor:'pointer',
+          display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
+          background:active?(drillType==='color'?color:'rgba(22,163,74,0.3)'):'rgba(22,27,34,0.9)',
+          border:`2px solid ${active?'#16a34a':'rgba(48,54,61,0.9)'}`,
+          transition:'background 0.1s,border-color 0.1s',userSelect:'none'}},
+        active
+          ? h(Fragment,null,
+              h(Icon,{n:'zap',cls:'w-12 h-12',style:{color:'#fff',marginBottom:8}}),
+              h('p',{style:{color:'#fff',fontWeight:700}},'TAP NOW!')
+            )
+          : h(Fragment,null,
+              h('div',{className:'w-4 h-4 rounded-full animate-pulse',style:{background:'rgba(251,146,60,0.5)',marginBottom:8}}),
+              h('p',{style:{color:'#484f58',fontSize:13}},waiting?'Get ready...':'Tap to begin round')
+            )
+      ),
+      phase==='false-start' && h('div',{style:{textAlign:'center'}},
+        h('p',{style:{color:'#ef4444',fontWeight:700,fontSize:18,marginBottom:16}},'Too early! Wait for the signal.'),
+        h('button',{onClick:()=>{setPhase('playing');setWaiting(false);setActive(false);startRound();},className:'btn-primary px-8 py-3',style:{width:'auto'}},'Try Again')
+      ),
+      phase==='results' && h('div',{style:{textAlign:'center',width:'100%',maxWidth:320}},
+        h('div',{style:{fontSize:48,fontWeight:900,color:'#f59e0b',fontVariantNumeric:'tabular-nums'}},`${avgTime}ms`),
+        h('div',{style:{fontSize:18,fontWeight:700,color:'#e6edf3',margin:'8px 0'}},rating),
+        h('div',{className:'space-y-2 mt-4 mb-6',style:{width:'100%'}},
+          times.map((t,i)=>h('div',{key:i,style:{display:'flex',justifyContent:'space-between',padding:'8px 12px',
+            borderRadius:8,background:'rgba(22,27,34,0.9)',border:'1px solid rgba(48,54,61,0.9)'}},
+            h('span',{style:{color:'#484f58',fontSize:13}},`Round ${i+1}`),
+            h('span',{style:{color:'#e6edf3',fontWeight:700,fontSize:13,fontVariantNumeric:'tabular-nums'}},`${t}ms`)
+          ))
+        ),
+        h('button',{onClick:()=>{setDifficulty(null);setPhase('setup');},className:'btn-primary'},'Try Another Level')
+      )
+    )
+  );
+}
+
+// ================================================================
+// APP ROOT — GSAP initialised here once, before any page renders
+// ================================================================
+function AppRoot() {
+  const [sidebarOpen,setSidebarOpen]=useState(false);
+  const [dark,setDark]=useState(()=>{ const s=DB.get('theme'); return s!==null?s:true; });
+  const {page,params}=useRoute();
+
+  // ── GSAP INIT — runs once, before first paint ────────────────
+  // useLayoutEffect fires synchronously after DOM is ready but
+  // before the browser paints, so GSAP is configured before any
+  // child useLayoutEffect animation hooks run.
+  useLayoutEffect(()=>{
+    SCAnim.init();
+  },[]);
+
+  useEffect(()=>{
+    document.documentElement.classList.toggle('dark',dark);
+    DB.set('theme',dark);
+  },[dark]);
+
+  useEffect(()=>{
+    if(typeof applyChartDefaults==='function') applyChartDefaults();
+    if(typeof migrateLSToPouchDB==='function') migrateLSToPouchDB();
+    if(!window.location.hash||window.location.hash==='#'||window.location.hash==='#/') {
+      window.location.hash='#/Home';
+    }
+  },[]);
+
+  // Kill all ScrollTriggers on page change to prevent dead triggers
+  useEffect(()=>{
+    setSidebarOpen(false);
+    SCAnim.killAll();
+    // Refresh after a tick (new page DOM is ready)
+    requestAnimationFrame(()=>SCAnim.refresh());
+  },[page]);
+
+  const theme={dark,toggle:()=>setDark(d=>!d)};
+  const fullscreen=['MentalPlayer'];
+  const isFS=fullscreen.includes(page);
+
+  function renderPage() {
+    switch(page) {
+      case 'Home':          return h(HomePage);
+      case 'Drills':        return h(DrillsPage);
+      case 'DrillDetail':   return h(DrillDetailPage,{params});
+      case 'Mental':        return h(MentalPage);
+      case 'MentalPlayer':  return h(MentalPlayerPage,{params});
+      case 'Fitness':       return h(FitnessPage);
+      case 'WorkoutDetail': return h(WorkoutDetailPage,{params});
+      case 'Timer':         return h(TimerPage);
+      case 'Schedule':      return h(SchedulePage);
+      case 'Progress':      return h(ProgressPage);
+      case 'SkillPaths':    return h(SkillPathsPage);
+      case 'ThirtyDay':     return h(ThirtyDayPage);
+      case 'Leaderboard':   return h(LeaderboardPage);
+      case 'Goals':         return h(GoalsPage);
+      case 'Profile':       return h(ProfilePage);
+      case 'Settings':      return h(SettingsPage);
+      case 'AICoach':       return h(AICoachPage);
+      case 'NinetyDay':     return h(NinetyDayPage);
+      case 'AIWorkout':     return h(AIWorkoutPage);
+      case 'MatchTracker':  return h(MatchTrackerPage);
+      case 'MiniMatch':     return h(MiniMatchPage);
+      case 'GetOut':        return h(GetOutPage);
+      case 'Quizzes':       return h(QuizzesPage);
+      case 'VideoAnalysis': return h(VideoAnalysisPage);
+      case 'Performance':   return h(PerformancePage);
+      case 'MatchLogger':   return h(MatchLoggerPage);
+      case 'ReactionDrill': return h(ReactionDrillPage);
+      default:              return h(HomePage);
+    }
+  }
+
+  return h(ThemeCtx.Provider,{value:theme},
+    // ── Top bar ─────────────────────────────────────────────────
     !isFS && h('div',{
       style:{position:'fixed',top:0,left:0,right:0,zIndex:30,display:'flex',alignItems:'center',gap:'0.75rem',
         paddingLeft:'1rem',paddingRight:'1rem',paddingBottom:'0.75rem',
@@ -3798,26 +5613,29 @@ function AppRoot() {
         borderBottom:'1px solid rgba(16,185,129,0.08)'}
     },
       h('button',{onClick:()=>setSidebarOpen(true),
-        style:{width:36,height:36,borderRadius:'0.75rem',display:'flex',alignItems:'center',justifyContent:'center',background:'rgba(255,255,255,0.05)',border:'1px solid rgba(51,65,85,0.5)',flexShrink:0,cursor:'pointer'}},
+        style:{width:36,height:36,borderRadius:'0.75rem',display:'flex',alignItems:'center',justifyContent:'center',
+          background:'rgba(255,255,255,0.05)',border:'1px solid rgba(51,65,85,0.5)',flexShrink:0,cursor:'pointer'}},
         h(Icon,{n:'menu',cls:'w-5 h-5',style:{color:'#94a3b8'}})
       ),
       h('div',{style:{display:'flex',alignItems:'center',gap:8}},
-          h(Icon,{n:'bat',cls:'w-4 h-4',style:{color:'#16a34a'}}),
-          h('span',{style:{fontSize:14,fontWeight:800,color:'#e6edf3',letterSpacing:'0.02em'}},
-            'SMARTCRICK')
-        ),
+        h(Icon,{n:'bat',cls:'w-4 h-4',style:{color:'#16a34a'}}),
+        h('span',{style:{fontSize:14,fontWeight:800,color:'#e6edf3',letterSpacing:'0.02em'}},'SMARTCRICK')
+      ),
       h('div',{style:{flex:1}}),
-      (() => {
+      (()=>{
         const s=DB.getProgress().current_streak||0;
         if(!s) return null;
-        return h('div',{style:{display:'flex',alignItems:'center',gap:4,fontSize:'0.75rem',fontWeight:800,color:'#fb923c',background:'rgba(249,115,22,0.08)',border:'1px solid rgba(249,115,22,0.2)',padding:'4px 10px',borderRadius:6}},
-            h(Icon,{n:'flame',cls:'w-3.5 h-3.5'}),s,'d');
+        return h('div',{style:{display:'flex',alignItems:'center',gap:4,fontSize:'0.75rem',fontWeight:800,color:'#fb923c',
+          background:'rgba(249,115,22,0.08)',border:'1px solid rgba(249,115,22,0.2)',padding:'4px 10px',borderRadius:6}},
+          h(Icon,{n:'flame',cls:'w-3.5 h-3.5'}),s,'d');
       })()
     ),
 
     h(Sidebar,{open:sidebarOpen,onClose:()=>setSidebarOpen(false),currentPage:page}),
 
-    h('main',{style:{minHeight:'100dvh',background:dark?'#020617':'#f8fafc'}},renderPage()),
+    h('main',{style:{minHeight:'100dvh',background:dark?'#020617':'#f8fafc'}},
+      h(ErrorBoundary,null,renderPage())
+    ),
 
     !isFS && h(BottomNav,{page})
   );
@@ -3829,9 +5647,7 @@ function AppRoot() {
 const rootEl = document.getElementById('root');
 if (rootEl) {
   try {
-    createRoot(rootEl).render(
-      h(ErrorBoundary, null, h(AppRoot))
-    );
+    createRoot(rootEl).render(h(AppRoot));
   } catch(e) {
     rootEl.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;color:#94a3b8;font-family:system-ui;text-align:center;padding:2rem;background:#020617">
       <div style="font-size:2rem;margin-bottom:1rem">⚠️</div>
