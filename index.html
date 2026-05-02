@@ -43,6 +43,16 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
   <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- GSAP 3.13 + ScrollTrigger — animation engine                  -->
+  <!-- defer = order-preserving, parses without blocking             -->
+  <!-- Loaded BEFORE app.js so window.gsap is ready at IIFE start    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <script defer crossorigin="anonymous"
+    src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script defer crossorigin="anonymous"
+    src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
   <!-- OPEN SOURCE LIBRARIES — load in parallel, execute in order    -->
   <!-- crossorigin="anonymous" enables SharedArrayBuffer for TF.js    -->
   <!-- defer = guaranteed order-preserving execution                  -->
